@@ -1,0 +1,15 @@
+[ignore]
+.*/node_modules/.*
+.*/lib/.*
+
+[include]
+
+[libs]
+./flow-typed
+
+[lints]
+
+[options]
+module.system=haste
+
+[strict]
