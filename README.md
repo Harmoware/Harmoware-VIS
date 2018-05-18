@@ -2,9 +2,11 @@
 ![topimage](topimage.jpg)
 
 [TOC]
+
+## はじめに
 本ソフトウェアは JST OPERA (産学共創プラットフォーム共同研究推進プログラム)の支援を受けて、
 人間機械協奏技術コンソーシアム (HMHS: Human Machine Harmonization System) (http://hmhs.jp)
-において、主に名古屋大学河口研究室が開発したものです。
+において、主に名古屋大学河口研究室が中心になって開発したものです。
 
 ## Install
 ＜後報＞
