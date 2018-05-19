@@ -8,6 +8,9 @@
 人間機械協奏技術コンソーシアム (HMHS: Human Machine Harmonization System) (http://hmhs.jp)
 において、主に名古屋大学河口研究室が中心になって開発したものです。
 
+UBERが開発した Deck.GL( http://uber.github.io/deck.gl/ ) を利用し、その上に移動体とその付加情報を可視化する機能を
+追加しています。
+
 ## Install
 
 ### 事前準備
