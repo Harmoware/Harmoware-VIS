@@ -9,7 +9,17 @@
 において、主に名古屋大学河口研究室が中心になって開発したものです。
 
 ## Install
-＜後報＞
+
+### 事前準備
+node, npm のインストール
+Mapbox access token の取得(後述）と環境変数への設定
+
+```
+git clone https://github.com/Harmoware/Harmoware-VIS
+npm install
+# example bus3d
+npm run bus3d
+```
 
 ★注意事項★
 node.js のバージョンは v9.11.1 で確認しています。
