@@ -11,9 +11,10 @@
 ## Install
 
 ### 事前準備
-node, npm のインストール
-Mapbox access token の取得(後述）と環境変数への設定
+- node, npm のインストール
+- Mapbox access token の取得(後述）と環境変数への設定
 
+以下で例が動作します
 ```
 git clone https://github.com/Harmoware/Harmoware-VIS
 npm install
