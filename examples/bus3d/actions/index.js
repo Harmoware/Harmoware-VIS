@@ -29,3 +29,5 @@ export const setRoutesData = routes => ({ type: types.SETROUTESDATA, routes });
 export const setBusTripsCsv = csv => ({ type: types.SETBUSTRIPSCSV, csv });
 export const setBusstopsCsv = csv => ({ type: types.SETBUSSTOPSCSV, csv });
 export const setBusRoutes = routes => ({ type: types.SETBUSROUTES, routes });
+export const setBusTripIndex = bustripindex => ({ type: types.SETBUSTRIPINDEX, bustripindex });
+export const setArchBase = archbase => ({ type: types.SETARCHBASE, archbase });

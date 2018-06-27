@@ -1,14 +1,16 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, XbandmeshLayer,
-  Actions, connectToHarmowareVis } from 'harmoware-vis';
+  Actions, connectToHarmowareVis, settings } from 'harmoware-vis';
+import DepotsArcLayer from '../layers/depots-arc-layer';
 import Header from '../components/Header';
 import Controller from '../components/Controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
-import { getBusOptionValue, getBusstopOptionValue, getContainerProp } from '../library';
+import { getBusOptionValue, getBusstopOptionValue, getContainerProp, updateArcLayerData } from '../library';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
+const { COLOR1 } = settings;
 
 class App extends Container {
 
@@ -20,6 +22,8 @@ class App extends Container {
     actions.setDepotsOptionFunc(getBusstopOptionValue);
     this.state = {
       optionChange: false,
+      archLayerChange: false,
+      arcdata: []
     };
   }
 
@@ -27,9 +31,14 @@ class App extends Container {
     this.setState({ optionChange: e.target.checked });
   }
 
+  getArchLayerChangeChecked(e) {
+    this.setState({ archLayerChange: e.target.checked });
+  }
+
   componentWillReceiveProps(nextProps) {
     const { actions, settime, timeBegin, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, timeBegin, xbandCellSize, answer, xbandFname);
+    this.setState({ arcdata: updateArcLayerData(nextProps) });
   }
 
   render() {
@@ -38,11 +47,6 @@ class App extends Container {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData } = props;
-
-    let busstopsoption = {};
-    if (Object.keys(busoption).length > 0 && busoption.busstopsoption) {
-      busstopsoption = busoption.busstopsoption;
-    }
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
@@ -69,11 +73,12 @@ class App extends Container {
       <div>
         <Header
           {...props} date={date}
-          busstopsoption={busstopsoption}
+          busoption={busoption}
         />
         <Controller
           {...props} date={date}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
+          getArchLayerChangeChecked={this.getArchLayerChangeChecked.bind(this)}
         />
         <div id="footer_area">
           サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。&nbsp;
@@ -117,6 +122,18 @@ class App extends Container {
                 optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBus
+              }),
+              new DepotsArcLayer({
+                id: 'arch-layer',
+                data: this.state.arcdata,
+                visible: !this.state.archLayerChange,
+                pickable: true,
+                getSourcePosition: d => d.sourcePosition,
+                getTargetPosition: d => d.targetPosition,
+                getSourceColor: d => d.sourceColor || d.color || COLOR1,
+                getTargetColor: d => d.targetColor || d.color || COLOR1,
+                getStrokeWidths: d => d.strokeWidth || 1,
+                onHover
               })
             ]}
           />

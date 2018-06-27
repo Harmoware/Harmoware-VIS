@@ -161,6 +161,12 @@ routeデータの最初は始点バス停位置と、最後は終点バス停位
 ### 拡張情報データ
 バス運行アイコン及びバス停アイコンに拡張情報を反映する立体グラフを付加します。
 
+| optionキー名 | 拡張情報表示説明 |
+| :------------ | :------------ |
+| busmovesoption | バス運行アイコンに立体グラフを付加 |
+| busstopsoption | バス停アイコンに立体グラフを付加 |
+| archoption | バス停間にアーチを表示 |
+
 拡張情報データファイルは「./BusStopsData/」フォルダに作成してください。
 また、作成するファイル名は以下のき命名規則に従ってください。
 ```
@@ -188,7 +194,20 @@ xxxxx-YYYYMMDD-option.json
                 "memo": "表示する文字列" //省略可能
             },・・・・・・
         ],・・・・・・
-    }
+    },
+    "archoption": [ //省略可能
+        {   "diagramId": "99999", // ダイヤＩＤ
+            "sourceDepotsCode": "999", // 起点バス停コード
+            "sourceDepotsOrder": "9", // 起点バス停コード順序
+            "sourceColor": [rrr, ggg, bbb, [aaa]], // 起点色指定(省略可)
+            "targetDepotsCode": "999", // 終点バス停コード
+            "targetDepotsOrder": "9", // 終点バス停コード順序
+            "targetColor": [rrr, ggg, bbb, [aaa]], // 終点色指定(省略可)
+            "color": [rrr, ggg, bbb, [aaa]], // 色指定(省略可) 起点終点色指定が優先
+            "strokeWidth": 99, // 線幅指定(メーター)
+            "memo": "表示する文字列" //省略可能
+        },・・・・・・
+    ]
 }
 ```
 ### xband雨量情報データ

@@ -15,6 +15,12 @@ export default ({ viewport, hovered }) => {
         x={hovered.x + 10}
         y={hovered.y + 0}
       >{el.code}:{el.name} {el.memo}</text>);
+    } else
+    if (el && el.memo && k === 'hovered') {
+      elementInfo[k] = (<text
+        x={hovered.x + 10}
+        y={hovered.y + 0}
+      >{el.memo}</text>);
     } else {
       elementInfo[k] = null;
     }

@@ -137,6 +137,73 @@ export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
   return { code, name, color, radius, ...optionValue };
 };
 
+export const updateArcLayerData = (props) => {
+  const { busoption, archbase, bustripscsv, bustripindex, busstopscsv,
+    actions, timeBegin, settime } = props;
+  if (!busoption.archoption || busoption.archoption.length === 0 ||
+    bustripscsv.length === 0 || busstopscsv.length === 0 || timeBegin === 0) {
+    return []; // データがない
+  }
+
+  if (Object.keys(bustripindex).length === 0) {
+    const d = new Date(timeBegin * 1000);
+    const date = [d.getFullYear(), d.getMonth(), d.getDate()];
+
+    const bssidx = {};
+    busstopscsv.forEach((current, idx) => {
+      bssidx[current.code] = idx;
+    });
+
+    bustripscsv.forEach((csvdata) => {
+      const { diagramid, timetable, actualdep, busstopcode, busstoporder } = csvdata;
+      if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/) && bssidx[busstopcode]) {
+        const hms = actualdep.split(':').map(current => parseInt(current, 10));
+        const timeDeparture = new Date(...date, hms[0], hms[1], hms[2]).getTime() / 1000;
+        const busstopinfo = busstopscsv[bssidx[busstopcode]];
+        bustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {
+          elapsedtime: (timeDeparture - timeBegin),
+          position: [busstopinfo.longitude, busstopinfo.latitude]
+        };
+      }
+    });
+    actions.setBusTripIndex(bustripindex);
+  }
+
+  if (Object.keys(bustripindex).length > 0 && archbase.length === 0) {
+    const { archoption } = busoption;
+    archoption.forEach((optiondata) => {
+      const { diagramId, sourceDepotsCode, sourceDepotsOrder,
+        targetDepotsCode, targetDepotsOrder } = optiondata;
+      if (diagramId && sourceDepotsCode && sourceDepotsOrder &&
+        targetDepotsCode && targetDepotsOrder) {
+        const sourceInfo = bustripindex[`${diagramId}-${sourceDepotsCode}-${sourceDepotsOrder}`];
+        const targetInfo = bustripindex[`${diagramId}-${targetDepotsCode}-${targetDepotsOrder}`];
+        if (sourceInfo && targetInfo) {
+          archbase.push({
+            departuretime: sourceInfo.elapsedtime,
+            arrivaltime: targetInfo.elapsedtime,
+            arcdata: {
+              sourcePosition: sourceInfo.position,
+              targetPosition: targetInfo.position,
+              ...optiondata
+            }
+          });
+        }
+      }
+    });
+    actions.setArchBase(archbase);
+  }
+
+  const arcdata = [];
+  archbase.forEach((archbasedata) => {
+    const { departuretime, arrivaltime, arcdata: basearcdata } = archbasedata;
+    if (departuretime <= settime && settime <= arrivaltime) {
+      arcdata.push({ ...basearcdata });
+    }
+  });
+  return arcdata;
+};
+
 export const getContainerProp = state => ({
   ...baseGetContainerProp(state),
   ...state.controller,
