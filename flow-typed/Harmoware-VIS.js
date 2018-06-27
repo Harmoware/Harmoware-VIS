@@ -15,12 +15,18 @@ declare module 'harmoware-vis' {
   };
 
   declare export type Depotsbase = Array<{
-    longitude: number, latitude: number
+    longitude: number, latitude: number, position: Array<number>
   }>;
 
   declare export type DepotsDataItem = { position: Array<number> };
 
   declare export type DepotsData = Array<DepotsDataItem>;
+
+  declare export type LineMapDataItem = {
+    sourcePosition: Array<number>, targetPosition: Array<number>, color: Array<number>
+  };
+
+  declare export type LineMapData = Array<LineMapDataItem>;
 
   declare export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
 
@@ -33,11 +39,13 @@ declare module 'harmoware-vis' {
 
   declare export type MovedData = Array<{ movesbaseidx: number, position: Array<number> }>;
 
+  declare export type Position = { position: Array<number> };
+  declare export type LongLat = { longitude: number, latitude: number };
   declare export type Movesbase = Array<{
     departuretime: number, arrivaltime: number,
     operation: Array<{
-      elapsedtime: number, longitude: number, latitude: number, color: void | Array<number>
-    }>
+      elapsedtime: number, color: void | Array<number>, normal: void | Array<number>
+    } & Position | LongLat>
   }>;
 
   declare export type RainfallItem = {
@@ -51,7 +59,9 @@ declare module 'harmoware-vis' {
 
   declare export type Viewport = {
     longitude?: number, latitude?: number, zoom?: number, maxZoom?: number, minZoom?: number,
-    pitch?: number, bearing?: number, width?: number, height?: number,
+    pitch?: number, bearing?: number, width?: number, height?: number, lookAt?: Array<number>,
+    distance?: number, minDistance?: number, maxDistance?: number, rotationX?: number,
+    rotationY?: number, fov?: number,
   };
 
   declare export type BasedState = {
@@ -59,9 +69,10 @@ declare module 'harmoware-vis' {
     bounds: Bounds, clickedObject: ClickedObject, defaultPitch: number, defaultZoom: number,
     depotsBase: Depotsbase, depotsData: DepotsData, getDepotsOptionFunc: null | GetDepotsOptionFunc,
     getMovesOptionFunc: null | GetMovesOptionFunc, leading: number, lightSettings: LightSettings,
-    loopTime: number, movedData: MovedData, movesbase: Movesbase, rainfall: Rainfall,
-    routePaths: RoutePaths, secpermin: number, settime: number, starttimestamp: number,
-    timeBegin: number, timeLength: number, trailing: number, viewport: Viewport, };
+    loopTime: number, movedData: MovedData, movesbase: Movesbase, nonmapView: boolean,
+    rainfall: Rainfall, routePaths: RoutePaths, secperhour: number, settime: number,
+    starttimestamp: number, timeBegin: number, timeLength: number, trailing: number,
+    viewport: Viewport, linemapData: LineMapData, };
 
   declare export type BasedProps = { actions: Actions } & BasedState;
 
@@ -91,11 +102,12 @@ declare module 'harmoware-vis' {
     setMovesOptionFunc: (func: GetMovesOptionFunc) => {| func: GetMovesOptionFunc, type: string |},
     setRainfall: (rainfall: Rainfall) => {| rainfall: Rainfall, type: string |},
     setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
-    setSecPerMin: (secpermin: number) => {| secpermin: number, type: string |},
+    setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |},
     setTime: (time: number) => {| time: number, type: string |},
-    setTimeStamp: (time: number) => {| time: number, type: string |},
+    setTimeStamp: (props: BasedProps) => {| props: BasedProps, type: string |},
     setTrailing: (trailing: number) => {| trailing: number, type: string |},
-    setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |}
+    setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |},
+    setLinemapData: (linemapData: LineMapData) => {| type: string, linemapData: LineMapData |}
   |};
 
   declare type MovesInputProps = {|
@@ -117,6 +129,11 @@ declare module 'harmoware-vis' {
   declare type XbandDataInputProps = {|
     actions : { setRainfall: (rainfall: Rainfall) => {| rainfall: Rainfall, type: string |} } |};
   declare export class XbandDataInput extends React$Component<XbandDataInputProps> {}
+
+  declare type LinemapInputProps = {|
+    actions: { setLinemapData: (linemapData: LineMapData) =>
+      {| type: string, linemapData: LineMapData |} } |};
+  declare export class LinemapInput extends React$Component<LinemapInputProps> {}
 
   declare type AddMinutesButtonProps = {|
     addMinutes?: number, children?: Node | string,
@@ -149,9 +166,9 @@ declare module 'harmoware-vis' {
   declare export class ElapsedTimeRange extends React$Component<ElapsedTimeRangeProps> {}
 
   declare type SpeedRangeProps = {|
-    secpermin: number, actions: {
-      setSecPerMin: (secpermin: number) => {| secpermin: number, type: string |}
-    }, maxsecpermin?: number, min?: number, step?: number |};
+    secperhour: number, actions: {
+      setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |}
+    }, maxsecperhour?: number, min?: number, step?: number |};
   declare export class SpeedRange extends React$Component<SpeedRangeProps> {}
 
   declare type SimulationDateTimeProps = {|
@@ -159,10 +176,16 @@ declare module 'harmoware-vis' {
   declare export class SimulationDateTime extends React$Component<SimulationDateTimeProps> {}
 
   declare type HarmoVisLayersProps = {|
-    viewport: Viewport, mapboxApiAccessToken: ? string, mapStyle?: string, actions: Actions,
+    viewport: Viewport, mapboxApiAccessToken?: ? string, mapStyle?: string, actions: Actions,
     onChangeViewport?: (viewport: Viewport) => {| type: string, viewport: Viewport |},
     layers: Array<Layer> |};
   declare export class HarmoVisLayers extends React$Component<HarmoVisLayersProps> {}
+
+  declare type HarmoVisNonMapLayersProps = {|
+    viewport: Viewport, actions: Actions,
+    onChangeViewport?: (viewport: Viewport) => {| type: string, viewport: Viewport |},
+    layers: Array<Layer> |};
+  declare export class HarmoVisNonMapLayers extends React$Component<HarmoVisNonMapLayersProps> {}
 
   declare export class Container<P = void, S = void> extends React$Component<P, S> {
     props: P; state: S;
@@ -189,6 +212,18 @@ declare module 'harmoware-vis' {
     onHover?: Function, onClick?: Function |};
   declare export class MovesLayer extends CompositeLayer { constructor(MovesLayerProps): void; }
 
+  declare type MovesNonmapLayerProps = {|
+    layerOpacity?: number, movedData: MovedData, movesbase: Movesbase,
+    getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
+    actions: {
+      setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
+      setClicked: (clickedObject: ClickedObject) =>
+        {| clickedObject: ClickedObject, type: string |}
+    }, routePaths: RoutePaths, clickedObject?: ClickedObject |};
+  declare export class MovesNonmapLayer extends CompositeLayer {
+    constructor(MovesNonmapLayerProps): void;
+  }
+
   declare type DepotsLayerProps = {|
     layerRadiusScale?: number, layerOpacity?: number, depotsData: DepotsData,
     optionVisible?: boolean, optionChange?: boolean, optionOpacity?: number,
@@ -200,6 +235,13 @@ declare module 'harmoware-vis' {
     getElevation3?: (x: any) => number, getElevation4?: (x: any) => number |};
   declare export class DepotsLayer extends CompositeLayer { constructor(DepotsLayerProps): void; }
 
+  declare type FixedPointLayerProps = {|
+    layerOpacity?: number, depotsData: DepotsData,
+    getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number |};
+  declare export class FixedPointLayer extends CompositeLayer {
+    constructor(FixedPointLayerProps): void;
+  }
+
   declare type XbandmeshLayerProps = {|
     rainfall: Rainfall, layerOpacity?: number, layerCellSize?: number, layerElevationScale?: number,
     lightSettings: LightSettings, getElevation?: (x: any) => number,
@@ -207,6 +249,12 @@ declare module 'harmoware-vis' {
     defaultColor?: Array<number> |};
   declare export class XbandmeshLayer extends CompositeLayer {
     constructor(XbandmeshLayerProps): void; }
+
+  declare type LineMapLayerProps = {|
+    layerOpacity?: number, linemapData: LineMapData, strokeWidth?: number,
+    getColor?: (x: any) => Array<number> |};
+  declare export class LineMapLayer extends CompositeLayer {
+    constructor(LineMapLayerProps): void; }
 
   declare export function getContainerProp(state: any) : any;
   declare export function connectToHarmowareVis

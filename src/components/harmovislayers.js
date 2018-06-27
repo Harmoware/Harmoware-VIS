@@ -1,37 +1,32 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';
 import type { Viewport } from '../types';
-import typeof { setViewport } from '../actions';
+import typeof { setViewport, setNonmapView } from '../actions';
 
 type Props = {
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle: string,
   actions: {
-    setViewport: setViewport
+    setViewport: setViewport,
+    setNonmapView: setNonmapView
   },
   onChangeViewport: setViewport,
   layers: Array<typeof Layer>
 }
 
-export default class HarmoVisLayers extends Component<Props> {
+export default class HarmoVisLayers extends React.Component<Props> {
 
   static defaultProps = {
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
   }
 
-  // static propTypes = {
-  //   viewport: PropTypes.objectOf(
-  //     PropTypes.oneOfType([PropTypes.node, PropTypes.bool])).isRequired,
-  //   actions: PropTypes.objectOf(PropTypes.func).isRequired,
-  //   mapboxApiAccessToken: PropTypes.string.isRequired,
-  //   mapStyle: PropTypes.string,
-  //   layers: PropTypes.arrayOf(PropTypes.instanceOf(Layer)).isRequired,
-  //   onChangeViewport: PropTypes.func,
-  // }
+  componentDidMount() {
+    this.props.actions.setNonmapView(false);
+  }
 
   initialize(gl: any) {
     gl.enable(gl.DEPTH_TEST);

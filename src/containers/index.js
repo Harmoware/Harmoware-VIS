@@ -1,7 +1,6 @@
 // @flow
 
 import { Component } from 'react';
-import { calcLoopTime } from '../library';
 import type { BasedProps as Props } from '../types';
 
 export default class Root extends Component<Props> {
@@ -26,8 +25,7 @@ export default class Root extends Component<Props> {
 
   animate() {
     const {
-      timeLength, animatePause, animateReverse, actions, leading,
-      secpermin } = this.props;
+      timeLength, animatePause, animateReverse, actions } = this.props;
     if (timeLength > 0) {
       if (!animatePause) {
         if (!animateReverse) {
@@ -39,7 +37,7 @@ export default class Root extends Component<Props> {
         actions.setFrameTimestamp(this.props);
       }
     } else {
-      actions.setTimeStamp(Date.now() + calcLoopTime(leading, secpermin));
+      actions.setTimeStamp(this.props);
     }
     this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
   }

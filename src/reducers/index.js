@@ -1,7 +1,8 @@
 // @flow
 
 import * as types from '../constants/action-types';
-import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
+import { analyzeMovesBase, analyzeDepotsBase, analyzelinemapData,
+  getMoveObjects, getDepots, calcLoopTime } from '../library';
 import type { BasedState as State, AnalyzedBaseData, ActionTypes } from '../types';
 
 const initialState: State = {
@@ -13,8 +14,15 @@ const initialState: State = {
     minZoom: 8,
     pitch: 30,
     bearing: 0,
-    width: 500,
-    height: 500
+    width: 500, // 共通
+    height: 500, // 共通
+    lookAt: [0, 0, 0], // nonmap
+    distance: 200, // nonmap
+    rotationX: 60, // nonmap
+    rotationY: 0, // nonmap
+    fov: 50, // nonmap
+    minDistance: 0, // nonmap
+    maxDistance: 500, // nonmap
   },
   lightSettings: {
     lightsPosition: [137.087638, 34.883046, 8000, 137.399026, 35.13819, 8000],
@@ -34,6 +42,7 @@ const initialState: State = {
   beforeFrameTimestamp: 0,
   movesbase: [],
   depotsBase: [],
+  depotsBaseOriginal: '',
   bounds: {
     westlongitiude: 0,
     eastlongitiude: 0,
@@ -42,7 +51,7 @@ const initialState: State = {
   },
   animatePause: false,
   animateReverse: false,
-  secpermin: 3,
+  secperhour: 180,
   clickedObject: null,
   routePaths: [],
   defaultZoom: 11.1,
@@ -52,6 +61,9 @@ const initialState: State = {
   movedData: [],
   depotsData: [],
   rainfall: [],
+  nonmapView: false,
+  linemapData: [],
+  linemapDataOriginal: '',
 };
 
 export default (state: State = initialState, action: ActionTypes) => {
@@ -83,9 +95,12 @@ export default (state: State = initialState, action: ActionTypes) => {
       })();
     case types.SETTIMESTAMP:
       return (() => {
-        const starttimestamp = action.time;
+        const latestProps = action.props;
+        const starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour));
+        const setProps = { ...latestProps, starttimestamp };
+        const depotsData = getDepots(setProps);
         return Object.assign({}, state, {
-          starttimestamp
+          starttimestamp, depotsData
         });
       })();
     case types.SETTIME:
@@ -172,19 +187,31 @@ export default (state: State = initialState, action: ActionTypes) => {
       })();
     case types.SETMOVESBASE:
       return (() => {
-        const analyzeData: AnalyzedBaseData = analyzeMovesBase(action.base);
+        const analyzeData: AnalyzedBaseData = analyzeMovesBase(state.nonmapView, action.base);
         const settime = state.leading * -1;
         const { timeBegin, bounds, movesbase } = analyzeData;
         let { timeLength } = analyzeData;
         if (timeLength > 0) {
           timeLength += state.trailing;
         }
-        const loopTime = calcLoopTime(timeLength, state.secpermin);
+        const loopTime = calcLoopTime(timeLength, state.secperhour);
         // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
-        const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secpermin);
+        const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
         const viewport = Object.assign({}, state.viewport,
           analyzeData.viewport,
           { zoom: state.defaultZoom, pitch: state.defaultPitch });
+        let depotsBase = state.depotsBase;
+        if (state.nonmapView && state.depotsBaseOriginal.length > 0) {
+          const depotsBaseOriginal = JSON.parse(state.depotsBaseOriginal);
+          depotsBase =
+            analyzeDepotsBase(state.nonmapView, depotsBaseOriginal);
+        }
+        let linemapData = state.linemapData;
+        if (state.nonmapView && state.linemapDataOriginal.length > 0) {
+          const linemapDataOriginal = JSON.parse(state.linemapDataOriginal);
+          linemapData =
+          analyzelinemapData(state.nonmapView, linemapDataOriginal);
+        }
         return Object.assign({}, state, {
           timeBegin,
           timeLength,
@@ -193,14 +220,17 @@ export default (state: State = initialState, action: ActionTypes) => {
           viewport,
           settime,
           loopTime,
-          starttimestamp
+          starttimestamp,
+          depotsBase,
+          linemapData
         });
       })();
     case types.SETDEPOTSBASE:
       return (() => {
-        const depotsBase = action.depotsBase;
+        const depotsBaseOriginal = JSON.stringify(action.depotsBase);
+        const depotsBase = analyzeDepotsBase(state.nonmapView, action.depotsBase);
         return Object.assign({}, state, {
-          depotsBase
+          depotsBase, depotsBaseOriginal
         });
       })();
     case types.SETANIMATEPAUSE:
@@ -218,16 +248,16 @@ export default (state: State = initialState, action: ActionTypes) => {
           animateReverse
         });
       })();
-    case types.SETSECPERMIN:
+    case types.SETSECPERHOUR:
       return (() => {
-        const secpermin = action.secpermin;
-        const loopTime = calcLoopTime(state.timeLength, secpermin);
+        const secperhour = action.secperhour;
+        const loopTime = calcLoopTime(state.timeLength, secperhour);
         let starttimestamp = state.starttimestamp;
         if (!state.animatePause) {
           starttimestamp = (Date.now() - ((state.settime / state.timeLength) * loopTime));
         }
         return Object.assign({}, state, {
-          secpermin, loopTime, starttimestamp
+          secperhour, loopTime, starttimestamp
         });
       })();
     case types.SETCLICKED:
@@ -277,6 +307,22 @@ export default (state: State = initialState, action: ActionTypes) => {
         const rainfall = action.rainfall;
         return Object.assign({}, state, {
           rainfall
+        });
+      })();
+    case types.SETNONMAPVIEW:
+      return (() => {
+        const nonmapView = action.nonmapView;
+        return Object.assign({}, state, {
+          nonmapView
+        });
+      })();
+    case types.SETLINEMAPDATA:
+      return (() => {
+        const linemapDataOriginal = JSON.stringify(action.linemapData);
+        const linemapData =
+        analyzelinemapData(state.nonmapView, action.linemapData);
+        return Object.assign({}, state, {
+          linemapData, linemapDataOriginal
         });
       })();
     default:
