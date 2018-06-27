@@ -10,7 +10,7 @@ type ControllerProps = {
   settime: number,
   timeBegin: number,
   timeLength: number,
-  secpermin: number,
+  secperhour: number,
   animatePause: boolean,
   animateReverse: boolean,
   getMoveOptionChecked: (e: InputEvent) => void,
@@ -25,7 +25,7 @@ export default class Controller extends Component<ControllerProps> {
 
   render() {
     const { settime, timeBegin, timeLength, actions,
-      secpermin, animatePause, animateReverse,
+      secperhour, animatePause, animateReverse,
       getMoveOptionChecked, getDepotOptionChecked,
       getOptionChangeChecked } = this.props;
 
@@ -73,8 +73,8 @@ export default class Controller extends Component<ControllerProps> {
             <span>{Math.floor(settime)}&nbsp;秒</span>
           </li>
           <li><span>スピード</span>
-            <SpeedRange secpermin={secpermin} actions={actions} />
-            <span>{secpermin}&nbsp;秒/分</span>
+            <SpeedRange secperhour={secperhour} actions={actions} />
+            <span>{secperhour}&nbsp;秒/時</span>
           </li>
           <li>
             <span>雨量データ</span>

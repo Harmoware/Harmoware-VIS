@@ -18,4 +18,3 @@ npm run visualize-sample
 
 ## Using data
 Harmoware-VISの README.MD を参照して、シュミレーション用データを作成してください。
-当サンプルプログラムフォルダの sampledata フォルダにもサンプルデータがあります。
