@@ -29,8 +29,8 @@ export default class DepotsInput extends Component<Props> {
         return;
       }
       if (readdata.length > 0) {
-        const { longitude, latitude } = readdata[0];
-        if (longitude && latitude) {
+        const { longitude, latitude, position } = readdata[0];
+        if ((longitude && latitude) || position) {
           actions.setDepotsBase(readdata);
           return;
         }

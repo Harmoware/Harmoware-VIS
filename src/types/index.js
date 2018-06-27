@@ -19,6 +19,13 @@ export type Viewport = {
   bearing?: number,
   width?: number,
   height?: number,
+  lookAt?: Array<number>,
+  distance?: number,
+  minDistance?: number,
+  maxDistance?: number,
+  rotationX?: number,
+  rotationY?: number,
+  fov?: number
 };
 
 export type LightSettings = {
@@ -44,7 +51,9 @@ export type Movesbase = Array<{
     elapsedtime: number,
     longitude: number,
     latitude: number,
-    color: void | Array<number>
+    position: Array<number>,
+    color: void | Array<number>,
+    normal: void | Array<number>,
   }>
 }>;
 
@@ -65,14 +74,27 @@ export type MovesbaseFile = {
 
 export type Depotsbase = Array<{
   longitude: number,
-  latitude: number
+  latitude: number,
+  position: Array<number>
 }>;
 
 export type ClickedObject = null | {
   object: {movesbaseidx: number}
 };
 
+export type LineData = {
+  sourcePosition: Array<number>,
+  targetPosition: Array<number>,
+  color: Array<number>
+};
+
 export type RoutePaths = Array<{
+  sourcePosition: Array<number>,
+  targetPosition: Array<number>,
+  color: Array<number>
+}>;
+
+export type LineMapData = Array<{
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
@@ -103,6 +125,7 @@ export type BasedState = {
   defaultPitch: number,
   defaultZoom: number,
   depotsBase: Depotsbase,
+  depotsBaseOriginal: string,
   depotsData: DepotsData,
   getDepotsOptionFunc: null | GetDepotsOptionFunc,
   getMovesOptionFunc: null | GetMovesOptionFunc,
@@ -111,20 +134,25 @@ export type BasedState = {
   loopTime: number,
   movedData: MovedData,
   movesbase: Movesbase,
+  nonmapView: boolean,
   rainfall: Rainfall,
   routePaths: RoutePaths,
-  secpermin: number,
+  secperhour: number,
   settime: number,
   starttimestamp: number,
   timeBegin: number,
   timeLength: number,
   trailing: number,
   viewport: Viewport,
+  linemapData: LineMapData,
+  linemapDataOriginal: string,
 };
 
 export type BasedProps = {
   actions: Actions
 } & BasedState;
+
+export type BaseActions = Actions;
 
 export type Position = {position: Array<number>};
 export type Radius = {radius: number};
@@ -133,6 +161,7 @@ export type DataOption = {
   color: Array<number>,
   optColor: Array<number>,
   optElevation: Array<number>,
+  normal: Array<number>,
 }
 
 export type Context = {
@@ -159,11 +188,13 @@ export type ActionTypes =
   {|type: string, depotsBase: Depotsbase|} &
   {|type: string, pause: boolean|} &
   {|type: string, reverse: boolean|} &
-  {|type: string, secpermin: number|} &
+  {|type: string, secperhour: number|} &
   {|type: string, clickedObject: ClickedObject|} &
   {|type: string, paths: RoutePaths|} &
   {|type: string, defaultZoom: number|} &
   {|type: string, defaultPitch: number|} &
   {|type: string, func: GetMovesOptionFunc|} &
   {|type: string, func: GetDepotsOptionFunc|} &
-  {|type: string, rainfall: Rainfall|};
+  {|type: string, rainfall: Rainfall|} &
+  {|type: string, nonmapView: boolean|} &
+  {|type: string, linemapData: LineMapData|};

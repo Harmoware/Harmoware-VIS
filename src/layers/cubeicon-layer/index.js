@@ -100,14 +100,9 @@ export default class CubeiconLayer extends Layer<Props> {
   }
 
   draw({ uniforms }: any) {
-    const { viewport } = this.context;
-    // TODO - this should be a standard uniform in project package
-    const { pixelsPerMeter } = viewport.getDistanceScales();
-
-    // cellSize needs to be updated on every draw call
-    // because it is based on viewport
+    const { cellSize } = this.props;
     super.draw({ uniforms: Object.assign({
-      cellSize: this.props.cellSize * pixelsPerMeter[0]
+      cellSize
     }, uniforms) });
   }
 

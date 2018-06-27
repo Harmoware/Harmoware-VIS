@@ -1,8 +1,6 @@
 # Harmoware-VIS
 ![topimage](topimage.jpg)
 
-[TOC]
-
 ## はじめに
 本ソフトウェアは JST OPERA (産学共創プラットフォーム共同研究推進プログラム)の支援を受けて、
 人間機械協奏技術コンソーシアム (HMHS: Human Machine Harmonization System) (http://hmhs.jp)
@@ -37,7 +35,7 @@ node.js のバージョンは v9.11.1 で確認しています。
 ### User Application Examples
 
 ```javascript
-// app.js
+// app.js　mapboxを使用する場合のサンプル
 import React from 'react';
 import { Container, connectToHarmowareVis,
     HarmoVisLayers, MovesLayer, DepotsLayer, XbandmeshLayer,
@@ -51,7 +49,7 @@ class App extends Container {
 
     render() {
         const { viewport, actions, routePaths, lightSettings,
-                    animatePause, animateReverse, settime, secpermin, timeBegin, timeLength,
+                    animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
                     movesbase, movedData, clickedObject, depotsData, rainfall } = this.props;
 
         return (
@@ -70,7 +68,7 @@ class App extends Container {
                     <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton></li>
                 <li><SimulationDateTime timeBegin={timeBegin} settime={settime} /></li>
                 <li><ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} /></li>
-                <li><SpeedRange secpermin={secpermin} actions={actions} /></li>
+                <li><SpeedRange secperhour={secperhour} actions={actions} /></li>
                 <li><XbandDataInput actions={actions} /></li>
               </ul>
             </div>
@@ -118,7 +116,7 @@ Harmoware-VIS で定義される reducer から Component で受け取る props 
 | clickedObject | object | null | 選択中運行オブジェクト |
 | rainfall | Array | [] | 描画用雨量データ |
 | routePaths | Array | [] | 描画用運行経路 |
-| secpermin | Number | 3 | 再生速度（秒/分） |
+| secperhour | Number | 3 | 再生速度（秒/時） |
 | settime | Number | 0 | シュミレーション中時間 |
 | timeBegin | Number | 0 | シュミレーション開始時刻UNIX時間（秒） |
 | timeLength | Number | 0 | シュミレーション期間（秒） |
@@ -141,7 +139,7 @@ Harmoware-VIS で定義される redux の action は以下の通りです。
 | setDepotsBase(Array) | depotsBase | 停留所データ保持エリア更新 |
 | setAnimatePause(Boolean) | animatePause | アニメーション動作停止更新 |
 | setAnimateReverse(Boolean) | animateReverse | アニメーション再生正逆更新 |
-| setSecPerMin(Number) | secpermin | 再生速度（秒/分）更新 |
+| setSecPerHour(Number) | secperhour | 再生速度（秒/時）更新 |
 | setClicked(object) | clickedObject | 選択中運行オブジェクト更新 |
 | setRoutePaths(Array) | routePaths | 描画用運行経路更新 |
 | setDefaultZoom(Number) | defaultZoom | 地図表示時規定拡大値更新 |
@@ -159,6 +157,7 @@ React.Component から継承したクラスで、Harmoware-VIS ライブラリ�
 ##### Examples
 
 ```javascript
+// mapboxを使用する場合
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisLayers, ... } from 'harmoware-vis';
 class App extends Container {
@@ -167,6 +166,22 @@ class App extends Container {
         return (
           <HarmoVisLayers
             viewport={viewport}  actions={actions} mapboxApiAccessToken={ ... } layers={[ ... ]}
+          />
+        );
+    }
+}
+export default connectToHarmowareVis(App);
+```
+```javascript
+// mapboxを使用しない場合
+import React from 'react';
+import { Container, connectToHarmowareVis, HarmoVisNonMapLayers, ... } from 'harmoware-vis';
+class App extends Container {
+    render() {
+        const { viewport, actions, ... } = this.props;
+        return (
+          <HarmoVisNonMapLayers
+            viewport={viewport}  actions={actions} layers={[ ... ]}
           />
         );
     }
@@ -195,7 +210,7 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 
 ### HarmoVisLayers
 
-[deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するレイヤーをマップ上に表示します。
+[deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するレイヤーをmapboxより取得したマップ上に表示します。
 
 ##### Examples
 
@@ -219,22 +234,48 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 | onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
 ※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
 
+### HarmoVisNonMapLayers
+
+[deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するレイヤーを３Ｄ表示します。
+
+##### Examples
+
+```html
+<HarmoVisNonMapLayers
+    viewport={this.props.viewport} actions={this.props.actions}
+    layers={ [ ... ] }
+/>
+```
+
+##### HarmoVisNonMapLayers Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| actions | object required | -- | Harmoware-VIS の props.actions |
+| viewport | object required | -- | Harmoware-VIS の props.viewport |
+| layers | array required | -- | Layer インスタンス(※1) の配列 |
+| onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
+※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
+
 ## Harmoware-VIS Layers
 
 Harmoware-VIS 提供 Layer 一覧
 
 ### MovesLayer
 
-車両などの移動体をシュミレーションします。
+車両などの移動体をmapboxより取得したマップ上にシュミレーションします。
+HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
 ```html
 <HarmoVisLayers ...
     layers={[
-        new MovesLayer( { this.props.routePaths,
-                                       this.props.movesbase, this.props.movedData,
-                                       this.props.clickedObject, this.props.actions } )
+        new MovesLayer( { routePaths: this.props.routePaths,
+                        movesbase: this.props.movesbase,
+                        movedData: this.props.movedData,
+                        clickedObject: this.props.clickedObject,
+                        actions: this.props.actions } )
     ]}
 />
 ```
@@ -282,6 +323,8 @@ Harmoware-VIS 提供 Layer 一覧
             "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
                 { //経過時間順に定義する
                     "elapsedtime": 99999, //経過時間（秒） *必須
+                    // position形式 又は longitude-latitude形式で指定する
+                    "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
                     "longitude": 999.9999, //elapsedtime時の位置（経度）*必須
                     "latitude": 99.999, //elapsedtime時の位置（緯度）*必須
                 },・・・・・・
@@ -301,6 +344,8 @@ Harmoware-VIS 提供 Layer 一覧
         "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
             { //経過時間順に定義する
                 "elapsedtime": 9999999999, //経過時間（秒） *必須
+                // position形式 又は longitude-latitude形式で指定する
+                "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
                 "longitude": 999.9999, //elapsedtime時の位置（経度）*必須
                 "latitude": 99.999, //elapsedtime時の位置（緯度）*必須
             },・・・・・・
@@ -311,14 +356,15 @@ Harmoware-VIS 提供 Layer 一覧
 
 ### DepotsLayer
 
-停留所や駅などをシュミレーションします。
+停留所や駅などをmapboxより取得したマップ上にシュミレーションします。
+HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
 ```html
 <HarmoVisLayers ...
     layers={[
-        new DepotsLayer( { this.props.depotsData } )
+        new DepotsLayer( { depotsData: this.props.depotsData } )
     ]}
 />
 ```
@@ -343,23 +389,169 @@ Harmoware-VIS 提供 Layer 一覧
 ##### 停留所情報データのjsonフォーマット
 
 ```json
-// depotsData
+// depotsData position形式
+[   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
+    },・・・・・・
+]
+// depotsData longitude-latitude形式
 [   {   "longitude": 999.9999, //オブジェクト表示する位置（経度）
-　　　　"latitude": 99.9999, //オブジェクト表示する位置（緯度）
+        "latitude": 99.9999, //オブジェクト表示する位置（緯度）
+    },・・・・・・
+]
+```
+
+### MovesNonmapLayer
+
+移動体を３Ｄシュミレーションします。
+HarmoVisNonMapLayersのpropsで使用してください。
+
+##### Examples
+
+```html
+<HarmoVisNonMapLayers ...
+    layers={[
+        new MovesNonmapLayer( { routePaths: this.props.routePaths,
+                        movesbase: this.props.movesbase,
+                        movedData: this.props.movedData,
+                        clickedObject: this.props.clickedObject,
+                        actions: this.props.actions } )
+    ]}
+/>
+```
+
+##### MovesNonmapLayer Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| movedData| Array required | -- | Harmoware-VIS の props.movedData |
+| movesbase| Array required | -- | Harmoware-VIS の props.movesbase |
+| actions | object required | -- | Harmoware-VIS の props.actions |
+| routePaths | Array required | -- | Harmoware-VIS の props.routePaths |
+| clickedObject | object required |--  | Harmoware-VIS の props.clickedObject |
+| layerOpacity | Number option | 0.75 | アイコン透過度 |
+| getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
+| getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |
+
+
+##### 運行シュミレーションデータファイルのjsonフォーマット
+
+- 形式１
+```json
+// bounds timeBegin timeLength movesbase
+{   "timeBegin": 9999999999, //運行シュミレーション開始日時（UNIX時間（秒））
+    "timeLength": 99999, //運行シュミレーション開始から終了までの経過時間（秒）
+    "movesbase": [ //運行シュミレーションデータ *必須
+        { //運行単位（１便）ごとに時間と経路を定義する
+          //（departuretime, arrivaltime, elapsedtime はtimeBeginからの経過時間（秒））
+          //（timeBegin 省略時 departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
+            "departuretime": 99999, //出発時間（秒） *必須
+            "arrivaltime": 99999, //到着時間（秒） *必須
+            "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
+                { //経過時間順に定義する
+                    "elapsedtime": 99999, //経過時間（秒） *必須
+                    "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
+                },・・・・・・
+            ],
+        },・・・・・・
+    ],
+}
+```
+
+- 形式２
+```json
+[ //運行シュミレーションデータ
+    { //運行単位（１便）ごとに時間と経路を定義する
+      //（departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
+        "departuretime": 9999999999, //出発時間（秒） *必須
+        "arrivaltime": 9999999999, //到着時間（秒） *必須
+        "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
+            { //経過時間順に定義する
+                "elapsedtime": 9999999999, //経過時間（秒） *必須
+                "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
+            },・・・・・・
+        ],
+    },・・・・・・
+]
+```
+
+### FixedPointLayer
+
+固定ポイントを３Ｄシュミレーションします。
+HarmoVisNonMapLayersのpropsで使用してください。
+
+##### Examples
+
+```html
+<HarmoVisNonMapLayers ...
+    layers={[
+        new FixedPointLayer( { depotsData: this.props.depotsData } )
+    ]}
+/>
+```
+
+##### FixedPointLayer Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| depotsData| Array required | -- | Harmoware-VIS の props.depotsData |
+| layerOpacity | Number option | 0.75 | アイコン透過度 |
+| getColor | Function option | x => x.color ││ DARKMAGENTA | アイコン色指定アクセサ |
+| getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |
+
+##### 固定ポイント情報データのjsonフォーマット
+
+```json
+// depotsData
+[   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
+    },・・・・・・
+]
+```
+
+### LineMapLayer
+
+線描画マップを３Ｄシュミレーションします。
+HarmoVisNonMapLayersのpropsで使用してください。
+
+##### Examples
+
+```html
+<HarmoVisNonMapLayers ...
+    layers={[
+        new LineMapLayer( { linemapData: this.props.linemapData } )
+    ]}
+/>
+```
+
+##### LineMapLayer Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| linemapData| Array required | -- | Harmoware-VIS の props.linemapData |
+| layerOpacity | Number option | 1.0 | 線透過度 |
+| strokeWidth | Number option | 20 | 線幅 |
+| getColor | Function option | x => x.color ││ WHITE | 線色指定アクセサ |
+
+##### 線描画マップ情報データのjsonフォーマット
+
+```json
+// depotsData
+[   { "sourcePosition": [999.9999, 999.9999, 999.9999], //線描画開始位置（x,y,z）*必須
+      "targetPosition": [999.9999, 999.9999, 999.9999], //線描画終了位置（x,y,z）*必須
     },・・・・・・
 ]
 ```
 
 ### XbandmeshLayer
 
-停留所や駅などをシュミレーションします。
+雨量データをシュミレーションします。
 
 ##### Examples
 
 ```html
 <HarmoVisLayers ...
     layers={[
-        new XbandmeshLayer( { this.props.lightSettings, this.props.rainfall } )
+        new XbandmeshLayer( { lightSettings: this.props.lightSettings,
+                              rainfall: this.props.rainfall } )
     ]}
 />
 ```
@@ -443,6 +635,22 @@ Harmoware-VIS を Control する component 一覧
 ```
 
 ##### DepotsInput Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| actions | object required | -- | Harmoware-VIS の props.actions |
+
+### LinemapInput
+
+「線描画マップ情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の props.linemapData に設定します。
+
+##### Examples
+
+```html
+<LinemapInput actions={this.props.actions} />
+```
+
+##### LinemapInput Properties
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
@@ -594,21 +802,28 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 ### SpeedRange
 
-「再生速度（秒/分）（secpermin）」を Harmoware-VIS の props.secpermin に設定する range オブジェクト。
+「再生速度（秒/時）（secperhour）」を Harmoware-VIS の props.secperhour に設定する range オブジェクト。
 
 ##### Examples
 
 ```html
-<SpeedRange secpermin={this.props.secpermin} actions={this.props.actions} />
+<SpeedRange secperhour={this.props.secperhour} actions={this.props.actions} />
 ```
 
 ##### SpeedRange Properties
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| secpermin | number required | -- | Harmoware-VIS の props.secpermin |
+| secperhour | number required | -- | Harmoware-VIS の props.secperhour |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| maxsecpermin | number option | 10 | Range 最大値（再生速度（秒/分）） |
+| maxsecperhour | number option | 3600 | Range 最大値（再生速度（秒/時）） |
 | caption | string option | 'スピード' | Range Caption |
 | min | number option | 1 | Range 最小値 |
 | step | number option | 1 | Range 増加値 |
+
+## 履歴
+| date | version | Description |
+| :------------ | :------------ |
+| 2018.05.16 | 1.0.0 | 初版 |
+| 2018.06.27 | 1.1.0 | bus3dサンプルにarclayer機能を追加 |
+| ↓ | ↓ | visualize-sample-nonmapサンプルを追加 |

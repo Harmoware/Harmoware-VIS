@@ -29,7 +29,7 @@ void main(void) {
 
   // if ahpha == 0.0 or z < 0.0, do not render element
   float noRender = float(instanceColors.a == 0.0 || instancePositions.w < 0.0);
-  float finalCellSize = cellSize * mix(1.0, 0.0, noRender);
+  float finalCellSize = project_scale(cellSize) * mix(1.0, 0.0, noRender);
   float center = finalCellSize / 2.0;
 
   // cube gemoetry vertics are between -1 to 1, scale and transform it to between 0, 1

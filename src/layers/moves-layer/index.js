@@ -87,11 +87,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
           actions.setClicked({ object, layer: { id } });
           const { operation } = movesbase[movesbaseidx];
           for (let j = 0; j < (operation.length - 1); j += 1) {
-            const { longitude, latitude, color } = operation[j];
-            const { longitude: nextlongitude, latitude: nextlatitude } = operation[j + 1];
+            const { position, color } = operation[j];
+            const { position: nextposition } = operation[j + 1];
             routePaths.push({
-              sourcePosition: [longitude, latitude, 0],
-              targetPosition: [nextlongitude, nextlatitude, 0],
+              sourcePosition: position,
+              targetPosition: nextposition,
               color: color || COLOR1
             });
           }

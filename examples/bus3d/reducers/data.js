@@ -4,7 +4,9 @@ const initialState = {
   answers: [],
   busoption: {},
   busmovesbasedic: {},
-  routesdata: {}
+  routesdata: {},
+  bustripindex: {},
+  archbase: []
 };
 
 export default (state = initialState, action) => {
@@ -35,6 +37,20 @@ export default (state = initialState, action) => {
         const routesdata = action.routes;
         return Object.assign({}, state, {
           routesdata
+        });
+      })();
+    case types.SETBUSTRIPINDEX:
+      return (() => {
+        const bustripindex = action.bustripindex;
+        return Object.assign({}, state, {
+          bustripindex
+        });
+      })();
+    case types.SETARCHBASE:
+      return (() => {
+        const archbase = action.archbase;
+        return Object.assign({}, state, {
+          archbase
         });
       })();
     default:

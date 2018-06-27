@@ -3,7 +3,7 @@
 import * as types from '../constants/action-types';
 import type { BasedProps as Props, LightSettings, Viewport,
   Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc,
-  ClickedObject, RoutePaths, Rainfall } from '../types';
+  ClickedObject, RoutePaths, Rainfall, LineMapData } from '../types';
 
 export const addMinutes =
   (min: number) : {|type: string, min: number|} => ({ type: types.ADDMINUTES, min });
@@ -18,7 +18,7 @@ export const setFrameTimestamp =
   (props: Props) : {|type: string, props: Props|} => ({ type: types.SETFRAMETIMESTAMP, props });
 
 export const setTimeStamp =
-  (time: number) : {|type: string, time: number|} => ({ type: types.SETTIMESTAMP, time });
+  (props: Props) : {|type: string, props: Props|} => ({ type: types.SETTIMESTAMP, props });
 
 export const setTime =
   (time: number) : {|type: string, time: number|} => ({ type: types.SETTIME, time });
@@ -53,9 +53,9 @@ export const setAnimateReverse =
   (reverse: boolean) : {|type: string, reverse: boolean|} =>
   ({ type: types.SETANIMATEREVERSE, reverse });
 
-export const setSecPerMin =
-  (secpermin: number) : {|type: string, secpermin: number|} =>
-  ({ type: types.SETSECPERMIN, secpermin });
+export const setSecPerHour =
+  (secperhour: number) : {|type: string, secperhour: number|} =>
+  ({ type: types.SETSECPERHOUR, secperhour });
 
 export const setClicked =
   (clickedObject: ClickedObject) :
@@ -85,3 +85,11 @@ export const setDepotsOptionFunc =
 export const setRainfall =
   (rainfall: Rainfall) : {|type: string, rainfall: Rainfall|} =>
   ({ type: types.SETRAINFALL, rainfall });
+
+export const setNonmapView =
+  (nonmapView: boolean) : {|type: string, nonmapView: boolean|} =>
+  ({ type: types.SETNONMAPVIEW, nonmapView });
+
+export const setLinemapData =
+  (linemapData: LineMapData) : {|type: string, linemapData: LineMapData|} =>
+  ({ type: types.SETLINEMAPDATA, linemapData });

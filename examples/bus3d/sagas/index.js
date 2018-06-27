@@ -68,7 +68,7 @@ function* fetchDataList({ path }) {
 
 function* fetchDataByAnswer({ answer }) {
   const fileextension = answer.split('.');
-  const { secpermin, leading, trailing, defaultZoom, defaultPitch
+  const { leading, trailing, defaultZoom, defaultPitch
   } = getContainerProp(yield select());
   if (fileextension[1] === 'json') {
     const { data } = yield fetchJSON(`${DATAPATH}${answer}`);
@@ -78,6 +78,7 @@ function* fetchDataByAnswer({ answer }) {
     if (typeof data.busmovesbase !== 'undefined') {
       const { timeBegin, timeLength, bounds, busmovesbase, busmovesbasedic } = data;
       yield put(Actions.setBusTripsCsv([]));
+      yield put(Actions.setBusTripIndex({}));
       yield put(Actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase: busmovesbase }));
       yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
       return;
@@ -116,6 +117,7 @@ function* fetchDataByAnswer({ answer }) {
       });
     });
     yield put(Actions.setBusTripsCsv([]));
+    yield put(Actions.setBusTripIndex({}));
     yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase: busmovesbase }));
     yield put(Actions.setBusMovesBaseDic({}));
   } else if (fileextension[1] === 'csv') {
@@ -137,6 +139,7 @@ function* fetchDataByAnswer({ answer }) {
       return returnvalue;
     });
     yield put(Actions.setBusTripsCsv(bustripscsv));
+    yield put(Actions.setBusTripIndex({}));
   }
 }
 
@@ -192,14 +195,16 @@ function* fetchBusstopsOption() {
   if (data) {
     yield put(Actions.setBusOption(data));
     yield put(Actions.setBsoptFname(bsoptFname));
+    yield put(Actions.setArchBase([]));
   } else {
     yield put(Actions.setBusOption({}));
     yield put(Actions.setBsoptFname(''));
+    yield put(Actions.setArchBase([]));
   }
 }
 
 function* setupByCSV() {
-  const { bustripscsv, secpermin, busstopscsv, routesdata, busroutes,
+  const { bustripscsv, busstopscsv, routesdata, busroutes,
     answer, leading, trailing, busoption, defaultZoom, defaultPitch
   } = getContainerProp(yield select());
   const fileextension = answer.split('.');

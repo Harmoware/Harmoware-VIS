@@ -1,15 +1,15 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import typeof { setSecPerMin } from '../actions';
+import typeof { setSecPerHour } from '../actions';
 import type { InputEvent } from '../types';
 
 type Props = {
-  secpermin: number,
+  secperhour: number,
   actions: {
-    setSecPerMin: setSecPerMin
+    setSecPerHour: setSecPerHour
   },
-  maxsecpermin: number,
+  maxsecperhour: number,
   min: number,
   step: number
 }
@@ -17,34 +17,35 @@ type Props = {
 export default class SpeedRange extends Component<Props> {
 
   static defaultProps = {
-    maxsecpermin: 10,
+    maxsecperhour: 3600,
     min: 1,
     step: 1
   }
 
   // static propTypes = {
-  //   secpermin: PropTypes.number.isRequired,
+  //   secperhour: PropTypes.number.isRequired,
   //   actions: PropTypes.objectOf(PropTypes.func).isRequired,
-  //   maxsecpermin: PropTypes.number,
+  //   maxsecperhour: PropTypes.number,
   //   min: PropTypes.number,
   //   step: PropTypes.number,
   // }
 
-  setSecPerMin(e : InputEvent) {
+  setSecPerHour(e : InputEvent) {
     const value = Number(e.target.value);
-    const secpermin = (this.props.maxsecpermin + 1) - Math.floor(value);
-    this.props.actions.setSecPerMin(secpermin);
+    const { maxsecperhour, min, actions } = this.props;
+    const secperhour = (maxsecperhour + min) - Math.floor(value);
+    actions.setSecPerHour(secperhour);
   }
 
   render() {
-    const { secpermin, maxsecpermin, min, step } = this.props;
+    const { secperhour, maxsecperhour, min, step } = this.props;
 
     return (
       <input
         type="range"
-        value={(maxsecpermin + 1) - secpermin}
-        min={min} max={`${maxsecpermin}`} step={step}
-        onChange={this.setSecPerMin.bind(this)}
+        value={(maxsecperhour + min) - secperhour}
+        min={min} max={maxsecperhour} step={step}
+        onChange={this.setSecPerHour.bind(this)}
       />
     );
   }
