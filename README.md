@@ -13,11 +13,12 @@ UBERが開発した Deck.GL( http://uber.github.io/deck.gl/ ) を利用し、そ
 
 ### 事前準備
 - node, npm のインストール
-- Mapbox access token の取得(後述）と環境変数への設定
+- Mapbox access token の取得(後述）と環境変数(MAPBOX_ACCESS_TOKEN)の設定
 
 以下で例が動作します
 ```
 git clone https://github.com/Harmoware/Harmoware-VIS
+cd Harmoware-VIS
 npm install
 # example bus3d
 npm run bus3d
