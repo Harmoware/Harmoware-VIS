@@ -3,8 +3,8 @@ import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, XbandmeshLayer,
   Actions, connectToHarmowareVis, settings } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
-import Header from '../components/Header';
-import Controller from '../components/Controller';
+import Header from '../components/header';
+import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, getContainerProp, updateArcLayerData } from '../library';
