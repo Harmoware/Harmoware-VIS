@@ -828,3 +828,6 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 | 2018.05.16 | 1.0.0 | 初版 |
 | 2018.06.27 | 1.1.0 | bus3dサンプルにarclayer機能を追加 |
 | ↓ | ↓ | visualize-sample-nonmapサンプルを追加 |
+| 2018.07.10 | 1.1.1 | 環境変数の参照を整理 |
+| ↓ | ↓ | visualize-sampleにPOPUP表示追加 |
+| ↓ | ↓ | visualize-sample-nonmapにPOPUP表示追加 |
