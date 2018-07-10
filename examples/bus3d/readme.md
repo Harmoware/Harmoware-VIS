@@ -7,7 +7,6 @@ Harmoware-VIS を使用し、バスの運行情報およびバス停位置情報
 ```
 #!shell
  set MAPBOX_ACCESS_TOKEN=XXXXXXXXX
- set MapboxAccessToken=XXXXXXXXXX
 ```
 ## Run visualize-sample
 ```

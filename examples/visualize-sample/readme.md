@@ -7,7 +7,6 @@ Harmoware-VIS を実行する基本的なアプリケーションのサンプル
 ```
 #!shell
  set MAPBOX_ACCESS_TOKEN=XXXXXXXXX
- set MapboxAccessToken=XXXXXXXXXX
 ```
 ## Run visualize-sample
 ```
