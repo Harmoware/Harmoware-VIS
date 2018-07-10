@@ -13,7 +13,7 @@
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js",
     "np": "np --no-cleanup",
-    "deploy": "npm-run-all -s lib build np"
+    "deploy": "npm-run-all -s lib np"
   },
   "dependencies": {
     "axios": "^0.17.1",
