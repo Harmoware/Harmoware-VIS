@@ -60,23 +60,19 @@ export default class OrbitController extends React.Component {
 
       if (evt.shiftKey || evt.ctrlKey || evt.altKey || evt.metaKey) {
         // rotate
-        const { rotationX, rotationY } = this.props;
-        const newRotationX = clamp(rotationX - (dy * 180), -90, 90);
-        const newRotationY = (rotationY - (dx * 180)) % 360;
+        const { rotationX } = this.props;
+        const newRotationX = clamp(rotationX - (dy * 180), 0, 90);
 
         this.props.onViewportChange({
-          rotationX: newRotationX,
-          rotationY: newRotationY
+          rotationX: newRotationX
         });
       } else {
         // pan
-        const { lookAt, distance, rotationX, rotationY, fov } = this.props;
+        const { lookAt, distance, fov } = this.props;
 
         const unitsPerPixel = distance / Math.tan(((fov / 180) * Math.PI) / 2) / 2;
 
         const newLookAt = vec3.add([], lookAt, [-unitsPerPixel * dx, unitsPerPixel * dy, 0]);
-        vec3.rotateX(newLookAt, newLookAt, lookAt, (rotationX / 180) * Math.PI);
-        vec3.rotateY(newLookAt, newLookAt, lookAt, (rotationY / 180) * Math.PI);
 
         this.props.onViewportChange({
           lookAt: newLookAt
@@ -141,7 +137,6 @@ OrbitController.propTypes = {
   maxDistance: PropTypes.number,
   // rotation
   rotationX: PropTypes.number,
-  rotationY: PropTypes.number,
   // field of view
   fov: PropTypes.number,
   // viewport width in pixels
