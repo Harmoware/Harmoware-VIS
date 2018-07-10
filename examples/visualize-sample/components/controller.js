@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { MovesInput, DepotsInput, XbandDataInput,
+import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
@@ -75,10 +75,6 @@ export default class Controller extends Component<ControllerProps> {
           <li><span>スピード</span>
             <SpeedRange secperhour={secperhour} actions={actions} />
             <span>{secperhour}&nbsp;秒/時</span>
-          </li>
-          <li>
-            <span>雨量データ</span>
-            <XbandDataInput actions={actions} />
           </li>
         </ul>
       </div>
