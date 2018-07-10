@@ -219,7 +219,8 @@ declare module 'harmoware-vis' {
       setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
       setClicked: (clickedObject: ClickedObject) =>
         {| clickedObject: ClickedObject, type: string |}
-    }, routePaths: RoutePaths, clickedObject?: ClickedObject |};
+    }, routePaths: RoutePaths, clickedObject?: ClickedObject,
+    onHover?: Function, onClick?: Function |};
   declare export class MovesNonmapLayer extends CompositeLayer {
     constructor(MovesNonmapLayerProps): void;
   }
@@ -232,12 +233,14 @@ declare module 'harmoware-vis' {
     getColor1?: (x: any) => Array<number>, getColor2?: (x: any) => Array<number>,
     getColor3?: (x: any) => Array<number>, getColor4?: (x: any) => Array<number>,
     getElevation1?: (x: any) => number, getElevation2?: (x: any) => number,
-    getElevation3?: (x: any) => number, getElevation4?: (x: any) => number |};
+    getElevation3?: (x: any) => number, getElevation4?: (x: any) => number,
+    onHover?: Function, onClick?: Function |};
   declare export class DepotsLayer extends CompositeLayer { constructor(DepotsLayerProps): void; }
 
   declare type FixedPointLayerProps = {|
     layerOpacity?: number, depotsData: DepotsData,
-    getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number |};
+    getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
+    onHover?: Function, onClick?: Function |};
   declare export class FixedPointLayer extends CompositeLayer {
     constructor(FixedPointLayerProps): void;
   }
@@ -246,13 +249,15 @@ declare module 'harmoware-vis' {
     rainfall: Rainfall, layerOpacity?: number, layerCellSize?: number, layerElevationScale?: number,
     lightSettings: LightSettings, getElevation?: (x: any) => number,
     getColor?: (x: any) => Array<number>, getRainfallColor?: (x: number) => Array<number>,
-    defaultColor?: Array<number> |};
+    defaultColor?: Array<number>,
+    onHover?: Function, onClick?: Function |};
   declare export class XbandmeshLayer extends CompositeLayer {
     constructor(XbandmeshLayerProps): void; }
 
   declare type LineMapLayerProps = {|
     layerOpacity?: number, linemapData: LineMapData, strokeWidth?: number,
-    getColor?: (x: any) => Array<number> |};
+    getColor?: (x: any) => Array<number>,
+    onHover?: Function, onClick?: Function |};
   declare export class LineMapLayer extends CompositeLayer {
     constructor(LineMapLayerProps): void; }
 

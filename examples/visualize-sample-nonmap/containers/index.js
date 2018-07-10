@@ -9,9 +9,21 @@ import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
 
-class App extends Container<Props> implements Component {
+type State = {
+  popup: Array<any>
+}
+
+class App extends Container<Props, State> implements Component {
 
   props: Props;
+  state: State;
+
+  constructor() {
+    super();
+    this.state = {
+      popup: [0, 0, '']
+    };
+  }
 
   render() {
     const props = this.props;
@@ -22,6 +34,21 @@ class App extends Container<Props> implements Component {
     if (viewport.lookAt) {
       dispLookAt = viewport.lookAt.join(',');
     }
+
+    const onHover = (el) => {
+      if (el && el.object) {
+        let disptext = '';
+        const objctlist = Object.entries(el.object);
+        for (let i = 0, lengthi = objctlist.length; i < lengthi; i += 1) {
+          const strvalue = (objctlist[i][1]: any).toString();
+          disptext += i > 0 ? '\n' : '';
+          disptext += (`${objctlist[i][0]}: ${strvalue}`);
+        }
+        this.setState({ popup: [el.x, el.y, disptext] });
+      } else {
+        this.setState({ popup: [0, 0, ''] });
+      }
+    };
 
     return (
       <div>
@@ -44,17 +71,28 @@ class App extends Container<Props> implements Component {
             actions={actions}
             layers={[
               new FixedPointLayer({
-                depotsData
+                depotsData, onHover
               }),
               new MovesNonmapLayer({
-                movedData, movesbase, actions, routePaths, clickedObject
+                movedData, movesbase, actions, routePaths, clickedObject, onHover
               }),
               new LineMapLayer({
-                linemapData
+                linemapData, onHover
               })
             ]}
           />
         </div>
+        <svg width={viewport.width} height={viewport.height} className="svg-overlay">
+          <g fill="white" fontSize="12">
+            {this.state.popup[2].length > 0 ?
+              this.state.popup[2].split('\n').map((value, index) =>
+                <text
+                  x={this.state.popup[0] + 10} y={this.state.popup[1] + (index * 12)}
+                  key={index.toString()}
+                >{value}</text>) : null
+              }
+          </g>
+        </svg>
       </div>
     );
   }

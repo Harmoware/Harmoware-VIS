@@ -73,7 +73,8 @@ export default class XbandmeshLayer extends CompositeLayer<Props> {
         opacity: layerOpacity,
         cellSize: layerCellSize,
         elevationScale: layerElevationScale,
-        lightSettings
+        lightSettings,
+        pickable: true
       })
     ];
   }
