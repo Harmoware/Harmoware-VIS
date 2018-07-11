@@ -39,8 +39,8 @@ node.js のバージョンは v9.11.1 で確認しています。
 // app.js　mapboxを使用する場合のサンプル
 import React from 'react';
 import { Container, connectToHarmowareVis,
-    HarmoVisLayers, MovesLayer, DepotsLayer, XbandmeshLayer,
-    MovesInput, DepotsInput, XbandDataInput, SimulationDateTime,
+    HarmoVisLayers, MovesLayer, DepotsLayer,
+    MovesInput, DepotsInput, SimulationDateTime,
     PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
     ElapsedTimeRange, SpeedRange } from 'harmoware-vis';
 
@@ -51,7 +51,7 @@ class App extends Container {
     render() {
         const { viewport, actions, routePaths, lightSettings,
                     animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
-                    movesbase, movedData, clickedObject, depotsData, rainfall } = this.props;
+                    movesbase, movedData, clickedObject, depotsData } = this.props;
 
         return (
           <div>
@@ -70,7 +70,6 @@ class App extends Container {
                 <li><SimulationDateTime timeBegin={timeBegin} settime={settime} /></li>
                 <li><ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} /></li>
                 <li><SpeedRange secperhour={secperhour} actions={actions} /></li>
-                <li><XbandDataInput actions={actions} /></li>
               </ul>
             </div>
 
@@ -81,7 +80,6 @@ class App extends Container {
                 layers={[
                   new MovesLayer( { routePaths, movesbase, movedData, clickedObject, actions, } ),
                   new DepotsLayer( { depotsData, } ),
-                  new XbandmeshLayer( { lightSettings, rainfall, } ),
                 ]}
               />
             </div>
@@ -115,7 +113,6 @@ Harmoware-VIS で定義される reducer から Component で受け取る props 
 | movedData | Array | [] | 描画用運行データ |
 | movesbase | Array | [] | 運行データ保持エリア |
 | clickedObject | object | null | 選択中運行オブジェクト |
-| rainfall | Array | [] | 描画用雨量データ |
 | routePaths | Array | [] | 描画用運行経路 |
 | secperhour | Number | 3 | 再生速度（秒/時） |
 | settime | Number | 0 | シュミレーション中時間 |
@@ -147,7 +144,6 @@ Harmoware-VIS で定義される redux の action は以下の通りです。
 | setDefaultPitch(Number) | defaultPitch | 地図表示時規定角度更新 |
 | setMovesOptionFunc(Function) | getMovesOptionFunc | 運行データオプション処理関数更新 |
 | setDepotsOptionFunc(Function) | getDepotsOptionFunc | 停留所データオプション処理関数更新 |
-| setRainfall(Array) | rainfall | 描画用雨量データ更新 |
 
 ### Container
 
@@ -542,69 +538,6 @@ HarmoVisNonMapLayersのpropsで使用してください。
 ]
 ```
 
-### XbandmeshLayer
-
-雨量データをシュミレーションします。
-
-##### Examples
-
-```js
-<HarmoVisLayers ...
-    layers={[
-        new XbandmeshLayer( { lightSettings: this.props.lightSettings,
-                              rainfall: this.props.rainfall } )
-    ]}
-/>
-```
-
-##### XbandmeshLayer Properties
-
-| Properties | PropTypes | Default | Description |
-| :------------ | :------------ | :------------ | :------------ |
-| lightSettings | object required | -- | Harmoware-VIS の props.lightSettings |
-| rainfall | Array required | -- | Harmoware-VIS の props.rainfall |
-| layerOpacity | Number option | 0.2 | GridCell透過度 |
-| layerCellSize | Number option | 100 | GridCellサイズ |
-| layerElevationScale | Number option | 20 | GridCell高度スケール20 |
-| getElevation | Function option | x => x.elevation ｜｜ 0 | 降雨量指定アクセサ |
-| getColor | Function option | x => x.color | セル色指定アクセサ |
-| getRainfallColor | Function option | ※表外に記載 | 降雨量配色処理 |
-| defaultColor | Array option | [0, 255, 255] | セルデフォルト色指定 |
-
-※ getRainfallColor  降雨量配色デフォルト処理
-```javascript
-(x) => {
-  if (x < 3) {
-    return [255.0 - ((x / 3.0) * 255.0), 255.0, 255.0];
-  } else
-  if (x < 12) {
-    return [0.0, 255.0 - (((x - 3.0) / 9.0) * 255.0), 255.0];
-  } else
-  if (x < 25) {
-    return [(((x - 12.0) / 15.0) * 255.0), (((x - 12.0) / 15.0) * 255.0),
-      255.0 - (((x - 12.0) / 15.0) * 255.0)];
-  } else
-  if (x < 40) {
-    return [255.0, 255.0 - (((x - 25.0) / 15.0) * 255.0), 0.0];
-  } else
-  if (x < 80) {
-    return [255.0 - (((x - 40.0) / 40.0) * 127.0), 0.0, (((x - 40.0) / 40.0) * 255.0)];
-  }
-  return [127.0, 0.0, 255.0];
-}
-```
-
-##### xband雨量情報データのjsonフォーマット
-
-```js
-// rainfall
-[   {   "position": [999.9999, 99.9999], //オブジェクト表示する位置（経度、緯度）
-        "color": [rrr,ggg,bbb], //オブジェクト表示色
-        "elevation": 999.9 //雨量情報
-    },・・・・・・
-]
-```
-
 ## Harmoware-VIS Control component
 
 Harmoware-VIS を Control する component 一覧
@@ -652,22 +585,6 @@ Harmoware-VIS を Control する component 一覧
 ```
 
 ##### LinemapInput Properties
-
-| Properties | PropTypes | Default | Description |
-| :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-
-### XbandDataInput
-
-「xband雨量情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の props.rainfall に設定します。
-
-##### Examples
-
-```js
-<XbandDataInput actions={this.props.actions} />
-```
-
-##### XbandDataInput Properties
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
@@ -821,13 +738,3 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 | caption | string option | 'スピード' | Range Caption |
 | min | number option | 1 | Range 最小値 |
 | step | number option | 1 | Range 増加値 |
-
-## 履歴
-| date | version | Description |
-| :------------ | :------------ | :------------ |
-| 2018.05.16 | 1.0.0 | 初版 |
-| 2018.06.27 | 1.1.0 | bus3dサンプルにarclayer機能を追加 |
-| ↓ | ↓ | visualize-sample-nonmapサンプルを追加 |
-| 2018.07.10 | 1.1.1 | 環境変数の参照を整理 |
-| ↓ | ↓ | visualize-sampleにPOPUP表示追加 |
-| ↓ | ↓ | visualize-sample-nonmapにPOPUP表示追加 |
