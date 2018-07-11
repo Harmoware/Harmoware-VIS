@@ -215,7 +215,7 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 
 ##### Examples
 
-```html
+```js
 <HarmoVisLayers
     viewport={this.props.viewport} actions={this.props.actions}
     mapboxApiAccessToken={MAPBOX_TOKEN}
@@ -241,7 +241,7 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 
 ##### Examples
 
-```html
+```js
 <HarmoVisNonMapLayers
     viewport={this.props.viewport} actions={this.props.actions}
     layers={ [ ... ] }
@@ -269,7 +269,7 @@ HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisLayers ...
     layers={[
         new MovesLayer( { routePaths: this.props.routePaths,
@@ -307,7 +307,7 @@ HarmoVisLayersのpropsで使用してください。
 ##### 運行シュミレーションデータファイルのjsonフォーマット
 
 - 形式１
-```json
+```js
 // bounds timeBegin timeLength movesbase
 {   "timeBegin": 9999999999, //運行シュミレーション開始日時（UNIX時間（秒））
     "timeLength": 99999, //運行シュミレーション開始から終了までの経過時間（秒）
@@ -336,7 +336,7 @@ HarmoVisLayersのpropsで使用してください。
 ```
 
 - 形式２
-```json
+```js
 [ //運行シュミレーションデータ
     { //運行単位（１便）ごとに時間と経路を定義する
       //（departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
@@ -362,7 +362,7 @@ HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisLayers ...
     layers={[
         new DepotsLayer( { depotsData: this.props.depotsData } )
@@ -389,7 +389,7 @@ HarmoVisLayersのpropsで使用してください。
 
 ##### 停留所情報データのjsonフォーマット
 
-```json
+```js
 // depotsData position形式
 [   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
     },・・・・・・
@@ -408,7 +408,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisNonMapLayers ...
     layers={[
         new MovesNonmapLayer( { routePaths: this.props.routePaths,
@@ -436,8 +436,8 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### 運行シュミレーションデータファイルのjsonフォーマット
 
-- 形式１
-```json
+###### 形式１
+```js
 // bounds timeBegin timeLength movesbase
 {   "timeBegin": 9999999999, //運行シュミレーション開始日時（UNIX時間（秒））
     "timeLength": 99999, //運行シュミレーション開始から終了までの経過時間（秒）
@@ -458,8 +458,8 @@ HarmoVisNonMapLayersのpropsで使用してください。
 }
 ```
 
-- 形式２
-```json
+###### 形式２
+```js
 [ //運行シュミレーションデータ
     { //運行単位（１便）ごとに時間と経路を定義する
       //（departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
@@ -482,7 +482,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisNonMapLayers ...
     layers={[
         new FixedPointLayer( { depotsData: this.props.depotsData } )
@@ -501,7 +501,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### 固定ポイント情報データのjsonフォーマット
 
-```json
+```js
 // depotsData
 [   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
     },・・・・・・
@@ -515,7 +515,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisNonMapLayers ...
     layers={[
         new LineMapLayer( { linemapData: this.props.linemapData } )
@@ -534,7 +534,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### 線描画マップ情報データのjsonフォーマット
 
-```json
+```js
 // depotsData
 [   { "sourcePosition": [999.9999, 999.9999, 999.9999], //線描画開始位置（x,y,z）*必須
       "targetPosition": [999.9999, 999.9999, 999.9999], //線描画終了位置（x,y,z）*必須
@@ -548,7 +548,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
-```html
+```js
 <HarmoVisLayers ...
     layers={[
         new XbandmeshLayer( { lightSettings: this.props.lightSettings,
@@ -596,7 +596,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### xband雨量情報データのjsonフォーマット
 
-```json
+```js
 // rainfall
 [   {   "position": [999.9999, 99.9999], //オブジェクト表示する位置（経度、緯度）
         "color": [rrr,ggg,bbb], //オブジェクト表示色
@@ -615,7 +615,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <MovesInput actions={this.props.actions} />
 ```
 
@@ -631,7 +631,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <DepotsInput actions={this.props.actions} />
 ```
 
@@ -647,7 +647,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <LinemapInput actions={this.props.actions} />
 ```
 
@@ -663,7 +663,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <XbandDataInput actions={this.props.actions} />
 ```
 
@@ -679,7 +679,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <AddMinutesButton addMinutes={5} actions={this.props.actions}>5分 ⏭</AddMinutesButton>
 ```
 
@@ -697,7 +697,7 @@ Harmoware-VIS を Control する component 一覧
 
 ##### Examples
 
-```html
+```js
 <ElapsedTimeRange settime={this.props.settime} timeLength={this.props.timeLength} actions={this.props.actions} />
 ```
 
@@ -718,7 +718,7 @@ Harmoware-VIS の props.animatePause を true に更新する button オブジ�
 
 ##### Examples
 
-```html
+```js
 <PauseButton actions={this.props.actions} />
 ```
 
@@ -735,7 +735,7 @@ Harmoware-VIS の props.animatePause を false に更新する button オブジ�
 
 ##### Examples
 
-```html
+```js
 <PlayButton actions={this.props.actions} />
 ```
 
@@ -752,7 +752,7 @@ Harmoware-VIS の props.animateReverse を false に更新する button オブ�
 
 ##### Examples
 
-```html
+```js
 <ForwardButton actions={this.props.actions} />
 ```
 
@@ -769,7 +769,7 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 ##### Examples
 
-```html
+```js
 <ReverseButton actions={this.props.actions} />
 ```
 
@@ -787,7 +787,7 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 ##### Examples
 
-```html
+```js
 <SimulationDateTime timeBegin={this.props.timeBegin} settime={this.props.settime} />
 ```
 
@@ -807,7 +807,7 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 ##### Examples
 
-```html
+```js
 <SpeedRange secperhour={this.props.secperhour} actions={this.props.actions} />
 ```
 
