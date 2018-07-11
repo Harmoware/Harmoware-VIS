@@ -3,7 +3,7 @@
 import React from 'react';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
-import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, XbandmeshLayer,
+import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis } from 'harmoware-vis';
 import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
@@ -48,7 +48,7 @@ class App extends Container<Props, State> implements Component {
   render() {
     const props = this.props;
     const {
-      actions, rainfall, lightSettings, routePaths, viewport,
+      actions, lightSettings, routePaths, viewport,
       clickedObject, movesbase, movedData, depotsData } = props;
 
     const onHover = (el) => {
@@ -90,11 +90,6 @@ class App extends Container<Props, State> implements Component {
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
-              new XbandmeshLayer({
-                lightSettings,
-                rainfall,
-                onHover
-              }),
               new DepotsLayer({
                 depotsData,
                 lightSettings,

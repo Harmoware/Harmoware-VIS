@@ -39,7 +39,6 @@ import MovesLayer from './layers/moves-layer';
 import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
 import FixedPointLayer from './layers/fixed-point-layer';
-import CubeGraphLayer from './layers/cubegraph-layer';
 import XbandmeshLayer from './layers/xbandmesh-layer';
 import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
@@ -99,7 +98,6 @@ export {
   MovesNonmapLayer,
   DepotsLayer,
   FixedPointLayer,
-  CubeGraphLayer,
   XbandmeshLayer,
   LineMapLayer,
   // library
