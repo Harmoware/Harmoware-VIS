@@ -18,12 +18,10 @@ import {
   setDefaultPitch,
   setMovesOptionFunc,
   setDepotsOptionFunc,
-  setRainfall,
 } from './actions';
 
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
-import XbandDataInput from './components/xbanddata-input';
 import LinemapInput from './components/linemap-input';
 import AddMinutesButton from './components/addminutes-button';
 import ElapsedTimeRange from './components/elapsedtime-range';
@@ -39,7 +37,6 @@ import MovesLayer from './layers/moves-layer';
 import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
 import FixedPointLayer from './layers/fixed-point-layer';
-import XbandmeshLayer from './layers/xbandmesh-layer';
 import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
 import Container from './containers';
@@ -68,7 +65,6 @@ const Actions = {
   setDefaultPitch,
   setMovesOptionFunc,
   setDepotsOptionFunc,
-  setRainfall,
 };
 
 export {
@@ -77,7 +73,6 @@ export {
   // components
   MovesInput,
   DepotsInput,
-  XbandDataInput,
   LinemapInput,
   AddMinutesButton,
   PlayButton,
@@ -98,7 +93,6 @@ export {
   MovesNonmapLayer,
   DepotsLayer,
   FixedPointLayer,
-  XbandmeshLayer,
   LineMapLayer,
   // library
   getContainerProp,

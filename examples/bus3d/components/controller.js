@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, SpeedRange } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
+import XbandDataInput from './xbanddata-input';
 
 const getXbandLabelBySize = (xbandCellSize) => {
   if (xbandCellSize === 0) {
@@ -202,6 +203,9 @@ export default class Controller extends Component {
           <li>
             <button onClick={this.setCellSize.bind(this)}>{xBandViewLabel}</button>
             <span>{xbandCellSize ? xbandFname : ''}</span>
+          </li>
+          <li>
+            <XbandDataInput actions={actions} />
           </li>
           <li>
             <span>バス停検索</span>

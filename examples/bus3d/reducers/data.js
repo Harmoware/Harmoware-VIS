@@ -6,7 +6,8 @@ const initialState = {
   busmovesbasedic: {},
   routesdata: {},
   bustripindex: {},
-  archbase: []
+  archbase: [],
+  rainfall: []
 };
 
 export default (state = initialState, action) => {
@@ -51,6 +52,13 @@ export default (state = initialState, action) => {
         const archbase = action.archbase;
         return Object.assign({}, state, {
           archbase
+        });
+      })();
+    case types.SETRAINFALL:
+      return (() => {
+        const rainfall = action.rainfall;
+        return Object.assign({}, state, {
+          rainfall
         });
       })();
     default:
