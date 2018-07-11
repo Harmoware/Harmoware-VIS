@@ -100,13 +100,6 @@ export type LineMapData = Array<{
   color: Array<number>
 }>;
 
-export type RainfallItem = {
-  position: Array<number>,
-  color: Array<number>,
-  elevation: number
-};
-export type Rainfall = Array<RainfallItem>;
-
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
 
 export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
@@ -135,7 +128,6 @@ export type BasedState = {
   movedData: MovedData,
   movesbase: Movesbase,
   nonmapView: boolean,
-  rainfall: Rainfall,
   routePaths: RoutePaths,
   secperhour: number,
   settime: number,
@@ -195,6 +187,5 @@ export type ActionTypes =
   {|type: string, defaultPitch: number|} &
   {|type: string, func: GetMovesOptionFunc|} &
   {|type: string, func: GetDepotsOptionFunc|} &
-  {|type: string, rainfall: Rainfall|} &
   {|type: string, nonmapView: boolean|} &
   {|type: string, linemapData: LineMapData|};

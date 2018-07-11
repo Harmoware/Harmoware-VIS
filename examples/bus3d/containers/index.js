@@ -1,8 +1,9 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
-import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, XbandmeshLayer,
+import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   Actions, connectToHarmowareVis, settings } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
+import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
 import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';

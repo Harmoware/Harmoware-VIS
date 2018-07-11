@@ -60,7 +60,6 @@ const initialState: State = {
   getDepotsOptionFunc: null,
   movedData: [],
   depotsData: [],
-  rainfall: [],
   nonmapView: false,
   linemapData: [],
   linemapDataOriginal: '',
@@ -300,13 +299,6 @@ export default (state: State = initialState, action: ActionTypes) => {
         const getDepotsOptionFunc = action.func;
         return Object.assign({}, state, {
           getDepotsOptionFunc
-        });
-      })();
-    case types.SETRAINFALL:
-      return (() => {
-        const rainfall = action.rainfall;
-        return Object.assign({}, state, {
-          rainfall
         });
       })();
     case types.SETNONMAPVIEW:

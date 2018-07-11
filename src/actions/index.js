@@ -3,7 +3,7 @@
 import * as types from '../constants/action-types';
 import type { BasedProps as Props, LightSettings, Viewport,
   Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc,
-  ClickedObject, RoutePaths, Rainfall, LineMapData } from '../types';
+  ClickedObject, RoutePaths, LineMapData } from '../types';
 
 export const addMinutes =
   (min: number) : {|type: string, min: number|} => ({ type: types.ADDMINUTES, min });
@@ -81,10 +81,6 @@ export const setMovesOptionFunc =
 export const setDepotsOptionFunc =
   (func: GetDepotsOptionFunc) : {|type: string, func: GetDepotsOptionFunc|} =>
   ({ type: types.SETDEPOTSOPTIONFUNC, func });
-
-export const setRainfall =
-  (rainfall: Rainfall) : {|type: string, rainfall: Rainfall|} =>
-  ({ type: types.SETRAINFALL, rainfall });
 
 export const setNonmapView =
   (nonmapView: boolean) : {|type: string, nonmapView: boolean|} =>

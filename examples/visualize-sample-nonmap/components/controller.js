@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { MovesInput, DepotsInput, XbandDataInput, LinemapInput,
+import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';

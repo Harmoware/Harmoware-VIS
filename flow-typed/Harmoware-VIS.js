@@ -48,11 +48,6 @@ declare module 'harmoware-vis' {
     } & Position | LongLat>
   }>;
 
-  declare export type RainfallItem = {
-    position: Array<number>, color: Array<number>, elevation: number
-  };
-  declare export type Rainfall = Array<RainfallItem>;
-
   declare export type RoutePaths = Array<{
     sourcePosition: Array<number>, targetPosition: Array<number>, color: Array<number>
   }>;
@@ -70,7 +65,7 @@ declare module 'harmoware-vis' {
     depotsBase: Depotsbase, depotsData: DepotsData, getDepotsOptionFunc: null | GetDepotsOptionFunc,
     getMovesOptionFunc: null | GetMovesOptionFunc, leading: number, lightSettings: LightSettings,
     loopTime: number, movedData: MovedData, movesbase: Movesbase, nonmapView: boolean,
-    rainfall: Rainfall, routePaths: RoutePaths, secperhour: number, settime: number,
+    routePaths: RoutePaths, secperhour: number, settime: number,
     starttimestamp: number, timeBegin: number, timeLength: number, trailing: number,
     viewport: Viewport, linemapData: LineMapData, };
 
@@ -100,7 +95,6 @@ declare module 'harmoware-vis' {
     setMovesBase: (base: (Movesbase | MovesbaseFile)) =>
       {| base: (Movesbase | MovesbaseFile), type: string |},
     setMovesOptionFunc: (func: GetMovesOptionFunc) => {| func: GetMovesOptionFunc, type: string |},
-    setRainfall: (rainfall: Rainfall) => {| rainfall: Rainfall, type: string |},
     setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
     setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |},
     setTime: (time: number) => {| time: number, type: string |},
@@ -125,10 +119,6 @@ declare module 'harmoware-vis' {
     actions: { setDepotsBase: (depotsBase: Depotsbase) =>
       {| depotsBase: Depotsbase, type: string |} } |};
   declare export class DepotsInput extends React$Component<DepotsInputProps> {}
-
-  declare type XbandDataInputProps = {|
-    actions : { setRainfall: (rainfall: Rainfall) => {| rainfall: Rainfall, type: string |} } |};
-  declare export class XbandDataInput extends React$Component<XbandDataInputProps> {}
 
   declare type LinemapInputProps = {|
     actions: { setLinemapData: (linemapData: LineMapData) =>
@@ -244,15 +234,6 @@ declare module 'harmoware-vis' {
   declare export class FixedPointLayer extends CompositeLayer {
     constructor(FixedPointLayerProps): void;
   }
-
-  declare type XbandmeshLayerProps = {|
-    rainfall: Rainfall, layerOpacity?: number, layerCellSize?: number, layerElevationScale?: number,
-    lightSettings: LightSettings, getElevation?: (x: any) => number,
-    getColor?: (x: any) => Array<number>, getRainfallColor?: (x: number) => Array<number>,
-    defaultColor?: Array<number>,
-    onHover?: Function, onClick?: Function |};
-  declare export class XbandmeshLayer extends CompositeLayer {
-    constructor(XbandmeshLayerProps): void; }
 
   declare type LineMapLayerProps = {|
     layerOpacity?: number, linemapData: LineMapData, strokeWidth?: number,
