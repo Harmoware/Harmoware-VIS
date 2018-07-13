@@ -5,13 +5,16 @@ import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
   connectToHarmowareVis } from 'harmoware-vis';
-import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
+import type { BasedProps, InputEvent } from 'harmoware-vis';
+import { translate } from 'react-i18next';
 
 import Controller from '../components/controller';
 
 type State = {
   popup: Array<any>
 }
+
+type Props = { t: Function } & BasedProps
 
 class App extends Container<Props, State> implements Component {
 
@@ -28,7 +31,7 @@ class App extends Container<Props, State> implements Component {
   render() {
     const props = this.props;
     const { actions, viewport, movedData, movesbase, depotsData,
-      linemapData, routePaths, clickedObject } = props;
+      linemapData, routePaths, clickedObject, t } = props;
     let dispLookAt = '';
 
     if (viewport.lookAt) {
@@ -56,8 +59,9 @@ class App extends Container<Props, State> implements Component {
           {...props}
         />
         <div id="footer_area">
-          サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。&nbsp;
-          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html">リンク</a>&nbsp;
+          {t('permission')}&nbsp;
+          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html">
+            {t('link')}</a>&nbsp;
           lookAt:{dispLookAt}&nbsp;
           distance:{viewport.distance}&nbsp;
           rotationX:{viewport.rotationX}&nbsp;
@@ -98,4 +102,4 @@ class App extends Container<Props, State> implements Component {
   }
 }
 
-export default connectToHarmowareVis(App);
+export default connectToHarmowareVis(translate()(App));
