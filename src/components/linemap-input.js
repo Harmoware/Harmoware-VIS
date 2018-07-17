@@ -1,18 +1,26 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import type { InputEvent } from '../types';
+import type { InputEvent, I18n } from '../types';
 import typeof { setLinemapData } from '../actions';
 
 type Props = {
   actions: {
     setLinemapData: setLinemapData
-  }
+  },
+  i18n: I18n
 }
 
 export default class LinemapInput extends Component<Props> {
 
+  static defaultProps = {
+    i18n: {
+      formatError: 'ラインマップデータ形式不正'
+    }
+  }
+
   onSelect(e: InputEvent) {
+    const { i18n } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -34,7 +42,7 @@ export default class LinemapInput extends Component<Props> {
           actions.setLinemapData(readdata);
           return;
         }
-        window.alert('ラインマップデータ形式不正');
+        window.alert(i18n.formatError);
       }
       actions.setLinemapData([]);
     };

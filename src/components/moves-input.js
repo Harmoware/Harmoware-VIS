@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import type { InputEvent } from '../types';
+import type { InputEvent, I18n } from '../types';
 import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse } from '../actions';
 
 type Props = {
@@ -11,16 +11,19 @@ type Props = {
     setClicked: setClicked,
     setAnimatePause: setAnimatePause,
     setAnimateReverse: setAnimateReverse,
-  }
+  },
+  i18n: I18n
 }
 
 export default class MovesInput extends Component<Props> {
 
-  // static propTypes = {
-  //   actions: PropTypes.objectOf(PropTypes.func).isRequired,
-  // }
-
+  static defaultProps = {
+    i18n: {
+      formatError: 'ラインマップデータ形式不正'
+    }
+  }
   onSelect(e: InputEvent) {
+    const { i18n } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -39,7 +42,7 @@ export default class MovesInput extends Component<Props> {
       if (!Array.isArray(readdata)) { // Not Array?
         const { movesbase } = readdata;
         if (!movesbase) {
-          window.alert('運行データ形式不正');
+          window.alert(i18n.formatError);
           return;
         }
       }
