@@ -14,7 +14,7 @@ type Props = {
 export default class ReverseButton extends Component<Props> {
 
   static defaultProps = {
-    children: '◀️ 逆再生',
+    children: '◀️ REVERSE',
   }
 
   // static propTypes = {

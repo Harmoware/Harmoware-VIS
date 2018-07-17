@@ -14,7 +14,7 @@ type Props = {
 export default class PauseButton extends Component<Props> {
 
   static defaultProps = {
-    children: '⏯️ 一時停止',
+    children: '⏯️ PAUSE',
   }
 
   // static propTypes = {

@@ -15,7 +15,7 @@ type Props = {
 export default class PlayButton extends Component<Props> {
 
   static defaultProps = {
-    children: '⏯️ 開始　　',
+    children: '⏯️ PLAY',
   }
 
   // static propTypes = {
