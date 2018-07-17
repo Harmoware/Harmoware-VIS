@@ -172,12 +172,12 @@ export default class Controller extends Component {
           </li>
           <li>
             {animatePause ?
-              <PlayButton actions={actions} /> :
-              <PauseButton actions={actions} />
+              <PlayButton actions={actions}>⏯️ 　開始　</PlayButton> :
+              <PauseButton actions={actions}>⏯️ 一時停止</PauseButton>
             }&nbsp;
             {animateReverse ?
-              <ForwardButton actions={actions} /> :
-              <ReverseButton actions={actions} />
+              <ForwardButton actions={actions}>▶️ 正再生</ForwardButton> :
+              <ReverseButton actions={actions}>◀️ 逆再生</ReverseButton>
             }
           </li>
           <li>

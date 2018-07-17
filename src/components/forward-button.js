@@ -14,7 +14,7 @@ type Props = {
 export default class ForwardButton extends Component<Props> {
 
   static defaultProps = {
-    children: '▶️ 正再生',
+    children: '▶️ FORWARD',
   }
 
   // static propTypes = {
