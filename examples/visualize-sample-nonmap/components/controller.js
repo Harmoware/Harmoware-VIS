@@ -5,7 +5,7 @@ import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
-import i18n from './../I18n';
+import i18n from './../locales/I18n';
 
 type ControllerProps = {
   settime: number,
