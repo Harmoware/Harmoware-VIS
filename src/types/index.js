@@ -168,6 +168,8 @@ export type Context = {
   }
 }
 
+export type I18n = Object;
+
 export type ActionTypes =
   {|type: string, min: number|} &
   {|type: string, props: BasedProps|} &

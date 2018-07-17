@@ -3,7 +3,7 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import type { DepotsData, DepotsDataItem, LightSettings, Position, Radius, DataOption, Context } from '../../types';
+import type { DepotsData, DepotsDataItem, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
 
 type Props = {
   layerRadiusScale: number,
@@ -25,6 +25,7 @@ type Props = {
   getElevation2: (x: any) => number,
   getElevation3: (x: any) => number,
   getElevation4: (x: any) => number,
+  i18n: I18n
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {
@@ -50,7 +51,10 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     getElevation1: (x: DataOption) => (x.optElevation && x.optElevation[0]) || 0,
     getElevation2: (x: DataOption) => (x.optElevation && x.optElevation[1]) || 0,
     getElevation3: (x: DataOption) => (x.optElevation && x.optElevation[2]) || 0,
-    getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0
+    getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0,
+    i18n: {
+      error: 'DepotsLayer: props 指定エラー'
+    }
   };
 
   renderLayers() {
@@ -58,11 +62,11 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       getRadius: propGetRadius, optionElevationScale, optionVisible, optionChange,
       optionOpacity, optionCellSize, lightSettings,
       getColor1, getColor2, getColor3, getColor4,
-      getElevation1, getElevation2, getElevation3, getElevation4
+      getElevation1, getElevation2, getElevation3, getElevation4, i18n
     } = this.props;
 
     if (optionVisible && !lightSettings) {
-      alert('DepotsLayer: props 指定エラー');
+      alert(i18n.error);
       return null;
     }
     if (!depotsData) {
