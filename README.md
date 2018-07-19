@@ -65,8 +65,8 @@ class App extends Container {
                 <li>{ animateReverse ?
                     <ForwardButton actions={actions} /> :
                     <ReverseButton actions={actions} /> }</li>
-                <li><AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5分</AddMinutesButton>&nbsp;
-                    <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton></li>
+                <li><AddMinutesButton addMinutes={-5} actions={actions} />&nbsp;
+                    <AddMinutesButton addMinutes={5} actions={actions} /></li>
                 <li><SimulationDateTime timeBegin={timeBegin} settime={settime} /></li>
                 <li><ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} /></li>
                 <li><SpeedRange secperhour={secperhour} actions={actions} /></li>
@@ -557,6 +557,7 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
+| i18n | Object option | -- | キャプション定義 |
 
 ### DepotsInput
 
@@ -573,6 +574,7 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
+| i18n | Object option | -- | キャプション定義 |
 
 ### LinemapInput
 
@@ -589,6 +591,7 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
+| i18n | Object option | -- | キャプション定義 |
 
 ### AddMinutesButton
 
@@ -597,7 +600,7 @@ Harmoware-VIS を Control する component 一覧
 ##### Examples
 
 ```js
-<AddMinutesButton addMinutes={5} actions={this.props.actions}>5分 ⏭</AddMinutesButton>
+<AddMinutesButton addMinutes={5} actions={this.props.actions} />
 ```
 
 ##### AddMinutesButton Properties
@@ -607,6 +610,7 @@ Harmoware-VIS を Control する component 一覧
 | actions | object required | -- | Harmoware-VIS の props.actions |
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | 加算する時間（分）10 |
+| i18n | Object option | -- | キャプション定義 |
 
 ### ElapsedTimeRange
 
@@ -625,7 +629,6 @@ Harmoware-VIS を Control する component 一覧
 | settime | number required | -- | Harmoware-VIS の props.settime |
 | timeLength | number required | -- | Harmoware-VIS の props.timeLength |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| caption | string option | '経過時間' | Range Caption |
 | min | number option | -100 | Range 最小値（シュミレーション中時間（秒）） |
 | step | number option | 1 | Range 増加値 |
 
@@ -644,7 +647,8 @@ Harmoware-VIS の props.animatePause を true に更新する button オブジ�
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| children | string option | '⏯️ 一時停止' | Button Caption |
+| children | string option | '⏸ PAUSE' | Button Caption |
+| i18n | Object option | -- | キャプション定義 |
 
 ### PlayButton
 
@@ -661,7 +665,8 @@ Harmoware-VIS の props.animatePause を false に更新する button オブジ�
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| children | string option | '⏯️ 開始　　' | Button Caption |
+| children | string option | '▶ PLAY' | Button Caption |
+| i18n | Object option | -- | キャプション定義 |
 
 ### ForwardButton
 
@@ -678,7 +683,8 @@ Harmoware-VIS の props.animateReverse を false に更新する button オブ�
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| children | node option | '▶️ 正再生' | Button Caption |
+| children | node option | '➡ FORWARD' | Button Caption |
+| i18n | Object option | -- | キャプション定義 |
 
 ### ReverseButton
 
@@ -695,7 +701,8 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| children | node option | '◀️ 逆再生' | Button Caption |
+| children | node option | '↩ REVERSE' | Button Caption |
+| i18n | Object option | -- | キャプション定義 |
 
 ### SimulationDateTime
 
@@ -714,7 +721,6 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 | :------------ | :------------ | :------------ | :------------ |
 | timeBegin | number required | -- | Harmoware-VIS の props.timeBegin |
 | settime | number required | -- | Harmoware-VIS の props.settime |
-| caption | string option | '' | Caption |
 | locales | string option | 'ja-JP' | dateObj.toLocaleStringの引数 |
 | options | object option | { year:'numeric',month:'2-digit',day:'2-digit',   hour:'2-digit',minute:'2-digit',second:'2-digit',    weekday:'short' } | dateObj.toLocaleStringの引数 |
 
@@ -735,6 +741,5 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 | secperhour | number required | -- | Harmoware-VIS の props.secperhour |
 | actions | object required | -- | Harmoware-VIS の props.actions |
 | maxsecperhour | number option | 3600 | Range 最大値（再生速度（秒/時）） |
-| caption | string option | 'スピード' | Range Caption |
 | min | number option | 1 | Range 最小値 |
 | step | number option | 1 | Range 増加値 |
