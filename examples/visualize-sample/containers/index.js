@@ -75,8 +75,8 @@ class App extends Container<Props, State> implements Component {
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
         />
         <div id="footer_area">
-          サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。&nbsp;
-          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html">リンク</a>&nbsp;
+          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
+            サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;
           latitude:{viewport.latitude}&nbsp;
           zoom:{viewport.zoom}&nbsp;
