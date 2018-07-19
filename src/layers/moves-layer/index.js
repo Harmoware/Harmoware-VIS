@@ -4,7 +4,7 @@ import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck
 import CubeiconLayer from '../cubeicon-layer';
 import { getClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import type { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context } from '../../types';
+import type { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
 import typeof * as Actions from '../../actions';
 
 type Props = {
@@ -34,7 +34,8 @@ type Props = {
   getCubeColor: (x: any) => Array<Array<number>>,
   getCubeElevation: (x: any) => Array<number>,
   onHover: Function,
-  onClick: Function
+  onClick: Function,
+  i18n: I18n
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
@@ -61,6 +62,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
+    i18n: {
+      error: 'MovesLayer: props 指定エラー'
+    }
   };
 
   static layerName = 'MovesLayer';
@@ -107,12 +111,12 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible, optionChange, lightSettings, getColor, getRadius: propGetRadius,
       getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
-      getCubeColor, getCubeElevation
+      getCubeColor, getCubeElevation, i18n
     } = this.props;
 
     if (!routePaths || !movesbase || !actions ||
       typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
-      alert('MovesLayer: props 指定エラー');
+      alert(i18n.error);
       return null;
     }
     if (!movedData) {
