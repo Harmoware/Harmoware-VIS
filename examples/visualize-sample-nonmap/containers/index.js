@@ -59,9 +59,8 @@ class App extends Container<Props, State> implements Component {
           {...props}
         />
         <div id="footer_area">
-          {t('permission')}&nbsp;
-          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html">
-            {t('link')}</a>&nbsp;
+          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
+            {t('permission')}</a>&nbsp;
           lookAt:{dispLookAt}&nbsp;
           distance:{viewport.distance}&nbsp;
           rotationX:{viewport.rotationX}&nbsp;
