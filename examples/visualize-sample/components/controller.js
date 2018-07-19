@@ -60,10 +60,10 @@ export default class Controller extends Component<ControllerProps> {
             }
           </li>
           <li>
-            <AddMinutesButton addMinutes={-10} actions={actions}>⏮ -10分</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5分</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={10} actions={actions}>10分 ⏭</AddMinutesButton>
+            <AddMinutesButton addMinutes={-10} actions={actions} />&nbsp;
+            <AddMinutesButton addMinutes={-5} actions={actions} />&nbsp;
+            <AddMinutesButton addMinutes={5} actions={actions} />&nbsp;
+            <AddMinutesButton addMinutes={10} actions={actions} />
           </li>
           <li>
             <SimulationDateTime timeBegin={timeBegin} settime={settime} />

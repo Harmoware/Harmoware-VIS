@@ -1,36 +1,42 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Icon } from 'react-icons-kit';
+import { ic_replay as icReplay } from 'react-icons-kit/md';
 import type { Node } from 'react';
+import type { I18n } from '../types';
 import typeof { setAnimateReverse } from '../actions';
 
 type Props = {
   actions: {
     setAnimateReverse: setAnimateReverse
   },
-  children: Node
+  children: Node,
+  i18n: I18n
 }
 
 export default class ReverseButton extends Component<Props> {
 
   static defaultProps = {
-    children: '◀️ REVERSE',
+    i18n: {
+      reverseButtonCaption: 'REVERSE'
+    }
   }
-
-  // static propTypes = {
-  //   actions: PropTypes.objectOf(PropTypes.func).isRequired,
-  //   children: PropTypes.node,
-  // }
 
   setAnimateReverse() {
     this.props.actions.setAnimateReverse(true);
   }
 
   render() {
-    const { children } = this.props;
+    const { children, i18n } = this.props;
 
     return (
-      <button onClick={this.setAnimateReverse.bind(this)}>{children}</button>
+      <button onClick={this.setAnimateReverse.bind(this)}>
+        {children === undefined ?
+          <span><Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
+          <span>{children}</span>
+        }
+      </button>
     );
   }
 }

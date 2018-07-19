@@ -1,6 +1,10 @@
 // @flow
 
+import React from 'react';
+
 declare module 'harmoware-vis' {
+  declare export type I18n = Object;
+
   declare export type InputEvent = {
     target: HTMLInputElement
   } & Event;
@@ -112,42 +116,43 @@ declare module 'harmoware-vis' {
       setClicked: (clickedObject: ClickedObject) =>
         {| clickedObject: ClickedObject, type: string |},
       setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |},
-      setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |}, } |};
+      setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |}, },
+      i18n?: I18n |};
   declare export class MovesInput extends React$Component<MovesInputProps> {}
 
   declare type DepotsInputProps = {|
     actions: { setDepotsBase: (depotsBase: Depotsbase) =>
-      {| depotsBase: Depotsbase, type: string |} } |};
+      {| depotsBase: Depotsbase, type: string |} }, i18n?: I18n |};
   declare export class DepotsInput extends React$Component<DepotsInputProps> {}
 
   declare type LinemapInputProps = {|
     actions: { setLinemapData: (linemapData: LineMapData) =>
-      {| type: string, linemapData: LineMapData |} } |};
+      {| type: string, linemapData: LineMapData |} }, i18n?: I18n |};
   declare export class LinemapInput extends React$Component<LinemapInputProps> {}
 
   declare type AddMinutesButtonProps = {|
-    addMinutes?: number, children?: Node | string,
-    actions: { addMinutes: (min: number) => {| min: number, type: string |} } |};
+    addMinutes?: number, children?: React.Element | string,
+    actions: { addMinutes: (min: number) => {| min: number, type: string |} }, i18n?: I18n |};
   declare export class AddMinutesButton extends React$Component<AddMinutesButtonProps> {}
 
   declare type PlayButtonProps = {|
     actions: { setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |} },
-    children?: Node | string |};
+    children?: React.Element | string, i18n?: I18n |};
   declare export class PlayButton extends React$Component<PlayButtonProps> {}
 
   declare type PauseButtonProps = {|
     actions: { setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |} },
-    children?: Node | string |};
+    children?: React.Element | string, i18n?: I18n |};
   declare export class PauseButton extends React$Component<PauseButtonProps> {}
 
   declare type ForwardButtonProps = {|
     actions: { setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |} },
-    children?: Node | string |};
+    children?: React.Element | string, i18n?: I18n |};
   declare export class ForwardButton extends React$Component<ForwardButtonProps> {}
 
   declare type ReverseButtonProps = {|
     actions: { setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |} },
-    children?: Node | string |};
+    children?: React.Element | string, i18n?: I18n |};
   declare export class ReverseButton extends React$Component<ReverseButtonProps> {}
 
   declare type ElapsedTimeRangeProps = {|
@@ -199,7 +204,7 @@ declare module 'harmoware-vis' {
     getElevation1?: (x: any) => number, getElevation2?: (x: any) => number,
     getElevation3?: (x: any) => number, getElevation4?: (x: any) => number,
     getCubeColor?: (x: any) => Array<Array<number>>, getCubeElevation?: (x: any) => Array<number>,
-    onHover?: Function, onClick?: Function |};
+    onHover?: Function, onClick?: Function, i18n?: I18n |};
   declare export class MovesLayer extends CompositeLayer { constructor(MovesLayerProps): void; }
 
   declare type MovesNonmapLayerProps = {|
@@ -224,7 +229,7 @@ declare module 'harmoware-vis' {
     getColor3?: (x: any) => Array<number>, getColor4?: (x: any) => Array<number>,
     getElevation1?: (x: any) => number, getElevation2?: (x: any) => number,
     getElevation3?: (x: any) => number, getElevation4?: (x: any) => number,
-    onHover?: Function, onClick?: Function |};
+    onHover?: Function, onClick?: Function, i18n?: I18n |};
   declare export class DepotsLayer extends CompositeLayer { constructor(DepotsLayerProps): void; }
 
   declare type FixedPointLayerProps = {|
