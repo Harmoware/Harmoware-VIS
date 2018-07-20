@@ -1,8 +1,0 @@
-{
-  "presets": ["env", "react"],
-  "plugins": ["transform-runtime", ["transform-flow-strip-types",{
-      "helpers": false,
-      "polyfill": false,
-      "regenerator": true
-  }]]   
-}

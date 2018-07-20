@@ -14,15 +14,7 @@ module.exports = {
       // Compile ES2015 using buble
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [resolve(__dirname, './src'), resolve(__dirname, './node_modules/mapbox-gl/js/')],
-      options: {
-        presets: ['es2015', 'stage-0', 'react'],
-        plugins: ['transform-runtime', ['transform-flow-strip-types', {
-          helpers: false,
-          polyfill: false,
-          regenerator: true
-        }]]
-      }
+      include: [resolve(__dirname, './src'), resolve(__dirname, './node_modules/mapbox-gl/js/')]
     },
     {
       test: /\.js$/,
