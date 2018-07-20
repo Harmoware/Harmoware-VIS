@@ -24,24 +24,27 @@ module.exports = {
       loader: 'babel-loader',
       include: [resolve(__dirname), resolve(__dirname, '../../src'), resolve(__dirname, './node_modules/mapbox-gl/js/')],
       options: {
-        presets: ['es2015', 'stage-0', 'react'],
+        presets: ['env', 'react'],
         plugins: ['transform-runtime', ['transform-flow-strip-types', {
           helpers: false,
           polyfill: false,
           regenerator: true
-        }]]
+        }],
+          'transform-object-rest-spread',
+          'transform-class-properties'
+        ]
       }
     },
-    // {
-    //   test: /\.js$/,
-    //   exclude: /node_modules/,
-    //   loader: 'eslint-loader',
-    //   options: {
-    //     fix: true
-    //     // eslint options (if necessary)
-    //   }
-    // }
-  ]
+      // {
+      //   test: /\.js$/,
+      //   exclude: /node_modules/,
+      //   loader: 'eslint-loader',
+      //   options: {
+      //     fix: true
+      //     // eslint options (if necessary)
+      //   }
+      // }
+    ]
   },
 
   resolve: {
