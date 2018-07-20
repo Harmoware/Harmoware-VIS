@@ -12,7 +12,6 @@ type Props = {
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
-
   props: Props;
 
   static defaultProps = {

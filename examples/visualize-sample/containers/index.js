@@ -19,7 +19,6 @@ type State = {
 }
 
 class App extends Container<Props, State> implements Component {
-
   props: Props;
   state: State;
 
@@ -119,7 +118,7 @@ class App extends Container<Props, State> implements Component {
                   x={this.state.popup[0] + 10} y={this.state.popup[1] + (index * 12)}
                   key={index.toString()}
                 >{value}</text>) : null
-              }
+            }
           </g>
         </svg>
       </div>

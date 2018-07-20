@@ -16,7 +16,6 @@ type Props = {
 }
 
 export default class PauseButton extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       pauseButtonCaption: 'PAUSE'

@@ -250,7 +250,7 @@ function* setupByCSV() {
       const dtime2 = tiemConversion(ymd, timetable);
       const delaysec = (dtime - dtime2) / 1000;
       const busprop = busoptionlist ?
-      (busoptionlist[busstopcode + busstoporder] ||
+        (busoptionlist[busstopcode + busstoporder] ||
         busoptionlist[busstopcode] || null) : null;
       const pushdata = {
         busstopcode,

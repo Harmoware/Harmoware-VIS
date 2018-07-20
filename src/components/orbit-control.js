@@ -23,7 +23,6 @@ const firefox = ua.indexOf('firefox') !== -1;
 /* Interaction */
 
 export default class OrbitController extends React.Component {
-
   static getViewport({ width, height, lookAt, distance, rotationX, rotationY, fov }) {
     const cameraPos = vec3.add([], lookAt, [0, 0, distance]);
     vec3.rotateX(cameraPos, cameraPos, lookAt, (rotationX / 180) * Math.PI);

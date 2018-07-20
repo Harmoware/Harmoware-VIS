@@ -16,7 +16,6 @@ type Props = {
 }
 
 export default class ForwardButton extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       forwardButtonCaption: 'FORWARD'

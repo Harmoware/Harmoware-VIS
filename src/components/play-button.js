@@ -16,7 +16,6 @@ type Props = {
 }
 
 export default class PlayButton extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       playButtonCaption: '️PLAY'

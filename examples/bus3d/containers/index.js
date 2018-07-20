@@ -14,7 +14,6 @@ const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
 class App extends Container {
-
   constructor(props) {
     super(props);
     const { actions } = props;

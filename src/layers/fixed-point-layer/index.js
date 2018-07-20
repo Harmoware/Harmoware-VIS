@@ -13,7 +13,6 @@ type Props = {
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {
-
   props: Props;
 
   static defaultProps = {

@@ -39,7 +39,6 @@ type Props = {
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
-
   props: Props;
   context: Context;
 

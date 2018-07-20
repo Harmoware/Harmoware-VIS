@@ -1,4 +1,4 @@
-  // @flow
+// @flow
 
 import React from 'react';
 import { render } from 'react-dom';
@@ -16,7 +16,6 @@ type Props = {
 };
 
 export default class HarmoVisNonMapLayers extends React.Component<Props, any> {
-
   componentDidMount() {
     this.props.actions.setNonmapView(true);
   }

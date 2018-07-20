@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { InputEvent } from 'harmoware-vis';
 
 export default class XbandDataInput extends Component {
-
   static propTypes = {
     actions: PropTypes.objectOf(PropTypes.func).isRequired,
   }

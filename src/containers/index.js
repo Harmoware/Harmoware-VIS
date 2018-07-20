@@ -4,7 +4,6 @@ import { Component } from 'react';
 import type { BasedProps as Props } from '../types';
 
 export default class Root extends Component<Props> {
-
   constructor(props: Props) {
     super(props);
     this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));

@@ -29,7 +29,6 @@ type Props = {
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {
-
   props: Props;
   context: Context;
 
@@ -44,7 +43,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     optionElevationScale: 1,
     getColor: (x: DataOption) => x.color || COLOR4,
     getColor1: (x: DataOption) =>
-    (x.optColor && x.optColor[0]) || x.color || COLOR4,
+      (x.optColor && x.optColor[0]) || x.color || COLOR4,
     getColor2: (x: DataOption) => (x.optColor && x.optColor[1]) || x.color || COLOR4,
     getColor3: (x: DataOption) => (x.optColor && x.optColor[2]) || x.color || COLOR4,
     getColor4: (x: DataOption) => (x.optColor && x.optColor[3]) || x.color || COLOR4,

@@ -5,11 +5,14 @@
 const resolve = require('path').resolve;
 const webpack = require('webpack');
 
-console.log(resolve(__dirname));
-
 module.exports = {
   entry: {
     app: resolve(__dirname, './index.js')
+  },
+
+  output: {
+    path: __dirname,
+    filename: 'bundle.js'
   },
 
   devtool: 'source-map',
@@ -29,15 +32,16 @@ module.exports = {
         }]]
       }
     },
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'eslint-loader',
-      options: {
-        fix: true
-        // eslint options (if necessary)
-      }
-    }]
+    // {
+    //   test: /\.js$/,
+    //   exclude: /node_modules/,
+    //   loader: 'eslint-loader',
+    //   options: {
+    //     fix: true
+    //     // eslint options (if necessary)
+    //   }
+    // }
+  ]
   },
 
   resolve: {
@@ -53,7 +57,3 @@ module.exports = {
     new webpack.EnvironmentPlugin(['MAPBOX_ACCESS_TOKEN'])
   ]
 };
-
-// DELETE THIS LINE WHEN COPYING THIS EXAMPLE FOLDER OUTSIDE OF DECK.GL
-// It enables bundling against src in this repo rather than installed deck.gl module
-module.exports = require('./webpack.config.local')(module.exports);

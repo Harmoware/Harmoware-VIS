@@ -11,7 +11,6 @@ type Props = {
 }
 
 export default class SimulationDateTime extends Component<Props> {
-
   static defaultProps = {
     caption: '',
     locales: 'ja-JP',

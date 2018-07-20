@@ -15,7 +15,6 @@ type Props = {
 }
 
 export default class ElapsedTimeRange extends Component<Props> {
-
   static defaultProps = {
     min: -100,
     step: 1

@@ -15,7 +15,6 @@ type Props = {
 }
 
 export default class SpeedRange extends Component<Props> {
-
   static defaultProps = {
     maxsecperhour: 3600,
     min: 1,

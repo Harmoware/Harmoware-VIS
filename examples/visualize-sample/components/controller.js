@@ -22,7 +22,6 @@ type ControllerProps = {
 }
 
 export default class Controller extends Component<ControllerProps> {
-
   render() {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
