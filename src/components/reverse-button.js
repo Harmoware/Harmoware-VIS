@@ -16,7 +16,6 @@ type Props = {
 }
 
 export default class ReverseButton extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       reverseButtonCaption: 'REVERSE'

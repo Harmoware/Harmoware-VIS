@@ -10,6 +10,12 @@ registerShaderModules([picking]);
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
+type Data = {
+  position: Array<number>,
+  elevation:Array<number>,
+  color: Array<Array<number>>,
+}
+
 type Props = {
   data: Array<Data>,
   visible: boolean,
@@ -25,14 +31,7 @@ type Props = {
   getColor: (x: any) => Array<Array<number>>
 }
 
-type Data = {
-  position: Array<number>,
-  elevation:Array<number>,
-  color: Array<Array<number>>,
-}
-
 export default class CubeiconLayer extends Layer<Props> {
-
   props: Props;
   context: Context;
 
@@ -75,7 +74,7 @@ export default class CubeiconLayer extends Layer<Props> {
 
   getModel(gl: any) {
     return new Model(gl, Object.assign({}, this.getShaders(), {
-//      id: this.props.id,
+      //      id: this.props.id,
       geometry: new CubeGeometry(),
       isInstanced: true,
       shaderCache: this.context.shaderCache

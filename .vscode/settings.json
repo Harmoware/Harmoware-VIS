@@ -1,9 +1,0 @@
-{
-    "flow.useNPMPackagedFlow": true,
-    "javascript.validate.enable": false,
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/lib": true,
-        "**/bower_components": true
-    }
-}

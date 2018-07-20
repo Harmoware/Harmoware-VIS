@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class CanvasComponent extends Component {
-
   componentDidMount() {
     this.updateCanvas();
   }

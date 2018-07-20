@@ -1,8 +1,8 @@
 {
-    "presets": ["es2015","stage-0", "react"],
-    "plugins": ["transform-runtime", ["transform-flow-strip-types",{
-        "helpers": false,
-        "polyfill": false,
-        "regenerator": true
-    }]]   
+  "presets": ["env", "react"],
+  "plugins": ["transform-runtime", ["transform-flow-strip-types",{
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true
+  }]]   
 }

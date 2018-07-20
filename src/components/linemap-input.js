@@ -12,7 +12,6 @@ type Props = {
 }
 
 export default class LinemapInput extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'

@@ -11,6 +11,12 @@ import type { LightSettings, Context } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
+type Data = {
+  position: Array<number>,
+  radius: number,
+  color: Array<number>,
+}
+
 type Props = {
   data: Array<Data>,
   radiusScale: number,
@@ -21,14 +27,7 @@ type Props = {
   getColor: (x: any) => Object
 }
 
-type Data = {
-  position: Array<number>,
-  radius: number,
-  color: Array<number>,
-}
-
 export default class FrontScatterplotLayer extends Layer<Props> {
-
   props: Props;
   context: Context;
 

@@ -17,7 +17,6 @@ type Props = {
 }
 
 export default class AddMinutesButton extends Component<Props> {
-
   static defaultProps = {
     addMinutes: 10,
     i18n: {

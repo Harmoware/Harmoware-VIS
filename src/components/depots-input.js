@@ -12,7 +12,6 @@ type Props = {
 }
 
 export default class DepotsInput extends Component<Props> {
-
   static defaultProps = {
     i18n: {
       formatError: 'バス停データ形式不正'

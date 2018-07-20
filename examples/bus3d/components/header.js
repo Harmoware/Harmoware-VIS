@@ -7,7 +7,6 @@ const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
 export default class Header extends Component {
-
 /*  constructor(props) {
     super(props);
   } */
@@ -88,7 +87,7 @@ export default class Header extends Component {
           <div>
             <span>
             選択バス情報
-            <button onClick={this.onBusReleaseClick.bind(this)}>解除</button>
+              <button onClick={this.onBusReleaseClick.bind(this)}>解除</button>
             </span>
             <span>
               {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}

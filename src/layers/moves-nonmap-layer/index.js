@@ -20,7 +20,6 @@ type Props = {
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {
-
   props: Props;
 
   static defaultProps = {

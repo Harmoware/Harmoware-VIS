@@ -16,7 +16,6 @@ type Props = {
 }
 
 export default class XbandmeshLayer extends CompositeLayer<Props> {
-
   props: Props;
 
   static defaultProps = {

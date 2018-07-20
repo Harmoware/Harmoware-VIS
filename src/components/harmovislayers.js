@@ -19,7 +19,6 @@ type Props = {
 }
 
 export default class HarmoVisLayers extends React.Component<Props> {
-
   static defaultProps = {
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
   }

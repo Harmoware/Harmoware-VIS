@@ -12,6 +12,11 @@ module.exports = {
     app: resolve(__dirname, './index.js')
   },
 
+  output: {
+    path: __dirname,
+    filename: 'bundle.js'
+  },
+
   devtool: 'source-map',
 
   module: {
@@ -48,7 +53,3 @@ module.exports = {
     }
   }
 };
-
-// DELETE THIS LINE WHEN COPYING THIS EXAMPLE FOLDER OUTSIDE OF DECK.GL
-// It enables bundling against src in this repo rather than installed deck.gl module
-module.exports = require('./webpack.config.local')(module.exports);

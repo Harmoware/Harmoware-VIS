@@ -27,7 +27,6 @@ const getNextCellSize = (xbandCellSize) => {
 };
 
 export default class Controller extends Component {
-
 /*  constructor() {
     super();
   } */
