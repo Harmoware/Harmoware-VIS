@@ -28,12 +28,13 @@ export default class PlayButton extends Component<Props> {
 
   render() {
     const { children, i18n } = this.props;
+    const spanStyle = { padding: '0px', display: 'flex' };
 
     return (
       <button onClick={this.setAnimatePause.bind(this)}>
         {children === undefined ?
-          <span><Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
-          <span>{children}</span>
+          <span style={spanStyle}><Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
+          <span style={spanStyle}>{children}</span>
         }
       </button>
     );

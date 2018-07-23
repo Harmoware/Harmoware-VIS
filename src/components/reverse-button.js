@@ -28,12 +28,13 @@ export default class ReverseButton extends Component<Props> {
 
   render() {
     const { children, i18n } = this.props;
+    const spanStyle = { padding: '0px', display: 'flex' };
 
     return (
       <button onClick={this.setAnimateReverse.bind(this)}>
         {children === undefined ?
-          <span><Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
-          <span>{children}</span>
+          <span style={spanStyle}><Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
+          <span style={spanStyle}>{children}</span>
         }
       </button>
     );
