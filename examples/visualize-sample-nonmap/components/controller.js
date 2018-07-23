@@ -24,7 +24,6 @@ type ControllerProps = {
 }
 
 export default class Controller extends Component<ControllerProps> {
-
   onLanguageSelect(e: InputEvent) {
     const value = e.target.value;
     i18n.changeLanguage(value);

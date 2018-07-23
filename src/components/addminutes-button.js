@@ -30,14 +30,15 @@ export default class AddMinutesButton extends Component<Props> {
 
   render() {
     const { addMinutes, children, i18n } = this.props;
+    const spanStyle = { padding: '0px', display: 'flex' };
 
     return (
       <button onClick={this.addMinutes.bind(this, addMinutes)}>
         {children === undefined ?
-          <span>{addMinutes > 0 ?
+          <span style={spanStyle}>{addMinutes > 0 ?
             <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
           }&nbsp;{addMinutes}&nbsp;{i18n.minutesCaption}</span> :
-          <span>{children}</span>
+          <span style={spanStyle}>{children}</span>
         }
       </button>
     );

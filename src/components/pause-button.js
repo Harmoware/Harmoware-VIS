@@ -28,12 +28,13 @@ export default class PauseButton extends Component<Props> {
 
   render() {
     const { children, i18n } = this.props;
+    const spanStyle = { padding: '0px', display: 'flex' };
 
     return (
       <button onClick={this.setAnimatePause.bind(this)}>
         {children === undefined ?
-          <span><Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
-          <span>{children}</span>
+          <span style={spanStyle}><Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
+          <span style={spanStyle}>{children}</span>
         }
       </button>
     );

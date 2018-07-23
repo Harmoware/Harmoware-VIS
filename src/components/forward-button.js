@@ -28,12 +28,14 @@ export default class ForwardButton extends Component<Props> {
 
   render() {
     const { children, i18n } = this.props;
+    const spanStyle = { padding: '0px', display: 'flex' };
 
     return (
       <button onClick={this.setAnimateReverse.bind(this)}>
         {children === undefined ?
-          <span><Icon icon={icForward} />&nbsp;{i18n.forwardButtonCaption}</span> :
-          <span>{children}</span>
+          <span style={spanStyle}>
+            <Icon icon={icForward} />&nbsp;{i18n.forwardButtonCaption}</span> :
+          <span style={spanStyle}>{children}</span>
         }
       </button>
     );
