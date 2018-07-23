@@ -38,67 +38,68 @@ node.js のバージョンは v9.11.1 で確認しています。
 ```javascript
 // app.js　mapboxを使用する場合のサンプル
 import React from 'react';
-import { Container, connectToHarmowareVis,
-    HarmoVisLayers, MovesLayer, DepotsLayer,
-    MovesInput, DepotsInput, SimulationDateTime,
-    PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
-    ElapsedTimeRange, SpeedRange } from 'harmoware-vis';
+import {
+  Container, connectToHarmowareVis,
+  HarmoVisLayers, MovesLayer, DepotsLayer,
+  MovesInput, DepotsInput, SimulationDateTime,
+  PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
+  ElapsedTimeRange, SpeedRange
+} from 'harmoware-vis';
 
 const MAPBOX_TOKEN = XXXXXXXXXX; //mapbox.com から取得したAccesstoken
 
 class App extends Container {
 
-    render() {
-        const { viewport, actions, routePaths, lightSettings,
-                    animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
-                    movesbase, movedData, clickedObject, depotsData } = this.props;
+  render() {
+    const { viewport, actions, routePaths, lightSettings,
+      animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
+      movesbase, movedData, clickedObject, depotsData } = this.props;
 
-        return (
-          <div>
-            <div className="controller_area"> //コントローラーエリア
-              <ul>
-                <li><MovesInput actions={actions} /></li>
-                <li><DepotsInput actions={actions} /></li>
-                <li>{ animatePause ?
-                    <PlayButton actions={actions} /> :
-                    <PauseButton actions={actions} /> }</li>
-                <li>{ animateReverse ?
-                    <ForwardButton actions={actions} /> :
-                    <ReverseButton actions={actions} /> }</li>
-                <li><AddMinutesButton addMinutes={-5} actions={actions} />&nbsp;
-                    <AddMinutesButton addMinutes={5} actions={actions} /></li>
-                <li><SimulationDateTime timeBegin={timeBegin} settime={settime} /></li>
-                <li><ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} /></li>
-                <li><SpeedRange secperhour={secperhour} actions={actions} /></li>
-              </ul>
-            </div>
+    return (
+      <div>
+        <div className="controller_area"> //コントローラーエリア
+          <ul>
+            <li><MovesInput actions={actions} /></li>
+            <li><DepotsInput actions={actions} /></li>
+            <li>{animatePause ?
+              <PlayButton actions={actions} /> :
+              <PauseButton actions={actions} />}</li>
+            <li>{animateReverse ?
+              <ForwardButton actions={actions} /> :
+              <ReverseButton actions={actions} />}</li>
+            <li><AddMinutesButton addMinutes={-5} actions={actions} />&nbsp;
+              <AddMinutesButton addMinutes={5} actions={actions} /></li>
+            <li><SimulationDateTime timeBegin={timeBegin} settime={settime} /></li>
+            <li><ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} /></li>
+            <li><SpeedRange secperhour={secperhour} actions={actions} /></li>
+          </ul>
+        </div>
 
-            <div className="harmovis_area"> //シュミレーションエリア
-              <HarmoVisLayers
-                viewport={viewport}  actions={actions}
-                mapboxApiAccessToken={MAPBOX_TOKEN}
-                layers={[
-                  new MovesLayer( { routePaths, movesbase, movedData, clickedObject, actions, } ),
-                  new DepotsLayer( { depotsData, } ),
-                ]}
-              />
-            </div>
-          </div>
-        );
-    }
+        <div className="harmovis_area"> //シュミレーションエリア
+          <HarmoVisLayers
+            viewport={viewport} actions={actions}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            layers={[
+              new MovesLayer({ routePaths, movesbase, movedData, clickedObject, actions, }),
+              new DepotsLayer({ depotsData, }),
+            ]}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 export default connectToHarmowareVis(App);
 ```
 
 ## Harmoware-VIS API
 
-### Harmoware-VIS reducer
+### Harmoware-VIS State
 
-Harmoware-VIS で定義される reducer から Component で受け取る props は以下の通りです。
+Harmoware-VIS で定義されるState一覧
 
 | props | Type | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object | -- | redux action function object |
 | animatePause | Boolean | false | アニメーション停止 |
 | animateReverse | Boolean | false | アニメーション再生正逆 |
 | bounds | object | {} | 運行シュミレーション範囲（東西南北 端） |
@@ -188,22 +189,9 @@ export default connectToHarmowareVis(App);
 
 ### connectToHarmowareVis
 
-connectToHarmowareVisのstateをcontainer componentのpropに同期するためのUtility関数です。
+connectToHarmowareVisのstateを`container component`の`props`に同期するためのUtility関数です。
+props以下に直接`State`と`actions`がbindされるため、もし他のbind方法を好まれる場合はUtilityを自作する必要があります。
 
-##### Function code
-
-```javascript
-export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps = defaultMapStateToProps ) => {
-
-    const extendedActions = Object.assign( { }, Actions, moreActions );
-
-    function mapDispatchToProps( dispatch ) {
-        return { actions: bindActionCreators( extendedActions, dispatch ) };
-    }
-
-    return connect( mapStateToProps, mapDispatchToProps )( App );
-};
-```
 
 ### HarmoVisLayers
 
@@ -223,8 +211,8 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-| viewport | object required | -- | Harmoware-VIS の props.viewport |
+| actions | object required | -- | Harmoware-VIS の `actions` |
+| viewport | object required | -- | Harmoware-VIS の `viewport` |
 | mapboxApiAccessToken | string required | -- | mapbox.com のAccesstoken |
 | mapStyle | string option | 'mapbox://styles/mapbox/dark-v8' | mapbox のマップスタイルURL |
 | layers | array required | -- | Layer インスタンス(※1) の配列 |
@@ -248,8 +236,8 @@ export const connectToHarmowareVis = ( App, moreActions = null, mapStateToProps 
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-| viewport | object required | -- | Harmoware-VIS の props.viewport |
+| actions | object required | -- | Harmoware-VIS の `actions` |
+| viewport | object required | -- | Harmoware-VIS の `viewport` |
 | layers | array required | -- | Layer インスタンス(※1) の配列 |
 | onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
 ※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
@@ -261,19 +249,19 @@ Harmoware-VIS 提供 Layer 一覧
 ### MovesLayer
 
 車両などの移動体をmapboxより取得したマップ上にシュミレーションします。
-HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
 ```js
 <HarmoVisLayers ...
-    layers={[
-        new MovesLayer( { routePaths: this.props.routePaths,
-                        movesbase: this.props.movesbase,
-                        movedData: this.props.movedData,
-                        clickedObject: this.props.clickedObject,
-                        actions: this.props.actions } )
-    ]}
+  layers={[
+      new MovesLayer({ routePaths: this.props.routePaths,
+        movesbase: this.props.movesbase,
+        movedData: this.props.movedData,
+        clickedObject: this.props.clickedObject,
+        actions: this.props.actions 
+      })
+  ]}
 />
 ```
 
@@ -281,17 +269,17 @@ HarmoVisLayersのpropsで使用してください。
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-| routePaths | Array required | -- | Harmoware-VIS の props.routePaths |
-| movesbase| Array required | -- | Harmoware-VIS の props.movesbase |
-| movedData| Array required | -- | Harmoware-VIS の props.movedData |
-| clickedObject | object required |--  | Harmoware-VIS の props.clickedObject |
+| actions | object required | -- | Harmoware-VIS の `actions` |
+| routePaths | Array required | -- | Harmoware-VIS の `routePaths` |
+| movesbase| Array required | -- | Harmoware-VIS の `movesbase` |
+| movedData| Array required | -- | Harmoware-VIS の `movedData` |
+| clickedObject | object required |--  | Harmoware-VIS の `clickedObject` |
 | layerRadiusScale | Number option | 1 | アイコンサイズスケール |
 | layerOpacity | Number option | 0.75 | アイコン透過度 |
 | getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
 | optionVisible | Boolean option | true | option情報表示可否 |
 | optionChange | Boolean option | false | option表示パターン切替 |
-| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の props.lightSettings |
+| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の `lightSettings` |
 | optionOpacity | Number option | 0.25 | option情報透過度 |
 | optionCellSize | Number option | 10 | option情報透過度セルサイズ |
 | optionElevationScale | Number option | 1 | option情報高度スケール |
@@ -354,7 +342,6 @@ HarmoVisLayersのpropsで使用してください。
 ### DepotsLayer
 
 停留所や駅などをmapboxより取得したマップ上にシュミレーションします。
-HarmoVisLayersのpropsで使用してください。
 
 ##### Examples
 
@@ -370,13 +357,13 @@ HarmoVisLayersのpropsで使用してください。
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| depotsData| Array required | -- | Harmoware-VIS の props.depotsData |
+| depotsData| Array required | -- | Harmoware-VIS の `depotsData` |
 | layerRadiusScale | Number option | 1 | アイコンサイズスケール |
 | layerOpacity | Number option | 0.5 | アイコン透過度 |
 | getColor | Function option | x => x.color ││ DARKMAGENTA | アイコン色指定アクセサ |
 | optionVisible | Boolean option | true | option情報表示可否 |
 | optionChange | Boolean option | false | option表示パターン切替 |
-| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の props.lightSettings |
+| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の `lightSettings` |
 | optionOpacity | Number option | 0.25 | option情報透過度 |
 | optionCellSize | Number option | 15 | option情報透過度セルサイズ |
 | optionElevationScale | Number option | 1 | option情報高度スケール |
@@ -400,7 +387,6 @@ HarmoVisLayersのpropsで使用してください。
 ### MovesNonmapLayer
 
 移動体を３Ｄシュミレーションします。
-HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
@@ -474,7 +460,6 @@ HarmoVisNonMapLayersのpropsで使用してください。
 ### FixedPointLayer
 
 固定ポイントを３Ｄシュミレーションします。
-HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
@@ -490,7 +475,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| depotsData| Array required | -- | Harmoware-VIS の props.depotsData |
+| depotsData| Array required | -- | Harmoware-VIS の `depotsData` |
 | layerOpacity | Number option | 0.75 | アイコン透過度 |
 | getColor | Function option | x => x.color ││ DARKMAGENTA | アイコン色指定アクセサ |
 | getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |
@@ -507,7 +492,6 @@ HarmoVisNonMapLayersのpropsで使用してください。
 ### LineMapLayer
 
 線描画マップを３Ｄシュミレーションします。
-HarmoVisNonMapLayersのpropsで使用してください。
 
 ##### Examples
 
@@ -523,7 +507,7 @@ HarmoVisNonMapLayersのpropsで使用してください。
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| linemapData| Array required | -- | Harmoware-VIS の props.linemapData |
+| linemapData| Array required | -- | Harmoware-VIS の `linemapData` |
 | layerOpacity | Number option | 1.0 | 線透過度 |
 | strokeWidth | Number option | 20 | 線幅 |
 | getColor | Function option | x => x.color ││ WHITE | 線色指定アクセサ |
@@ -544,7 +528,7 @@ Harmoware-VIS を Control する component 一覧
 
 ### MovesInput
 
-「運行シュミレーションデータ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の props.bounds、props.timeBegin、props.timeLength、props.movesbase に設定します。
+「運行シュミレーションデータ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の `bounds`、`timeBegin`、`timeLength`、`movesbase` に設定します。
 
 ##### Examples
 
@@ -556,12 +540,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | i18n | Object option | -- | キャプション定義 |
 
 ### DepotsInput
 
-「停留所情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の props.depotsBase に設定します。
+「停留所情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の `depotsBase` に設定します。
 
 ##### Examples
 
@@ -573,12 +557,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | i18n | Object option | -- | キャプション定義 |
 
 ### LinemapInput
 
-「線描画マップ情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の props.linemapData に設定します。
+「線描画マップ情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の`linemapData` に設定します。
 
 ##### Examples
 
@@ -590,12 +574,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | i18n | Object option | -- | キャプション定義 |
 
 ### AddMinutesButton
 
-「シュミレーション中時間（settime）」から addMinutes 分を加算した値を Harmoware-VIS の props.settime に設定する button オブジェクト。
+「シュミレーション中時間（settime）」から addMinutes 分を加算した値を Harmoware-VIS の `settime` に設定する button オブジェクト。
 
 ##### Examples
 
@@ -607,14 +591,14 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | 加算する時間（分）10 |
 | i18n | Object option | -- | キャプション定義 |
 
 ### ElapsedTimeRange
 
-「シュミレーション中時間（settime）」を Harmoware-VIS の props.settime に設定する range オブジェクト。
+「シュミレーション中時間（settime）」を Harmoware-VIS の `settime` に設定する range オブジェクト。
 
 ##### Examples
 
@@ -626,15 +610,15 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| settime | number required | -- | Harmoware-VIS の props.settime |
-| timeLength | number required | -- | Harmoware-VIS の props.timeLength |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| settime | number required | -- | Harmoware-VIS の `settime` |
+| timeLength | number required | -- | Harmoware-VIS の `timeLength` |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | min | number option | -100 | Range 最小値（シュミレーション中時間（秒）） |
 | step | number option | 1 | Range 増加値 |
 
 ### PauseButton
 
-Harmoware-VIS の props.animatePause を true に更新する button オブジェクト。
+Harmoware-VIS の `animatePause` を true に更新する button オブジェクト。
 
 ##### Examples
 
@@ -646,13 +630,13 @@ Harmoware-VIS の props.animatePause を true に更新する button オブジ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | children | string option | '⏸ PAUSE' | Button Caption |
 | i18n | Object option | -- | キャプション定義 |
 
 ### PlayButton
 
-Harmoware-VIS の props.animatePause を false に更新する button オブジェクト。
+Harmoware-VIS の `animatePause` を false に更新する button オブジェクト。
 
 ##### Examples
 
@@ -664,13 +648,13 @@ Harmoware-VIS の props.animatePause を false に更新する button オブジ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | children | string option | '▶ PLAY' | Button Caption |
 | i18n | Object option | -- | キャプション定義 |
 
 ### ForwardButton
 
-Harmoware-VIS の props.animateReverse を false に更新する button オブジェクト。
+Harmoware-VIS の `animateReverse` を false に更新する button オブジェクト。
 
 ##### Examples
 
@@ -688,7 +672,7 @@ Harmoware-VIS の props.animateReverse を false に更新する button オブ�
 
 ### ReverseButton
 
-Harmoware-VIS の props.animateReverse を true に更新する button オブジェクト。
+Harmoware-VIS の `animateReverse` を true に更新する button オブジェクト。
 
 ##### Examples
 
@@ -700,7 +684,7 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | children | node option | '↩ REVERSE' | Button Caption |
 | i18n | Object option | -- | キャプション定義 |
 
@@ -719,14 +703,14 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| timeBegin | number required | -- | Harmoware-VIS の props.timeBegin |
-| settime | number required | -- | Harmoware-VIS の props.settime |
+| timeBegin | number required | -- | Harmoware-VIS の `timeBegin` |
+| settime | number required | -- | Harmoware-VIS の `settime` |
 | locales | string option | 'ja-JP' | dateObj.toLocaleStringの引数 |
 | options | object option | { year:'numeric',month:'2-digit',day:'2-digit',   hour:'2-digit',minute:'2-digit',second:'2-digit',    weekday:'short' } | dateObj.toLocaleStringの引数 |
 
 ### SpeedRange
 
-「再生速度（秒/時）（secperhour）」を Harmoware-VIS の props.secperhour に設定する range オブジェクト。
+「再生速度（秒/時）（secperhour）」を Harmoware-VIS の `secperhour` に設定する range オブジェクト。
 
 ##### Examples
 
@@ -738,8 +722,8 @@ Harmoware-VIS の props.animateReverse を true に更新する button オブジ
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| secperhour | number required | -- | Harmoware-VIS の props.secperhour |
-| actions | object required | -- | Harmoware-VIS の props.actions |
+| secperhour | number required | -- | Harmoware-VIS の `secperhour` |
+| actions | object required | -- | Harmoware-VIS の `actions` |
 | maxsecperhour | number option | 3600 | Range 最大値（再生速度（秒/時）） |
 | min | number option | 1 | Range 最小値 |
 | step | number option | 1 | Range 増加値 |
