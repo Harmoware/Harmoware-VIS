@@ -176,11 +176,11 @@ function* fetchRoutesJSON() {
   if (Object.keys(routesdata).length === 0) {
     const { data } = yield fetchJSON(`${ROUTESPATH}routes.json`);
     if (data) {
-      const { dep_station_code, des_station_code, route } = data;
+      const { dep_station_code: depStationCode, des_station_code: desStationCode, route } = data;
       const routesdict = {};
       route.forEach((current, idx) => {
         routesdict[
-          p04d(String(dep_station_code[idx])) + p04d(String(des_station_code[idx]))
+          p04d(String(depStationCode[idx])) + p04d(String(desStationCode[idx]))
         ] = current;
       });
       yield put(Actions.setRoutesData(routesdict));

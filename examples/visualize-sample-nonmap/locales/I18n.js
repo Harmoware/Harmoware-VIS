@@ -27,7 +27,7 @@ const i18n = i18next
 
     // react-i18next special options (optional)
     react: {
-      wait: true,  // true: wait for loaded in every translated hoc
+      wait: true, // true: wait for loaded in every translated hoc
     }
   });
 
