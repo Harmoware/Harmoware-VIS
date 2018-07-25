@@ -13,7 +13,8 @@ type Props = {
   actions: {
     addMinutes: addMinutesType
   },
-  i18n: I18n
+  i18n: I18n,
+  className: string
 }
 
 export default class AddMinutesButton extends Component<Props> {
@@ -21,7 +22,8 @@ export default class AddMinutesButton extends Component<Props> {
     addMinutes: 10,
     i18n: {
       minutesCaption: 'min'
-    }
+    },
+    className: ''
   }
 
   addMinutes(minutes: number) {
@@ -29,16 +31,15 @@ export default class AddMinutesButton extends Component<Props> {
   }
 
   render() {
-    const { addMinutes, children, i18n } = this.props;
-    const spanStyle = { padding: '0px', display: 'flex' };
+    const { addMinutes, children, i18n, className } = this.props;
 
     return (
-      <button onClick={this.addMinutes.bind(this, addMinutes)}>
+      <button onClick={this.addMinutes.bind(this, addMinutes)} className={className}>
         {children === undefined ?
-          <span style={spanStyle}>{addMinutes > 0 ?
+          <span>{addMinutes > 0 ?
             <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
           }&nbsp;{addMinutes}&nbsp;{i18n.minutesCaption}</span> :
-          <span style={spanStyle}>{children}</span>
+          <span>{children}</span>
         }
       </button>
     );

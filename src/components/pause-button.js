@@ -12,14 +12,16 @@ type Props = {
     setAnimatePause: setAnimatePause
   },
   children: Node,
-  i18n: I18n
+  i18n: I18n,
+  className: string
 }
 
 export default class PauseButton extends Component<Props> {
   static defaultProps = {
     i18n: {
       pauseButtonCaption: 'PAUSE'
-    }
+    },
+    className: ''
   }
 
   setAnimatePause() {
@@ -27,14 +29,13 @@ export default class PauseButton extends Component<Props> {
   }
 
   render() {
-    const { children, i18n } = this.props;
-    const spanStyle = { padding: '0px', display: 'flex' };
+    const { children, i18n, className } = this.props;
 
     return (
-      <button onClick={this.setAnimatePause.bind(this)}>
+      <button onClick={this.setAnimatePause.bind(this)} className={className}>
         {children === undefined ?
-          <span style={spanStyle}><Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
-          <span style={spanStyle}>{children}</span>
+          <span><Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
+          <span>{children}</span>
         }
       </button>
     );

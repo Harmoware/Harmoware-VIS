@@ -47,49 +47,49 @@ export default class Controller extends Component<ControllerProps> {
           </li>
           <li>
             <span>{t('movedData')}</span>
-            <MovesInput actions={actions} />
+            <MovesInput actions={actions} className="caInput" />
           </li>
           <li>
             <span>{t('depotsData')}</span>
-            <DepotsInput actions={actions} />
+            <DepotsInput actions={actions} className="caInput" />
           </li>
           <li>
             <span>{t('mapData')}</span>
-            <LinemapInput actions={actions} />
+            <LinemapInput actions={actions} className="caInput" />
           </li>
           <li>
             {animatePause ?
-              <PlayButton actions={actions}>
+              <PlayButton actions={actions} className="caButton">
                 <span><Icon icon={icPlayArrow} />&nbsp;{t('play')}</span></PlayButton> :
-              <PauseButton actions={actions}>
+              <PauseButton actions={actions} className="caButton">
                 <span><Icon icon={icPause} />&nbsp;{t('pause')}</span></PauseButton>
-            }&nbsp;
+            }
             {animateReverse ?
-              <ForwardButton actions={actions}>
+              <ForwardButton actions={actions} className="caButton">
                 <span><Icon icon={icForward} />&nbsp;{t('forward')}</span></ForwardButton> :
-              <ReverseButton actions={actions}>
+              <ReverseButton actions={actions} className="caButton">
                 <span><Icon icon={icReplay} />&nbsp;{t('reverse')}</span></ReverseButton>
             }
           </li>
           <li>
-            <AddMinutesButton addMinutes={-10} actions={actions}>
-              <span><Icon icon={icFastRewind} />&nbsp;-10{t('minute')}</span></AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={-5} actions={actions}>
-              <span><Icon icon={icFastRewind} />&nbsp;-5{t('minute')}</span></AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={5} actions={actions}>
-              <span><Icon icon={icFastForward} />&nbsp;5{t('minute')}</span></AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={10} actions={actions}>
+            <AddMinutesButton addMinutes={-10} actions={actions} className="caButton">
+              <span><Icon icon={icFastRewind} />&nbsp;-10{t('minute')}</span></AddMinutesButton>
+            <AddMinutesButton addMinutes={-5} actions={actions} className="caButton">
+              <span><Icon icon={icFastRewind} />&nbsp;-5{t('minute')}</span></AddMinutesButton>
+            <AddMinutesButton addMinutes={5} actions={actions} className="caButton">
+              <span><Icon icon={icFastForward} />&nbsp;5{t('minute')}</span></AddMinutesButton>
+            <AddMinutesButton addMinutes={10} actions={actions} className="caButton">
               <span><Icon icon={icFastForward} />&nbsp;10{t('minute')}</span></AddMinutesButton>
           </li>
           <li>
-            <SimulationDateTime timeBegin={timeBegin} settime={settime} locales={t('locales')} />
+            <SimulationDateTime timeBegin={timeBegin} settime={settime} locales={t('locales')} className="caSpan" />
           </li>
           <li><span>{t('elapsedTime')}</span>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} />
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} className="caRange" />
             <span>{Math.floor(settime)}&nbsp;{t('sec')}</span>
           </li>
           <li><span>{t('speed')}</span>
-            <SpeedRange secperhour={secperhour} actions={actions} />
+            <SpeedRange secperhour={secperhour} actions={actions} className="caRange" />
             <span>{secperhour}&nbsp;{t('sec')}/{t('hour')}</span>
           </li>
         </ul>
