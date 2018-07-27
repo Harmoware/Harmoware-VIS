@@ -117,57 +117,58 @@ declare module 'harmoware-vis' {
         {| clickedObject: ClickedObject, type: string |},
       setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |},
       setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |}, },
-      i18n?: I18n |};
+      i18n?: I18n, className?: string |};
   declare export class MovesInput extends React$Component<MovesInputProps> {}
 
   declare type DepotsInputProps = {|
     actions: { setDepotsBase: (depotsBase: Depotsbase) =>
-      {| depotsBase: Depotsbase, type: string |} }, i18n?: I18n |};
+      {| depotsBase: Depotsbase, type: string |} }, i18n?: I18n, className?: string |};
   declare export class DepotsInput extends React$Component<DepotsInputProps> {}
 
   declare type LinemapInputProps = {|
     actions: { setLinemapData: (linemapData: LineMapData) =>
-      {| type: string, linemapData: LineMapData |} }, i18n?: I18n |};
+      {| type: string, linemapData: LineMapData |} }, i18n?: I18n, className?: string |};
   declare export class LinemapInput extends React$Component<LinemapInputProps> {}
 
   declare type AddMinutesButtonProps = {|
-    addMinutes?: number, children?: React.Element | string,
+    addMinutes?: number, children?: React.Element | string, className?: string,
     actions: { addMinutes: (min: number) => {| min: number, type: string |} }, i18n?: I18n |};
   declare export class AddMinutesButton extends React$Component<AddMinutesButtonProps> {}
 
   declare type PlayButtonProps = {|
     actions: { setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |} },
-    children?: React.Element | string, i18n?: I18n |};
+    children?: React.Element | string, i18n?: I18n, className?: string |};
   declare export class PlayButton extends React$Component<PlayButtonProps> {}
 
   declare type PauseButtonProps = {|
     actions: { setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |} },
-    children?: React.Element | string, i18n?: I18n |};
+    children?: React.Element | string, i18n?: I18n, className?: string |};
   declare export class PauseButton extends React$Component<PauseButtonProps> {}
 
   declare type ForwardButtonProps = {|
     actions: { setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |} },
-    children?: React.Element | string, i18n?: I18n |};
+    children?: React.Element | string, i18n?: I18n, className?: string |};
   declare export class ForwardButton extends React$Component<ForwardButtonProps> {}
 
   declare type ReverseButtonProps = {|
     actions: { setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |} },
-    children?: React.Element | string, i18n?: I18n |};
+    children?: React.Element | string, i18n?: I18n, className?: string |};
   declare export class ReverseButton extends React$Component<ReverseButtonProps> {}
 
   declare type ElapsedTimeRangeProps = {|
-    settime: number, timeLength: number, min?: number, step?: number,
+    settime: number, timeLength: number, min?: number, step?: number, className?: string,
     actions: { setTime: (time: number) => {| time: number, type: string |} } |};
   declare export class ElapsedTimeRange extends React$Component<ElapsedTimeRangeProps> {}
 
   declare type SpeedRangeProps = {|
     secperhour: number, actions: {
       setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |}
-    }, maxsecperhour?: number, min?: number, step?: number |};
+    }, maxsecperhour?: number, min?: number, step?: number, className?: string |};
   declare export class SpeedRange extends React$Component<SpeedRangeProps> {}
 
   declare type SimulationDateTimeProps = {|
-    timeBegin: number, settime: number, caption?: string, locales?: string, options?: any |};
+    timeBegin: number, settime: number, caption?: string,
+    locales?: string, options?: any, className?: string |};
   declare export class SimulationDateTime extends React$Component<SimulationDateTimeProps> {}
 
   declare type HarmoVisLayersProps = {|

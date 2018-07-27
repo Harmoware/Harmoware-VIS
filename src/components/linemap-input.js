@@ -8,14 +8,16 @@ type Props = {
   actions: {
     setLinemapData: setLinemapData
   },
-  i18n: I18n
+  i18n: I18n,
+  className: string
 }
 
 export default class LinemapInput extends Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'
-    }
+    },
+    className: ''
   }
 
   onSelect(e: InputEvent) {
@@ -48,8 +50,10 @@ export default class LinemapInput extends Component<Props> {
   }
 
   render() {
+    const { className } = this.props;
+
     return (
-      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} />
+      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} className={className} />
     );
   }
 }

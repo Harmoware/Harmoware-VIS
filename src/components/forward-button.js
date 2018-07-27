@@ -12,14 +12,16 @@ type Props = {
     setAnimateReverse: setAnimateReverse
   },
   children: Node,
-  i18n: I18n
+  i18n: I18n,
+  className: string
 }
 
 export default class ForwardButton extends Component<Props> {
   static defaultProps = {
     i18n: {
       forwardButtonCaption: 'FORWARD'
-    }
+    },
+    className: ''
   }
 
   setAnimateReverse() {
@@ -27,15 +29,13 @@ export default class ForwardButton extends Component<Props> {
   }
 
   render() {
-    const { children, i18n } = this.props;
-    const spanStyle = { padding: '0px', display: 'flex' };
+    const { children, i18n, className } = this.props;
 
     return (
-      <button onClick={this.setAnimateReverse.bind(this)}>
+      <button onClick={this.setAnimateReverse.bind(this)} className={className}>
         {children === undefined ?
-          <span style={spanStyle}>
-            <Icon icon={icForward} />&nbsp;{i18n.forwardButtonCaption}</span> :
-          <span style={spanStyle}>{children}</span>
+          <span><Icon icon={icForward} />&nbsp;{i18n.forwardButtonCaption}</span> :
+          <span>{children}</span>
         }
       </button>
     );

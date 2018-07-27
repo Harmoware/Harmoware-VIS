@@ -7,7 +7,8 @@ type Props = {
   settime: number,
   caption: string,
   locales: string,
-  options: any
+  options: any,
+  className: string
 }
 
 export default class SimulationDateTime extends Component<Props> {
@@ -21,24 +22,17 @@ export default class SimulationDateTime extends Component<Props> {
       minute: '2-digit',
       second: '2-digit',
       weekday: 'short' },
+    className: ''
   }
 
-  // static propTypes = {
-  //   timeBegin: PropTypes.number.isRequired,
-  //   settime: PropTypes.number.isRequired,
-  //   caption: PropTypes.string,
-  //   locales: PropTypes.string,
-  //   options: PropTypes.objectOf(PropTypes.string),
-  // }
-
   render() {
-    const { timeBegin, settime, caption, locales, options } = this.props;
+    const { timeBegin, settime, caption, locales, options, className } = this.props;
 
     const date = new Date((timeBegin + settime) * 1000);
     const nbsp = caption.length > 0 ? ' ' : '';
 
     return (
-      <span>{caption}{nbsp}
+      <span className={className}>{caption}{nbsp}
         {date.toLocaleString(locales, options)}
       </span>
     );
