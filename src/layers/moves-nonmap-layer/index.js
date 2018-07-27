@@ -2,6 +2,7 @@
 
 import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
+import { getClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import type { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius } from '../../types';
 import typeof * as Actions from '../../actions';
@@ -66,7 +67,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
   }
 
   renderLayers() {
-    const { layerOpacity,
+    const { layerOpacity, actions, clickedObject,
       movedData, getColor, getRadius: propGetRadius,
       routePaths } = this.props;
 
@@ -76,6 +77,11 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
 
     const getPosition = (x: Position) => x.position;
     const getRadius = propGetRadius || ((x: Radius) => (x.radius || 2));
+
+    if (getClickedObjectToBeRemoved(movedData, clickedObject)) {
+      actions.setRoutePaths([]);
+      actions.setClicked(null);
+    }
 
     return [
       new FrontScatterplotLayer({
