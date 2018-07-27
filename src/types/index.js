@@ -100,10 +100,6 @@ export type LineMapData = Array<{
   color: Array<number>
 }>;
 
-export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
-
-export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
-
 export type MovedData = Array<{ movesbaseidx: number, position: Array<number> }>;
 
 export type DepotsDataItem = { position: Array<number> };
@@ -120,8 +116,8 @@ export type BasedState = {
   depotsBase: Depotsbase,
   depotsBaseOriginal: string,
   depotsData: DepotsData,
-  getDepotsOptionFunc: null | GetDepotsOptionFunc,
-  getMovesOptionFunc: null | GetMovesOptionFunc,
+  getDepotsOptionFunc: null | ((props: any, i: number) => any),
+  getMovesOptionFunc: null | ((props: any, i: number, j: number) => any),
   leading: number,
   lightSettings: LightSettings,
   loopTime: number,
@@ -143,6 +139,9 @@ export type BasedState = {
 export type BasedProps = {
   actions: Actions
 } & BasedState;
+
+export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
+export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
 
 export type BaseActions = Actions;
 
