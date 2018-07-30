@@ -40,12 +40,7 @@ import FixedPointLayer from './layers/fixed-point-layer';
 import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
 import Container from './containers';
-import baseReducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
-
-const reducer = {
-  base: baseReducer
-};
 
 const Actions = {
   addMinutes,
@@ -98,6 +93,4 @@ export {
   getContainerProp,
   connectToHarmowareVis,
   getCombinedReducer,
-  // reducer
-  reducer
 };

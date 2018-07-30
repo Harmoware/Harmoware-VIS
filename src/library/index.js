@@ -294,6 +294,6 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   return connect(mapStateToProps, mapDispatchToProps)(App);
 };
 
-export const getCombinedReducer = (combined: Object | null) : any => {
-  return combineReducers({ base: reducers, ...combined });
-};
+export const getCombinedReducer = (combined: Object | null) : any =>
+  combineReducers({ base: reducers, ...combined });
+
