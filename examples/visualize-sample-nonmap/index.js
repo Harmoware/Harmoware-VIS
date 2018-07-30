@@ -1,6 +1,6 @@
 import { render } from 'react-dom';
 import { getCombinedReducer } from 'harmoware-vis';
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import React from 'react';
