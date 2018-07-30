@@ -41,7 +41,7 @@ import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
 import Container from './containers';
 import baseReducer from './reducers';
-import { connectToHarmowareVis, getContainerProp } from './library';
+import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
 
 const reducer = {
   base: baseReducer
@@ -97,6 +97,7 @@ export {
   // library
   getContainerProp,
   connectToHarmowareVis,
+  getCombinedReducer,
   // reducer
   reducer
 };

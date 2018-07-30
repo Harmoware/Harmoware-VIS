@@ -1,11 +1,11 @@
 import { render } from 'react-dom';
-import { reducer } from 'harmoware-vis';
+import { getCombinedReducer } from 'harmoware-vis';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 import App from './containers';
 
-const store = createStore(combineReducers({ ...reducer }));
+const store = createStore(getCombinedReducer());
 
 render(
   <Provider store={store}>

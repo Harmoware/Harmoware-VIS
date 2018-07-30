@@ -1,8 +1,9 @@
 // @flow
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
+import reducers from '../reducers';
 import type { AnalyzedBaseData, BasedState as State, BasedProps as Props,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
@@ -82,6 +83,7 @@ export const analyzeMovesBase =
       timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
       timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
     }
+
     for (let j = 0, lengthj = operation.length; j < lengthj; j += 1) {
       const { position } = operation[j];
       let { longitude, latitude } = operation[j];
@@ -290,4 +292,8 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(App);
+};
+
+export const getCombinedReducer = (combined: Object | null) : any => {
+  return combineReducers({ base: reducers, ...combined });
 };
