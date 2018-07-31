@@ -2,10 +2,10 @@ import { call, put, takeEvery, select } from 'redux-saga/effects';
 import axios from 'axios';
 import csvtojson from 'csvtojson';
 import iconv from 'iconv-lite';
-import { settings, Actions as baseActions } from 'harmoware-vis';
+import { settings, Actions as baseActions, getContainerProp } from 'harmoware-vis';
 
 import * as types from '../constants/action-types';
-import { p02d, p04d, delaycolor, getContainerProp } from '../library';
+import { p02d, p04d, delaycolor } from '../library';
 import * as moreActions from '../actions';
 
 const Actions = Object.assign({}, baseActions, moreActions);

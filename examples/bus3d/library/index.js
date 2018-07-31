@@ -1,4 +1,4 @@
-import { settings, getContainerProp as baseGetContainerProp } from 'harmoware-vis';
+import { settings } from 'harmoware-vis';
 
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
@@ -203,10 +203,3 @@ export const updateArcLayerData = (props) => {
   });
   return arcdata;
 };
-
-export const getContainerProp = state => ({
-  ...baseGetContainerProp(state),
-  ...state.controller,
-  ...state.data,
-  ...state.bus3d
-});
