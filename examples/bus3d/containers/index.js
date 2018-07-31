@@ -8,7 +8,7 @@ import Header from '../components/header';
 import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
-import { getBusOptionValue, getBusstopOptionValue, getContainerProp, updateArcLayerData } from '../library';
+import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
@@ -144,4 +144,4 @@ class App extends Container {
   }
 }
 
-export default connectToHarmowareVis(App, moreActions, state => getContainerProp(state));
+export default connectToHarmowareVis(App, moreActions);

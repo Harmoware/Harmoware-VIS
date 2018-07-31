@@ -14,9 +14,13 @@ const DEGREE_SCALE = 100;
 const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) /
   (2 * Math.PI * (EQUATOR_RADIUS * Math.cos((latitude * Math.PI) / 180.0))));
 
-export const getContainerProp = (state: any) : any => ({
-  ...state.base
-});
+export const getContainerProp = (state: any) : any => {
+  let prop = {};
+  Object.keys(state).forEach((key) => {
+    prop = Object.assign({}, prop, { ...state[key] });
+  });
+  return prop;
+};
 
 // LoopTime とは１ループにかける時間（ミリ秒）
 export const calcLoopTime =
