@@ -11,7 +11,7 @@ const initialState: State = {
     latitude: 35.181453,
     zoom: 11.1,
     maxZoom: 16,
-    minZoom: 8,
+    minZoom: 5,
     pitch: 30,
     bearing: 0,
     width: 500, // 共通
