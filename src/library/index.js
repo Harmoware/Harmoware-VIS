@@ -14,6 +14,9 @@ const DEGREE_SCALE = 100;
 const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) /
   (2 * Math.PI * (EQUATOR_RADIUS * Math.cos((latitude * Math.PI) / 180.0))));
 
+const getAverage = (array: Array<number>) =>
+  array.reduce((previous, current) => previous + current) / array.length;
+
 export const getContainerProp = (state: any) : any => {
   let prop = {};
   Object.keys(state).forEach((key) => {
@@ -81,6 +84,8 @@ export const analyzeMovesBase =
 
   const movesbase: Movesbase = basemovesbase.slice();
   let timeEnd: number = 0;
+  const longArray = [];
+  const latiArray = [];
   for (let i = 0, lengthi = basemovesbase.length; i < lengthi; i += 1) {
     const { departuretime, arrivaltime, operation } = basemovesbase[i];
     if (!baseTimeBegin || !baseTimeLength) {
@@ -97,6 +102,8 @@ export const analyzeMovesBase =
       } else {
         operation[j].position = [longitude, latitude, 3];
       }
+      longArray.push(+longitude);
+      latiArray.push(+latitude);
       if (!baseBounds && longitude && latitude && !nonmapView) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || {};
         eastlongitiude = !eastlongitiude ? longitude : Math.max(eastlongitiude, longitude);
@@ -121,8 +128,7 @@ export const analyzeMovesBase =
   const viewport: Viewport = nonmapView ? {
     lookAt: [0, 0, 0], distance: 200, rotationX: 60, rotationY: 0, fov: 50,
   } : {
-    longitude: (bounds.westlongitiude + bounds.eastlongitiude) / 2,
-    latitude: (bounds.southlatitude + bounds.southlatitude + bounds.northlatitude) / 3,
+    longitude: getAverage(longArray), latitude: getAverage(latiArray),
   };
   return { timeBegin, timeLength, bounds, movesbase: normalize(nonmapView, movesbase), viewport };
 };
@@ -300,4 +306,3 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
 
 export const getCombinedReducer = (combined: Object | null) : any =>
   combineReducers({ base: reducers, ...combined });
-
