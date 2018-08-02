@@ -7,6 +7,8 @@ import reducers from '../reducers';
 import type { AnalyzedBaseData, BasedState as State, BasedProps as Props,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
+import { COLOR1 } from '../constants/settings';
+
 
 const scaleInfo = { scaleZ: 0, xMid: 0, yMid: 0 };
 const EQUATOR_RADIUS = 6378136.6;
@@ -245,18 +247,55 @@ export const getMoveObjects = (props : Props): MovedData => {
   return movedData;
 };
 
-export const getClickedObjectToBeRemoved =
-  (movedData: MovedData, clickedObject: ClickedObject) : boolean => {
+export const onHoverClick = (pickParams:
+  {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: Props}}}) => {
+  const { mode, info } = pickParams;
+  const { object, layer } = info;
+  const { id, props } = layer;
+  if (mode === 'hover') {
+    props.onHover(info);
+  }
+  if (mode === 'click') {
+    if (props.onClick.name !== 'noop') {
+      props.onClick(info);
+    } else
+    if (object && props.actions) {
+      const { movesbaseidx } = object;
+      const { actions, clickedObject, movesbase } = props;
+      const routePaths: RoutePaths = [];
+      if (clickedObject && clickedObject.object.movesbaseidx === movesbaseidx) {
+        actions.setClicked(null);
+      } else {
+        actions.setClicked({ object, layer: { id } });
+        const { operation } = movesbase[movesbaseidx];
+        for (let j = 0; j < (operation.length - 1); j += 1) {
+          const { position, color } = operation[j];
+          const { position: nextposition } = operation[j + 1];
+          routePaths.push({
+            sourcePosition: position,
+            targetPosition: nextposition,
+            color: color || COLOR1
+          });
+        }
+      }
+      actions.setRoutePaths(routePaths);
+    }
+  }
+};
+
+export const checkClickedObjectToBeRemoved =
+  (movedData: MovedData, clickedObject: ClickedObject, actions) : void => {
     if (!clickedObject) {
-      return false;
+      return;
     }
     for (let i = 0, lengthi = movedData.length; i < lengthi; i += 1) {
       const { movesbaseidx } = movedData[i];
       if (clickedObject && clickedObject.object.movesbaseidx === movesbaseidx) {
-        return false;
+        return;
       }
     }
-    return true;
+    actions.setRoutePaths([]);
+    actions.setClicked(null);
   };
 
 export const analyzelinemapData =

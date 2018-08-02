@@ -2,7 +2,7 @@
 
 import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
-import { getClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import type { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius } from '../../types';
 import typeof * as Actions from '../../actions';
@@ -30,40 +30,8 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesNonmapLayer';
 
-  getPickingInfo(pickParams:
-    {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: Props}}}) {
-    const { mode, info } = pickParams;
-    const { object, layer } = info;
-    const { id, props } = layer;
-    if (mode === 'hover') {
-      props.onHover(info);
-    }
-    if (mode === 'click') {
-      if (props.onClick.name !== 'noop') {
-        props.onClick(info);
-      } else
-      if (object && props.actions) {
-        const { movesbaseidx } = object;
-        const { actions, clickedObject, movesbase } = props;
-        const routePaths: RoutePaths = [];
-        if (clickedObject && clickedObject.object.movesbaseidx === movesbaseidx) {
-          actions.setClicked(null);
-        } else {
-          actions.setClicked({ object, layer: { id } });
-          const { operation } = movesbase[movesbaseidx];
-          for (let j = 0; j < (operation.length - 1); j += 1) {
-            const { position, color } = operation[j];
-            const { position: nextposition } = operation[j + 1];
-            routePaths.push({
-              sourcePosition: position,
-              targetPosition: nextposition,
-              color: color || COLOR1
-            });
-          }
-        }
-        actions.setRoutePaths(routePaths);
-      }
-    }
+  getPickingInfo(pickParams: any) {
+    onHoverClick(pickParams);
   }
 
   renderLayers() {
@@ -78,10 +46,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     const getPosition = (x: Position) => x.position;
     const getRadius = propGetRadius || ((x: Radius) => (x.radius || 2));
 
-    if (getClickedObjectToBeRemoved(movedData, clickedObject)) {
-      actions.setRoutePaths([]);
-      actions.setClicked(null);
-    }
+    checkClickedObjectToBeRemoved(movedData, clickedObject, actions);
 
     return [
       new FrontScatterplotLayer({
