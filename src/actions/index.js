@@ -39,11 +39,12 @@ export const setLightSettings =
     ({ type: types.SETLIGHTSETTINGS, lightSettings });
 
 export const setMovesBase =
-  (base: (Movesbase | MovesbaseFile)) : {|type: string, base: (Movesbase | MovesbaseFile)|} =>
+  (base: (Array<Movesbase> | MovesbaseFile)) :
+  {|type: string, base: (Array<Movesbase> | MovesbaseFile)|} =>
     ({ type: types.SETMOVESBASE, base });
 
 export const setDepotsBase =
-  (depotsBase: Depotsbase) : {|type: string, depotsBase: Depotsbase|} =>
+  (depotsBase: Array<Depotsbase>) : {|type: string, depotsBase: Array<Depotsbase>|} =>
     ({ type: types.SETDEPOTSBASE, depotsBase });
 
 export const setAnimatePause =
@@ -87,5 +88,5 @@ export const setNonmapView =
     ({ type: types.SETNONMAPVIEW, nonmapView });
 
 export const setLinemapData =
-  (linemapData: LineMapData) : {|type: string, linemapData: LineMapData|} =>
+  (linemapData: Array<LineMapData>) : {|type: string, linemapData: Array<LineMapData>|} =>
     ({ type: types.SETLINEMAPDATA, linemapData });

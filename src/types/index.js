@@ -44,7 +44,7 @@ export type Bounds = {
   northlatitude: number
 };
 
-export type Movesbase = Array<{
+export type Movesbase = {
   departuretime: number,
   arrivaltime: number,
   operation: Array<{
@@ -55,13 +55,13 @@ export type Movesbase = Array<{
     color: void | Array<number>,
     normal: void | Array<number>,
   }>
-}>;
+};
 
 export type AnalyzedBaseData = {
   timeBegin : number,
   timeLength : number,
   bounds: Bounds,
-  movesbase: Movesbase,
+  movesbase: Array<Movesbase>,
   viewport: Viewport
 };
 
@@ -69,14 +69,14 @@ export type MovesbaseFile = {
   timeBegin: number,
   timeLength: number,
   bounds: Bounds,
-  movesbase: Movesbase,
+  movesbase: Array<Movesbase>,
 };
 
-export type Depotsbase = Array<{
+export type Depotsbase = {
   longitude: number,
   latitude: number,
   position: Array<number>
-}>;
+};
 
 export type ClickedObject = {
   object: {movesbaseidx: number},
@@ -96,16 +96,15 @@ export type RoutePaths = {
   color: Array<number>
 };
 
-export type LineMapData = Array<{
+export type LineMapData = {
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
-}>;
+};
 
-export type MovedData = Array<{ movesbaseidx: number, position: Array<number> }>;
+export type MovedData = { movesbaseidx: number, position: Array<number> };
 
-export type DepotsDataItem = { position: Array<number> };
-export type DepotsData = Array<DepotsDataItem>;
+export type DepotsData = { position: Array<number> };
 
 export type BasedState = {
   animatePause: boolean,
@@ -115,16 +114,16 @@ export type BasedState = {
   clickedObject: null | Array<ClickedObject>,
   defaultPitch: number,
   defaultZoom: number,
-  depotsBase: Depotsbase,
+  depotsBase: Array<Depotsbase>,
   depotsBaseOriginal: string,
-  depotsData: DepotsData,
+  depotsData: Array<DepotsData>,
   getDepotsOptionFunc: null | ((props: any, i: number) => any),
   getMovesOptionFunc: null | ((props: any, i: number, j: number) => any),
   leading: number,
   lightSettings: LightSettings,
   loopTime: number,
-  movedData: MovedData,
-  movesbase: Movesbase,
+  movedData: Array<MovedData>,
+  movesbase: Array<Movesbase>,
   nonmapView: boolean,
   routePaths: Array<RoutePaths>,
   secperhour: number,
@@ -134,7 +133,7 @@ export type BasedState = {
   timeLength: number,
   trailing: number,
   viewport: Viewport,
-  linemapData: LineMapData,
+  linemapData: Array<LineMapData>,
   linemapDataOriginal: string,
 };
 
@@ -179,8 +178,8 @@ export type ActionTypes =
   {|type: string, trailing: number|} &
   {|type: string, viewport: Viewport|} &
   {|type: string, lightSettings: LightSettings|} &
-  {|type: string, base: (Movesbase | MovesbaseFile)|} &
-  {|type: string, depotsBase: Depotsbase|} &
+  {|type: string, base: (Array<Movesbase> | MovesbaseFile)|} &
+  {|type: string, depotsBase: Array<Depotsbase>|} &
   {|type: string, pause: boolean|} &
   {|type: string, reverse: boolean|} &
   {|type: string, secperhour: number|} &
@@ -191,4 +190,4 @@ export type ActionTypes =
   {|type: string, func: GetMovesOptionFunc|} &
   {|type: string, func: GetDepotsOptionFunc|} &
   {|type: string, nonmapView: boolean|} &
-  {|type: string, linemapData: LineMapData|};
+  {|type: string, linemapData: Array<LineMapData>|};

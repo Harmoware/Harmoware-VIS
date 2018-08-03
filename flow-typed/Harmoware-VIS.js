@@ -19,19 +19,15 @@ declare module 'harmoware-vis' {
     layer: {id: string}
   };
 
-  declare export type Depotsbase = Array<{
+  declare export type Depotsbase = {
     longitude: number, latitude: number, position: Array<number>
-  }>;
-
-  declare export type DepotsDataItem = { position: Array<number> };
-
-  declare export type DepotsData = Array<DepotsDataItem>;
-
-  declare export type LineMapDataItem = {
-    sourcePosition: Array<number>, targetPosition: Array<number>, color: Array<number>
   };
 
-  declare export type LineMapData = Array<LineMapDataItem>;
+  declare export type DepotsData = { position: Array<number> };
+
+  declare export type LineMapData = {
+    sourcePosition: Array<number>, targetPosition: Array<number>, color: Array<number>
+  };
 
   declare export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
 
@@ -42,16 +38,16 @@ declare module 'harmoware-vis' {
     specularRatio?: number, lightsStrength?: Array<number>, numberOfLights?: number
   };
 
-  declare export type MovedData = Array<{ movesbaseidx: number, position: Array<number> }>;
+  declare export type MovedData = { movesbaseidx: number, position: Array<number> };
 
   declare export type Position = { position: Array<number> };
   declare export type LongLat = { longitude: number, latitude: number };
-  declare export type Movesbase = Array<{
+  declare export type Movesbase = {
     departuretime: number, arrivaltime: number,
     operation: Array<{
       elapsedtime: number, color: void | Array<number>, normal: void | Array<number>
     } & Position | LongLat>
-  }>;
+  };
 
   declare export type RoutePaths = {
     movesbaseidx: number,
@@ -68,17 +64,18 @@ declare module 'harmoware-vis' {
   declare export type BasedState = {
     animatePause: boolean, animateReverse: boolean, beforeFrameTimestamp: number, bounds: Bounds,
     clickedObject: null | Array<ClickedObject>, defaultPitch: number, defaultZoom: number,
-    depotsBase: Depotsbase, depotsData: DepotsData, getDepotsOptionFunc: null | GetDepotsOptionFunc,
-    getMovesOptionFunc: null | GetMovesOptionFunc, leading: number, lightSettings: LightSettings,
-    loopTime: number, movedData: MovedData, movesbase: Movesbase, nonmapView: boolean,
+    depotsBase: Array<Depotsbase>, depotsData: Array<DepotsData>,
+    getDepotsOptionFunc: null | GetDepotsOptionFunc, getMovesOptionFunc: null | GetMovesOptionFunc,
+    leading: number, lightSettings: LightSettings,
+    loopTime: number, movedData: Array<MovedData>, movesbase: Array<Movesbase>, nonmapView: boolean,
     routePaths: Array<RoutePaths>, secperhour: number, settime: number,
     starttimestamp: number, timeBegin: number, timeLength: number, trailing: number,
-    viewport: Viewport, linemapData: LineMapData, };
+    viewport: Viewport, linemapData: Array<LineMapData>, };
 
   declare export type BasedProps = { actions: Actions } & BasedState;
 
   declare export type MovesbaseFile = {
-    timeBegin: number, timeLength: number, bounds: Bounds, movesbase: Movesbase,
+    timeBegin: number, timeLength: number, bounds: Bounds, movesbase: Array<Movesbase>,
   };
 
   declare export type Actions = {|
@@ -91,15 +88,16 @@ declare module 'harmoware-vis' {
       {| clickedObject: null | Array<ClickedObject>, type: string |},
     setDefaultPitch: (defaultPitch: number) => {| defaultPitch: number, type: string |},
     setDefaultZoom: (defaultZoom: number) => {| defaultZoom: number, type: string |},
-    setDepotsBase: (depotsBase: Depotsbase) => {| depotsBase: Depotsbase, type: string |},
+    setDepotsBase: (depotsBase: Array<Depotsbase>) =>
+      {| depotsBase: Array<Depotsbase>, type: string |},
     setDepotsOptionFunc: (func: GetDepotsOptionFunc) =>
       {| func: GetDepotsOptionFunc, type: string |},
     setFrameTimestamp: (props: BasedProps) => {| props: BasedProps, type: string |},
     setLeading: (leading: number) => {| leading: number, type: string |},
     setLightSettings: (lightSettings: LightSettings) =>
       {| lightSettings: LightSettings, type: string |},
-    setMovesBase: (base: (Movesbase | MovesbaseFile)) =>
-      {| base: (Movesbase | MovesbaseFile), type: string |},
+    setMovesBase: (base: (Array<Movesbase> | MovesbaseFile)) =>
+      {| base: (Array<Movesbase> | MovesbaseFile), type: string |},
     setMovesOptionFunc: (func: GetMovesOptionFunc) => {| func: GetMovesOptionFunc, type: string |},
     setRoutePaths: (paths: Array<RoutePaths>) => {| paths: Array<RoutePaths>, type: string |},
     setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |},
@@ -107,13 +105,14 @@ declare module 'harmoware-vis' {
     setTimeStamp: (props: BasedProps) => {| props: BasedProps, type: string |},
     setTrailing: (trailing: number) => {| trailing: number, type: string |},
     setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |},
-    setLinemapData: (linemapData: LineMapData) => {| type: string, linemapData: LineMapData |}
+    setLinemapData: (linemapData: Array<LineMapData>) =>
+      {| type: string, linemapData: Array<LineMapData> |}
   |};
 
   declare type MovesInputProps = {|
     actions: {
-      setMovesBase: (base: (Movesbase | MovesbaseFile)) =>
-        {| base: (Movesbase | MovesbaseFile), type: string |},
+      setMovesBase: (base: (Array<Movesbase> | MovesbaseFile)) =>
+        {| base: (Array<Movesbase> | MovesbaseFile), type: string |},
       setRoutePaths: (paths: Array<RoutePaths>) => {| paths: Array<RoutePaths>, type: string |},
       setClicked: (clickedObject: null | Array<ClickedObject>) =>
         {| clickedObject: null | Array<ClickedObject>, type: string |},
@@ -123,13 +122,13 @@ declare module 'harmoware-vis' {
   declare export class MovesInput extends React$Component<MovesInputProps> {}
 
   declare type DepotsInputProps = {|
-    actions: { setDepotsBase: (depotsBase: Depotsbase) =>
-      {| depotsBase: Depotsbase, type: string |} }, i18n?: I18n, className?: string |};
+    actions: { setDepotsBase: (depotsBase: Array<Depotsbase>) =>
+      {| depotsBase: Array<Depotsbase>, type: string |} }, i18n?: I18n, className?: string |};
   declare export class DepotsInput extends React$Component<DepotsInputProps> {}
 
   declare type LinemapInputProps = {|
-    actions: { setLinemapData: (linemapData: LineMapData) =>
-      {| type: string, linemapData: LineMapData |} }, i18n?: I18n, className?: string |};
+    actions: { setLinemapData: (linemapData: Array<LineMapData>) =>
+      {| type: string, linemapData: Array<LineMapData> |} }, i18n?: I18n, className?: string |};
   declare export class LinemapInput extends React$Component<LinemapInputProps> {}
 
   declare type AddMinutesButtonProps = {|
@@ -194,7 +193,8 @@ declare module 'harmoware-vis' {
 
   declare type MovesLayerProps = {|
     routePaths: Array<RoutePaths>, layerRadiusScale?: number, layerOpacity?: number,
-    movedData: MovedData, movesbase: Movesbase, clickedObject?: null | Array<ClickedObject>,
+    movedData: Array<MovedData>, movesbase: Array<Movesbase>,
+    clickedObject?: null | Array<ClickedObject>,
     actions: {
       setRoutePaths: (paths: Array<RoutePaths>) => {| paths: Array<RoutePaths>, type: string |},
       setClicked: (clickedObject: null | Array<ClickedObject>) =>
@@ -211,7 +211,7 @@ declare module 'harmoware-vis' {
   declare export class MovesLayer extends CompositeLayer { constructor(MovesLayerProps): void; }
 
   declare type MovesNonmapLayerProps = {|
-    layerOpacity?: number, movedData: MovedData, movesbase: Movesbase,
+    layerOpacity?: number, movedData: Array<MovedData>, movesbase: Array<Movesbase>,
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
     actions: {
       setRoutePaths: (paths: Array<RoutePaths>) => {| paths: Array<RoutePaths>, type: string |},
@@ -224,7 +224,7 @@ declare module 'harmoware-vis' {
   }
 
   declare type DepotsLayerProps = {|
-    layerRadiusScale?: number, layerOpacity?: number, depotsData: DepotsData,
+    layerRadiusScale?: number, layerOpacity?: number, depotsData: Array<DepotsData>,
     optionVisible?: boolean, optionChange?: boolean, optionOpacity?: number,
     optionCellSize?: number, optionElevationScale?: number, lightSettings?: LightSettings,
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
@@ -236,7 +236,7 @@ declare module 'harmoware-vis' {
   declare export class DepotsLayer extends CompositeLayer { constructor(DepotsLayerProps): void; }
 
   declare type FixedPointLayerProps = {|
-    layerOpacity?: number, depotsData: DepotsData,
+    layerOpacity?: number, depotsData: Array<DepotsData>,
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
     onHover?: Function, onClick?: Function |};
   declare export class FixedPointLayer extends CompositeLayer {
@@ -244,7 +244,7 @@ declare module 'harmoware-vis' {
   }
 
   declare type LineMapLayerProps = {|
-    layerOpacity?: number, linemapData: LineMapData, strokeWidth?: number,
+    layerOpacity?: number, linemapData: Array<LineMapData>, strokeWidth?: number,
     getColor?: (x: any) => Array<number>,
     onHover?: Function, onClick?: Function |};
   declare export class LineMapLayer extends CompositeLayer {
