@@ -30,7 +30,7 @@ export const getContainerProp = (state: any) : any => {
 export const calcLoopTime =
 (timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
 
-function normalize(nonmapView: boolean, movesbase: Movesbase): Movesbase {
+function normalize(nonmapView: boolean, movesbase: Array<Movesbase>): Array<Movesbase> {
   if (!nonmapView) return movesbase;
   let xMin = Infinity;
   let yMin = Infinity;
@@ -62,11 +62,11 @@ function normalize(nonmapView: boolean, movesbase: Movesbase): Movesbase {
 }
 
 export const analyzeMovesBase =
-(nonmapView: boolean, inputData: (Movesbase | MovesbaseFile)) : AnalyzedBaseData => {
+(nonmapView: boolean, inputData: (Array<Movesbase> | MovesbaseFile)) : AnalyzedBaseData => {
   let baseTimeBegin: void | number;
   let baseTimeLength: void | number;
   let baseBounds: void | Bounds;
-  let basemovesbase: Movesbase;
+  let basemovesbase: Array<Movesbase>;
 
   if (Array.isArray(inputData)) { // Array?
     basemovesbase = inputData;
@@ -83,7 +83,7 @@ export const analyzeMovesBase =
     westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
   };
 
-  const movesbase: Movesbase = basemovesbase.slice();
+  const movesbase: Array<Movesbase> = basemovesbase.slice();
   let timeEnd: number = 0;
   const longArray = [];
   const latiArray = [];
@@ -135,7 +135,7 @@ export const analyzeMovesBase =
 };
 
 export const analyzeDepotsBase =
-(nonmapView: boolean, depotsBase: Depotsbase) : Depotsbase => {
+(nonmapView: boolean, depotsBase: Array<Depotsbase>) : Array<Depotsbase> => {
   if (!nonmapView) return depotsBase;
   let xMin = Infinity;
   let yMin = Infinity;
@@ -172,9 +172,9 @@ const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
   if (normal) retValue.normal = normal;
   return retValue;
 };
-export const getDepots = (props: Props): DepotsData => {
+export const getDepots = (props: Props): Array<DepotsData> => {
   const { nonmapView, depotsBase, bounds, getDepotsOptionFunc } = props;
-  const depotsData: DepotsData = [];
+  const depotsData: Array<DepotsData> = [];
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   if (nonmapView || (depotsBase.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {
@@ -208,9 +208,9 @@ const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOpti
   if (normal) retValue.normal = normal;
   return retValue;
 };
-export const getMoveObjects = (props : Props): MovedData => {
+export const getMoveObjects = (props : Props): Array<MovedData> => {
   const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
-  const movedData: MovedData = [];
+  const movedData: Array<MovedData> = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
@@ -266,7 +266,7 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export const onHoverClick = (pickParams:
   {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: {
-    movesbase: Movesbase, routePaths: Array<RoutePaths>, actions: typeof Actions,
+    movesbase: Array<Movesbase>, routePaths: Array<RoutePaths>, actions: typeof Actions,
     clickedObject: Array<ClickedObject>, onHover: Function, onClick: Function }}}}): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
@@ -315,7 +315,7 @@ export const onHoverClick = (pickParams:
 };
 
 export const checkClickedObjectToBeRemoved = (
-  movedData: MovedData, clickedObject: null | Array<ClickedObject>,
+  movedData: Array<MovedData>, clickedObject: null | Array<ClickedObject>,
   routePaths: Array<RoutePaths>, actions: typeof Actions): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
@@ -334,7 +334,7 @@ export const checkClickedObjectToBeRemoved = (
 };
 
 export const analyzelinemapData =
-  (nonmapView: boolean, linemapData: LineMapData) : LineMapData => {
+  (nonmapView: boolean, linemapData: Array<LineMapData>) : Array<LineMapData> => {
     if (!nonmapView) return linemapData;
     let xMin = Infinity;
     let yMin = Infinity;

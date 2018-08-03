@@ -9,8 +9,8 @@ import typeof * as Actions from '../../actions';
 
 type Props = {
   layerOpacity: number,
-  movedData: MovedData,
-  movesbase: Movesbase,
+  movedData: Array<MovedData>,
+  movesbase: Array<Movesbase>,
   getColor: (x: any) => Array<number>,
   getRadius: (x: any) => number,
   routePaths: Array<RoutePaths>,

@@ -6,7 +6,7 @@ import type { LineMapData, LineData } from '../../types';
 
 type Props = {
   layerOpacity: number,
-  linemapData: LineMapData,
+  linemapData: Array<LineMapData>,
   strokeWidth: number,
   getColor: (x: any) => Array<number>
 }

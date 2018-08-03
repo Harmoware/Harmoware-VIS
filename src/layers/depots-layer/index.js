@@ -3,12 +3,12 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import type { DepotsData, DepotsDataItem, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
+import type { DepotsData, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
 
 type Props = {
   layerRadiusScale: number,
   layerOpacity: number,
-  depotsData: DepotsData,
+  depotsData: Array<DepotsData>,
   optionVisible: boolean,
   optionChange: boolean,
   optionOpacity: number,

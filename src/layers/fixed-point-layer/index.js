@@ -7,7 +7,7 @@ import type { DepotsData, Position, DataOption, Radius } from '../../types';
 
 type Props = {
   layerOpacity: number,
-  depotsData: DepotsData,
+  depotsData: Array<DepotsData>,
   getColor: (x: any) => Array<number>,
   getRadius: (x: any) => number
 }
