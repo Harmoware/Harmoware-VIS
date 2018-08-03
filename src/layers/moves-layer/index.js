@@ -13,7 +13,7 @@ type Props = {
   layerOpacity: number,
   movedData: MovedData,
   movesbase: Movesbase,
-  clickedObject: ClickedObject,
+  clickedObject: null | ClickedObject,
   actions: Actions,
   optionVisible: boolean,
   optionChange: boolean,

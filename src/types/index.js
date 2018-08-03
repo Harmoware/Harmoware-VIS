@@ -78,7 +78,7 @@ export type Depotsbase = Array<{
   position: Array<number>
 }>;
 
-export type ClickedObject = null | Array<{
+export type ClickedObject = Array<{
   object: {movesbaseidx: number},
   layer: {id: string}
 }>;
@@ -90,6 +90,7 @@ export type LineData = {
 };
 
 export type RoutePaths = Array<{
+  movesbaseidx: number,
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
@@ -111,7 +112,7 @@ export type BasedState = {
   animateReverse: boolean,
   beforeFrameTimestamp: number,
   bounds: Bounds,
-  clickedObject: ClickedObject,
+  clickedObject: null | ClickedObject,
   defaultPitch: number,
   defaultZoom: number,
   depotsBase: Depotsbase,
@@ -183,7 +184,7 @@ export type ActionTypes =
   {|type: string, pause: boolean|} &
   {|type: string, reverse: boolean|} &
   {|type: string, secperhour: number|} &
-  {|type: string, clickedObject: ClickedObject|} &
+  {|type: string, clickedObject: null | ClickedObject|} &
   {|type: string, paths: RoutePaths|} &
   {|type: string, defaultZoom: number|} &
   {|type: string, defaultPitch: number|} &

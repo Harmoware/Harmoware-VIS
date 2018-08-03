@@ -247,7 +247,7 @@ export const getMoveObjects = (props : Props): MovedData => {
 };
 
 const routeDelete = (movesbaseidx: number, props: {
-  routePaths: Array<Object>, actions: typeof Actions, clickedObject: Array<Object> }): void => {
+  routePaths: RoutePaths, actions: typeof Actions, clickedObject: ClickedObject }): void => {
   const { actions, clickedObject, routePaths } = props;
   if (clickedObject.length > 0 && routePaths.length > 0) {
     if (clickedObject.length === 1) {
@@ -257,8 +257,7 @@ const routeDelete = (movesbaseidx: number, props: {
       const newClickedObject = clickedObject.filter(
         (current: Object) => current.object.movesbaseidx !== movesbaseidx);
       actions.setClicked(newClickedObject);
-      const newRoutePaths = routePaths.filter(
-        (current: {movesbaseidx: number}) => current.movesbaseidx !== movesbaseidx);
+      const newRoutePaths = routePaths.filter(current => current.movesbaseidx !== movesbaseidx);
       actions.setRoutePaths(newRoutePaths);
     }
   }
@@ -266,8 +265,8 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export const onHoverClick = (pickParams:
   {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: {
-    movesbase: Movesbase, routePaths: Array<Object>, actions: typeof Actions,
-    clickedObject: Array<Object>, onHover: Function, onClick: Function }}}}): void => {
+    movesbase: Movesbase, routePaths: RoutePaths, actions: typeof Actions,
+    clickedObject: ClickedObject, onHover: Function, onClick: Function }}}}): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
@@ -315,8 +314,8 @@ export const onHoverClick = (pickParams:
 };
 
 export const checkClickedObjectToBeRemoved = (
-  movedData: MovedData, clickedObject: ClickedObject,
-  routePaths: Array<Object>, actions: typeof Actions): void => {
+  movedData: MovedData, clickedObject: null | ClickedObject,
+  routePaths: RoutePaths, actions: typeof Actions): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
       let deleted = true;

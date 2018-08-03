@@ -14,7 +14,7 @@ declare module 'harmoware-vis' {
     southlatitude: number, northlatitude: number
   };
 
-  declare export type ClickedObject = null | Array<{
+  declare export type ClickedObject = Array<{
     object: {movesbaseidx: number},
     layer: {id: string}
   }>;
@@ -54,6 +54,7 @@ declare module 'harmoware-vis' {
   }>;
 
   declare export type RoutePaths = Array<{
+    movesbaseidx: number,
     sourcePosition: Array<number>, targetPosition: Array<number>, color: Array<number>
   }>;
 
@@ -66,7 +67,7 @@ declare module 'harmoware-vis' {
 
   declare export type BasedState = {
     animatePause: boolean, animateReverse: boolean, beforeFrameTimestamp: number,
-    bounds: Bounds, clickedObject: ClickedObject, defaultPitch: number, defaultZoom: number,
+    bounds: Bounds, clickedObject: null | ClickedObject, defaultPitch: number, defaultZoom: number,
     depotsBase: Depotsbase, depotsData: DepotsData, getDepotsOptionFunc: null | GetDepotsOptionFunc,
     getMovesOptionFunc: null | GetMovesOptionFunc, leading: number, lightSettings: LightSettings,
     loopTime: number, movedData: MovedData, movesbase: Movesbase, nonmapView: boolean,
@@ -86,8 +87,8 @@ declare module 'harmoware-vis' {
     increaseTime: (props: BasedProps) => {| props: BasedProps, type: string |},
     setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |},
     setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |},
-    setClicked: (clickedObject: ClickedObject) =>
-      {| clickedObject: ClickedObject, type: string |},
+    setClicked: (clickedObject: null | ClickedObject) =>
+      {| clickedObject: null | ClickedObject, type: string |},
     setDefaultPitch: (defaultPitch: number) => {| defaultPitch: number, type: string |},
     setDefaultZoom: (defaultZoom: number) => {| defaultZoom: number, type: string |},
     setDepotsBase: (depotsBase: Depotsbase) => {| depotsBase: Depotsbase, type: string |},
@@ -114,8 +115,8 @@ declare module 'harmoware-vis' {
       setMovesBase: (base: (Movesbase | MovesbaseFile)) =>
         {| base: (Movesbase | MovesbaseFile), type: string |},
       setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
-      setClicked: (clickedObject: ClickedObject) =>
-        {| clickedObject: ClickedObject, type: string |},
+      setClicked: (clickedObject: null | ClickedObject) =>
+        {| clickedObject: null | ClickedObject, type: string |},
       setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |},
       setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |}, },
       i18n?: I18n, className?: string |};
@@ -193,11 +194,11 @@ declare module 'harmoware-vis' {
 
   declare type MovesLayerProps = {|
     routePaths: RoutePaths, layerRadiusScale?: number, layerOpacity?: number,
-    movedData: MovedData, movesbase: Movesbase, clickedObject?: ClickedObject,
+    movedData: MovedData, movesbase: Movesbase, clickedObject?: null | ClickedObject,
     actions: {
       setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
-      setClicked: (clickedObject: ClickedObject) =>
-        {| clickedObject: ClickedObject, type: string |},
+      setClicked: (clickedObject: null | ClickedObject) =>
+        {| clickedObject: null | ClickedObject, type: string |},
     }, optionVisible?: boolean, optionChange?: boolean, optionOpacity?: number,
     optionCellSize?: number, optionElevationScale?: number, lightSettings?: LightSettings,
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
@@ -214,9 +215,9 @@ declare module 'harmoware-vis' {
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
     actions: {
       setRoutePaths: (paths: RoutePaths) => {| paths: RoutePaths, type: string |},
-      setClicked: (clickedObject: ClickedObject) =>
-        {| clickedObject: ClickedObject, type: string |}
-    }, routePaths: RoutePaths, clickedObject?: ClickedObject,
+      setClicked: (clickedObject: null | ClickedObject) =>
+        {| clickedObject: null | ClickedObject, type: string |}
+    }, routePaths: RoutePaths, clickedObject?: null | ClickedObject,
     onHover?: Function, onClick?: Function |};
   declare export class MovesNonmapLayer extends CompositeLayer {
     constructor(MovesNonmapLayerProps): void;

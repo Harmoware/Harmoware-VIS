@@ -15,7 +15,7 @@ type Props = {
   getRadius: (x: any) => number,
   routePaths: RoutePaths,
   actions: Actions,
-  clickedObject: ClickedObject,
+  clickedObject: null | ClickedObject,
   onHover: Function,
   onClick: Function
 }

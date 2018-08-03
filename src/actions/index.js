@@ -58,8 +58,8 @@ export const setSecPerHour =
     ({ type: types.SETSECPERHOUR, secperhour });
 
 export const setClicked =
-  (clickedObject: ClickedObject) :
-  {|type: string, clickedObject: ClickedObject|} =>
+  (clickedObject: null | ClickedObject) :
+  {|type: string, clickedObject: null | ClickedObject|} =>
     ({ type: types.SETCLICKED, clickedObject });
 
 export const setRoutePaths =
