@@ -2,18 +2,18 @@
 
 import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
-import { getClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import type { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
 import typeof * as Actions from '../../actions';
 
 type Props = {
-  routePaths: RoutePaths,
+  routePaths: Array<RoutePaths>,
   layerRadiusScale: number,
   layerOpacity: number,
   movedData: MovedData,
   movesbase: Movesbase,
-  clickedObject: ClickedObject,
+  clickedObject: null | Array<ClickedObject>,
   actions: Actions,
   optionVisible: boolean,
   optionChange: boolean,
@@ -68,40 +68,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesLayer';
 
-  getPickingInfo(pickParams:
-    {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: Props}}}) {
-    const { mode, info } = pickParams;
-    const { object, layer } = info;
-    const { id, props } = layer;
-    if (mode === 'hover') {
-      props.onHover(info);
-    }
-    if (mode === 'click') {
-      if (props.onClick.name !== 'noop') {
-        props.onClick(info);
-      } else
-      if (object && props.actions) {
-        const { movesbaseidx } = object;
-        const { actions, clickedObject, movesbase } = props;
-        const routePaths: RoutePaths = [];
-        if (clickedObject && clickedObject.object.movesbaseidx === movesbaseidx) {
-          actions.setClicked(null);
-        } else {
-          actions.setClicked({ object, layer: { id } });
-          const { operation } = movesbase[movesbaseidx];
-          for (let j = 0; j < (operation.length - 1); j += 1) {
-            const { position, color } = operation[j];
-            const { position: nextposition } = operation[j + 1];
-            routePaths.push({
-              sourcePosition: position,
-              targetPosition: nextposition,
-              color: color || COLOR1
-            });
-          }
-        }
-        actions.setRoutePaths(routePaths);
-      }
-    }
+  getPickingInfo(pickParams: any) {
+    onHoverClick(pickParams);
   }
 
   renderLayers() {
@@ -156,10 +124,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return [pos[0] - optionShiftLng, pos[1] - optionShiftLat, pos[2]];
     };
 
-    if (getClickedObjectToBeRemoved(movedData, clickedObject)) {
-      actions.setRoutePaths([]);
-      actions.setClicked(null);
-    }
+    checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
     return [
       new ScatterplotLayer({

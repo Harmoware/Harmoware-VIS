@@ -101,8 +101,8 @@ export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
   const { movesbase, delayrange, clickedObject, hovered } = props;
   const { busclass, operation } = movesbase[movesbaseidx];
   const { color: specifycolor, delaysec, busprop } = operation[operationidx];
-  const clickedbus = (clickedObject && clickedObject.object &&
-    clickedObject.object.movesbaseidx === movesbaseidx);
+  const clickedbus = (clickedObject && clickedObject[0].object &&
+    clickedObject[0].object.movesbaseidx === movesbaseidx);
   const hoveredbus = (hovered && hovered.object &&
     hovered.object.movesbaseidx === movesbaseidx);
   let color = COLOR2;
