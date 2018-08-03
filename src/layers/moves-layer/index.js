@@ -124,7 +124,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return [pos[0] - optionShiftLng, pos[1] - optionShiftLat, pos[2]];
     };
 
-    checkClickedObjectToBeRemoved(movedData, clickedObject, actions);
+    checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
     return [
       new ScatterplotLayer({

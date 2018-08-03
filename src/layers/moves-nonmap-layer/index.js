@@ -46,7 +46,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     const getPosition = (x: Position) => x.position;
     const getRadius = propGetRadius || ((x: Radius) => (x.radius || 2));
 
-    checkClickedObjectToBeRemoved(movedData, clickedObject, actions);
+    checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
     return [
       new FrontScatterplotLayer({

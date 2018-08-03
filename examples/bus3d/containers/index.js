@@ -51,11 +51,11 @@ class App extends Container {
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
       const { movesbaseidx, code } = el.object;
-      if (clickedObject && clickedObject.object.movesbaseidx === movesbaseidx) {
+      if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {
         actions.setClicked(null);
         actions.setRoutePaths([]);
       } else {
-        actions.updateRoute(el, true);
+        actions.updateRoute([el], true);
         actions.setSelectedBus(code);
       }
     };

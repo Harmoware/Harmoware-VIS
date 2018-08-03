@@ -113,7 +113,7 @@ Harmoware-VIS で定義されるState一覧
 | lightSettings | object | {...} | 3Ｄオブジェクト用光源設定 |
 | movedData | Array | [] | 描画用運行データ |
 | movesbase | Array | [] | 運行データ保持エリア |
-| clickedObject | object | null | 選択中運行オブジェクト |
+| clickedObject | Array | null | 選択中運行オブジェクト |
 | routePaths | Array | [] | 描画用運行経路 |
 | secperhour | Number | 3 | 再生速度（秒/時） |
 | settime | Number | 0 | シュミレーション中時間 |
@@ -139,7 +139,7 @@ Harmoware-VIS で定義される redux の action は以下の通りです。
 | setAnimatePause(Boolean) | animatePause | アニメーション動作停止更新 |
 | setAnimateReverse(Boolean) | animateReverse | アニメーション再生正逆更新 |
 | setSecPerHour(Number) | secperhour | 再生速度（秒/時）更新 |
-| setClicked(object) | clickedObject | 選択中運行オブジェクト更新 |
+| setClicked(Array) | clickedObject | 選択中運行オブジェクト更新 |
 | setRoutePaths(Array) | routePaths | 描画用運行経路更新 |
 | setDefaultZoom(Number) | defaultZoom | 地図表示時規定拡大値更新 |
 | setDefaultPitch(Number) | defaultPitch | 地図表示時規定角度更新 |
@@ -273,7 +273,7 @@ Harmoware-VIS 提供 Layer 一覧
 | routePaths | Array required | -- | Harmoware-VIS の `routePaths` |
 | movesbase| Array required | -- | Harmoware-VIS の `movesbase` |
 | movedData| Array required | -- | Harmoware-VIS の `movedData` |
-| clickedObject | object required |--  | Harmoware-VIS の `clickedObject` |
+| clickedObject | Array required |--  | Harmoware-VIS の `clickedObject` |
 | layerRadiusScale | Number option | 1 | アイコンサイズスケール |
 | layerOpacity | Number option | 0.75 | アイコン透過度 |
 | getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
@@ -410,7 +410,7 @@ Harmoware-VIS 提供 Layer 一覧
 | movesbase| Array required | -- | Harmoware-VIS の props.movesbase |
 | actions | object required | -- | Harmoware-VIS の props.actions |
 | routePaths | Array required | -- | Harmoware-VIS の props.routePaths |
-| clickedObject | object required |--  | Harmoware-VIS の props.clickedObject |
+| clickedObject | Array required |--  | Harmoware-VIS の props.clickedObject |
 | layerOpacity | Number option | 0.75 | アイコン透過度 |
 | getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
 | getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |

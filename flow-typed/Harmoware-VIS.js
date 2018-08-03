@@ -14,9 +14,10 @@ declare module 'harmoware-vis' {
     southlatitude: number, northlatitude: number
   };
 
-  declare export type ClickedObject = null | {
-    object: {movesbaseidx: number}
-  };
+  declare export type ClickedObject = null | Array<{
+    object: {movesbaseidx: number},
+    layer: {id: string}
+  }>;
 
   declare export type Depotsbase = Array<{
     longitude: number, latitude: number, position: Array<number>

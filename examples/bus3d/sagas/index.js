@@ -438,7 +438,7 @@ function* updateRoute({ el, sw }) {
   if (!el) {
     return;
   }
-  const { object, layer } = el;
+  const { object, layer } = el[0];
   const { code, name, memo, movesbaseidx } = object;
   const { id } = layer;
   const { delayheight, movesbase } = getContainerProp(yield select());
@@ -471,13 +471,14 @@ function* updateRoute({ el, sw }) {
       const { longitude, latitude, color } = operation[j];
       const { longitude: nextlongitude, latitude: nextlatitude } = operation[j + 1];
       routePaths.push({
+        movesbaseidx,
         sourcePosition: [longitude, latitude, 0],
         targetPosition: [nextlongitude, nextlatitude, 0],
         color: color || COLOR1
       });
     }
   }
-  retel = { object, layer: { id } };
+  retel = [{ object, layer: { id } }];
   yield put(Actions.setClicked(retel));
   yield put(Actions.setRoutePaths(routePaths));
 }

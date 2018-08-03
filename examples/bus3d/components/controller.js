@@ -56,7 +56,7 @@ export default class Controller extends Component {
       object: { code, name, memo, movesbaseidx },
       layer: { id: 'MovesLayer' }
     };
-    actions.updateRoute(el, true);
+    actions.updateRoute([el], true);
     actions.setSelectedBus(code);
   }
 

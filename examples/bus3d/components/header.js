@@ -40,7 +40,7 @@ export default class Header extends Component {
     const hour = d.getHours();
     const min = d.getMinutes();
     const sec = d.getSeconds();
-    const flg = clickedObject ? clickedObject.object.name.match(/^\d+-[12]/) : null;
+    const flg = clickedObject ? clickedObject[0].object.name.match(/^\d+-[12]/) : null;
     const canvasProps = {
       width: CANVAS_WIDTH,
       height: CANVAS_HEIGHT,
@@ -56,8 +56,8 @@ export default class Header extends Component {
       },
     };
     const getClickedInfo = movedData.find((element) => {
-      if (clickedObject && clickedObject.object &&
-        clickedObject.object.movesbaseidx === element.movesbaseidx) {
+      if (clickedObject && clickedObject[0].object &&
+        clickedObject[0].object.movesbaseidx === element.movesbaseidx) {
         return true;
       }
       return false;

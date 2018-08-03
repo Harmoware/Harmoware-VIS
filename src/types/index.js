@@ -78,9 +78,10 @@ export type Depotsbase = Array<{
   position: Array<number>
 }>;
 
-export type ClickedObject = null | {
-  object: {movesbaseidx: number}
-};
+export type ClickedObject = null | Array<{
+  object: {movesbaseidx: number},
+  layer: {id: string}
+}>;
 
 export type LineData = {
   sourcePosition: Array<number>,
