@@ -247,7 +247,8 @@ export const getMoveObjects = (props : Props): MovedData => {
 };
 
 const routeDelete = (movesbaseidx: number, props: {
-  routePaths: RoutePaths, actions: typeof Actions, clickedObject: ClickedObject }): void => {
+  routePaths: Array<RoutePaths>, clickedObject: Array<ClickedObject>,
+  actions: typeof Actions }): void => {
   const { actions, clickedObject, routePaths } = props;
   if (clickedObject.length > 0 && routePaths.length > 0) {
     if (clickedObject.length === 1) {
@@ -265,8 +266,8 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export const onHoverClick = (pickParams:
   {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: {
-    movesbase: Movesbase, routePaths: RoutePaths, actions: typeof Actions,
-    clickedObject: ClickedObject, onHover: Function, onClick: Function }}}}): void => {
+    movesbase: Movesbase, routePaths: Array<RoutePaths>, actions: typeof Actions,
+    clickedObject: Array<ClickedObject>, onHover: Function, onClick: Function }}}}): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
@@ -314,8 +315,8 @@ export const onHoverClick = (pickParams:
 };
 
 export const checkClickedObjectToBeRemoved = (
-  movedData: MovedData, clickedObject: null | ClickedObject,
-  routePaths: RoutePaths, actions: typeof Actions): void => {
+  movedData: MovedData, clickedObject: null | Array<ClickedObject>,
+  routePaths: Array<RoutePaths>, actions: typeof Actions): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
       let deleted = true;

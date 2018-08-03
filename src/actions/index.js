@@ -58,12 +58,12 @@ export const setSecPerHour =
     ({ type: types.SETSECPERHOUR, secperhour });
 
 export const setClicked =
-  (clickedObject: null | ClickedObject) :
-  {|type: string, clickedObject: null | ClickedObject|} =>
+  (clickedObject: null | Array<ClickedObject>) :
+  {|type: string, clickedObject: null | Array<ClickedObject>|} =>
     ({ type: types.SETCLICKED, clickedObject });
 
 export const setRoutePaths =
-  (paths: RoutePaths) : {|type: string, paths: RoutePaths|} =>
+  (paths: Array<RoutePaths>) : {|type: string, paths: Array<RoutePaths>|} =>
     ({ type: types.SETROUTEPATHS, paths });
 
 export const setDefaultZoom =

@@ -8,12 +8,12 @@ import type { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Po
 import typeof * as Actions from '../../actions';
 
 type Props = {
-  routePaths: RoutePaths,
+  routePaths: Array<RoutePaths>,
   layerRadiusScale: number,
   layerOpacity: number,
   movedData: MovedData,
   movesbase: Movesbase,
-  clickedObject: null | ClickedObject,
+  clickedObject: null | Array<ClickedObject>,
   actions: Actions,
   optionVisible: boolean,
   optionChange: boolean,

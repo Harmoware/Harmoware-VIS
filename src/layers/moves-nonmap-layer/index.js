@@ -13,9 +13,9 @@ type Props = {
   movesbase: Movesbase,
   getColor: (x: any) => Array<number>,
   getRadius: (x: any) => number,
-  routePaths: RoutePaths,
+  routePaths: Array<RoutePaths>,
   actions: Actions,
-  clickedObject: null | ClickedObject,
+  clickedObject: null | Array<ClickedObject>,
   onHover: Function,
   onClick: Function
 }
