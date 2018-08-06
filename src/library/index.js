@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import type { AnalyzedBaseData, BasedState as State, BasedProps as Props, RoutePaths,
+import type { AnalyzedBaseData, BasedProps as Props, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
 import { COLOR1 } from '../constants/settings';

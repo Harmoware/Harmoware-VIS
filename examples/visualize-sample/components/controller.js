@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
+import { Icon } from 'react-icons-kit';
+import { ic_layers_clear as icLayersClear } from 'react-icons-kit/md';
 import type { Actions, InputEvent } from 'harmoware-vis';
 
 type ControllerProps = {
@@ -22,6 +24,11 @@ type ControllerProps = {
 }
 
 export default class Controller extends Component<ControllerProps> {
+  clearRoute() {
+    this.props.actions.setClicked(null);
+    this.props.actions.setRoutePaths([]);
+  }
+
   render() {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
@@ -74,6 +81,11 @@ export default class Controller extends Component<ControllerProps> {
           <li><span>スピード</span>
             <SpeedRange secperhour={secperhour} actions={actions} />
             <span>{secperhour}&nbsp;秒/時</span>
+          </li>
+          <li><span>経路クリア</span>
+            <button onClick={this.clearRoute.bind(this)}>
+              <span><Icon icon={icLayersClear} />&nbsp;Clear Route</span>
+            </button>
           </li>
         </ul>
       </div>
