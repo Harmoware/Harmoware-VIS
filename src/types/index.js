@@ -1,6 +1,5 @@
 // @flow
 
-import * as types from '../constants/action-types';
 import typeof * as Actions from '../actions';
 
 declare type ElementEventTemplate<E> = {
