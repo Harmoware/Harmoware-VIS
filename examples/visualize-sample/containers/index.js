@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { HexagonLayer } from 'deck.gl';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
@@ -14,6 +15,7 @@ const MAPBOX_TOKEN: ? string = process.env.MAPBOX_ACCESS_TOKEN;
 type State = {
   moveOptionVisible: boolean,
   depotOptionVisible: boolean,
+  heatmapVisible: boolean,
   optionChange: boolean,
   popup: Array<any>
 }
@@ -27,6 +29,7 @@ class App extends Container<Props, State> implements Component {
     this.state = {
       moveOptionVisible: false,
       depotOptionVisible: false,
+      heatmapVisible: false,
       optionChange: false,
       popup: [0, 0, '']
     };
@@ -42,6 +45,10 @@ class App extends Container<Props, State> implements Component {
 
   getOptionChangeChecked(e: InputEvent) {
     this.setState({ optionChange: e.target.checked });
+  }
+
+  getHeatmapVisible(e: InputEvent) {
+    this.setState({ heatmapVisible: e.target.checked });
   }
 
   render() {
@@ -71,6 +78,7 @@ class App extends Container<Props, State> implements Component {
           {...props}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
+          getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
         />
         <div id="footer_area">
@@ -106,6 +114,15 @@ class App extends Container<Props, State> implements Component {
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
+              }),
+              new HexagonLayer({
+                id: '3d-heatmap',
+                data: movedData,
+                radius: 100,
+                opacity: 0.5,
+                extruded: true,
+                lightSettings,
+                visible: this.state.heatmapVisible
               })
             ]}
           />
