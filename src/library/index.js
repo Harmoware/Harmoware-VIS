@@ -15,7 +15,7 @@ const DEGREE_SCALE = 100;
 const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) /
   (2 * Math.PI * (EQUATOR_RADIUS * Math.cos((latitude * Math.PI) / 180.0))));
 
-const getAverage = (array: Array<number>) =>
+const getAverage = (array: Array<number>) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
 
 export const getContainerProp = (state: any) : any => {
