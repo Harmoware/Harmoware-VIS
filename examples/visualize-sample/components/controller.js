@@ -17,7 +17,7 @@ type ControllerProps = {
   animateReverse: boolean,
   getMoveOptionChecked: (e: InputEvent) => void,
   getDepotOptionChecked: (e: InputEvent) => void,
-  getDepotOptionChecked: (e: InputEvent) => void,
+  getHeatmapVisible: (e: InputEvent) => void,
   getOptionChangeChecked: (e: InputEvent) => void,
   animatePause: boolean,
   actions: Actions,
@@ -105,7 +105,7 @@ export default class Controller extends Component<ControllerProps, State> {
   render() {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
-      getMoveOptionChecked, getDepotOptionChecked,
+      getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
@@ -130,6 +130,9 @@ export default class Controller extends Component<ControllerProps, State> {
           </li>
           <li><span>オプション表示パターン切替</span>
             <input type="checkbox" onChange={getOptionChangeChecked} />
+          </li>
+          <li><span>ヒートマップ表示切替</span>
+            <input type="checkbox" onChange={getHeatmapVisible} />
           </li>
           <li>
             {animatePause ?
