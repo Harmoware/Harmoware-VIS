@@ -90,3 +90,7 @@ export const setNonmapView =
 export const setLinemapData =
   (linemapData: Array<LineMapData>) : {|type: string, linemapData: Array<LineMapData>|} =>
     ({ type: types.SETLINEMAPDATA, linemapData });
+
+export const setLoading =
+  (loading: boolean) : {|type: string, loading: boolean|} =>
+    ({ type: types.SETLOADING, loading });

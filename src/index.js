@@ -18,11 +18,13 @@ import {
   setDefaultPitch,
   setMovesOptionFunc,
   setDepotsOptionFunc,
+  setLoading,
 } from './actions';
 
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
 import LinemapInput from './components/linemap-input';
+import LoadingIcon from './components/loading-icon';
 import AddMinutesButton from './components/addminutes-button';
 import ElapsedTimeRange from './components/elapsedtime-range';
 import PlayButton from './components/play-button';
@@ -61,6 +63,7 @@ const Actions = {
   setDefaultPitch,
   setMovesOptionFunc,
   setDepotsOptionFunc,
+  setLoading,
 };
 
 export {
@@ -70,6 +73,7 @@ export {
   MovesInput,
   DepotsInput,
   LinemapInput,
+  LoadingIcon,
   AddMinutesButton,
   PlayButton,
   PauseButton,

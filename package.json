@@ -18,6 +18,7 @@
     "axios": "^0.17.1",
     "csvtojson": "^1.1.12",
     "deck.gl": "^4.1.2",
+    "emotion": "^9.2.6",
     "gl-matrix": "^2.6.1",
     "i18next": "^11.3.6",
     "iconv-lite": "^0.4.23",
@@ -31,6 +32,7 @@
     "react-map-gl": "^2.0.4",
     "react-modal": "^2.2.4",
     "react-redux": "^5.0.6",
+    "react-spinners": "^0.3.3",
     "react-stats": "^0.0.5",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0"

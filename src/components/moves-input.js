@@ -1,9 +1,8 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import LoadingIcon from './loading-icon';
 import type { InputEvent, I18n } from '../types';
-import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse } from '../actions';
+import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading } from '../actions';
 
 type Props = {
   actions: {
@@ -12,28 +11,18 @@ type Props = {
     setClicked: setClicked,
     setAnimatePause: setAnimatePause,
     setAnimateReverse: setAnimateReverse,
+    setLoading: setLoading,
   },
   i18n: I18n,
   className: string
 }
 
-type State = {
-  loading: boolean
-}
-
-export default class MovesInput extends Component<Props, State> {
+export default class MovesInput extends Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'
     },
     className: ''
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      loading: false
-    };
   }
 
   onSelect(e: InputEvent) {
@@ -43,7 +32,7 @@ export default class MovesInput extends Component<Props, State> {
     if (!file) {
       return;
     }
-    this.setState({ loading: true });
+    actions.setLoading(true);
     actions.setMovesBase([]);
     reader.readAsText(file);
     reader.onload = () => {
@@ -51,14 +40,14 @@ export default class MovesInput extends Component<Props, State> {
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {
-        this.setState({ loading: false });
+        actions.setLoading(false);
         window.alert(exception);
         return;
       }
       if (!Array.isArray(readdata)) { // Not Array?
         const { movesbase } = readdata;
         if (!movesbase) {
-          this.setState({ loading: false });
+          actions.setLoading(false);
           window.alert(i18n.formatError);
           return;
         }
@@ -68,18 +57,16 @@ export default class MovesInput extends Component<Props, State> {
       actions.setClicked(null);
       actions.setAnimatePause(false);
       actions.setAnimateReverse(false);
-      this.setState({ loading: false });
+      actions.setLoading(false);
     };
   }
 
   render() {
     const { className } = this.props;
-    const { loading } = this.state;
 
     return (
       <dev>
         <input type="file" accept=".json" onChange={this.onSelect.bind(this)} className={className} />&nbsp;
-        <LoadingIcon loading={loading} />
       </dev>
     );
   }

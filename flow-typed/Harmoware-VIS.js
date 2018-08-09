@@ -70,7 +70,7 @@ declare module 'harmoware-vis' {
     loopTime: number, movedData: Array<MovedData>, movesbase: Array<Movesbase>, nonmapView: boolean,
     routePaths: Array<RoutePaths>, secperhour: number, settime: number,
     starttimestamp: number, timeBegin: number, timeLength: number, trailing: number,
-    viewport: Viewport, linemapData: Array<LineMapData>, };
+    viewport: Viewport, linemapData: Array<LineMapData>, loading: boolean };
 
   declare export type BasedProps = { actions: Actions } & BasedState;
 
@@ -106,7 +106,8 @@ declare module 'harmoware-vis' {
     setTrailing: (trailing: number) => {| trailing: number, type: string |},
     setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |},
     setLinemapData: (linemapData: Array<LineMapData>) =>
-      {| type: string, linemapData: Array<LineMapData> |}
+      {| type: string, linemapData: Array<LineMapData> |},
+    setLoading: (loading: boolean) => {| type: string, loading: boolean |}
   |};
 
   declare type MovesInputProps = {|
@@ -130,6 +131,10 @@ declare module 'harmoware-vis' {
     actions: { setLinemapData: (linemapData: Array<LineMapData>) =>
       {| type: string, linemapData: Array<LineMapData> |} }, i18n?: I18n, className?: string |};
   declare export class LinemapInput extends React$Component<LinemapInputProps> {}
+
+  declare type LoadingIconProps = {|
+    loading: boolean, color?: string |};
+  declare export class LoadingIcon extends React$Component<LoadingIconProps> {}
 
   declare type AddMinutesButtonProps = {|
     addMinutes?: number, children?: React.Element | string, className?: string,
