@@ -4,7 +4,7 @@ import React from 'react';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import type { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 
@@ -30,7 +30,7 @@ class App extends Container<Props, State> implements Component {
   render() {
     const props = this.props;
     const { actions, viewport, movedData, movesbase, depotsData,
-      linemapData, routePaths, clickedObject, t } = props;
+      linemapData, routePaths, clickedObject, t, loading } = props;
     let dispLookAt = '';
 
     if (viewport.lookAt) {
@@ -95,6 +95,7 @@ class App extends Container<Props, State> implements Component {
             }
           </g>
         </svg>
+        <LoadingIcon loading={loading} />
       </div>
     );
   }

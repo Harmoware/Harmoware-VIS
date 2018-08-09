@@ -5,7 +5,7 @@ import { HexagonLayer } from 'deck.gl';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
@@ -54,7 +54,7 @@ class App extends Container<Props, State> implements Component {
   render() {
     const props = this.props;
     const {
-      actions, lightSettings, routePaths, viewport,
+      actions, lightSettings, routePaths, viewport, loading,
       clickedObject, movesbase, movedData, depotsData } = props;
 
     const onHover = (el) => {
@@ -138,6 +138,7 @@ class App extends Container<Props, State> implements Component {
             }
           </g>
         </svg>
+        <LoadingIcon loading={loading} />
       </div>
     );
   }

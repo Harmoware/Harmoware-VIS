@@ -63,6 +63,7 @@ const initialState: State = {
   nonmapView: false,
   linemapData: [],
   linemapDataOriginal: '',
+  loading: false,
 };
 
 export default (state: State = initialState, action: ActionTypes) => {
@@ -315,6 +316,13 @@ export default (state: State = initialState, action: ActionTypes) => {
         analyzelinemapData(state.nonmapView, action.linemapData);
         return Object.assign({}, state, {
           linemapData, linemapDataOriginal
+        });
+      })();
+    case types.SETLOADING:
+      return (() => {
+        const loading = action.loading;
+        return Object.assign({}, state, {
+          loading
         });
       })();
     default:

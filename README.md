@@ -121,6 +121,7 @@ Harmoware-VIS で定義されるState一覧
 | timeLength | Number | 0 | シュミレーション期間（秒） |
 | trailing | Number | 180 | シュミレーション後余白時間（秒） |
 | viewport | object | {...} | マップ視点情報 |
+| loading | Boolean | false | ローディング中情報 |
 
 ### Harmoware-VIS Actions
 
@@ -145,6 +146,7 @@ Harmoware-VIS で定義される redux の action は以下の通りです。
 | setDefaultPitch(Number) | defaultPitch | 地図表示時規定角度更新 |
 | setMovesOptionFunc(Function) | getMovesOptionFunc | 運行データオプション処理関数更新 |
 | setDepotsOptionFunc(Function) | getDepotsOptionFunc | 停留所データオプション処理関数更新 |
+| setLoading(Function) | loading | ローディング中情報 |
 
 ### Container
 
@@ -576,6 +578,23 @@ Harmoware-VIS を Control する component 一覧
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | i18n | Object option | -- | キャプション定義 |
+
+### LoadingIcon
+
+画面中央にローディング中を表すアイコンを表示します。
+
+##### Examples
+
+```js
+<LoadingIcon loading={loading} />
+```
+
+##### LoadingIcon Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| loading | boolean required | false | ローディングアイコン表示指示時は'true' |
+| color | string option | 'white' | 表示色 |
 
 ### AddMinutesButton
 

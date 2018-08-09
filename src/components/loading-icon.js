@@ -1,34 +1,33 @@
 // @flow
 
 import React, { Component, PropTypes } from 'react';
-import { Icon } from 'react-icons-kit';
-import { spinner } from 'react-icons-kit/fa';
-import type { I18n } from '../types';
+import { RingLoader } from 'react-spinners';
 
 type Props = {
-  i18n: I18n,
-  className: string,
   loading: boolean,
+  color: string
 }
 
 export default class LoadingIcon extends Component<Props> {
   static defaultProps = {
-    i18n: {
-      loadingCaption: 'Loading...'
-    },
-    className: '',
     loading: false,
+    color: 'white'
   }
 
   render() {
-    const { i18n, className, loading } = this.props;
+    const { loading, color } = this.props;
+    const devStyle = { position: 'fixed', zIndex: 200, top: 0, left: 0, width: '100%', height: '100%', display: 'flex' };
+    const iconStyle = { margin: 'auto', display: 'flex' };
 
-    return (
-      <dev>
-        {loading ? <Icon icon={spinner} className={className} /> : null}
-        &nbsp;
-        {loading ? i18n.loadingCaption : null}
-      </dev>
-    );
+    if (loading) {
+      return (
+        <dev style={devStyle}>
+          <dev style={iconStyle}>
+            <RingLoader size={60} color={color} loading={loading} />
+          </dev>
+        </dev>
+      );
+    }
+    return null;
   }
 }

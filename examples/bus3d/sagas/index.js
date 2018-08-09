@@ -49,8 +49,10 @@ function fetchCSV(path, useShiftJis = false) {
 }
 
 function* fetchDataList({ path }) {
+  yield put(Actions.setLoading(true));
   const { data } = yield fetchJSON(path);
   if (!data) {
+    yield put(Actions.setLoading(false));
     return;
   }
   const { children, leading } = data;
@@ -64,6 +66,7 @@ function* fetchDataList({ path }) {
   if (typeof leading === 'number') {
     yield put(Actions.setLeading(leading));
   }
+  yield put(Actions.setLoading(false));
 }
 
 function* fetchDataByAnswer({ answer }) {
@@ -71,8 +74,10 @@ function* fetchDataByAnswer({ answer }) {
   const { leading, trailing, defaultZoom, defaultPitch
   } = getContainerProp(yield select());
   if (fileextension[1] === 'json') {
+    yield put(Actions.setLoading(true));
     const { data } = yield fetchJSON(`${DATAPATH}${answer}`);
     if (!data) {
+      yield put(Actions.setLoading(false));
       return;
     }
     if (typeof data.busmovesbase !== 'undefined') {
@@ -81,6 +86,7 @@ function* fetchDataByAnswer({ answer }) {
       yield put(Actions.setBusTripIndex({}));
       yield put(Actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase: busmovesbase }));
       yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
+      yield put(Actions.setLoading(false));
       return;
     }
     const { timeBegin, timeLength, trips } = data;
@@ -88,6 +94,7 @@ function* fetchDataByAnswer({ answer }) {
     const strYmdBegin = p02d(d.getFullYear()) + p02d(d.getMonth() + 1) + p02d(d.getDate());
     const fileYmd = fileextension[0].split('-')[1].substr(0, 8);
     if (strYmdBegin !== fileYmd) {
+      yield put(Actions.setLoading(false));
       alert(`date error\ntimeBegin=${strYmdBegin}\nfileneme=${fileYmd}`);
       return;
     }
@@ -120,9 +127,12 @@ function* fetchDataByAnswer({ answer }) {
     yield put(Actions.setBusTripIndex({}));
     yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase: busmovesbase }));
     yield put(Actions.setBusMovesBaseDic({}));
+    yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
+    yield put(Actions.setLoading(true));
     const { data } = yield fetchCSV(`${DATAPATH}${answer}`, true);
     if (!data) {
+      yield put(Actions.setLoading(false));
       return;
     }
     const bustripscsv = data.map((current) => {
@@ -140,12 +150,14 @@ function* fetchDataByAnswer({ answer }) {
     });
     yield put(Actions.setBusTripsCsv(bustripscsv));
     yield put(Actions.setBusTripIndex({}));
+    yield put(Actions.setLoading(false));
   }
 }
 
 function* fetchBusstopCSV() {
   const { busstopscsv } = getContainerProp(yield select());
   if (busstopscsv.length === 0) {
+    yield put(Actions.setLoading(true));
     const { data } = yield fetchCSV(`${BUSSTOPSPATH}busstops.csv`);
     if (data) {
       const conversionData = data.map((current) => {
@@ -158,22 +170,26 @@ function* fetchBusstopCSV() {
       });
       yield put(Actions.setBusstopsCsv(conversionData));
     }
+    yield put(Actions.setLoading(false));
   }
 }
 
 function* fetchBusstopRoutesJSON() {
   const { busroutes } = getContainerProp(yield select());
   if (Object.keys(busroutes).length === 0) {
+    yield put(Actions.setLoading(true));
     const { data } = yield fetchJSON(`${ROUTESPATH}busroutes.json`);
     if (data) {
       yield put(Actions.setBusRoutes(data));
     }
+    yield put(Actions.setLoading(false));
   }
 }
 
 function* fetchRoutesJSON() {
   const { routesdata } = getContainerProp(yield select());
   if (Object.keys(routesdata).length === 0) {
+    yield put(Actions.setLoading(true));
     const { data } = yield fetchJSON(`${ROUTESPATH}routes.json`);
     if (data) {
       const { dep_station_code: depStationCode, des_station_code: desStationCode, route } = data;
@@ -185,12 +201,14 @@ function* fetchRoutesJSON() {
       });
       yield put(Actions.setRoutesData(routesdict));
     }
+    yield put(Actions.setLoading(false));
   }
 }
 
 function* fetchBusstopsOption() {
   const { answer } = getContainerProp(yield select());
   const bsoptFname = `${answer.split('.')[0]}-option`;
+  yield put(Actions.setLoading(true));
   const { data } = yield fetchJSON(`${BUSSTOPSPATH}${bsoptFname}.json`);
   if (data) {
     yield put(Actions.setBusOption(data));
@@ -201,6 +219,7 @@ function* fetchBusstopsOption() {
     yield put(Actions.setBsoptFname(''));
     yield put(Actions.setArchBase([]));
   }
+  yield put(Actions.setLoading(false));
 }
 
 function* setupByCSV() {
@@ -500,6 +519,7 @@ function* updateRainfall({ settime, timeBegin, xbandCellSize, answer, xbandFname
     return;
   }
   yield put(Actions.setXbandFname(nextXbandFname));
+  yield put(Actions.setLoading(true));
   const { data } = yield fetchJSON(`${GRIDDATAPATH}${nextXbandFname}.json`);
 
   if (data) {
@@ -507,6 +527,7 @@ function* updateRainfall({ settime, timeBegin, xbandCellSize, answer, xbandFname
   } else {
     yield put(Actions.setRainfall([]));
   }
+  yield put(Actions.setLoading(false));
 }
 
 export default function* rootSaga() {

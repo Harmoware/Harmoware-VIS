@@ -1,7 +1,7 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  Actions, connectToHarmowareVis, settings } from 'harmoware-vis';
+  Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -46,7 +46,7 @@ class App extends Container {
     const {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
-      busoption, movesbase, movedData, depotsData } = props;
+      busoption, movesbase, movedData, depotsData, loading } = props;
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
@@ -138,6 +138,7 @@ class App extends Container {
             ]}
           />
           <InteractionLayer viewport={viewport} hovered={hovered} />
+          <LoadingIcon loading={loading} />
         </div>
       </div>
     );
