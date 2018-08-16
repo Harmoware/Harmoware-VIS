@@ -1,21 +1,17 @@
 # Harmoware-VIS
 ![topimage](topimage.jpg)
 
-## はじめに
-本ソフトウェアは JST OPERA (産学共創プラットフォーム共同研究推進プログラム)の支援を受けて、
-人間機械協奏技術コンソーシアム (HMHS: Human Machine Harmonization System) (http://hmhs.jp)
-において、主に名古屋大学河口研究室が中心になって開発したものです。
-
-UBERが開発した Deck.GL( http://uber.github.io/deck.gl/ ) を利用し、その上に移動体とその付加情報を可視化する機能を
-追加しています。
+## Introduction
+This software is developed mainly by Kawaguchi lab, supported by JST OPERA (Program on Open Innovation Platform with Enterprises, Research Institute and Academia)
+This library is for visualizing moving objects and the additional info of them using Deck.GL (http://uber.github.io/deck.gl/) developed by UBER
 
 ## Install
 
-### 事前準備
-- node, npm のインストール
-- Mapbox access token の取得(後述）と環境変数(MAPBOX_ACCESS_TOKEN)の設定
+### Preparation
+- Install node, npm
+- Acquire Mapbox access token and Set the environment variable (MAPBOX_ACCESS_TOKEN)
 
-以下で例が動作します
+### Run the software
 ```
 git clone https://github.com/Harmoware/Harmoware-VIS
 cd Harmoware-VIS
@@ -24,19 +20,16 @@ npm install
 npm run bus3d
 ```
 
-★注意事項★
-node.js のバージョンは v9.11.1 で確認しています。
-
 ## Using Harmoware-VIS
 
 ### Mapbox Accesstoken Setting
 
-[mapbox.com](https://www.mapbox.com/ "mapbox.com") から Accesstoken を取得してください。
+Acquire the Accesstoken from [mapbox.com](https://www.mapbox.com/ "mapbox.com")
 
 ### User Application Examples
 
 ```javascript
-// app.js　mapboxを使用する場合のサンプル
+// sample using mapbox
 import React from 'react';
 import {
   Container, connectToHarmowareVis,
@@ -46,7 +39,7 @@ import {
   ElapsedTimeRange, SpeedRange
 } from 'harmoware-vis';
 
-const MAPBOX_TOKEN = XXXXXXXXXX; //mapbox.com から取得したAccesstoken
+const MAPBOX_TOKEN = XXXXXXXXXX; //Access Token acquired from mapbox.com
 
 class App extends Container {
 
@@ -57,7 +50,7 @@ class App extends Container {
 
     return (
       <div>
-        <div className="controller_area"> //コントローラーエリア
+        <div className="controller_area">
           <ul>
             <li><MovesInput actions={actions} /></li>
             <li><DepotsInput actions={actions} /></li>
@@ -75,7 +68,7 @@ class App extends Container {
           </ul>
         </div>
 
-        <div className="harmovis_area"> //シュミレーションエリア
+        <div className="harmovis_area">
           <HarmoVisLayers
             viewport={viewport} actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
@@ -96,68 +89,63 @@ export default connectToHarmowareVis(App);
 
 ### Harmoware-VIS State
 
-Harmoware-VIS で定義されるState一覧
-
 | props | Type | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| animatePause | Boolean | false | アニメーション停止 |
-| animateReverse | Boolean | false | アニメーション再生正逆 |
-| bounds | object | {} | 運行シュミレーション範囲（東西南北 端） |
-| defaultPitch | Number | 30 | 地図表示時規定角度 |
-| defaultZoom | Number | 11.1 | 地図表示時規定拡大値 |
-| depotsBase | Array | [] | 停留所データ保持エリア |
-| depotsData | Array | [] | 描画用停留所データ |
-| getDepotsOptionFunc | Function | null | 停留所データオプション処理関数 |
-| getMovesOptionFunc | Function | null | 運行データオプション処理関数 |
-| leading | Number | 100 | シュミレーション前余白時間（秒） |
-| lightSettings | object | {...} | 3Ｄオブジェクト用光源設定 |
-| movedData | Array | [] | 描画用運行データ |
-| movesbase | Array | [] | 運行データ保持エリア |
-| clickedObject | Array | null | 選択中運行オブジェクト |
-| routePaths | Array | [] | 描画用運行経路 |
-| secperhour | Number | 3 | 再生速度（秒/時） |
-| settime | Number | 0 | シュミレーション中時間 |
-| timeBegin | Number | 0 | シュミレーション開始時刻UNIX時間（秒） |
-| timeLength | Number | 0 | シュミレーション期間（秒） |
-| trailing | Number | 180 | シュミレーション後余白時間（秒） |
-| viewport | object | {...} | マップ視点情報 |
-| loading | Boolean | false | ローディング中情報 |
+| animatePause | Boolean | false | pause the animation |
+| animateReverse | Boolean | false | play the animation backwards |
+| bounds | object | {} | simulation area |
+| defaultPitch | Number | 30 | default angle |
+| defaultZoom | Number | 11.1 | expantion ratio |
+| depotsBase | Array | [] | areas which poses depots data |
+| depotsData | Array | [] | depots data |
+| getDepotsOptionFunc | Function | null | a function to execute depots options |
+| getMovesOptionFunc | Function | null | a function to execute moving objects options |
+| leading | Number | 100 | wait time before executing the simulation |
+| lightSettings | object | {...} | an object that contains light settings |
+| movedData | Array | [] | data for the moving objects |
+| movesbase | Array | [] | areas which poses moving objects data |
+| clickedObject | Array | null | a selected object |
+| routePaths | Array | [] | array of the operation routes |
+| secperhour | Number | 3 | playback speed (sec/hour) |
+| settime | Number | 0 | playback time |
+| timeBegin | Number | 0 | simulation start UNIX time (sec) |
+| timeLength | Number | 0 | simulation span (sec) |
+| trailing | Number | 180 | trailing time after simulation end (sec) |
+| viewport | object | {...} | Viewport of the map |
+| loading | Boolean | false | Loading in progress |
 
 ### Harmoware-VIS Actions
 
-Harmoware-VIS で定義される redux の action は以下の通りです。
-
 | action | update props | Description |
 | :------------ | :------------ | :------------ |
-| addMinutes(Number) | settime  | シュミレーション中時間加算（分）更新 |
-| setTime(Number) | settime | シュミレーション中時間更新 |
-| setLeading(Number) | leading | シュミレーション前余白時間（秒）更新 |
-| setTrailing(Number) | trailing | シュミレーション後余白時間（秒）更新 |
-| setViewport(object) | viewport | マップ視点情報更新 |
-| setLightSettings(object) | lightSettings | 3Ｄオブジェクト用光源設定更新 |
-| setMovesBase(object/Array) | timeBegin, timeLength, bounds, movesbase | 運行シュミレーションデータ更新 |
-| setDepotsBase(Array) | depotsBase | 停留所データ保持エリア更新 |
-| setAnimatePause(Boolean) | animatePause | アニメーション動作停止更新 |
-| setAnimateReverse(Boolean) | animateReverse | アニメーション再生正逆更新 |
-| setSecPerHour(Number) | secperhour | 再生速度（秒/時）更新 |
-| setClicked(Array) | clickedObject | 選択中運行オブジェクト更新 |
-| setRoutePaths(Array) | routePaths | 描画用運行経路更新 |
-| setDefaultZoom(Number) | defaultZoom | 地図表示時規定拡大値更新 |
-| setDefaultPitch(Number) | defaultPitch | 地図表示時規定角度更新 |
-| setMovesOptionFunc(Function) | getMovesOptionFunc | 運行データオプション処理関数更新 |
-| setDepotsOptionFunc(Function) | getDepotsOptionFunc | 停留所データオプション処理関数更新 |
-| setLoading(Function) | loading | ローディング中情報 |
+| addMinutes(Number) | settime  | add specified time (minutes) to the current `settime`|
+| setTime(Number) | settime | set the specified time to the `settime` |
+| setLeading(Number) | leading | set the specified time (sec) to the `leading` |
+| setTrailing(Number) | trailing | set the specified time (sec) to the `trailing` |
+| setViewport(object) | viewport | set the specified view data to the `viewport` |
+| setLightSettings(object) | lightSettings | set the specified light source data to the `lightSettings` |
+| setMovesBase(object/Array) | timeBegin, timeLength, bounds, movesbase | set the specified simulation base data to the `timeBegin` `timeLength`,`bounds`,`movesbase` |
+| setDepotsBase(Array) | depotsBase | set the specified depots position data to the `depotsBase` |
+| setAnimatePause(Boolean) | animatePause | set the specified animation playback control data to the `animatePause` |
+| setAnimateReverse(Boolean) | animateReverse | set the specified animation forward and reverse control data to the `animateReverse` |
+| setSecPerHour(Number) | secperhour | set the specified animation playback speed control data (sec/hour) to the `secperhour` |
+| setClicked(Array) | clickedObject | set the specified clicked object data to the `clickedObject` |
+| setRoutePaths(Array) | routePaths | set the specified route path data to the `routePaths` |
+| setDefaultZoom(Number) | defaultZoom | set the specified default map zoom value to the `defaultZoom` |
+| setDefaultPitch(Number) | defaultPitch | set the specified default map pitch value to the `defaultPitch` |
+| setMovesOptionFunc(Function) | getMovesOptionFunc | set the specified moves data option info process function to the `getMovesOptionFunc` |
+| setDepotsOptionFunc(Function) | getDepotsOptionFunc | set the specified depots data option info process function to the `getDepotsOptionFunc` |
+| setLoading(Function) | loading | set the specified Loading in progress to the `loading` |
 
 ### Container
 
-React.Component から継承したクラスで、Harmoware-VIS ライブラリの base コンポーネント。
-シミュレーション時間及び、アニメーションフレームの更新を実施します。
-ユーザは render 関数で DOM 出力してください。
+This is the class inherited from `React.Component`. This is the base component of the `Harmoware-VIS` library.
+`settime` and animation frame update. Please output DOM with the `render` function.
 
 ##### Examples
 
 ```javascript
-// mapboxを使用する場合
+// using mapbox
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisLayers, ... } from 'harmoware-vis';
 class App extends Container {
@@ -173,7 +161,7 @@ class App extends Container {
 export default connectToHarmowareVis(App);
 ```
 ```javascript
-// mapboxを使用しない場合
+// without using mapbox
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisNonMapLayers, ... } from 'harmoware-vis';
 class App extends Container {
@@ -191,13 +179,12 @@ export default connectToHarmowareVis(App);
 
 ### connectToHarmowareVis
 
-connectToHarmowareVisのstateを`container component`の`props`に同期するためのUtility関数です。
-props以下に直接`State`と`actions`がbindされるため、もし他のbind方法を好まれる場合はUtilityを自作する必要があります。
-
+Utility to synchronize the state of `connectToHarmowareVis` to the prop of container component.
+Since `state` and` actions` are directly bound below props, if you prefer other bind methods, you need to make Utility yourself.
 
 ### HarmoVisLayers
 
-[deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するレイヤーをmapboxより取得したマップ上に表示します。
+Display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl") on the map obtained from mapbox.
 
 ##### Examples
 
@@ -213,17 +200,18 @@ props以下に直接`State`と`actions`がbindされるため、もし他のbind
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| viewport | object required | -- | Harmoware-VIS の `viewport` |
-| mapboxApiAccessToken | string required | -- | mapbox.com のAccesstoken |
-| mapStyle | string option | 'mapbox://styles/mapbox/dark-v8' | mapbox のマップスタイルURL |
-| layers | array required | -- | Layer インスタンス(※1) の配列 |
-| onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
-※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| viewport | object required | -- | Harmoware-VIS state `viewport` |
+| mapboxApiAccessToken | string required | -- | The access token of mapbox.com |
+| mapStyle | string option | 'mapbox://styles/mapbox/dark-v8' | A map style URL of mapbox.com. |
+| layers | array required | -- | Array of Layer (※) |
+| onChangeViewport | func option | this.props.actions.setViewport | Harmoware-VIS Actions `setViewport` |
+
+※1 An instance of a class that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ### HarmoVisNonMapLayers
 
-[deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するレイヤーを３Ｄ表示します。
+3D display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ##### Examples
 
@@ -238,19 +226,20 @@ props以下に直接`State`と`actions`がbindされるため、もし他のbind
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| viewport | object required | -- | Harmoware-VIS の `viewport` |
-| layers | array required | -- | Layer インスタンス(※1) の配列 |
-| onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
-※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| viewport | object required | -- | Harmoware-VIS state `viewport` |
+| layers | array required | -- | Array of Layer (※) |
+| onChangeViewport | func option | this.props.actions.setViewport | Harmoware-VIS Actions `setViewport` |
+
+※1 An instance of a class that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ## Harmoware-VIS Layers
 
-Harmoware-VIS 提供 Layer 一覧
+Harmoware-VIS Layer List
 
 ### MovesLayer
 
-車両などの移動体をmapboxより取得したマップ上にシュミレーションします。
+Simulate a mobile object such as a vehicle on a map acquired from mapbox.com.
 
 ##### Examples
 
@@ -271,49 +260,49 @@ Harmoware-VIS 提供 Layer 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| routePaths | Array required | -- | Harmoware-VIS の `routePaths` |
-| movesbase| Array required | -- | Harmoware-VIS の `movesbase` |
-| movedData| Array required | -- | Harmoware-VIS の `movedData` |
-| clickedObject | Array required |--  | Harmoware-VIS の `clickedObject` |
-| layerRadiusScale | Number option | 1 | アイコンサイズスケール |
-| layerOpacity | Number option | 0.75 | アイコン透過度 |
-| getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
-| optionVisible | Boolean option | true | option情報表示可否 |
-| optionChange | Boolean option | false | option表示パターン切替 |
-| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の `lightSettings` |
-| optionOpacity | Number option | 0.25 | option情報透過度 |
-| optionCellSize | Number option | 10 | option情報透過度セルサイズ |
-| optionElevationScale | Number option | 1 | option情報高度スケール |
-| getColor1～4 | Function option | x => (x.optColor && x.optColor[0～3]) ││ x.color ││ GREEN | option情報アイコン色指定アクセサ |
-| getElevation1～4 | Function option | x => (x.optElevation && x.optElevation[0～3]) ││ 0 | option情報アイコン高度指定アクセサ |
-| getCubeColor | Function option | x => x.optColor ││ [x.color] ││ [GREEN] | option情報アイコン色指定アクセサ2 |
-| getCubeElevation | Function option | x => x.optElevation ││ [0] | option情報アイコン高度指定アクセサ2 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| routePaths | Array required | -- | Harmoware-VIS state `routePaths` |
+| movesbase| Array required | -- | Harmoware-VIS state `movesbase` |
+| movedData| Array required | -- | Harmoware-VIS state `movedData` |
+| clickedObject | Array required |--  | Harmoware-VIS state `clickedObject` |
+| layerRadiusScale | Number option | 1 | Icon size scale |
+| layerOpacity | Number option | 0.75 | Icon opacity |
+| getColor | Function option | x => x.color ││ GREEN | Icon color specification accessor |
+| optionVisible | Boolean option | true | Option information display availability |
+| optionChange | Boolean option | false | option Display pattern switching |
+| lightSettings | object option | -- | Required if optionVisible is set to true. Harmoware-VIS state `lightSettings` |
+| optionOpacity | Number option | 0.25 | option Information opacity |
+| optionCellSize | Number option | 10 | option information cell size |
+| optionElevationScale | Number option | 1 | option information elevation scale |
+| getColor1～4 | Function option | x => (x.optColor && x.optColor[0～3]) ││ x.color ││ GREEN | option information color specification accessor |
+| getElevation1～4 | Function option | x => (x.optElevation && x.optElevation[0～3]) ││ 0 | option information elevation specification accessor |
+| getCubeColor | Function option | x => x.optColor ││ [x.color] ││ [GREEN] | option information (cube type) color specification accessor |
+| getCubeElevation | Function option | x => x.optElevation ││ [0] | option information (cube type) elevation specification accessor |
 
-##### 運行シュミレーションデータファイルのjsonフォーマット
+##### The json format of the simulation data file
 
-- 形式１
+- format 1
 ```js
 // bounds timeBegin timeLength movesbase
-{   "timeBegin": 9999999999, //運行シュミレーション開始日時（UNIX時間（秒））
-    "timeLength": 99999, //運行シュミレーション開始から終了までの経過時間（秒）
-    "bounds": { //運行シュミレーション範囲（北端、南端、西端、東端）
+{   "timeBegin": 9999999999, // simulation start UNIX time (sec)
+    "timeLength": 99999, // simulation span (sec)
+    "bounds": { // simulation area (north, south, west, east)
         "northlatitude": 99.99999, "southlatitude": 99.99999,
         "westlongitiude" 999.99999, "eastlongitiude": 999.99999,
     },
-    "movesbase": [ //運行シュミレーションデータ *必須
-        { //運行単位（１便）ごとに時間と経路を定義する
-          //（departuretime, arrivaltime, elapsedtime はtimeBeginからの経過時間（秒））
-          //（timeBegin 省略時 departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
-            "departuretime": 99999, //出発時間（秒） *必須
-            "arrivaltime": 99999, //到着時間（秒） *必須
-            "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
-                { //経過時間順に定義する
-                    "elapsedtime": 99999, //経過時間（秒） *必須
-                    // position形式 又は longitude-latitude形式で指定する
-                    "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
-                    "longitude": 999.9999, //elapsedtime時の位置（経度）*必須
-                    "latitude": 99.999, //elapsedtime時の位置（緯度）*必須
+    "movesbase": [ // Simulation data format *(required)
+        { // Define time and route for each operation unit (one operation)
+          // (`departuretime`, `arrivaltime`, `elapsedtime` is the elapsed time (sec) from timeBegin)
+          // (When `timeBegin` is omitted, `departuretime`, `arrivaltime`, `elapsedtime` is UNIX time (second))
+            "departuretime": 99999, // departuretime (sec) *(required)
+            "arrivaltime": 99999, // arrivaltime (sec) *(required)
+            "operation": [ // Define time and route for each operation unit (one operation) *(required)
+                { // Defined by elapsed time
+                    "elapsedtime": 99999, // elapsedtime (sec) *(required)
+                    // Specified in `position` or `longitude-latitude` format
+                    "position": [999.9999, 999.9999, 999.9999], // Position of `elapsedtime` (x,y,z) *(required)
+                    "longitude": 999.9999, // Position of `elapsedtime` (longitude) *(required)
+                    "latitude": 99.999, // Position of `elapsedtime` (latitude) *(required)
                 },・・・・・・
             ],
         },・・・・・・
@@ -321,20 +310,20 @@ Harmoware-VIS 提供 Layer 一覧
 }
 ```
 
-- 形式２
+- format 2
 ```js
-[ //運行シュミレーションデータ
-    { //運行単位（１便）ごとに時間と経路を定義する
-      //（departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
-        "departuretime": 9999999999, //出発時間（秒） *必須
-        "arrivaltime": 9999999999, //到着時間（秒） *必須
-        "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
-            { //経過時間順に定義する
-                "elapsedtime": 9999999999, //経過時間（秒） *必須
-                // position形式 又は longitude-latitude形式で指定する
-                "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
-                "longitude": 999.9999, //elapsedtime時の位置（経度）*必須
-                "latitude": 99.999, //elapsedtime時の位置（緯度）*必須
+[ // Simulation data format
+    { // Define time and route for each operation unit (one operation)
+      // (`departuretime`, `arrivaltime`, `elapsedtime` is UNIX time (second))
+        "departuretime": 9999999999, // departuretime (sec) *(required)
+        "arrivaltime": 9999999999, // arrivaltime (sec) *(required)
+        "operation": [ // Define time and route for each operation unit (one operation) *(required)
+            { // Defined by elapsed time
+                "elapsedtime": 9999999999, // elapsedtime (sec) *(required)
+                // Specified in `position` or `longitude-latitude` format
+                "position": [999.9999, 999.9999, 999.9999], // Position of `elapsedtime` (x,y,z) *(required)
+                "longitude": 999.9999, // Position of `elapsedtime` (longitude) *(required)
+                "latitude": 99.999, // Position of `elapsedtime` (latitude) *(required)
             },・・・・・・
         ],
     },・・・・・・
@@ -343,7 +332,7 @@ Harmoware-VIS 提供 Layer 一覧
 
 ### DepotsLayer
 
-停留所や駅などをmapboxより取得したマップ上にシュミレーションします。
+Simulate depots or stations on a map acquired from mapbox.com.
 
 ##### Examples
 
@@ -359,36 +348,35 @@ Harmoware-VIS 提供 Layer 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| depotsData| Array required | -- | Harmoware-VIS の `depotsData` |
-| layerRadiusScale | Number option | 1 | アイコンサイズスケール |
-| layerOpacity | Number option | 0.5 | アイコン透過度 |
-| getColor | Function option | x => x.color ││ DARKMAGENTA | アイコン色指定アクセサ |
-| optionVisible | Boolean option | true | option情報表示可否 |
-| optionChange | Boolean option | false | option表示パターン切替 |
-| lightSettings | object option | -- | optionVisible に true を指定した場合には必須。 Harmoware-VIS の `lightSettings` |
-| optionOpacity | Number option | 0.25 | option情報透過度 |
-| optionCellSize | Number option | 15 | option情報透過度セルサイズ |
-| optionElevationScale | Number option | 1 | option情報高度スケール |
-| getColor1～4 | Function option | x => (x.optColor && x.optColor[0～3]) ││ x.color ││ DARKMAGENTA | option情報アイコン色指定アクセサ |
-| getElevation1～4 | Function option | x => (x.optElevation && x.optElevation[0～3]) ││ 0 | option情報アイコン高度指定アクセサ |
+| depotsData| Array required | -- | Harmoware-VIS state `depotsData` |
+| layerRadiusScale | Number option | 1 | Icon size scale |
+| layerOpacity | Number option | 0.5 | Icon opacity |
+| getColor | Function option | x => x.color ││ DARKMAGENTA | Icon color specification accessor |
+| optionVisible | Boolean option | true | Option information display availability |
+| optionChange | Boolean option | false | option Display pattern switching |
+| lightSettings | object option | -- | Required if optionVisible is set to true. Harmoware-VIS state `lightSettings` |
+| optionOpacity | Number option | 0.25 | option Information opacity |
+| optionCellSize | Number option | 15 | option information cell size |
+| optionElevationScale | Number option | 1 | option information elevation scale |
+| getColor1～4 | Function option | x => (x.optColor && x.optColor[0～3]) ││ x.color ││ DARKMAGENTA | option information color specification accessor |
+| getElevation1～4 | Function option | x => (x.optElevation && x.optElevation[0～3]) ││ 0 | option information elevation specification accessor |
 
-##### 停留所情報データのjsonフォーマット
+##### The json format of the depots data file
 
 ```js
-// depotsData position形式
-[   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
+// Specified in `position` or `longitude-latitude` format
+[   {   "position": [999.9999, 999.9999, 999.9999], // depots position (x,y,z)
     },・・・・・・
 ]
-// depotsData longitude-latitude形式
-[   {   "longitude": 999.9999, //オブジェクト表示する位置（経度）
-        "latitude": 99.9999, //オブジェクト表示する位置（緯度）
+[   {   "longitude": 999.9999, // depots position (longitude)
+        "latitude": 99.9999, // depots position (latitude)
     },・・・・・・
 ]
 ```
 
 ### MovesNonmapLayer
 
-移動体を３Ｄシュミレーションします。
+3D simulation of mobile objects.
 
 ##### Examples
 
@@ -408,33 +396,33 @@ Harmoware-VIS 提供 Layer 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| movedData| Array required | -- | Harmoware-VIS の props.movedData |
-| movesbase| Array required | -- | Harmoware-VIS の props.movesbase |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-| routePaths | Array required | -- | Harmoware-VIS の props.routePaths |
-| clickedObject | Array required |--  | Harmoware-VIS の props.clickedObject |
-| layerOpacity | Number option | 0.75 | アイコン透過度 |
-| getColor | Function option | x => x.color ││ GREEN | アイコン色指定アクセサ |
-| getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |
+| movedData| Array required | -- | Harmoware-VIS state `movedData` |
+| movesbase| Array required | -- | Harmoware-VIS state `movesbase` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| routePaths | Array required | -- | Harmoware-VIS state `routePaths` |
+| clickedObject | Array required |--  | Harmoware-VIS state `clickedObject` |
+| layerOpacity | Number option | 0.75 | Icon opacity |
+| getColor | Function option | x => x.color ││ GREEN | Icon color specification accessor |
+| getRadius | Function option | x => x.radius ││ 2 | Icon radius specification accessor |
 
 
-##### 運行シュミレーションデータファイルのjsonフォーマット
+##### The json format of the simulation data file
 
-###### 形式１
+###### Format1
 ```js
 // bounds timeBegin timeLength movesbase
-{   "timeBegin": 9999999999, //運行シュミレーション開始日時（UNIX時間（秒））
-    "timeLength": 99999, //運行シュミレーション開始から終了までの経過時間（秒）
-    "movesbase": [ //運行シュミレーションデータ *必須
-        { //運行単位（１便）ごとに時間と経路を定義する
-          //（departuretime, arrivaltime, elapsedtime はtimeBeginからの経過時間（秒））
-          //（timeBegin 省略時 departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
-            "departuretime": 99999, //出発時間（秒） *必須
-            "arrivaltime": 99999, //到着時間（秒） *必須
-            "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
-                { //経過時間順に定義する
-                    "elapsedtime": 99999, //経過時間（秒） *必須
-                    "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
+{   "timeBegin": 9999999999, // simulation start UNIX time (sec)
+    "timeLength": 99999, // simulation span (sec)
+    "movesbase": [ // Simulation data format *(required)
+        { // Define time and route for each operation unit (one operation)
+          // (`departuretime`, `arrivaltime`, `elapsedtime` is the elapsed time (sec) from timeBegin)
+          // (When `timeBegin` is omitted, `departuretime`, `arrivaltime`, `elapsedtime` is UNIX time (second))
+            "departuretime": 99999, // departuretime (sec) *(required)
+            "arrivaltime": 99999, // arrivaltime (sec) *(required)
+            "operation": [ // Define time and route for each operation unit (one operation) *(required)
+                { // Defined by elapsed time
+                    "elapsedtime": 99999, // elapsedtime (sec) *(required)
+                    "position": [999.9999, 999.9999, 999.9999], // Position of `elapsedtime` (x,y,z) *(required)
                 },・・・・・・
             ],
         },・・・・・・
@@ -442,17 +430,17 @@ Harmoware-VIS 提供 Layer 一覧
 }
 ```
 
-###### 形式２
+###### Format2
 ```js
-[ //運行シュミレーションデータ
-    { //運行単位（１便）ごとに時間と経路を定義する
-      //（departuretime, arrivaltime, elapsedtime はUNIX時間（秒））
-        "departuretime": 9999999999, //出発時間（秒） *必須
-        "arrivaltime": 9999999999, //到着時間（秒） *必須
-        "operation": [ //運行単位（１便）ごとに時間と経路を定義する *必須
-            { //経過時間順に定義する
-                "elapsedtime": 9999999999, //経過時間（秒） *必須
-                "position": [999.9999, 999.9999, 999.9999], //elapsedtime時の位置（x,y,z）*必須
+[ // Simulation data format
+    { // Define time and route for each operation unit (one operation)
+      // (`departuretime`, `arrivaltime`, `elapsedtime` is UNIX time (second))
+        "departuretime": 9999999999, // departuretime (sec) *(required)
+        "arrivaltime": 9999999999, // arrivaltime (sec) *(required)
+        "operation": [ // Define time and route for each operation unit (one operation) *(required)
+            { // Defined by elapsed time
+                "elapsedtime": 9999999999, // elapsedtime (sec) *(required)
+                "position": [999.9999, 999.9999, 999.9999], // Position of `elapsedtime` (x,y,z) *(required)
             },・・・・・・
         ],
     },・・・・・・
@@ -461,7 +449,7 @@ Harmoware-VIS 提供 Layer 一覧
 
 ### FixedPointLayer
 
-固定ポイントを３Ｄシュミレーションします。
+3D simulation of fixed objects.
 
 ##### Examples
 
@@ -477,23 +465,23 @@ Harmoware-VIS 提供 Layer 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| depotsData| Array required | -- | Harmoware-VIS の `depotsData` |
-| layerOpacity | Number option | 0.75 | アイコン透過度 |
-| getColor | Function option | x => x.color ││ DARKMAGENTA | アイコン色指定アクセサ |
-| getRadius | Function option | x => x.radius ││ 2 | アイコンサイズアクセサ |
+| depotsData| Array required | -- | Harmoware-VIS state `depotsData` |
+| layerOpacity | Number option | 0.75 | Icon opacity |
+| getColor | Function option | x => x.color ││ DARKMAGENTA | Icon color specification accessor |
+| getRadius | Function option | x => x.radius ││ 2 | Icon radius specification accessor |
 
-##### 固定ポイント情報データのjsonフォーマット
+##### The json format of the fixed data file
 
 ```js
 // depotsData
-[   {   "position": [999.9999, 999.9999, 999.9999], //オブジェクト表示する位置（x,y,z）*必須
+[   {   "position": [999.9999, 999.9999, 999.9999], // display position (x,y,z) *(required)
     },・・・・・・
 ]
 ```
 
 ### LineMapLayer
 
-線描画マップを３Ｄシュミレーションします。
+3D simulation of line objects.
 
 ##### Examples
 
@@ -509,28 +497,28 @@ Harmoware-VIS 提供 Layer 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| linemapData| Array required | -- | Harmoware-VIS の `linemapData` |
-| layerOpacity | Number option | 1.0 | 線透過度 |
-| strokeWidth | Number option | 20 | 線幅 |
-| getColor | Function option | x => x.color ││ WHITE | 線色指定アクセサ |
+| linemapData| Array required | -- | Harmoware-VIS state `linemapData` |
+| layerOpacity | Number option | 1.0 | Line opacity |
+| strokeWidth | Number option | 20 | Line Width |
+| getColor | Function option | x => x.color ││ WHITE | Line color specification accessor |
 
-##### 線描画マップ情報データのjsonフォーマット
+##### The json format of the line data file
 
 ```js
-// depotsData
-[   { "sourcePosition": [999.9999, 999.9999, 999.9999], //線描画開始位置（x,y,z）*必須
-      "targetPosition": [999.9999, 999.9999, 999.9999], //線描画終了位置（x,y,z）*必須
+// linemapData
+[   { "sourcePosition": [999.9999, 999.9999, 999.9999], // line start position (x,y,z) *(required)
+      "targetPosition": [999.9999, 999.9999, 999.9999], // line end position (x,y,z) *(required)
     },・・・・・・
 ]
 ```
 
 ## Harmoware-VIS Control component
 
-Harmoware-VIS を Control する component 一覧
+Harmoware-VIS component list
 
 ### MovesInput
 
-「運行シュミレーションデータ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の `bounds`、`timeBegin`、`timeLength`、`movesbase` に設定します。
+Display a dialog to select the file for which "moves base data" is set, and set it to Harmoware-VIS state `bounds`, `timeBegin`, `timeLength`, `movebase` from the read data.
 
 ##### Examples
 
@@ -542,12 +530,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| i18n | Object option | -- | formatError caption `i18n.formatError` |
 
 ### DepotsInput
 
-「停留所情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の `depotsBase` に設定します。
+Display a dialog to select the file for which "depots base data" is set, and set it to Harmoware-VIS state `depotsBase` from the read data.
 
 ##### Examples
 
@@ -559,12 +547,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| i18n | Object option | -- | formatError caption `i18n.formatError` |
 
 ### LinemapInput
 
-「線描画マップ情報データ」を設定したファイルを選択するダイアログを表示し、読み込んだデータより Harmoware-VIS の`linemapData` に設定します。
+Display a dialog to select the file for which "line map data" is set, and set it to Harmoware-VIS state `linemapData` from the read data.
 
 ##### Examples
 
@@ -576,12 +564,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| i18n | Object option | -- | formatError caption `i18n.formatError` |
 
 ### LoadingIcon
 
-画面中央にローディング中を表すアイコンを表示します。
+An icon representing loading is displayed in the center of the screen.
 
 ##### Examples
 
@@ -593,12 +581,12 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| loading | boolean required | false | ローディングアイコン表示指示時は'true' |
-| color | string option | 'white' | 表示色 |
+| loading | boolean required | false | loading icon display pattern switching |
+| color | string option | 'white' | loading icon color |
 
 ### AddMinutesButton
 
-「シュミレーション中時間（settime）」から addMinutes 分を加算した値を Harmoware-VIS の `settime` に設定する button オブジェクト。
+A button object that sets the value obtained by adding addMinutes minutes from "simulation time (`settime`)" to Harmoware-VIS state `settime`.
 
 ##### Examples
 
@@ -610,14 +598,14 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node required | -- | Button Caption |
-| addMinutes | number option | 10 | 加算する時間（分）10 |
-| i18n | Object option | -- | キャプション定義 |
+| addMinutes | number option | 10 | Time to add (min) |
+| i18n | Object option | 'min' | minutes caption `i18n.minutesCaption` |
 
 ### ElapsedTimeRange
 
-「シュミレーション中時間（settime）」を Harmoware-VIS の `settime` に設定する range オブジェクト。
+A range object that sets the specified "simulation time (`settime`)" to Harmoware-VIS state `settime`.
 
 ##### Examples
 
@@ -629,15 +617,15 @@ Harmoware-VIS を Control する component 一覧
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| settime | number required | -- | Harmoware-VIS の `settime` |
-| timeLength | number required | -- | Harmoware-VIS の `timeLength` |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| min | number option | -100 | Range 最小値（シュミレーション中時間（秒）） |
-| step | number option | 1 | Range 増加値 |
+| settime | number required | -- | Harmoware-VIS state `settime` |
+| timeLength | number required | -- | Harmoware-VIS state `timeLength` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| min | number option | -100 | Range(`settime` sec) minimum |
+| step | number option | 1 | Range include |
 
 ### PauseButton
 
-Harmoware-VIS の `animatePause` を true に更新する button オブジェクト。
+Harmoware-VIS state A button object that updates `animatePause` to true.
 
 ##### Examples
 
@@ -649,13 +637,13 @@ Harmoware-VIS の `animatePause` を true に更新する button オブジェク
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| children | string option | '⏸ PAUSE' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| children | string option | -- | Button Caption |
+| i18n | Object option | 'PAUSE' | pauseButton caption `i18n.pauseButtonCaption` |
 
 ### PlayButton
 
-Harmoware-VIS の `animatePause` を false に更新する button オブジェクト。
+Harmoware-VIS state A button object that updates `animatePause` to false.
 
 ##### Examples
 
@@ -667,13 +655,13 @@ Harmoware-VIS の `animatePause` を false に更新する button オブジェ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| children | string option | '▶ PLAY' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| children | string option | -- | Button Caption |
+| i18n | Object option | 'PLAY' | playButton caption `i18n.playButtonCaption` |
 
 ### ForwardButton
 
-Harmoware-VIS の `animateReverse` を false に更新する button オブジェクト。
+Harmoware-VIS state A button object that updates `animateReverse` to false.
 
 ##### Examples
 
@@ -685,13 +673,13 @@ Harmoware-VIS の `animateReverse` を false に更新する button オブジェ
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の props.actions |
-| children | node option | '➡ FORWARD' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| children | node option | -- | Button Caption |
+| i18n | Object option | 'FORWARD' | forwardButton caption `i18n.forwardButtonCaption` |
 
 ### ReverseButton
 
-Harmoware-VIS の `animateReverse` を true に更新する button オブジェクト。
+Harmoware-VIS state A button object that updates `animateReverse` to true.
 
 ##### Examples
 
@@ -703,14 +691,13 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| children | node option | '↩ REVERSE' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| children | node option | -- | Button Caption |
+| i18n | Object option | -- | formatError caption `i18n.formatError` |
 
 ### SimulationDateTime
 
-シミュレーション時刻を編集するコンポーネント。
-表示例 `2018/02/21(水) 16:35:24`
+Component that edits simulation time.
 
 ##### Examples
 
@@ -722,14 +709,14 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| timeBegin | number required | -- | Harmoware-VIS の `timeBegin` |
-| settime | number required | -- | Harmoware-VIS の `settime` |
-| locales | string option | 'ja-JP' | dateObj.toLocaleStringの引数 |
-| options | object option | { year:'numeric',month:'2-digit',day:'2-digit',   hour:'2-digit',minute:'2-digit',second:'2-digit',    weekday:'short' } | dateObj.toLocaleStringの引数 |
+| timeBegin | number required | -- | Harmoware-VIS state `timeBegin` |
+| settime | number required | -- | Harmoware-VIS state `settime` |
+| locales | string option | 'ja-JP' | Argument of `dateObj.toLocaleString` |
+| options | object option | { year:'numeric',month:'2-digit',day:'2-digit',   hour:'2-digit',minute:'2-digit',second:'2-digit',    weekday:'short' } | Argument of `dateObj.toLocaleString` |
 
 ### SpeedRange
 
-「再生速度（秒/時）（secperhour）」を Harmoware-VIS の `secperhour` に設定する range オブジェクト。
+A range object that sets the specified "Playback speed (sec/hour) (`secperhour`)" to Harmoware-VIS state `secperhour`.
 
 ##### Examples
 
@@ -741,8 +728,8 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| secperhour | number required | -- | Harmoware-VIS の `secperhour` |
-| actions | object required | -- | Harmoware-VIS の `actions` |
-| maxsecperhour | number option | 3600 | Range 最大値（再生速度（秒/時）） |
-| min | number option | 1 | Range 最小値 |
-| step | number option | 1 | Range 増加値 |
+| secperhour | number required | -- | Harmoware-VIS state `secperhour` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| maxsecperhour | number option | 3600 | Range maximum (Playback speed (sec/hour))  |
+| min | number option | 1 | Range minimum |
+| step | number option | 1 | Range include |
