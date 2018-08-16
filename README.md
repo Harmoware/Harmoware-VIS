@@ -574,7 +574,7 @@ An icon representing loading is displayed in the center of the screen.
 ##### Examples
 
 ```js
-<LoadingIcon loading={loading} />
+<LoadingIcon loading={this.props.loading} />
 ```
 
 ##### LoadingIcon Properties
