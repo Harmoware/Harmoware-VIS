@@ -581,7 +581,7 @@ An icon representing loading is displayed in the center of the screen.
 
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
-| loading | boolean required | false | loading icon display pattern switching |
+| loading | boolean required | false | Harmoware-VIS state `loading` |
 | color | string option | 'white' | loading icon color |
 
 ### AddMinutesButton
