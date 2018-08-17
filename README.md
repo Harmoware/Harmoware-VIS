@@ -589,7 +589,7 @@ An icon representing loading is displayed in the center of the screen.
 
 ### AddMinutesButton
 
-The AddMinutesButton will set the value obtained by adding addMinutes minutes from "simulation time (`settime`)" to Harmoware-VIS state `settime`.
+The AddMinutesButton will add minutes to the `Harmoware-VIS` state
 
 ##### Examples
 
@@ -608,7 +608,7 @@ The AddMinutesButton will set the value obtained by adding addMinutes minutes fr
 
 ### ElapsedTimeRange
 
-A range object that sets the specified "simulation time (`settime`)" to Harmoware-VIS state `settime`.
+The ElapsedTimeRange will update `settime`.
 
 ##### Examples
 
@@ -628,7 +628,7 @@ A range object that sets the specified "simulation time (`settime`)" to Harmowar
 
 ### PauseButton
 
-Harmoware-VIS state A button object that updates `animatePause` to true.
+The PauseButton will update `animatePause` to true.
 
 ##### Examples
 
@@ -646,7 +646,7 @@ Harmoware-VIS state A button object that updates `animatePause` to true.
 
 ### PlayButton
 
-Harmoware-VIS state A button object that updates `animatePause` to false.
+The PlayButton will set `animatePause` to false.
 
 ##### Examples
 
@@ -664,7 +664,7 @@ Harmoware-VIS state A button object that updates `animatePause` to false.
 
 ### ForwardButton
 
-Harmoware-VIS state A button object that updates `animateReverse` to false.
+The ForwardButton will update `animateReverse` to false.
 
 ##### Examples
 
@@ -682,7 +682,7 @@ Harmoware-VIS state A button object that updates `animateReverse` to false.
 
 ### ReverseButton
 
-Harmoware-VIS state A button object that updates `animateReverse` to true.
+The ReverseButton will update `animateReverse` to true.
 
 ##### Examples
 
@@ -700,7 +700,7 @@ Harmoware-VIS state A button object that updates `animateReverse` to true.
 
 ### SimulationDateTime
 
-Component that edits simulation time.
+The SimulationDateTime will render the simulation-time. exp) `2018/02/21 (wed) 16:35:24`
 
 ##### Examples
 
@@ -719,7 +719,7 @@ Component that edits simulation time.
 
 ### SpeedRange
 
-A range object that sets the specified "Playback speed (sec/hour) (`secperhour`)" to Harmoware-VIS state `secperhour`.
+The SpeedRange will update "Playback speed (sec/hour) (`secperhour`)".
 
 ##### Examples
 
