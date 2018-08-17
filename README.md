@@ -149,14 +149,14 @@ This is the class inherited from `React.Component`. This is the base component o
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisLayers, ... } from 'harmoware-vis';
 class App extends Container {
-    render() {
-        const { viewport, actions, ... } = this.props;
-        return (
-          <HarmoVisLayers
-            viewport={viewport}  actions={actions} mapboxApiAccessToken={ ... } layers={[ ... ]}
-          />
-        );
-    }
+  render() {
+    const { viewport, actions, ... } = this.props;
+    return (
+      <HarmoVisLayers
+        viewport={viewport}  actions={actions} mapboxApiAccessToken={ ... } layers={[ ... ]}
+      />
+    );
+  }
 }
 export default connectToHarmowareVis(App);
 ```
@@ -165,14 +165,14 @@ export default connectToHarmowareVis(App);
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisNonMapLayers, ... } from 'harmoware-vis';
 class App extends Container {
-    render() {
-        const { viewport, actions, ... } = this.props;
-        return (
-          <HarmoVisNonMapLayers
-            viewport={viewport}  actions={actions} layers={[ ... ]}
-          />
-        );
-    }
+  render() {
+    const { viewport, actions, ... } = this.props;
+    return (
+      <HarmoVisNonMapLayers
+        viewport={viewport}  actions={actions} layers={[ ... ]}
+      />
+    );
+  }
 }
 export default connectToHarmowareVis(App);
 ```
@@ -180,7 +180,7 @@ export default connectToHarmowareVis(App);
 ### connectToHarmowareVis
 
 Utility to synchronize the state of `connectToHarmowareVis` to the prop of container component.
-Since `state` and` actions` are directly bound below props, if you prefer other bind methods, you need to make Utility yourself.
+Since `state` and` actions` are directly connected, if you prefer other bind methods, you need to make Utility yourself.
 
 ### HarmoVisLayers
 
@@ -190,9 +190,9 @@ Display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob
 
 ```js
 <HarmoVisLayers
-    viewport={this.props.viewport} actions={this.props.actions}
-    mapboxApiAccessToken={MAPBOX_TOKEN}
-    layers={ [ ... ] }
+  viewport={this.props.viewport} actions={this.props.actions}
+  mapboxApiAccessToken={MAPBOX_TOKEN}
+  layers={ [ ... ] }
 />
 ```
 
@@ -239,19 +239,20 @@ Harmoware-VIS Layer List
 
 ### MovesLayer
 
-Simulate a mobile object such as a vehicle on a map acquired from mapbox.com.
+
+The MovesLayer will render moving objects such as vehicles.
 
 ##### Examples
 
 ```js
 <HarmoVisLayers ...
   layers={[
-      new MovesLayer({ routePaths: this.props.routePaths,
-        movesbase: this.props.movesbase,
-        movedData: this.props.movedData,
-        clickedObject: this.props.clickedObject,
-        actions: this.props.actions 
-      })
+    new MovesLayer( { routePaths: this.props.routePaths,
+      movesbase: this.props.movesbase,
+      movedData: this.props.movedData,
+      clickedObject: this.props.clickedObject,
+      actions: this.props.actions 
+    })
   ]}
 />
 ```
@@ -332,15 +333,15 @@ Simulate a mobile object such as a vehicle on a map acquired from mapbox.com.
 
 ### DepotsLayer
 
-Simulate depots or stations on a map acquired from mapbox.com.
+The DepotsLayer will render depots or stations on a map.
 
 ##### Examples
 
 ```js
 <HarmoVisLayers ...
-    layers={[
-        new DepotsLayer( { depotsData: this.props.depotsData } )
-    ]}
+  layers={[
+    new DepotsLayer( { depotsData: this.props.depotsData } )
+  ]}
 />
 ```
 
@@ -361,7 +362,7 @@ Simulate depots or stations on a map acquired from mapbox.com.
 | getColor1～4 | Function option | x => (x.optColor && x.optColor[0～3]) ││ x.color ││ DARKMAGENTA | option information color specification accessor |
 | getElevation1～4 | Function option | x => (x.optElevation && x.optElevation[0～3]) ││ 0 | option information elevation specification accessor |
 
-##### The json format of the depots data file
+##### The JSON format of the depots data file
 
 ```js
 // Specified in `position` or `longitude-latitude` format
@@ -376,19 +377,20 @@ Simulate depots or stations on a map acquired from mapbox.com.
 
 ### MovesNonmapLayer
 
-3D simulation of mobile objects.
+The MovesNonmapLayer will render moving objects and can be used with `HarmoVisNonMapLayers`
 
 ##### Examples
 
 ```js
 <HarmoVisNonMapLayers ...
-    layers={[
-        new MovesNonmapLayer( { routePaths: this.props.routePaths,
-                        movesbase: this.props.movesbase,
-                        movedData: this.props.movedData,
-                        clickedObject: this.props.clickedObject,
-                        actions: this.props.actions } )
-    ]}
+  layers={[
+    new MovesNonmapLayer( { routePaths: this.props.routePaths,
+      movesbase: this.props.movesbase,
+      movedData: this.props.movedData,
+      clickedObject: this.props.clickedObject,
+      actions: this.props.actions 
+    })
+  ]}
 />
 ```
 
@@ -406,7 +408,7 @@ Simulate depots or stations on a map acquired from mapbox.com.
 | getRadius | Function option | x => x.radius ││ 2 | Icon radius specification accessor |
 
 
-##### The json format of the simulation data file
+##### The JSON format of the simulation data file
 
 ###### Format1
 ```js
@@ -449,15 +451,15 @@ Simulate depots or stations on a map acquired from mapbox.com.
 
 ### FixedPointLayer
 
-3D simulation of fixed objects.
+The FixedPointLayer will render fixed objects and can be used with `HarmoVisNonMapLayers`
 
 ##### Examples
 
 ```js
 <HarmoVisNonMapLayers ...
-    layers={[
-        new FixedPointLayer( { depotsData: this.props.depotsData } )
-    ]}
+  layers={[
+    new FixedPointLayer( { depotsData: this.props.depotsData } )
+  ]}
 />
 ```
 
@@ -481,7 +483,7 @@ Simulate depots or stations on a map acquired from mapbox.com.
 
 ### LineMapLayer
 
-3D simulation of line objects.
+The LineMapLayer will render flat lines joining pairs of source and target points and can be used with `HarmoVisNonMapLayers`
 
 ##### Examples
 
@@ -518,7 +520,8 @@ Harmoware-VIS component list
 
 ### MovesInput
 
-Display a dialog to select the file for which "moves base data" is set, and set it to Harmoware-VIS state `bounds`, `timeBegin`, `timeLength`, `movebase` from the read data.
+The MovesInput will display a dialog to select the file for "moves base data". 
+After reading the file, set it to Harmoware-VIS state as `bounds`, `timeBegin`, `timeLength` and `movebase`.
 
 ##### Examples
 
@@ -535,7 +538,7 @@ Display a dialog to select the file for which "moves base data" is set, and set 
 
 ### DepotsInput
 
-Display a dialog to select the file for which "depots base data" is set, and set it to Harmoware-VIS state `depotsBase` from the read data.
+The DepotsInput will display a dialog to select the file for "depots base data" , and set it to Harmoware-VIS state as `depotsBase`.
 
 ##### Examples
 
@@ -552,7 +555,7 @@ Display a dialog to select the file for which "depots base data" is set, and set
 
 ### LinemapInput
 
-Display a dialog to select the file for which "line map data" is set, and set it to Harmoware-VIS state `linemapData` from the read data.
+The LinemapInput will display a dialog to select the file for "line map data" and set it to Harmoware-VIS state as `linemapData`.
 
 ##### Examples
 
@@ -586,7 +589,7 @@ An icon representing loading is displayed in the center of the screen.
 
 ### AddMinutesButton
 
-A button object that sets the value obtained by adding addMinutes minutes from "simulation time (`settime`)" to Harmoware-VIS state `settime`.
+The AddMinutesButton will set the value obtained by adding addMinutes minutes from "simulation time (`settime`)" to Harmoware-VIS state `settime`.
 
 ##### Examples
 
