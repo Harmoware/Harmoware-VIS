@@ -9,7 +9,7 @@ This library is for visualizing moving objects and the additional info of them u
 
 ### Preparation
 - Install node, npm
-- Acquire Mapbox access token and Set the environment variable (MAPBOX_ACCESS_TOKEN)
+- Acquire Mapbox accesstoken
 
 ### Run the software
 ```
@@ -206,11 +206,11 @@ Display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob
 | layers | array required | -- | Array of Layer (※) |
 | onChangeViewport | func option | this.props.actions.setViewport | Harmoware-VIS Actions `setViewport` |
 
-※1 An instance of a class that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
+The `HarmoVisLayers` is a component that render the layers that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ### HarmoVisNonMapLayers
 
-3D display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
+The `HarmoVisNonMapLayers` is a component that render the layers that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl") without using mapbox.
 
 ##### Examples
 
