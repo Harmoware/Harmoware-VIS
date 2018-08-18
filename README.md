@@ -139,8 +139,7 @@ export default connectToHarmowareVis(App);
 
 ### Container
 
-This is the class inherited from `React.Component`. This is the base component of the `Harmoware-VIS` library.
-`settime` and animation frame update. Please output DOM with the `render` function.
+This is the class inherited from `React.Component`. This is the base component of the `Harmoware-VIS` library which updates `settime` and `animation frame`. Please output DOM with the `render` method.
 
 ##### Examples
 
