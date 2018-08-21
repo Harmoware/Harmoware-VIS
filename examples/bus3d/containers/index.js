@@ -1,7 +1,7 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
+  Actions, connectToHarmowareVis, settings, LoadingIcon, styles } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -71,6 +71,7 @@ class App extends Container {
 
     return (
       <div>
+        <style>{styles}</style>
         <Header
           {...props} date={date}
           busoption={busoption}

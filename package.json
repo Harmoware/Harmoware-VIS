@@ -19,6 +19,7 @@
     "csvtojson": "^1.1.12",
     "deck.gl": "^4.1.2",
     "emotion": "^9.2.6",
+    "free-style": "^2.5.2",
     "gl-matrix": "^2.6.1",
     "i18next": "^11.3.6",
     "iconv-lite": "^0.4.23",
