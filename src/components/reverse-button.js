@@ -6,6 +6,7 @@ import { ic_replay as icReplay } from 'react-icons-kit/md';
 import type { Node } from 'react';
 import type { I18n } from '../types';
 import typeof { setAnimateReverse } from '../actions';
+import { ButtonClass } from '../styles';
 
 type Props = {
   actions: {
@@ -21,7 +22,7 @@ export default class ReverseButton extends Component<Props> {
     i18n: {
       reverseButtonCaption: 'REVERSE'
     },
-    className: ''
+    className: ButtonClass
   }
 
   setAnimateReverse() {

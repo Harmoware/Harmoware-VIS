@@ -6,6 +6,7 @@ import { ic_play_circle_outline as icPlayArrow } from 'react-icons-kit/md';
 import type { Node } from 'react';
 import type { I18n } from '../types';
 import typeof { setAnimatePause } from '../actions';
+import { ButtonClass } from '../styles';
 
 type Props = {
   actions: {
@@ -21,7 +22,7 @@ export default class PlayButton extends Component<Props> {
     i18n: {
       playButtonCaption: '️PLAY'
     },
-    className: ''
+    className: ButtonClass
   }
 
   setAnimatePause() {

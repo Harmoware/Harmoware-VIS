@@ -4,7 +4,7 @@ import React from 'react';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, styles } from 'harmoware-vis';
 import type { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 
@@ -54,6 +54,7 @@ class App extends Container<Props, State> implements Component {
 
     return (
       <div>
+        <style>{styles}</style>
         <Controller
           {...props}
         />

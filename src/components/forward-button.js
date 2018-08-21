@@ -6,6 +6,7 @@ import { ic_forward as icForward } from 'react-icons-kit/md';
 import type { Node } from 'react';
 import type { I18n } from '../types';
 import typeof { setAnimateReverse } from '../actions';
+import { ButtonClass } from '../styles';
 
 type Props = {
   actions: {
@@ -21,7 +22,7 @@ export default class ForwardButton extends Component<Props> {
     i18n: {
       forwardButtonCaption: 'FORWARD'
     },
-    className: ''
+    className: ButtonClass
   }
 
   setAnimateReverse() {

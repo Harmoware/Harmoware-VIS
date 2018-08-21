@@ -6,6 +6,7 @@ import { ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from
 import type { Node } from 'react';
 import type { I18n } from '../types';
 import typeof { addMinutes as addMinutesType } from '../actions';
+import { ButtonClass } from '../styles';
 
 type Props = {
   addMinutes: number,
@@ -23,7 +24,7 @@ export default class AddMinutesButton extends Component<Props> {
     i18n: {
       minutesCaption: 'min'
     },
-    className: ''
+    className: ButtonClass
   }
 
   addMinutes(minutes: number) {
