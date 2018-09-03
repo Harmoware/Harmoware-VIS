@@ -26,6 +26,7 @@
     "immutable": "^3.8.1",
     "luma.gl": "^4.0.2",
     "npm": "^6.1.0",
+    "prop-types": "^15.6.2",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "react-i18next": "^7.8.1",
