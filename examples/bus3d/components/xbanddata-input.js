@@ -1,11 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import { InputEvent } from 'harmoware-vis';
+// @flow
 
-export default class XbandDataInput extends Component {
-  static propTypes = {
-    actions: PropTypes.objectOf(PropTypes.func).isRequired,
-  }
+import React, { Component } from 'react';
+import type { InputEvent } from 'harmoware-vis';
+import typeof { setRainfall } from '../actions';
 
+type Props = {
+  actions: { setRainfall: setRainfall },
+}
+
+export default class XbandDataInput extends Component<Props> {
   onSelect(e: InputEvent) {
     const reader = new FileReader();
     const file = e.target.files[0];

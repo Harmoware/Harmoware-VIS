@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import type { InputEvent } from '../types';
 import typeof { setTime } from '../actions';
 
