@@ -5,7 +5,7 @@ import { HexagonLayer } from 'deck.gl';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, styles } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
@@ -74,7 +74,6 @@ class App extends Container<Props, State> implements Component {
 
     return (
       <div>
-        <style>{styles}</style>
         <Controller
           {...props}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
@@ -96,6 +95,7 @@ class App extends Container<Props, State> implements Component {
           <HarmoVisLayers
             viewport={viewport}
             actions={actions}
+            mapStyle="http://vtm.orbitalnet.jp/styles/orbital_darkblue/style.json"
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
               new DepotsLayer({
