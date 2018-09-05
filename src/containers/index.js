@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import baseStyles from '../styles';
 import type { BasedProps as Props } from '../types';
 
 export default class Root extends Component<Props> {
@@ -12,6 +13,8 @@ export default class Root extends Component<Props> {
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
+    const styleElement = document.head.appendChild(document.createElement('style'));
+    styleElement.textContent = baseStyles;
   }
 
   componentWillUnmount() {
