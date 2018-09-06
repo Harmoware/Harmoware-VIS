@@ -7,7 +7,7 @@ import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPau
   ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, SimulationDateTime, controllerClass } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
 import i18n from './../locales/I18n';
 
@@ -34,7 +34,7 @@ export default class Controller extends Component<ControllerProps> {
       secperhour, animatePause, animateReverse, t } = this.props;
 
     return (
-      <div id="controller_area">
+      <div className={controllerClass}>
         <ul>
           <li>
             <select
