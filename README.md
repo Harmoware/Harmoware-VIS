@@ -36,17 +36,19 @@ import {
   HarmoVisLayers, MovesLayer, DepotsLayer,
   MovesInput, DepotsInput, SimulationDateTime,
   PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
-  ElapsedTimeRange, SpeedRange
+  ElapsedTimeRange, SpeedRange, applyDefaultStyle
 } from 'harmoware-vis';
 
 const MAPBOX_TOKEN = XXXXXXXXXX; //Access Token acquired from mapbox.com
+
+applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container {
 
   render() {
     const { viewport, actions, routePaths, lightSettings,
       animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
-      movesbase, movedData, clickedObject, depotsData } = this.props;
+      movesbase, movedData, clickedObject, depotsData, applyDefaultStyle } = this.props;
 
     return (
       <div>
@@ -175,6 +177,23 @@ class App extends Container {
 }
 export default connectToHarmowareVis(App);
 ```
+
+### applyDefaultStyle
+
+Set the default style to the head tag.
+
+##### Function syntax
+
+```js
+applyDefaultStyle(options);
+```
+
+##### applyDefaultStyle Argument
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| options | object option | -- | { opt: { bootstrap: boolean } } bootstrap is true: attach the bootstrap CSS link. |
+
 
 ### connectToHarmowareVis
 

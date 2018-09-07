@@ -43,10 +43,12 @@ import {
   HarmoVisLayers, MovesLayer, DepotsLayer,
   MovesInput, DepotsInput, SimulationDateTime,
   PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
-  ElapsedTimeRange, SpeedRange
+  ElapsedTimeRange, SpeedRange, applyDefaultStyle
 } from 'harmoware-vis';
 
 const MAPBOX_TOKEN = XXXXXXXXXX; //mapbox.com から取得したAccesstoken
+
+applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container {
 
@@ -188,6 +190,23 @@ class App extends Container {
 }
 export default connectToHarmowareVis(App);
 ```
+
+### applyDefaultStyle
+
+head タグに デフォルトスタイル設定を付加します。
+
+##### Function syntax
+
+```js
+applyDefaultStyle(options);
+```
+
+##### applyDefaultStyle Argument
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| options | object option | -- | { opt: { bootstrap: boolean } } bootstrap = true: bootstrap CSS link を付加 |
+
 
 ### connectToHarmowareVis
 

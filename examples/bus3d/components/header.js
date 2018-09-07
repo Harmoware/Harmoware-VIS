@@ -11,7 +11,6 @@ export default class Header extends Component {
     super(props);
   } */
 
-
   onBusReleaseClick() {
     const { actions } = this.props;
     actions.setClicked(null);

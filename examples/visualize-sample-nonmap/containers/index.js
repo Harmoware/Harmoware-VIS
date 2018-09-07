@@ -4,10 +4,9 @@ import React from 'react';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon, styles } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, applyDefaultStyle } from 'harmoware-vis';
 import type { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
-
 import Controller from '../components/controller';
 
 type State = {
@@ -15,6 +14,8 @@ type State = {
 }
 
 type Props = { t: Function } & BasedProps
+
+applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container<Props, State> implements Component {
   props: Props;
@@ -54,7 +55,6 @@ class App extends Container<Props, State> implements Component {
 
     return (
       <div>
-        <style>{styles}</style>
         <Controller
           {...props}
         />
