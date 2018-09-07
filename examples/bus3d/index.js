@@ -1,6 +1,5 @@
 import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import { applyDefaultStyle } from 'harmoware-vis';
 import { Provider } from 'react-redux';
 import React from 'react';
 import createSagaMiddleware from 'redux-saga';
@@ -9,7 +8,6 @@ import App from './containers';
 import reducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
-applyDefaultStyle();
 
 const store = createStore(
   reducer,

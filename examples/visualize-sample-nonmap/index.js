@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
-import { getCombinedReducer, applyDefaultStyle } from 'harmoware-vis';
+import { getCombinedReducer } from 'harmoware-vis';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
@@ -8,7 +8,6 @@ import App from './containers';
 import i18n from './locales/I18n';
 
 const store = createStore(getCombinedReducer());
-applyDefaultStyle();
 
 render(
   <Provider store={store}>

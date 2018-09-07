@@ -255,6 +255,8 @@ declare module 'harmoware-vis' {
   declare export class LineMapLayer extends CompositeLayer {
     constructor(LineMapLayerProps): void; }
 
+  declare export function applyDefaultStyle(opt?: {bootstrap?: boolean}) : void;
+
   declare export function getContainerProp(state: any) : any;
   declare export function connectToHarmowareVis
     (App: any, moreActions: void | any, mapStateToProps: void | any) : any;

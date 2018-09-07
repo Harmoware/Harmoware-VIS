@@ -5,7 +5,7 @@ import { HexagonLayer } from 'deck.gl';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, applyDefaultStyle } from 'harmoware-vis';
 import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
@@ -19,6 +19,8 @@ type State = {
   optionChange: boolean,
   popup: Array<any>
 }
+
+applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container<Props, State> implements Component {
   props: Props;

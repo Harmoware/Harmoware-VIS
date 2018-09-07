@@ -382,7 +382,7 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
 export const getCombinedReducer = (combined: Object | null) : any =>
   combineReducers({ base: reducers, ...combined });
 
-export const applyDefaultStyle = (opt: {bootstrap: boolean}) => {
+export const applyDefaultStyle = (opt: {bootstrap: boolean}) : void => {
   const styleElement = document.createElement('style');
   styleElement.textContent = `${style}`;
   if (opt && opt.bootstrap) {
