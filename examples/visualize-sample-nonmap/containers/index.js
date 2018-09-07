@@ -4,7 +4,7 @@ import React from 'react';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon, footerClass } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import type { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
@@ -56,7 +56,7 @@ class App extends Container<Props, State> implements Component {
         <Controller
           {...props}
         />
-        <div className={footerClass}>
+        <div id="footer_area">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             {t('permission')}</a>&nbsp;
           lookAt:{dispLookAt}&nbsp;

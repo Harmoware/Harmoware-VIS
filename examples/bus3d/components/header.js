@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CanvasComponent from './canvas-component';
-import { headerClass } from 'harmoware-vis';
 import { p02d, p04d, delaycolor, hsvToRgb } from '../library';
 
 const weekDayList = ['日', '月', '火', '水', '木', '金', '土'];
@@ -11,7 +10,6 @@ export default class Header extends Component {
 /*  constructor(props) {
     super(props);
   } */
-
 
   onBusReleaseClick() {
     const { actions } = this.props;
@@ -64,7 +62,7 @@ export default class Header extends Component {
       return false;
     });
     return (
-      <div className={headerClass}>
+      <div id="header">
         <span>{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
         <span id="bus_count">{movedData.length} 台運行中</span>
         {Object.keys(busoption).length <= 0 ? <span>バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}

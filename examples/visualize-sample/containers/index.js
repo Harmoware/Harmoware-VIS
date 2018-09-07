@@ -5,7 +5,7 @@ import { HexagonLayer } from 'deck.gl';
 import type { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, footerClass } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
@@ -81,7 +81,7 @@ class App extends Container<Props, State> implements Component {
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
         />
-        <div className={footerClass}>
+        <div id="footer_area">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;

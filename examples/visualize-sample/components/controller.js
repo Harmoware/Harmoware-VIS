@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime, controllerClass } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 import type { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
@@ -112,7 +112,7 @@ export default class Controller extends Component<ControllerProps, State> {
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
 
     return (
-      <div className={controllerClass}>
+      <div id="controller_area">
         <ul>
           <li>
             <span>運行データ</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  Actions, connectToHarmowareVis, settings, LoadingIcon, footerClass } from 'harmoware-vis';
+  Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -80,7 +80,7 @@ class App extends Container {
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getArchLayerChangeChecked={this.getArchLayerChangeChecked.bind(this)}
         />
-        <div className={footerClass}>
+        <div id="footer_area">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;

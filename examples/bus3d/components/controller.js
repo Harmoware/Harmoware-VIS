@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, controllerClass } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
@@ -150,7 +150,7 @@ export default class Controller extends Component {
       ans => <option value={ans} key={ans}>{ans}</option>);
 
     return (
-      <div className={controllerClass}>
+      <div id="controller_area">
         <ul>
           <li><span>運行データ選択</span>
             <span>

@@ -44,7 +44,7 @@ import * as settings from './constants/settings';
 import Container from './containers';
 import reducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer, applyDefaultStyle } from './library';
-import styles, { buttonClass, controllerClass, footerClass, headerClass } from './styles';
+import styles from './styles';
 
 const Actions = {
   addMinutes,
@@ -103,9 +103,5 @@ export {
   // reducer
   reducer,
   // styles
-  styles,
-  buttonClass,
-  controllerClass,
-  footerClass,
-  headerClass
+  styles
 };
