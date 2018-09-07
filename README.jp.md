@@ -43,12 +43,10 @@ import {
   HarmoVisLayers, MovesLayer, DepotsLayer,
   MovesInput, DepotsInput, SimulationDateTime,
   PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
-  ElapsedTimeRange, SpeedRange, applyDefaultStyle
+  ElapsedTimeRange, SpeedRange
 } from 'harmoware-vis';
 
 const MAPBOX_TOKEN = XXXXXXXXXX; //mapbox.com から取得したAccesstoken
-
-applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container {
 
