@@ -30,7 +30,7 @@
     "react-dom": "^15.4.0",
     "react-i18next": "^7.8.1",
     "react-icons-kit": "^1.1.5",
-    "react-map-gl": "^2.0.4",
+    "react-map-gl": "^3.3.4",
     "react-modal": "^2.2.4",
     "react-redux": "^5.0.6",
     "react-spinners": "^0.3.3",
