@@ -1,7 +1,7 @@
 import React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  Actions, connectToHarmowareVis, settings, LoadingIcon, applyDefaultStyle } from 'harmoware-vis';
+  Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -12,8 +12,6 @@ import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '..
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
-
-applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container {
   constructor(props) {

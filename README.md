@@ -36,19 +36,17 @@ import {
   HarmoVisLayers, MovesLayer, DepotsLayer,
   MovesInput, DepotsInput, SimulationDateTime,
   PauseButton, ForwardButton, ReverseButton, AddMinutesButton,
-  ElapsedTimeRange, SpeedRange, applyDefaultStyle
+  ElapsedTimeRange, SpeedRange
 } from 'harmoware-vis';
 
 const MAPBOX_TOKEN = XXXXXXXXXX; //Access Token acquired from mapbox.com
-
-applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 class App extends Container {
 
   render() {
     const { viewport, actions, routePaths, lightSettings,
       animatePause, animateReverse, settime, secperhour, timeBegin, timeLength,
-      movesbase, movedData, clickedObject, depotsData, applyDefaultStyle } = this.props;
+      movesbase, movedData, clickedObject, depotsData } = this.props;
 
     return (
       <div>
