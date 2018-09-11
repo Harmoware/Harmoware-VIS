@@ -165,13 +165,13 @@ declare module 'harmoware-vis' {
 
   declare type ElapsedTimeRangeProps = {|
     settime: number, timeLength: number, min?: number, step?: number, className?: string,
-    actions: { setTime: (time: number) => {| time: number, type: string |} } |};
+    id?: string, actions: { setTime: (time: number) => {| time: number, type: string |} } |};
   declare export class ElapsedTimeRange extends React$Component<ElapsedTimeRangeProps> {}
 
   declare type SpeedRangeProps = {|
     secperhour: number, actions: {
       setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |}
-    }, maxsecperhour?: number, min?: number, step?: number, className?: string |};
+    }, maxsecperhour?: number, min?: number, step?: number, className?: string, id?: string |};
   declare export class SpeedRange extends React$Component<SpeedRangeProps> {}
 
   declare type SimulationDateTimeProps = {|
