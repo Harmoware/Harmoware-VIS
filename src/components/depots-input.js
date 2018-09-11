@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
 import typeof { setDepotsBase, setLoading } from '../actions';
+import { displayNone } from '../styles';
 
 type Props = {
   actions: {
@@ -10,15 +11,16 @@ type Props = {
     setLoading: setLoading
   },
   i18n: I18n,
-  className: string
+  id: string,
+  className: string,
+  style: Object
 }
 
 export default class DepotsInput extends Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'バス停データ形式不正'
-    },
-    className: ''
+    }
   }
 
   onSelect(e: InputEvent) {
@@ -55,12 +57,10 @@ export default class DepotsInput extends Component<Props> {
   }
 
   render() {
-    const { className } = this.props;
+    const { id, className, style } = this.props;
 
     return (
-      <dev>
-        <input type="file" accept=".json" onChange={this.onSelect.bind(this)} className={className} />
-      </dev>
+      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id={id} className={className} style={style} />
     );
   }
 }
