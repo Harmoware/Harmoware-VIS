@@ -12,6 +12,7 @@ type Props = {
   maxsecperhour: number,
   min: number,
   step: number,
+  id: string,
   className: string
 }
 
@@ -20,7 +21,6 @@ export default class SpeedRange extends Component<Props> {
     maxsecperhour: 3600,
     min: 1,
     step: 1,
-    className: ''
   }
 
   setSecPerHour(e : InputEvent) {
@@ -31,7 +31,7 @@ export default class SpeedRange extends Component<Props> {
   }
 
   render() {
-    const { secperhour, maxsecperhour, min, step, className } = this.props;
+    const { secperhour, maxsecperhour, min, step, id, className } = this.props;
 
     return (
       <input
@@ -39,7 +39,7 @@ export default class SpeedRange extends Component<Props> {
         value={(maxsecperhour + min) - secperhour}
         min={min} max={maxsecperhour} step={step}
         onChange={this.setSecPerHour.bind(this)}
-        className={className}
+        id={id} className={className}
       />
     );
   }

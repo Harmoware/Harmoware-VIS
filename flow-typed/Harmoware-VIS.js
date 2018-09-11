@@ -119,17 +119,19 @@ declare module 'harmoware-vis' {
         {| clickedObject: null | Array<ClickedObject>, type: string |},
       setAnimatePause: (pause: boolean) => {| pause: boolean, type: string |},
       setAnimateReverse: (reverse: boolean) => {| reverse: boolean, type: string |}, },
-      i18n?: I18n, className?: string |};
+      i18n?: I18n, id?: string, className?: string, style?: Object |};
   declare export class MovesInput extends React$Component<MovesInputProps> {}
 
   declare type DepotsInputProps = {|
     actions: { setDepotsBase: (depotsBase: Array<Depotsbase>) =>
-      {| depotsBase: Array<Depotsbase>, type: string |} }, i18n?: I18n, className?: string |};
+      {| depotsBase: Array<Depotsbase>, type: string |} }, i18n?: I18n, id?: string,
+      className?: string, style?: Object |};
   declare export class DepotsInput extends React$Component<DepotsInputProps> {}
 
   declare type LinemapInputProps = {|
     actions: { setLinemapData: (linemapData: Array<LineMapData>) =>
-      {| type: string, linemapData: Array<LineMapData> |} }, i18n?: I18n, className?: string |};
+      {| type: string, linemapData: Array<LineMapData> |} }, i18n?: I18n, id?: string,
+      className?: string, style?: Object |};
   declare export class LinemapInput extends React$Component<LinemapInputProps> {}
 
   declare type LoadingIconProps = {|

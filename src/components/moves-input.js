@@ -14,15 +14,16 @@ type Props = {
     setLoading: setLoading,
   },
   i18n: I18n,
-  className: string
+  id: string,
+  className: string,
+  style: Object
 }
 
 export default class MovesInput extends Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'
-    },
-    className: ''
+    }
   }
 
   onSelect(e: InputEvent) {
@@ -62,12 +63,10 @@ export default class MovesInput extends Component<Props> {
   }
 
   render() {
-    const { className } = this.props;
+    const { id, className, style } = this.props;
 
     return (
-      <dev>
-        <input type="file" accept=".json" onChange={this.onSelect.bind(this)} className={className} />&nbsp;
-      </dev>
+      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id={id} className={className} style={style} />
     );
   }
 }
