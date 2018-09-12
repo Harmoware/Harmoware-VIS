@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
-import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading } from '../actions';
+import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading, setInputFilename } from '../actions';
 
 type Props = {
   actions: {
@@ -12,17 +12,19 @@ type Props = {
     setAnimatePause: setAnimatePause,
     setAnimateReverse: setAnimateReverse,
     setLoading: setLoading,
+    setInputFilename: setInputFilename
   },
   i18n: I18n,
-  className: string
+  id: string,
+  className: string,
+  style: Object
 }
 
 export default class MovesInput extends Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'
-    },
-    className: ''
+    }
   }
 
   onSelect(e: InputEvent) {
@@ -52,6 +54,7 @@ export default class MovesInput extends Component<Props> {
           return;
         }
       }
+      actions.setInputFilename({ movesFileName: (file.name: string) });
       actions.setMovesBase(readdata);
       actions.setRoutePaths([]);
       actions.setClicked(null);
@@ -62,12 +65,10 @@ export default class MovesInput extends Component<Props> {
   }
 
   render() {
-    const { className } = this.props;
+    const { id, className, style } = this.props;
 
     return (
-      <dev>
-        <input type="file" accept=".json" onChange={this.onSelect.bind(this)} className={className} />&nbsp;
-      </dev>
+      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id={id} className={className} style={style} />
     );
   }
 }

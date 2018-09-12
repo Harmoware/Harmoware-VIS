@@ -64,6 +64,7 @@ const initialState: State = {
   linemapData: [],
   linemapDataOriginal: '',
   loading: false,
+  inputFileName: {}
 };
 
 export default (state: State = initialState, action: ActionTypes) => {
@@ -323,6 +324,13 @@ export default (state: State = initialState, action: ActionTypes) => {
         const loading = action.loading;
         return Object.assign({}, state, {
           loading
+        });
+      })();
+    case types.SETINPUTFILENAME:
+      return (() => {
+        const inputFileName = Object.assign({}, state.inputFileName, action.inputFileName);
+        return Object.assign({}, state, {
+          inputFileName
         });
       })();
     default:

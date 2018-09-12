@@ -94,3 +94,7 @@ export const setLinemapData =
 export const setLoading =
   (loading: boolean) : {|type: string, loading: boolean|} =>
     ({ type: types.SETLOADING, loading });
+
+export const setInputFilename =
+  (inputFileName: Object) : {|type: string, inputFileName: Object|} =>
+    ({ type: types.SETINPUTFILENAME, inputFileName });
