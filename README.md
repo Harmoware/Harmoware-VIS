@@ -113,6 +113,7 @@ export default connectToHarmowareVis(App);
 | trailing | Number | 180 | trailing time after simulation end (sec) |
 | viewport | object | {...} | Viewport of the map |
 | loading | Boolean | false | Loading in progress |
+| inputFileName | Object | {} | Name of each data file being input |
 
 ### Harmoware-VIS Actions
 
@@ -136,6 +137,7 @@ export default connectToHarmowareVis(App);
 | setMovesOptionFunc(Function) | getMovesOptionFunc | set the specified moves data option info process function to the `getMovesOptionFunc` |
 | setDepotsOptionFunc(Function) | getDepotsOptionFunc | set the specified depots data option info process function to the `getDepotsOptionFunc` |
 | setLoading(Function) | loading | set the specified Loading in progress to the `loading` |
+| setInputFilename(Function) | inputFileName | set the specified input file name to the `inputFileName` |
 
 ### Container
 
@@ -538,6 +540,7 @@ Harmoware-VIS component list
 
 The MovesInput will display a dialog to select the file for "moves base data". 
 After reading the file, set it to Harmoware-VIS state as `bounds`, `timeBegin`, `timeLength` and `movebase`.
+Set the name of the input file with `movesFileName` in `inputFileName`.
 
 ##### Examples
 
@@ -551,10 +554,14 @@ After reading the file, set it to Harmoware-VIS state as `bounds`, `timeBegin`, 
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | i18n | Object option | -- | formatError caption `i18n.formatError` |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | -- | html tag attribute `class` |
+| style | Object option | -- | html tag attribute `style` |
 
 ### DepotsInput
 
 The DepotsInput will display a dialog to select the file for "depots base data" , and set it to Harmoware-VIS state as `depotsBase`.
+Set the name of the input file with `depotsFileName` in `inputFileName`.
 
 ##### Examples
 
@@ -568,10 +575,14 @@ The DepotsInput will display a dialog to select the file for "depots base data" 
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | i18n | Object option | -- | formatError caption `i18n.formatError` |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | -- | html tag attribute `class` |
+| style | Object option | -- | html tag attribute `style` |
 
 ### LinemapInput
 
 The LinemapInput will display a dialog to select the file for "line map data" and set it to Harmoware-VIS state as `linemapData`.
+Set the name of the input file with `linemapFileName` in `inputFileName`.
 
 ##### Examples
 
@@ -585,6 +596,9 @@ The LinemapInput will display a dialog to select the file for "line map data" an
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | i18n | Object option | -- | formatError caption `i18n.formatError` |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | -- | html tag attribute `class` |
+| style | Object option | -- | html tag attribute `style` |
 
 ### LoadingIcon
 
@@ -621,6 +635,7 @@ The AddMinutesButton will add minutes to the `Harmoware-VIS` state
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | Time to add (min) |
 | i18n | Object option | 'min' | minutes caption `i18n.minutesCaption` |
+| className | string option | -- | html tag attribute `class` |
 
 ### ElapsedTimeRange
 
@@ -641,6 +656,8 @@ The ElapsedTimeRange will update `settime`.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | min | number option | -100 | Range(`settime` sec) minimum |
 | step | number option | 1 | Range include |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | -- | html tag attribute `class` |
 
 ### PauseButton
 
@@ -659,6 +676,7 @@ The PauseButton will update `animatePause` to true.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PAUSE' | pauseButton caption `i18n.pauseButtonCaption` |
+| className | string option | -- | html tag attribute `class` |
 
 ### PlayButton
 
@@ -677,6 +695,7 @@ The PlayButton will set `animatePause` to false.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PLAY' | playButton caption `i18n.playButtonCaption` |
+| className | string option | -- | html tag attribute `class` |
 
 ### ForwardButton
 
@@ -695,6 +714,7 @@ The ForwardButton will update `animateReverse` to false.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node option | -- | Button Caption |
 | i18n | Object option | 'FORWARD' | forwardButton caption `i18n.forwardButtonCaption` |
+| className | string option | -- | html tag attribute `class` |
 
 ### ReverseButton
 
@@ -713,6 +733,7 @@ The ReverseButton will update `animateReverse` to true.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node option | -- | Button Caption |
 | i18n | Object option | -- | formatError caption `i18n.formatError` |
+| className | string option | -- | html tag attribute `class` |
 
 ### SimulationDateTime
 
@@ -752,3 +773,5 @@ The SpeedRange will update "Playback speed (sec/hour) (`secperhour`)".
 | maxsecperhour | number option | 3600 | Range maximum (Playback speed (sec/hour))  |
 | min | number option | 1 | Range minimum |
 | step | number option | 1 | Range include |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | -- | html tag attribute `class` |
