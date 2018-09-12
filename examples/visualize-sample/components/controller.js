@@ -123,7 +123,7 @@ export default class Controller extends Component<ControllerProps, State> {
             <li>
               <div className="form-check">
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
-                <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション</label>
+                <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
             </li>
             <li>
@@ -134,7 +134,7 @@ export default class Controller extends Component<ControllerProps, State> {
             <li>
               <div className="form-check">
                 <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
-                <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション</label>
+                <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
               </div>
             </li>
             <li>
@@ -146,7 +146,7 @@ export default class Controller extends Component<ControllerProps, State> {
             <li>
               <div className="form-check">
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
-                <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示切替</label>
+                <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
               </div>
             </li>
             <li><span>コントロールパネル</span>
