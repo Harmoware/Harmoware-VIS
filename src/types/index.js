@@ -135,6 +135,7 @@ export type BasedState = {
   linemapData: Array<LineMapData>,
   linemapDataOriginal: string,
   loading: boolean,
+  inputFileName: Object,
 };
 
 export type BasedProps = {
@@ -191,4 +192,5 @@ export type ActionTypes =
   {|type: string, func: GetDepotsOptionFunc|} &
   {|type: string, nonmapView: boolean|} &
   {|type: string, linemapData: Array<LineMapData>|} &
-  {|type: string, loading: boolean|};
+  {|type: string, loading: boolean|} &
+  {|type: string, inputFileName: Object|};

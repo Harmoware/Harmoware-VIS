@@ -2,13 +2,14 @@
 
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
-import typeof { setDepotsBase, setLoading } from '../actions';
+import typeof { setDepotsBase, setLoading, setInputFilename } from '../actions';
 import { displayNone } from '../styles';
 
 type Props = {
   actions: {
     setDepotsBase: setDepotsBase,
-    setLoading: setLoading
+    setLoading: setLoading,
+    setInputFilename: setInputFilename
   },
   i18n: I18n,
   id: string,
@@ -45,6 +46,7 @@ export default class DepotsInput extends Component<Props> {
       if (readdata.length > 0) {
         const { longitude, latitude, position } = readdata[0];
         if ((longitude && latitude) || position) {
+          actions.setInputFilename({ depotsFileName: (file.name: string) });
           actions.setLoading(false);
           actions.setDepotsBase(readdata);
           return;

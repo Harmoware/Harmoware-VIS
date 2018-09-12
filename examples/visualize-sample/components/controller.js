@@ -23,6 +23,7 @@ type ControllerProps = {
   actions: Actions,
   clickedObject: null | Array<ClickedObject>,
   routePaths: Array<RoutePaths>,
+  inputFileName: Object
 }
 
 type State = {
@@ -106,10 +107,12 @@ export default class Controller extends Component<ControllerProps, State> {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
       getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
-      getOptionChangeChecked } = this.props;
+      getOptionChangeChecked, inputFileName } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
+    const { movesFileName, depotsFileName } = inputFileName;
+    const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
       <div id="controller_area">
@@ -119,17 +122,19 @@ export default class Controller extends Component<ControllerProps, State> {
               <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
                 運行データ選択<MovesInput actions={actions} id="MovesInput" style={{ display: 'none' }} />
               </label>
+              <div style={nowrapstyle}>{movesFileName || '選択されていません'}</div>
+            </li>
+            <li>
+              <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
+                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
+              </label>
+              <div style={nowrapstyle}>{depotsFileName || '選択されていません'}</div>
             </li>
             <li>
               <div className="form-check">
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
                 <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
-            </li>
-            <li>
-              <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
-                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
-              </label>
             </li>
             <li>
               <div className="form-check">

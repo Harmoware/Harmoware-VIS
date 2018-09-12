@@ -2,12 +2,13 @@
 
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
-import typeof { setLinemapData, setLoading } from '../actions';
+import typeof { setLinemapData, setLoading, setInputFilename } from '../actions';
 
 type Props = {
   actions: {
     setLinemapData: setLinemapData,
-    setLoading: setLoading
+    setLoading: setLoading,
+    setInputFilename: setInputFilename
   },
   i18n: I18n,
   id: string,
@@ -44,6 +45,7 @@ export default class LinemapInput extends Component<Props> {
       if (readdata.length > 0) {
         const { sourcePosition, targetPosition } = readdata[0];
         if (sourcePosition && targetPosition) {
+          actions.setInputFilename({ linemapFileName: (file.name: string) });
           actions.setLoading(false);
           actions.setLinemapData(readdata);
           return;

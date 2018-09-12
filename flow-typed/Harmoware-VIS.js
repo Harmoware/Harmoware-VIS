@@ -70,7 +70,7 @@ declare module 'harmoware-vis' {
     loopTime: number, movedData: Array<MovedData>, movesbase: Array<Movesbase>, nonmapView: boolean,
     routePaths: Array<RoutePaths>, secperhour: number, settime: number,
     starttimestamp: number, timeBegin: number, timeLength: number, trailing: number,
-    viewport: Viewport, linemapData: Array<LineMapData>, loading: boolean };
+    viewport: Viewport, linemapData: Array<LineMapData>, loading: boolean, inputFileName: Object };
 
   declare export type BasedProps = { actions: Actions } & BasedState;
 
@@ -107,7 +107,8 @@ declare module 'harmoware-vis' {
     setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |},
     setLinemapData: (linemapData: Array<LineMapData>) =>
       {| type: string, linemapData: Array<LineMapData> |},
-    setLoading: (loading: boolean) => {| type: string, loading: boolean |}
+    setLoading: (loading: boolean) => {| type: string, loading: boolean |},
+    setInputFilename: (inputFileName: Object) => {|type: string, inputFileName: Object|}
   |};
 
   declare type MovesInputProps = {|

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
-import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading } from '../actions';
+import typeof { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading, setInputFilename } from '../actions';
 
 type Props = {
   actions: {
@@ -12,6 +12,7 @@ type Props = {
     setAnimatePause: setAnimatePause,
     setAnimateReverse: setAnimateReverse,
     setLoading: setLoading,
+    setInputFilename: setInputFilename
   },
   i18n: I18n,
   id: string,
@@ -53,6 +54,7 @@ export default class MovesInput extends Component<Props> {
           return;
         }
       }
+      actions.setInputFilename({ movesFileName: (file.name: string) });
       actions.setMovesBase(readdata);
       actions.setRoutePaths([]);
       actions.setClicked(null);
