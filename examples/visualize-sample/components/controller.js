@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 import type { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
@@ -107,7 +107,7 @@ export default class Controller extends Component<ControllerProps, State> {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
       getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
-      getOptionChangeChecked, inputFileName } = this.props;
+      getOptionChangeChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -152,6 +152,13 @@ export default class Controller extends Component<ControllerProps, State> {
               <div className="form-check">
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
                 <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
+              </div>
+            </li>
+            <li><span>ナビゲーションパネル</span>
+              <div className="btn-group d-flex" role="group">
+                <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+                <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+                <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
             <li><span>コントロールパネル</span>
