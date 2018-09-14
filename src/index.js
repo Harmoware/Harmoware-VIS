@@ -35,6 +35,7 @@ import SimulationDateTime from './components/simulation-date-time';
 import SpeedRange from './components/speed-range';
 import HarmoVisLayers from './components/harmovislayers';
 import HarmoVisNonMapLayers from './components/harmovis-nonmap-layers';
+import NavigationButton from './components/navigation-button';
 import MovesLayer from './layers/moves-layer';
 import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
@@ -85,6 +86,7 @@ export {
   SimulationDateTime,
   HarmoVisLayers,
   HarmoVisNonMapLayers,
+  NavigationButton,
   // constants
   settings,
   // container
