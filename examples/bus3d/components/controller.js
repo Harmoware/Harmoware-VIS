@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, NavigationButton } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
@@ -140,7 +140,7 @@ export default class Controller extends Component {
       answer, settime, timeLength, secperhour, xbandCellSize,
       selectedBusstop, selectedBus, answers, date, actions,
       animatePause, animateReverse, xbandFname, getOptionChangeChecked,
-      getArchLayerChangeChecked,
+      getArchLayerChangeChecked, viewport,
       delayrange, depotsData, movedData, busmovesbasedic
     } = this.props;
 
@@ -185,6 +185,11 @@ export default class Controller extends Component {
             <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton>&nbsp;
             <AddMinutesButton addMinutes={10} actions={actions}>10分 ⏭</AddMinutesButton>
           </li>
+          <li className="controller__list__item">
+            <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} />&nbsp;
+            <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} />&nbsp;
+            <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
+          </li>
           <li className="controller__list__item"><span>経過時間</span>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} />
             <span className="controller__spacer">{Math.floor(settime)}&nbsp;秒</span>
@@ -200,7 +205,7 @@ export default class Controller extends Component {
             />
             <span className="controller__spacer">0～{delayrange}分</span></li>
           <li className="controller__list__item">
-            <button onClick={this.setCellSize.bind(this)}>{xBandViewLabel}</button>
+            <button onClick={this.setCellSize.bind(this)} className="button">{xBandViewLabel}</button>
             <span>{xbandCellSize ? xbandFname : ''}</span>
           </li>
           <li>
@@ -234,7 +239,8 @@ export default class Controller extends Component {
                 運行中バス選択
                 <select
                   className="controller__spacer"
-                  id="bus_select" value={selectedBus} onChange={this.onBusSelect.bind(this)}>
+                  id="bus_select" value={selectedBus} onChange={this.onBusSelect.bind(this)}
+                >
                   {movedData.map(bus => <option value={bus.code} key={bus.code}>{`${bus.code}:${bus.name.split(' ')[0]} ${bus.name.split(' ')[1]}`}</option>)}
                 </select>
               </div>

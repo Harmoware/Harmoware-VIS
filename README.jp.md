@@ -707,6 +707,25 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 | children | node option | '↩ REVERSE' | Button Caption |
 | i18n | Object option | -- | キャプション定義 |
 
+### NavigationButton
+
+ナビゲーションボタンを生成します。
+
+##### Examples
+
+```js
+<NavigationButton actions={this.props.actions} viewport={this.props.viewport} />
+```
+
+##### NavigationButton Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| buttonType | string required | -- | 'zoom-in'or'zoom-out'or'compass' |
+| actions | object required | -- | Harmoware-VIS の `actions` |
+| viewport | object required | -- | Harmoware-VIS の `viewport` |
+| className | string option | 'button' | html tag attribute `class` |
+
 ### SimulationDateTime
 
 シミュレーション時刻を編集するコンポーネント。

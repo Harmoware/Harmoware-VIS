@@ -7,7 +7,7 @@ import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPau
   ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
 import i18n from './../locales/I18n';
 
@@ -31,7 +31,7 @@ export default class Controller extends Component<ControllerProps> {
 
   render() {
     const { settime, timeBegin, timeLength, actions,
-      secperhour, animatePause, animateReverse, t } = this.props;
+      secperhour, animatePause, animateReverse, t, viewport } = this.props;
 
     return (
       <div className="controller" id="controller_area">
@@ -81,6 +81,11 @@ export default class Controller extends Component<ControllerProps> {
               <span><Icon icon={icFastForward} />&nbsp;5{t('minute')}</span></AddMinutesButton>
             <AddMinutesButton addMinutes={10} actions={actions} className="caButton">
               <span><Icon icon={icFastForward} />&nbsp;10{t('minute')}</span></AddMinutesButton>
+          </li>
+          <li className="controller__list__item">
+            <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="caButton" />
+            <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="caButton" />
+            <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="caButton" />
           </li>
           <li className="controller__list__item">
             <SimulationDateTime timeBegin={timeBegin} settime={settime} locales={t('locales')} className="caSpan" />
