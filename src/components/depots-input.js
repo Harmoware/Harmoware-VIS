@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import type { InputEvent, I18n } from '../types';
 import typeof { setDepotsBase, setLoading, setInputFilename } from '../actions';
-import { displayNone } from '../styles';
 
 type Props = {
   actions: {

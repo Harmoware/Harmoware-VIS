@@ -35,15 +35,21 @@ module.exports = {
         ]
       }
     },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   loader: 'eslint-loader',
-      //   options: {
-      //     fix: true
-      //     // eslint options (if necessary)
-      //   }
-      // }
+    {
+      test: /\.scss$/,
+      use: [
+        'style-loader', // creates style nodes from JS strings
+        'css-loader', // translates CSS into CommonJS
+        'sass-loader' // compiles Sass to CSS, using Node Sass by default
+      ]
+    },
+    {
+      test: /\.css$/,
+      use: [
+        'css-loader', // translates CSS into CommonJS
+        'sass-loader' // compiles Sass to CSS, using Node Sass by default
+      ]
+    }
     ]
   },
 

@@ -115,53 +115,53 @@ export default class Controller extends Component<ControllerProps, State> {
     const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
-      <div id="controller_area">
+      <div className="controller" id="controller_area">
         <div className="container">
-          <ul className="list-group">
-            <li>
+          <ul className="list-group controller__list">
+            <li className="controller__list__item">
               <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
                 運行データ選択<MovesInput actions={actions} id="MovesInput" style={{ display: 'none' }} />
               </label>
               <div style={nowrapstyle}>{movesFileName || '選択されていません'}</div>
             </li>
-            <li>
+            <li className="controller__list__item">
               <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
                 停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
               </label>
               <div style={nowrapstyle}>{depotsFileName || '選択されていません'}</div>
             </li>
-            <li>
+            <li className="controller__list__item">
               <div className="form-check">
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
                 <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
             </li>
-            <li>
+            <li className="controller__list__item">
               <div className="form-check">
                 <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
                 <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
               </div>
             </li>
-            <li>
+            <li className="controller__list__item">
               <div className="form-check">
                 <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
               </div>
             </li>
-            <li>
+            <li className="controller__list__item">
               <div className="form-check">
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
                 <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
               </div>
             </li>
-            <li><span>ナビゲーションパネル</span>
+            <li className="controller__list__item"><span>ナビゲーションパネル</span>
               <div className="btn-group d-flex" role="group">
                 <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
-            <li><span>コントロールパネル</span>
+            <li className="controller__list__item"><span>コントロールパネル</span>
               <div className="btn-group d-flex" role="group">
                 {animatePause ?
                   <PlayButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
@@ -181,18 +181,18 @@ export default class Controller extends Component<ControllerProps, State> {
                 <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
-            <li>
+            <li className="controller__list__item">
               再現中日時&nbsp;<SimulationDateTime timeBegin={timeBegin} settime={settime} />
             </li>
-            <li>
+            <li className="controller__list__item">
               <label htmlFor="ElapsedTimeRange">経過時間&nbsp;{Math.floor(settime)}&nbsp;秒</label>
               <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
-            <li>
+            <li className="controller__list__item">
               <label htmlFor="SpeedRange">スピード&nbsp;{secperhour}&nbsp;秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
             </li>
-            <li><div>経路操作</div>
+            <li className="controller__list__item"><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
                   <span><Icon icon={icSave} />&nbsp;SAVE&nbsp;

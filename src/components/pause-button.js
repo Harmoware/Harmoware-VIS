@@ -6,7 +6,6 @@ import { ic_pause_circle_outline as icPause } from 'react-icons-kit/md';
 import type { Node } from 'react';
 import type { I18n } from '../types';
 import typeof { setAnimatePause } from '../actions';
-import { ButtonClass } from '../styles';
 
 type Props = {
   actions: {
@@ -22,7 +21,7 @@ export default class PauseButton extends Component<Props> {
     i18n: {
       pauseButtonCaption: 'PAUSE'
     },
-    className: ButtonClass
+    className: 'button'
   }
 
   setAnimatePause() {

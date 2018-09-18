@@ -8,7 +8,6 @@ import type { AnalyzedBaseData, BasedProps as Props, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
 import { COLOR1 } from '../constants/settings';
-import style from '../styles';
 
 const scaleInfo = { scaleZ: 0, xMid: 0, yMid: 0 };
 const EQUATOR_RADIUS = 6378136.6;
@@ -381,15 +380,3 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
 
 export const getCombinedReducer = (combined: Object | null) : any =>
   combineReducers({ base: reducers, ...combined });
-
-export const applyDefaultStyle = (opt: {bootstrap: boolean}) : void => {
-  const styleElement = document.createElement('style');
-  styleElement.textContent = `${style}`;
-  if (opt && opt.bootstrap) {
-    const linkElement = document.createElement('link');
-    linkElement.setAttribute('rel', 'stylesheet');
-    linkElement.setAttribute('href', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css');
-    document.querySelector('head').appendChild(linkElement);
-  }
-  document.querySelector('head').appendChild(styleElement);
-};
