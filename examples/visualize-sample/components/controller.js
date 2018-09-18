@@ -115,7 +115,7 @@ export default class Controller extends Component<ControllerProps, State> {
     const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
-      <div id="controller_area">
+      <div className="controller" id="controller_area">
         <div className="container">
           <ul className="list-group">
             <li>

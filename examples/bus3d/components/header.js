@@ -62,21 +62,23 @@ export default class Header extends Component {
       return false;
     });
     return (
-      <div id="header">
-        <span>{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
-        <span id="bus_count">{movedData.length} 台運行中</span>
-        {Object.keys(busoption).length <= 0 ? <span>バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}
+      <div className="header">
+        <span className="header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
+        <span id="bus_count" className="header__spacer">{movedData.length} 台運行中</span>
+        {Object.keys(busoption).length <= 0 ? <span className="header__spacer">バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
+            className="header__input"
             type="range" value={elevationScale} min="1" max="20" step="1"
             onChange={this.setScaleElevation.bind(this)}
           />}<br />
-        <span>遅延 0分</span><CanvasComponent {...canvasProps} /><span>～{delayrange}分</span>
+        <span className="header__spacer">遅延 0分</span><CanvasComponent {...canvasProps} /><span>～{delayrange}分</span>
         {flg && clickedObject && <span>３Ｄ表示</span>}
         {flg && clickedObject &&
-          <span>
+          <span className="header__spacer">
             <input
+              className="header__input"
               type="range" value={delayheight} min="0" max="10" step="1"
               onChange={this.setDelayHeight.bind(this)}
             />
@@ -84,11 +86,11 @@ export default class Header extends Component {
         }
         {getClickedInfo &&
           <div>
-            <span>
+            <span className="header__spacer">
             選択バス情報
               <button onClick={this.onBusReleaseClick.bind(this)}>解除</button>
             </span>
-            <span>
+            <span className="header__spacer">
               {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}
             </span>
           </div>

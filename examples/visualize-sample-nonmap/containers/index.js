@@ -56,7 +56,7 @@ class App extends Container<Props, State> implements Component {
         <Controller
           {...props}
         />
-        <div id="footer_area">
+        <div className="footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             {t('permission')}</a>&nbsp;
           lookAt:{dispLookAt}&nbsp;

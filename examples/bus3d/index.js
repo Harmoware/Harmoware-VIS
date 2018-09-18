@@ -3,13 +3,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
 import createSagaMiddleware from 'redux-saga';
-import { applyDefaultStyle } from 'harmoware-vis';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import rootSaga from './sagas';
 import App from './containers';
 import reducer from './reducers';
+import '../../scss/harmoware.scss';
 
 const sagaMiddleware = createSagaMiddleware();
-applyDefaultStyle(); // Set 'style' tag to 'head' tag.
 
 const store = createStore(
   reducer,
