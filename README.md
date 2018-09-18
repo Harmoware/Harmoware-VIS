@@ -178,23 +178,6 @@ class App extends Container {
 export default connectToHarmowareVis(App);
 ```
 
-### applyDefaultStyle
-
-Set the default style to the head tag.
-
-##### Function syntax
-
-```js
-applyDefaultStyle(options);
-```
-
-##### applyDefaultStyle Argument
-
-| Properties | PropTypes | Default | Description |
-| :------------ | :------------ | :------------ | :------------ |
-| options | object option | -- | { opt: { bootstrap: boolean } } bootstrap is true: attach the bootstrap CSS link. |
-
-
 ### connectToHarmowareVis
 
 Utility to synchronize the state of `connectToHarmowareVis` to the prop of container component.

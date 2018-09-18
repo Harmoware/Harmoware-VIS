@@ -189,23 +189,6 @@ class App extends Container {
 export default connectToHarmowareVis(App);
 ```
 
-### applyDefaultStyle
-
-head タグに デフォルトスタイル設定を付加します。
-
-##### Function syntax
-
-```js
-applyDefaultStyle(options);
-```
-
-##### applyDefaultStyle Argument
-
-| Properties | PropTypes | Default | Description |
-| :------------ | :------------ | :------------ | :------------ |
-| options | object option | -- | { opt: { bootstrap: boolean } } bootstrap = true: bootstrap CSS link を付加 |
-
-
 ### connectToHarmowareVis
 
 connectToHarmowareVisのstateを`container component`の`props`に同期するためのUtility関数です。
