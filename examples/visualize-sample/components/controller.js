@@ -23,7 +23,8 @@ type ControllerProps = {
   actions: Actions,
   clickedObject: null | Array<ClickedObject>,
   routePaths: Array<RoutePaths>,
-  inputFileName: Object
+  inputFileName: Object,
+  viewport: Object,
 }
 
 type State = {

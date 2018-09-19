@@ -21,6 +21,7 @@ type ControllerProps = {
   animatePause: boolean,
   actions: Actions,
   t: Function,
+  viewport: Object,
 }
 
 export default class Controller extends Component<ControllerProps> {
