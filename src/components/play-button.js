@@ -21,7 +21,7 @@ export default class PlayButton extends Component<Props> {
     i18n: {
       playButtonCaption: '️PLAY'
     },
-    className: 'button'
+    className: 'harmovis_button'
   }
 
   setAnimatePause() {

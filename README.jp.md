@@ -57,7 +57,7 @@ class App extends Container {
 
     return (
       <div>
-        <div className="controller_area"> //コントローラーエリア
+        <div className="harmovis_controller"> //コントローラーエリア
           <ul>
             <li><MovesInput actions={actions} /></li>
             <li><DepotsInput actions={actions} /></li>
@@ -626,7 +626,7 @@ Harmoware-VIS を Control する component 一覧
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | 加算する時間（分）10 |
 | i18n | Object option | 'min' | キャプション定義 `i18n.minutesCaption` |
-| className | string option | 'button' | タグアトリビュート `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### ElapsedTimeRange
 
@@ -667,7 +667,7 @@ Harmoware-VIS の `animatePause` を true に更新する button オブジェク
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PAUSE' | キャプション定義 `i18n.pauseButtonCaption` |
-| className | string option | 'button' | タグアトリビュート `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### PlayButton
 
@@ -686,7 +686,7 @@ Harmoware-VIS の `animatePause` を false に更新する button オブジェ�
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PLAY' | キャプション定義 `i18n.playButtonCaption` |
-| className | string option | 'button' | タグアトリビュート `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### ForwardButton
 
@@ -705,7 +705,7 @@ Harmoware-VIS の `animateReverse` を false に更新する button オブジェ
 | actions | object required | -- | Harmoware-VIS の props.actions |
 | children | node option | -- | Button Caption |
 | i18n | Object option | 'FORWARD' | キャプション定義 `i18n.forwardButtonCaption` |
-| className | string option | 'button' | タグアトリビュート `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### ReverseButton
 
@@ -724,7 +724,7 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | children | node option | -- | Button Caption |
 | i18n | Object option | 'REVERSE' | キャプション定義 `i18n.reverseButtonCaption` |
-| className | string option | 'button' | タグアトリビュート `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### NavigationButton
 
@@ -743,7 +743,7 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 | buttonType | string required | -- | 'zoom-in'or'zoom-out'or'compass' |
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | viewport | object required | -- | Harmoware-VIS の `viewport` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | タグアトリビュート `class` |
 
 ### SimulationDateTime
 

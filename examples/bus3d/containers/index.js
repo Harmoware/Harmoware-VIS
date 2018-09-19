@@ -80,7 +80,7 @@ class App extends Container {
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getArchLayerChangeChecked={this.getArchLayerChangeChecked.bind(this)}
         />
-        <div className="footer">
+        <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;
@@ -90,7 +90,7 @@ class App extends Container {
           pitch:{viewport.pitch}
           <FPSStats isActive />
         </div>
-        <div className="gallery-wrapper">
+        <div className="harmovis_area">
           <HarmoVisLayers
             viewport={viewport}
             actions={actions}

@@ -56,7 +56,7 @@ class App extends Container<Props, State> implements Component {
         <Controller
           {...props}
         />
-        <div className="footer">
+        <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
             {t('permission')}</a>&nbsp;
           lookAt:{dispLookAt}&nbsp;
@@ -66,7 +66,7 @@ class App extends Container<Props, State> implements Component {
           fov:{viewport.fov}
           <FPSStats isActive />
         </div>
-        <div className="gallery-wrapper">
+        <div className="harmovis_area">
           <HarmoVisNonMapLayers
             viewport={viewport}
             actions={actions}
@@ -83,7 +83,7 @@ class App extends Container<Props, State> implements Component {
             ]}
           />
         </div>
-        <svg width={viewport.width} height={viewport.height} className="svg-overlay">
+        <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">
           <g fill="white" fontSize="12">
             {this.state.popup[2].length > 0 ?
               this.state.popup[2].split('\n').map((value, index) =>

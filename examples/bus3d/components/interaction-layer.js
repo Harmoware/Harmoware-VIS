@@ -30,7 +30,7 @@ export default ({ viewport, hovered }) => {
   // is measured from the center of the layout (of the viewport).
   // Therefore, we offset the <g> container to align.
   return (
-    <svg width={viewport.width} height={viewport.height} className="interaction-overlay">
+    <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">
       <g fill="white" fontSize="12">
         {elementInfo.hovered}
       </g>

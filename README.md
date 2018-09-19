@@ -50,7 +50,7 @@ class App extends Container {
 
     return (
       <div>
-        <div className="controller_area">
+        <div className="harmovis_controller">
           <ul>
             <li><MovesInput actions={actions} /></li>
             <li><DepotsInput actions={actions} /></li>
@@ -616,7 +616,7 @@ The AddMinutesButton will add minutes to the `Harmoware-VIS` state
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | Time to add (min) |
 | i18n | Object option | 'min' | minutes caption `i18n.minutesCaption` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### ElapsedTimeRange
 
@@ -657,7 +657,7 @@ The PauseButton will update `animatePause` to true.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PAUSE' | pauseButton caption `i18n.pauseButtonCaption` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### PlayButton
 
@@ -676,7 +676,7 @@ The PlayButton will set `animatePause` to false.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | string option | -- | Button Caption |
 | i18n | Object option | 'PLAY' | playButton caption `i18n.playButtonCaption` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### ForwardButton
 
@@ -695,7 +695,7 @@ The ForwardButton will update `animateReverse` to false.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node option | -- | Button Caption |
 | i18n | Object option | 'FORWARD' | forwardButton caption `i18n.forwardButtonCaption` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### ReverseButton
 
@@ -714,7 +714,7 @@ The ReverseButton will update `animateReverse` to true.
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node option | -- | Button Caption |
 | i18n | Object option | 'REVERSE' | reverseButton caption `i18n.reverseButtonCaption` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### NavigationButton
 
@@ -733,7 +733,7 @@ Generate navigation buttons.
 | buttonType | string required | -- | 'zoom-in'or'zoom-out'or'compass' |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | viewport | object required | -- | Harmoware-VIS state `viewport` |
-| className | string option | 'button' | html tag attribute `class` |
+| className | string option | 'harmovis_button' | html tag attribute `class` |
 
 ### SimulationDateTime
 

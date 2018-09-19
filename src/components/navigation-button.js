@@ -25,7 +25,7 @@ type Props = {
 
 export default class NavigationButton extends Component<Props> {
   static defaultProps = {
-    className: 'button'
+    className: 'harmovis_button'
   }
 
   setViewport(argument: Object) {
