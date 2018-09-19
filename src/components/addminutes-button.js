@@ -23,7 +23,7 @@ export default class AddMinutesButton extends Component<Props> {
     i18n: {
       minutesCaption: 'min'
     },
-    className: 'button'
+    className: 'harmovis_button'
   }
 
   addMinutes(minutes: number) {

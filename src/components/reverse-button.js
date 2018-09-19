@@ -21,7 +21,7 @@ export default class ReverseButton extends Component<Props> {
     i18n: {
       reverseButtonCaption: 'REVERSE'
     },
-    className: 'button'
+    className: 'harmovis_button'
   }
 
   setAnimateReverse() {

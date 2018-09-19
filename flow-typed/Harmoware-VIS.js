@@ -164,6 +164,11 @@ declare module 'harmoware-vis' {
     children?: React.Element | string, i18n?: I18n, className?: string |};
   declare export class ReverseButton extends React$Component<ReverseButtonProps> {}
 
+  declare type NavigationButtonProps = {|
+    buttonType: string, viewport: Viewport, className?: string,
+    actions: { setViewport: (viewport: Viewport) => {| type: string, viewport: Viewport |} } |};
+  declare export class NavigationButton extends React$Component<NavigationButtonProps> {}
+
   declare type ElapsedTimeRangeProps = {|
     settime: number, timeLength: number, min?: number, step?: number, className?: string,
     id?: string, actions: { setTime: (time: number) => {| time: number, type: string |} } |};

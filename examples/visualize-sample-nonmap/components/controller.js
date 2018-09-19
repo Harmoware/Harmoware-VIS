@@ -7,7 +7,7 @@ import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPau
   ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime } from 'harmoware-vis';
+  ElapsedTimeRange, SpeedRange, SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
 import i18n from './../locales/I18n';
 
@@ -21,6 +21,7 @@ type ControllerProps = {
   animatePause: boolean,
   actions: Actions,
   t: Function,
+  viewport: Object,
 }
 
 export default class Controller extends Component<ControllerProps> {
@@ -31,14 +32,14 @@ export default class Controller extends Component<ControllerProps> {
 
   render() {
     const { settime, timeBegin, timeLength, actions,
-      secperhour, animatePause, animateReverse, t } = this.props;
+      secperhour, animatePause, animateReverse, t, viewport } = this.props;
 
     return (
-      <div className="controller" id="controller_area">
-        <ul className="controller__list">
-          <li className="controller__list__item">
+      <div className="harmovis_controller" id="controller_area">
+        <ul className="harmovis_controller__list">
+          <li className="harmovis_controller__list__item">
             <select
-              className="controller__select"
+              className="harmovis_controller__select"
               id="language_select" value={t('langId')}
               onChange={this.onLanguageSelect.bind(this)}
             >
@@ -46,19 +47,19 @@ export default class Controller extends Component<ControllerProps> {
               <option value="en">English</option>
             </select>
           </li>
-          <li className="controller__list__item">
+          <li className="harmovis_controller__list__item">
             <span>{t('movedData')}</span>
             <MovesInput actions={actions} className="caInput" />
           </li>
-          <li className="controller__list__item">
-            <span className="controller__spacer">{t('depotsData')}</span>
+          <li className="harmovis_controller__list__item">
+            <span className="harmovis_controller__spacer">{t('depotsData')}</span>
             <DepotsInput actions={actions} className="caInput" />
           </li>
-          <li className="controller__list__item">
+          <li className="harmovis_controller__list__item">
             <span>{t('mapData')}</span>
             <LinemapInput actions={actions} className="caInput" />
           </li>
-          <li className="controller__list__item">
+          <li className="harmovis_controller__list__item">
             {animatePause ?
               <PlayButton actions={actions} className="caButton">
                 <span><Icon icon={icPlayArrow} />&nbsp;{t('play')}</span></PlayButton> :
@@ -72,7 +73,7 @@ export default class Controller extends Component<ControllerProps> {
                 <span><Icon icon={icReplay} />&nbsp;{t('reverse')}</span></ReverseButton>
             }
           </li>
-          <li className="controller__list__item">
+          <li className="harmovis_controller__list__item">
             <AddMinutesButton addMinutes={-10} actions={actions} className="caButton">
               <span><Icon icon={icFastRewind} />&nbsp;-10{t('minute')}</span></AddMinutesButton>
             <AddMinutesButton addMinutes={-5} actions={actions} className="caButton">
@@ -82,14 +83,19 @@ export default class Controller extends Component<ControllerProps> {
             <AddMinutesButton addMinutes={10} actions={actions} className="caButton">
               <span><Icon icon={icFastForward} />&nbsp;10{t('minute')}</span></AddMinutesButton>
           </li>
-          <li className="controller__list__item">
+          <li className="harmovis_controller__list__item">
+            <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="caButton" />
+            <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="caButton" />
+            <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="caButton" />
+          </li>
+          <li className="harmovis_controller__list__item">
             <SimulationDateTime timeBegin={timeBegin} settime={settime} locales={t('locales')} className="caSpan" />
           </li>
-          <li className="controller__list__item"><span>{t('elapsedTime')}</span>
+          <li className="harmovis_controller__list__item"><span>{t('elapsedTime')}</span>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} className="caRange" />
             <span>{Math.floor(settime)}&nbsp;{t('sec')}</span>
           </li>
-          <li className="controller__list__item"><span>{t('speed')}</span>
+          <li className="harmovis_controller__list__item"><span>{t('speed')}</span>
             <SpeedRange secperhour={secperhour} actions={actions} className="caRange" />
             <span>{secperhour}&nbsp;{t('sec')}/{t('hour')}</span>
           </li>

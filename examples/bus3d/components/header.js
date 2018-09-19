@@ -62,23 +62,23 @@ export default class Header extends Component {
       return false;
     });
     return (
-      <div className="header">
-        <span className="header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
-        <span id="bus_count" className="header__spacer">{movedData.length} 台運行中</span>
-        {Object.keys(busoption).length <= 0 ? <span className="header__spacer">バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}
+      <div className="harmovis_header">
+        <span className="harmovis_header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
+        <span id="bus_count" className="harmovis_header__spacer">{movedData.length} 台運行中</span>
+        {Object.keys(busoption).length <= 0 ? <span className="harmovis_header__spacer">バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
-            className="header__input"
+            className="harmovis_header__input"
             type="range" value={elevationScale} min="1" max="20" step="1"
             onChange={this.setScaleElevation.bind(this)}
           />}<br />
-        <span className="header__spacer">遅延 0分</span><CanvasComponent {...canvasProps} /><span>～{delayrange}分</span>
+        <span className="harmovis_header__spacer">遅延 0分</span><CanvasComponent {...canvasProps} /><span>～{delayrange}分</span>
         {flg && clickedObject && <span>３Ｄ表示</span>}
         {flg && clickedObject &&
-          <span className="header__spacer">
+          <span className="harmovis_header__spacer">
             <input
-              className="header__input"
+              className="harmovis_header__input"
               type="range" value={delayheight} min="0" max="10" step="1"
               onChange={this.setDelayHeight.bind(this)}
             />
@@ -86,11 +86,11 @@ export default class Header extends Component {
         }
         {getClickedInfo &&
           <div>
-            <span className="header__spacer">
+            <span className="harmovis_header__spacer">
             選択バス情報
-              <button onClick={this.onBusReleaseClick.bind(this)}>解除</button>
+              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button">解除</button>
             </span>
-            <span className="header__spacer">
+            <span className="harmovis_header__spacer">
               {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}
             </span>
           </div>
