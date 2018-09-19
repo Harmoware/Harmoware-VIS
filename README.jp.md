@@ -122,6 +122,7 @@ Harmoware-VIS で定義されるState一覧
 | trailing | Number | 180 | シュミレーション後余白時間（秒） |
 | viewport | object | {...} | マップ視点情報 |
 | loading | Boolean | false | ローディング中情報 |
+| inputFileName | Object | {} | 選択されてる各データファイルの名称 |
 
 ### Harmoware-VIS Actions
 
@@ -161,14 +162,14 @@ React.Component から継承したクラスで、Harmoware-VIS ライブラリ�
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisLayers, ... } from 'harmoware-vis';
 class App extends Container {
-    render() {
-        const { viewport, actions, ... } = this.props;
-        return (
-          <HarmoVisLayers
-            viewport={viewport}  actions={actions} mapboxApiAccessToken={ ... } layers={[ ... ]}
-          />
-        );
-    }
+  render() {
+    const { viewport, actions, ... } = this.props;
+    return (
+      <HarmoVisLayers
+        viewport={viewport}  actions={actions} mapboxApiAccessToken={ ... } layers={[ ... ]}
+      />
+    );
+  }
 }
 export default connectToHarmowareVis(App);
 ```
@@ -177,14 +178,14 @@ export default connectToHarmowareVis(App);
 import React from 'react';
 import { Container, connectToHarmowareVis, HarmoVisNonMapLayers, ... } from 'harmoware-vis';
 class App extends Container {
-    render() {
-        const { viewport, actions, ... } = this.props;
-        return (
-          <HarmoVisNonMapLayers
-            viewport={viewport}  actions={actions} layers={[ ... ]}
-          />
-        );
-    }
+  render() {
+    const { viewport, actions, ... } = this.props;
+    return (
+      <HarmoVisNonMapLayers
+        viewport={viewport}  actions={actions} layers={[ ... ]}
+      />
+    );
+  }
 }
 export default connectToHarmowareVis(App);
 ```
@@ -203,9 +204,9 @@ props以下に直接`State`と`actions`がbindされるため、もし他のbind
 
 ```js
 <HarmoVisLayers
-    viewport={this.props.viewport} actions={this.props.actions}
-    mapboxApiAccessToken={MAPBOX_TOKEN}
-    layers={ [ ... ] }
+  viewport={this.props.viewport} actions={this.props.actions}
+  mapboxApiAccessToken={MAPBOX_TOKEN}
+  layers={ [ ... ] }
 />
 ```
 
@@ -219,6 +220,7 @@ props以下に直接`State`と`actions`がbindされるため、もし他のbind
 | mapStyle | string option | 'mapbox://styles/mapbox/dark-v8' | mapbox のマップスタイルURL |
 | layers | array required | -- | Layer インスタンス(※1) の配列 |
 | onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
+
 ※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
 
 ### HarmoVisNonMapLayers
@@ -242,6 +244,7 @@ props以下に直接`State`と`actions`がbindされるため、もし他のbind
 | viewport | object required | -- | Harmoware-VIS の `viewport` |
 | layers | array required | -- | Layer インスタンス(※1) の配列 |
 | onChangeViewport | func option | this.props.actions.setViewport | viewports値更新イベント関数 |
+
 ※1 [deck.gl](https://github.com/uber/deck.gl "deck.gl") の [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") クラスを継承するクラスのインスタンス
 
 ## Harmoware-VIS Layers
@@ -257,12 +260,12 @@ Harmoware-VIS 提供 Layer 一覧
 ```js
 <HarmoVisLayers ...
   layers={[
-      new MovesLayer({ routePaths: this.props.routePaths,
-        movesbase: this.props.movesbase,
-        movedData: this.props.movedData,
-        clickedObject: this.props.clickedObject,
-        actions: this.props.actions 
-      })
+    new MovesLayer( { routePaths: this.props.routePaths,
+      movesbase: this.props.movesbase,
+      movedData: this.props.movedData,
+      clickedObject: this.props.clickedObject,
+      actions: this.props.actions 
+    })
   ]}
 />
 ```
@@ -349,9 +352,9 @@ Harmoware-VIS 提供 Layer 一覧
 
 ```js
 <HarmoVisLayers ...
-    layers={[
-        new DepotsLayer( { depotsData: this.props.depotsData } )
-    ]}
+  layers={[
+    new DepotsLayer( { depotsData: this.props.depotsData } )
+  ]}
 />
 ```
 
@@ -394,19 +397,19 @@ Harmoware-VIS 提供 Layer 一覧
 
 ```js
 <HarmoVisNonMapLayers ...
-    layers={[
-        new MovesNonmapLayer( { routePaths: this.props.routePaths,
-                        movesbase: this.props.movesbase,
-                        movedData: this.props.movedData,
-                        clickedObject: this.props.clickedObject,
-                        actions: this.props.actions } )
-    ]}
+  layers={[
+    new MovesNonmapLayer( { routePaths: this.props.routePaths,
+      movesbase: this.props.movesbase,
+      movedData: this.props.movedData,
+      clickedObject: this.props.clickedObject,
+      actions: this.props.actions 
+    })
+  ]}
 />
 ```
 
 ##### MovesNonmapLayer Properties
 
-| Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | movedData| Array required | -- | Harmoware-VIS の props.movedData |
 | movesbase| Array required | -- | Harmoware-VIS の props.movesbase |
@@ -543,7 +546,10 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| i18n | Object option | -- | キャプション定義 `i18n.formatError` |
+| id | string option | -- | タグアトリビュート `id` |
+| className | string option | -- | タグアトリビュート `class` |
+| style | Object option | -- | タグアトリビュート `style` |
 
 ### DepotsInput
 
@@ -560,7 +566,10 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| i18n | Object option | -- | キャプション定義 `i18n.formatError` |
+| id | string option | -- | タグアトリビュート `id` |
+| className | string option | -- | タグアトリビュート `class` |
+| style | Object option | -- | タグアトリビュート `style` |
 
 ### LinemapInput
 
@@ -577,7 +586,10 @@ Harmoware-VIS を Control する component 一覧
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| i18n | Object option | -- | キャプション定義 |
+| i18n | Object option | -- | キャプション定義 `i18n.formatError` |
+| id | string option | -- | タグアトリビュート `id` |
+| className | string option | -- | タグアトリビュート `class` |
+| style | Object option | -- | タグアトリビュート `style` |
 
 ### LoadingIcon
 
@@ -613,7 +625,8 @@ Harmoware-VIS を Control する component 一覧
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | children | node required | -- | Button Caption |
 | addMinutes | number option | 10 | 加算する時間（分）10 |
-| i18n | Object option | -- | キャプション定義 |
+| i18n | Object option | 'min' | キャプション定義 `i18n.minutesCaption` |
+| className | string option | 'button' | タグアトリビュート `class` |
 
 ### ElapsedTimeRange
 
@@ -634,6 +647,8 @@ Harmoware-VIS を Control する component 一覧
 | actions | object required | -- | Harmoware-VIS の `actions` |
 | min | number option | -100 | Range 最小値（シュミレーション中時間（秒）） |
 | step | number option | 1 | Range 増加値 |
+| id | string option | -- | タグアトリビュート `id` |
+| className | string option | -- | タグアトリビュート `class` |
 
 ### PauseButton
 
@@ -650,8 +665,9 @@ Harmoware-VIS の `animatePause` を true に更新する button オブジェク
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| children | string option | '⏸ PAUSE' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| children | string option | -- | Button Caption |
+| i18n | Object option | 'PAUSE' | キャプション定義 `i18n.pauseButtonCaption` |
+| className | string option | 'button' | タグアトリビュート `class` |
 
 ### PlayButton
 
@@ -668,8 +684,9 @@ Harmoware-VIS の `animatePause` を false に更新する button オブジェ�
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| children | string option | '▶ PLAY' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| children | string option | -- | Button Caption |
+| i18n | Object option | 'PLAY' | キャプション定義 `i18n.playButtonCaption` |
+| className | string option | 'button' | タグアトリビュート `class` |
 
 ### ForwardButton
 
@@ -686,8 +703,9 @@ Harmoware-VIS の `animateReverse` を false に更新する button オブジェ
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の props.actions |
-| children | node option | '➡ FORWARD' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| children | node option | -- | Button Caption |
+| i18n | Object option | 'FORWARD' | キャプション定義 `i18n.forwardButtonCaption` |
+| className | string option | 'button' | タグアトリビュート `class` |
 
 ### ReverseButton
 
@@ -704,8 +722,9 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 | Properties | PropTypes | Default | Description |
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS の `actions` |
-| children | node option | '↩ REVERSE' | Button Caption |
-| i18n | Object option | -- | キャプション定義 |
+| children | node option | -- | Button Caption |
+| i18n | Object option | 'REVERSE' | キャプション定義 `i18n.reverseButtonCaption` |
+| className | string option | 'button' | タグアトリビュート `class` |
 
 ### NavigationButton
 
@@ -765,3 +784,5 @@ Harmoware-VIS の `animateReverse` を true に更新する button オブジェ�
 | maxsecperhour | number option | 3600 | Range 最大値（再生速度（秒/時）） |
 | min | number option | 1 | Range 最小値 |
 | step | number option | 1 | Range 増加値 |
+| id | string option | -- | タグアトリビュート `id` |
+| className | string option | -- | タグアトリビュート `class` |

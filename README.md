@@ -137,7 +137,6 @@ export default connectToHarmowareVis(App);
 | setMovesOptionFunc(Function) | getMovesOptionFunc | set the specified moves data option info process function to the `getMovesOptionFunc` |
 | setDepotsOptionFunc(Function) | getDepotsOptionFunc | set the specified depots data option info process function to the `getDepotsOptionFunc` |
 | setLoading(Function) | loading | set the specified Loading in progress to the `loading` |
-| setInputFilename(Function) | inputFileName | set the specified input file name to the `inputFileName` |
 
 ### Container
 
@@ -205,10 +204,10 @@ Display the layer that inherits the [Layer](https://github.com/uber/deck.gl/blob
 | viewport | object required | -- | Harmoware-VIS state `viewport` |
 | mapboxApiAccessToken | string required | -- | The access token of mapbox.com |
 | mapStyle | string option | 'mapbox://styles/mapbox/dark-v8' | A map style URL of mapbox.com. |
-| layers | array required | -- | Array of Layer (※) |
+| layers | array required | -- | Array of Layer instance (※) |
 | onChangeViewport | func option | this.props.actions.setViewport | Harmoware-VIS Actions `setViewport` |
 
-The `HarmoVisLayers` is a component that render the layers that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
+※ The `HarmoVisLayers` is a component that render the layers that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ### HarmoVisNonMapLayers
 
@@ -229,17 +228,16 @@ The `HarmoVisNonMapLayers` is a component that render the layers that inherits t
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | viewport | object required | -- | Harmoware-VIS state `viewport` |
-| layers | array required | -- | Array of Layer (※) |
+| layers | array required | -- | Array of Layer instance (※) |
 | onChangeViewport | func option | this.props.actions.setViewport | Harmoware-VIS Actions `setViewport` |
 
-※1 An instance of a class that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
+※ An instance of a class that inherits the [Layer](https://github.com/uber/deck.gl/blob/master/docs/api-reference/layer.md "Layer") class of [deck.gl](https://github.com/uber/deck.gl "deck.gl").
 
 ## Harmoware-VIS Layers
 
 Harmoware-VIS Layer List
 
 ### MovesLayer
-
 
 The MovesLayer will render moving objects such as vehicles.
 
@@ -715,7 +713,7 @@ The ReverseButton will update `animateReverse` to true.
 | :------------ | :------------ | :------------ | :------------ |
 | actions | object required | -- | Harmoware-VIS state `actions` |
 | children | node option | -- | Button Caption |
-| i18n | Object option | -- | formatError caption `i18n.formatError` |
+| i18n | Object option | 'REVERSE' | reverseButton caption `i18n.reverseButtonCaption` |
 | className | string option | 'button' | html tag attribute `class` |
 
 ### NavigationButton
