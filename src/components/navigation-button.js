@@ -36,21 +36,21 @@ export default class NavigationButton extends Component<Props> {
     const { buttonType, viewport, className } = this.props;
     switch (buttonType) {
       case 'zoom-in': {
-        const value1 = Math.min(viewport.zoom + 0.5, viewport.maxZoom);
-        const value2 = Math.max(viewport.distance - 4, viewport.minDistance);
+        const zoom = Math.min(viewport.zoom + 0.5, viewport.maxZoom);
+        const distance = Math.max(viewport.distance - 4, viewport.minDistance);
         return (
           <button
-            onClick={this.setViewport.bind(this, { zoom: value1, distance: value2 })}
+            onClick={this.setViewport.bind(this, { zoom, distance })}
             className={className}
           >＋</button>
         );
       }
       case 'zoom-out': {
-        const value1 = Math.max(viewport.zoom - 0.5, viewport.minZoom);
-        const value2 = Math.min(viewport.distance + 4, viewport.maxDistance);
+        const zoom = Math.max(viewport.zoom - 0.5, viewport.minZoom);
+        const distance = Math.min(viewport.distance + 4, viewport.maxDistance);
         return (
           <button
-            onClick={this.setViewport.bind(this, { zoom: value1, distance: value2 })}
+            onClick={this.setViewport.bind(this, { zoom, distance })}
             className={className}
           >－</button>
         );
