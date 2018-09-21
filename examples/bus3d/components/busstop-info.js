@@ -4,8 +4,8 @@ export default class BusStopInfo extends Component {
   render() {
     const { selectedBusstop, date, depotsData } = this.props;
     const d = new Date(date);
-    const width = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '300px' : '0px';
-    const height = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100px' : '0px';
+    const width = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%';
+    const height = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%';
     const busstop = depotsData.find((busstopElement) => {
       if (busstopElement.code === selectedBusstop) {
         return true;

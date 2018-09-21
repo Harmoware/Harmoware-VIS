@@ -20,6 +20,7 @@ export default class ElapsedTimeRange extends Component<Props> {
   static defaultProps = {
     min: -100,
     step: 1,
+    className: 'harmovis_input_range'
   }
 
   setTime(e: InputEvent) {

@@ -62,19 +62,25 @@ export default class Header extends Component {
       return false;
     });
     return (
-      <div className="harmovis_header">
+      <div className="harmovis_header container" id="header_area">
         <span className="harmovis_header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
         <span id="bus_count" className="harmovis_header__spacer">{movedData.length} 台運行中</span>
-        {Object.keys(busoption).length <= 0 ? <span className="harmovis_header__spacer">バス拡張情報なし</span> : <span>{`バス拡張情報：${bsoptFname}`}</span>}
+        {Object.keys(busoption).length <= 0 ?
+          <span className="harmovis_header__spacer">バス拡張情報なし</span> :
+          <span className="harmovis_header__spacer">{`バス拡張情報：${bsoptFname}`}</span>
+        }
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
             className="harmovis_header__input"
             type="range" value={elevationScale} min="1" max="20" step="1"
             onChange={this.setScaleElevation.bind(this)}
-          />}<br />
-        <span className="harmovis_header__spacer">遅延 0分</span><CanvasComponent {...canvasProps} /><span>～{delayrange}分</span>
-        {flg && clickedObject && <span>３Ｄ表示</span>}
+          />}
+        <br />
+        <span className="harmovis_header__spacer">遅延 0分</span>
+        <CanvasComponent {...canvasProps} />
+        <span className="harmovis_header__spacer">～{delayrange}分</span>
+        {flg && clickedObject && <span className="harmovis_header__spacer">３Ｄ表示</span>}
         {flg && clickedObject &&
           <span className="harmovis_header__spacer">
             <input
@@ -87,7 +93,7 @@ export default class Header extends Component {
         {getClickedInfo &&
           <div>
             <span className="harmovis_header__spacer">
-            選択バス情報
+            選択バス情報&nbsp;
               <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button">解除</button>
             </span>
             <span className="harmovis_header__spacer">

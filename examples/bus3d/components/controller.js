@@ -27,9 +27,12 @@ const getNextCellSize = (xbandCellSize) => {
 };
 
 export default class Controller extends Component {
-/*  constructor() {
+  constructor() {
     super();
-  } */
+    this.state = {
+      filename: '',
+    };
+  }
 
   onTripSelect(e) {
     const answer = e.target.value;
@@ -104,17 +107,20 @@ export default class Controller extends Component {
     const { actions, trailing, defaultZoom, defaultPitch } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
+    actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = (ev) => {
       let readdata = '';
       try {
         readdata = JSON.parse(reader.result);
       } catch (exception) {
+        actions.setLoading(false);
         window.alert(exception);
         return;
       }
       const { timeBegin, timeLength, bounds, busmovesbase, busmovesbasedic } = readdata;
       if (!timeBegin || !timeLength || !bounds || !busmovesbase || !busmovesbasedic) {
+        actions.setLoading(false);
         window.alert('運行データ形式不正');
         return;
       }
@@ -132,6 +138,8 @@ export default class Controller extends Component {
       actions.setClicked(null);
       actions.setAnimatePause(false);
       actions.setAnimateReverse(false);
+      this.setState({ filename: file.name });
+      actions.setLoading(false);
     };
   }
 
@@ -149,25 +157,40 @@ export default class Controller extends Component {
     const optionsTrip = answers.map(
       ans => <option value={ans} key={ans}>{ans}</option>);
 
+    const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+
     return (
-      <div className="harmovis_controller">
-        <ul className="harmovis_controller__list">
-          <li className="harmovis_controller__list__item"><span>運行データ選択</span>
-            <span className="harmovis_controller__spacer">
+      <div className="harmovis_controller container" id="controller_area">
+        <ul className="list-group harmovis_controller__list">
+          <li className="harmovis_controller__list__item">
+            <div className="input-group input-group-sm">
+              <label htmlFor="trip_select">運行データ選択</label>
               <select
+                className="w-100"
                 id="trip_select" value={answer}
                 onChange={this.onTripSelect.bind(this)}
               >{optionsTrip}</select>
-            </span>
-          </li>
-          <li className="harmovis_controller__list__item"><span>オプション表示パターン切替</span>
-            <input type="checkbox" onChange={getOptionChangeChecked} />
-          </li>
-          <li className="harmovis_controller__list__item"><span>アーチレイヤ表示切替</span>
-            <input type="checkbox" onChange={getArchLayerChangeChecked} />
+            </div>
           </li>
           <li className="harmovis_controller__list__item">
-            <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} />
+            <div className="form-check">
+              <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
+              <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
+            </div>
+          </li>
+          <li className="harmovis_controller__list__item">
+            <div className="form-check">
+              <input type="checkbox" id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} className="form-check-input" />
+              <label htmlFor="ArchLayerChangeChecked" className="form-check-label">アーチレイヤ表示切替</label>
+            </div>
+          </li>
+          <li className="harmovis_controller__list__item">
+            <div className="input-group input-group-sm">
+              <label htmlFor="MovesInput" className="harmovis_button">運行データ選択
+                <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} id="MovesInput" style={{ display: 'none' }} />
+              </label>
+              <div style={nowrapstyle}>{this.state.filename}</div>
+            </div>
           </li>
           <li className="harmovis_controller__list__item">
             {animatePause ?
@@ -181,7 +204,9 @@ export default class Controller extends Component {
           </li>
           <li className="harmovis_controller__list__item">
             <AddMinutesButton addMinutes={-10} actions={actions}>⏮ -10分</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5分</AddMinutesButton>&nbsp;
+            <AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5分</AddMinutesButton>
+          </li>
+          <li className="harmovis_controller__list__item">
             <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton>&nbsp;
             <AddMinutesButton addMinutes={10} actions={actions}>10分 ⏭</AddMinutesButton>
           </li>
@@ -190,32 +215,32 @@ export default class Controller extends Component {
             <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} />&nbsp;
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
-          <li className="harmovis_controller__list__item"><span>経過時間</span>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} />
-            <span className="harmovis_controller__spacer">{Math.floor(settime)}&nbsp;秒</span>
-          </li>
-          <li className="harmovis_controller__list__item"><span>スピード</span>
-            <SpeedRange secperhour={secperhour} actions={actions} />
-            <span className="harmovis_controller__spacer">{secperhour}&nbsp;秒/時</span>
-          </li>
-          <li className="harmovis_controller__list__item"><span>遅延度LV</span>
-            <input
-              type="range" value={delayrange} min="1" max="120" step="1"
-              onChange={this.setDelayRange.bind(this)}
-            />
-            <span className="harmovis_controller__spacer">0～{delayrange}分</span></li>
-          <li className="harmovis_controller__list__item">
-            <button onClick={this.setCellSize.bind(this)} className="harmovis_button">{xBandViewLabel}</button>
-            <span>{xbandCellSize ? xbandFname : ''}</span>
+          <li>
+            <label htmlFor="ElapsedTimeRange">経過時間&nbsp;{Math.floor(settime)}&nbsp;秒</label>
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" />
           </li>
           <li>
+            <label htmlFor="SpeedRange">スピード&nbsp;{secperhour}&nbsp;秒/時</label>
+            <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
+          </li>
+          <li>
+            <label htmlFor="delayrange">遅延度LV&nbsp;0～{delayrange}&nbsp;分</label>
+            <input type="range" value={delayrange} min="1" max="120" step="1" onChange={this.setDelayRange.bind(this)} id="delayrange" className="harmovis_input_range" />
+          </li>
+          <li className="harmovis_controller__list__item">
+            <div className="input-group input-group-sm">
+              <button onClick={this.setCellSize.bind(this)} className="harmovis_button">{xBandViewLabel}</button>
+              <div style={nowrapstyle}>{xbandCellSize ? xbandFname : ''}</div>
+            </div>
+          </li>
+          <li className="harmovis_controller__list__item">
             <XbandDataInput actions={actions} />
           </li>
           <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">バス停検索</span>
-            <span className="harmovis_controller__spacer">
+            <div className="input-group input-group-sm">
+              <label htmlFor="busstop_select">バス停検索</label>
               <select
-                className="harmovis_controller__select"
+                className="w-100"
                 id="busstop_select" value={selectedBusstop}
                 onChange={this.onBusstopSelect.bind(this)}
               >
@@ -226,7 +251,7 @@ export default class Controller extends Component {
                   >{busstop.code} {busstop.name}</option>
                 )}
               </select>
-            </span>
+            </div>
           </li>
           <li className="harmovis_controller__list__item">
             <BusStopInfo
@@ -235,11 +260,12 @@ export default class Controller extends Component {
           </li>
           <li className="harmovis_controller__list__item">
             {animatePause && Object.keys(busmovesbasedic).length > 0 &&
-              <div>
-                運行中バス選択
+              <div className="input-group input-group-sm">
+                <label htmlFor="bus_select">運行中バス選択</label>
                 <select
-                  className="harmovis_controller__spacer"
-                  id="bus_select" value={selectedBus} onChange={this.onBusSelect.bind(this)}
+                  className="w-100"
+                  id="bus_select" value={selectedBus}
+                  onChange={this.onBusSelect.bind(this)}
                 >
                   {movedData.map(bus => <option value={bus.code} key={bus.code}>{`${bus.code}:${bus.name.split(' ')[0]} ${bus.name.split(' ')[1]}`}</option>)}
                 </select>
