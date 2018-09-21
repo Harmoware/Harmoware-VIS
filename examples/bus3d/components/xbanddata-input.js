@@ -5,7 +5,7 @@ import type { InputEvent } from 'harmoware-vis';
 import typeof { setRainfall } from '../actions';
 
 type Props = {
-  actions: { setRainfall: setRainfall, setLoading: setLoading },
+  actions: { setRainfall: setRainfall, setLoading: Function },
 }
 
 type State = {
