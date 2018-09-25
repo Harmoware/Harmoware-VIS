@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './containers';
 import i18n from './locales/I18n';
 import '../../scss/harmoware.scss';
+import './scss/visualize-sample-nonmap.scss';
 
 const store = createStore(getCombinedReducer());
 
