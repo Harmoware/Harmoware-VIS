@@ -8,6 +8,7 @@ import rootSaga from './sagas';
 import App from './containers';
 import reducer from './reducers';
 import '../../scss/harmoware.scss';
+import './scss/bus3d.scss';
 
 const sagaMiddleware = createSagaMiddleware();
 
