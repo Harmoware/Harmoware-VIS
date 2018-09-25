@@ -16,6 +16,20 @@
         color: white; 
         text-decoration: none; 
       }
+      select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 23px;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .harmovis_controller__list__button {
+        padding: 5px;
+        display: flex;
+      }
       #controller_area input.caInput { 
         flex-grow: 1; 
       }
@@ -24,7 +38,8 @@
         display: flex; 
       }
       #controller_area button.caButton { 
-        flex-grow: 1; 
+        flex-grow: 1;
+        height: 26px; 
       }
       #controller_area button.caButton > span { 
         padding: 0px; 
