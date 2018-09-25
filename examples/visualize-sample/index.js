@@ -6,6 +6,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './containers';
 import '../../scss/harmoware.scss';
+import './scss/visualize-sample.scss';
 
 const store = createStore(getCombinedReducer());
 

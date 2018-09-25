@@ -1,0 +1,21 @@
+body {
+    margin: 0px;
+    padding: 0;
+    overflow: hidden;
+    color: white;
+    background-color: black;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  #controller_area {
+    font-size: 10pt;
+    z-index: 100;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    width: 260px;
+  }
