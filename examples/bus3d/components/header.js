@@ -94,7 +94,7 @@ export default class Header extends Component {
           <div>
             <span className="harmovis_header__spacer">
             選択バス情報&nbsp;
-              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button" style={{ width: '8  0px' }}>解除</button>
+              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button" style={{ width: '80px' }}>解除</button>
             </span>
             <span className="harmovis_header__spacer">
               {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}
