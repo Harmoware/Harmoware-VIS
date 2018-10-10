@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime, NavigationButton } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 import type { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
@@ -186,11 +186,11 @@ export default class Controller extends Component<ControllerProps, State> {
               再現中日時&nbsp;<SimulationDateTime timeBegin={timeBegin} settime={settime} />
             </li>
             <li className="harmovis_controller__list__item">
-              <label htmlFor="ElapsedTimeRange">経過時間&nbsp;{Math.floor(settime)}&nbsp;秒</label>
+              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />秒</label>
               <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item">
-              <label htmlFor="SpeedRange">スピード&nbsp;{secperhour}&nbsp;秒/時</label>
+              <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item"><div>経路操作</div>

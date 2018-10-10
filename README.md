@@ -621,6 +621,7 @@ The AddMinutesButton will add minutes to the `Harmoware-VIS` state
 ### ElapsedTimeRange
 
 The ElapsedTimeRange will update `settime`.
+input[type="range"]
 
 ##### Examples
 
@@ -638,7 +639,29 @@ The ElapsedTimeRange will update `settime`.
 | min | number option | -100 | Range(`settime` sec) minimum |
 | step | number option | 1 | Range include |
 | id | string option | -- | html tag attribute `id` |
-| className | string option | -- | html tag attribute `class` |
+| className | string option | `harmovis_input_range` | html tag attribute `class` |
+
+### ElapsedTimeValue
+
+The ElapsedTimeValue will update `settime`.
+input[type="number"]
+
+##### Examples
+
+```js
+<ElapsedTimeValue settime={this.props.settime} timeLength={this.props.timeLength} actions={this.props.actions} />
+```
+
+##### ElapsedTimeValue Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| settime | number required | -- | Harmoware-VIS state `settime` |
+| timeLength | number required | -- | Harmoware-VIS state `timeLength` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| min | number option | -100 | Range(`settime` sec) minimum |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | `harmovis_input_number` | html tag attribute `class` |
 
 ### PauseButton
 
@@ -757,6 +780,7 @@ The SimulationDateTime will render the simulation-time. exp) `2018/02/21 (wed) 1
 ### SpeedRange
 
 The SpeedRange will update "Playback speed (sec/hour) (`secperhour`)".
+input[type="range"]
 
 ##### Examples
 
@@ -774,4 +798,27 @@ The SpeedRange will update "Playback speed (sec/hour) (`secperhour`)".
 | min | number option | 1 | Range minimum |
 | step | number option | 1 | Range include |
 | id | string option | -- | html tag attribute `id` |
-| className | string option | -- | html tag attribute `class` |
+| className | string option | `harmovis_input_range` | html tag attribute `class` |
+
+### SpeedValue
+
+The SpeedValue will update "Playback speed (sec/hour) (`secperhour`)".
+input[type="number"]
+
+##### Examples
+
+```js
+<SpeedValue secperhour={this.props.secperhour} actions={this.props.actions} />
+```
+
+##### SpeedValue Properties
+
+| Properties | PropTypes | Default | Description |
+| :------------ | :------------ | :------------ | :------------ |
+| secperhour | number required | -- | Harmoware-VIS state `secperhour` |
+| actions | object required | -- | Harmoware-VIS state `actions` |
+| maxsecperhour | number option | 3600 | Range maximum (Playback speed (sec/hour))  |
+| min | number option | 1 | Range minimum |
+| step | number option | 1 | Range include |
+| id | string option | -- | html tag attribute `id` |
+| className | string option | `harmovis_input_number` | html tag attribute `class` |

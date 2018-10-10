@@ -174,11 +174,22 @@ declare module 'harmoware-vis' {
     id?: string, actions: { setTime: (time: number) => {| time: number, type: string |} } |};
   declare export class ElapsedTimeRange extends React$Component<ElapsedTimeRangeProps> {}
 
+  declare type ElapsedTimeValueProps = {|
+    settime: number, timeLength: number, min?: number, className?: string,
+    id?: string, actions: { setTime: (time: number) => {| time: number, type: string |} } |};
+  declare export class ElapsedTimeValue extends React$Component<ElapsedTimeValueProps> {}
+
   declare type SpeedRangeProps = {|
     secperhour: number, actions: {
       setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |}
     }, maxsecperhour?: number, min?: number, step?: number, className?: string, id?: string |};
   declare export class SpeedRange extends React$Component<SpeedRangeProps> {}
+
+  declare type SpeedValueProps = {|
+    secperhour: number, actions: {
+      setSecPerHour: (secperhour: number) => {| secperhour: number, type: string |}
+    }, maxsecperhour?: number, min?: number, className?: string, id?: string |};
+  declare export class SpeedValue extends React$Component<SpeedValueProps> {}
 
   declare type SimulationDateTimeProps = {|
     timeBegin: number, settime: number, caption?: string,

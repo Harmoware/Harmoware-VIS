@@ -27,12 +27,14 @@ import LinemapInput from './components/linemap-input';
 import LoadingIcon from './components/loading-icon';
 import AddMinutesButton from './components/addminutes-button';
 import ElapsedTimeRange from './components/elapsedtime-range';
+import ElapsedTimeValue from './components/elapsedtime-value';
 import PlayButton from './components/play-button';
 import PauseButton from './components/pause-button';
 import ReverseButton from './components/reverse-button';
 import ForwardButton from './components/forward-button';
 import SimulationDateTime from './components/simulation-date-time';
 import SpeedRange from './components/speed-range';
+import SpeedValue from './components/speed-value';
 import HarmoVisLayers from './components/harmovislayers';
 import HarmoVisNonMapLayers from './components/harmovis-nonmap-layers';
 import NavigationButton from './components/navigation-button';
@@ -81,7 +83,9 @@ export {
   ForwardButton,
   ReverseButton,
   ElapsedTimeRange,
+  ElapsedTimeValue,
   SpeedRange,
+  SpeedValue,
   SimulationDateTime,
   HarmoVisLayers,
   HarmoVisNonMapLayers,

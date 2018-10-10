@@ -7,7 +7,8 @@ import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPau
   ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, SimulationDateTime, NavigationButton } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue,
+  SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import type { Actions, InputEvent } from 'harmoware-vis';
 import i18n from './../locales/I18n';
 
@@ -96,12 +97,14 @@ export default class Controller extends Component<ControllerProps> {
           </li>
           <hr />
           <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('elapsedTime')}&nbsp;{Math.floor(settime)}&nbsp;{t('sec')}</span>
+            <span className="harmovis_controller__spacer">{t('elapsedTime')}
+              <ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />{t('sec')}</span>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} className="caRange" />
           </li>
           <hr />
           <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('speed')}&nbsp;{secperhour}&nbsp;{t('sec')}/{t('hour')}</span>
+            <span className="harmovis_controller__spacer">{t('speed')}
+              <SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</span>
             <SpeedRange secperhour={secperhour} actions={actions} className="caRange" />
           </li>
         </ul>
