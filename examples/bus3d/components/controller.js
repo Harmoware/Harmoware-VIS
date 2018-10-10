@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, SpeedRange, NavigationButton } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
@@ -216,11 +216,11 @@ export default class Controller extends Component {
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <li>
-            <label htmlFor="ElapsedTimeRange">経過時間&nbsp;{Math.floor(settime)}&nbsp;秒</label>
+            <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />秒</label>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" />
           </li>
           <li>
-            <label htmlFor="SpeedRange">スピード&nbsp;{secperhour}&nbsp;秒/時</label>
+            <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
             <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
           </li>
           <li>

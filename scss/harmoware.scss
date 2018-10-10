@@ -95,6 +95,20 @@
   }
 }
 
+.harmovis_input_number[type="number"],
+.harmovis_input_number[type="number"]::-webkit-outer-spin-button,
+.harmovis_input_number[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  background-color: rgba( 0, 0, 0, 0 );
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0px;
+  border: 1px;
+  border-color: #FFFFFF;
+  padding: 0px;
+  -moz-appearance:textfield;
+}
+
 .harmovis_footer {
   font-size: 8pt; 
   z-index: 105; 
