@@ -165,7 +165,7 @@ export const analyzeDepotsBase =
 
 const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
   const retValue = {};
-  const basedata = props.depotsBase[idx1];
+  const basedata = props.depotsBase[idx];
   Object.keys(basedata).forEach((key) => {
     if (!(key === 'position' || key === 'longitude' || key === 'latitude')) {
       retValue[key] = basedata[key];
