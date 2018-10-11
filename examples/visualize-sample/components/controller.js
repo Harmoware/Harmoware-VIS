@@ -15,6 +15,7 @@ type ControllerProps = {
   secperhour: number,
   animatePause: boolean,
   animateReverse: boolean,
+  getMoveDataChecked: (e: InputEvent) => void,
   getMoveOptionChecked: (e: InputEvent) => void,
   getDepotOptionChecked: (e: InputEvent) => void,
   getHeatmapVisible: (e: InputEvent) => void,
@@ -107,7 +108,7 @@ export default class Controller extends Component<ControllerProps, State> {
   render() {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
-      getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
+      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
@@ -130,6 +131,12 @@ export default class Controller extends Component<ControllerProps, State> {
                 停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
               </label>
               <div style={nowrapstyle}>{depotsFileName || '選択されていません'}</div>
+            </li>
+            <li className="harmovis_controller__list__item">
+              <div className="form-check">
+                <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked="checked" />
+                <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
+              </div>
             </li>
             <li className="harmovis_controller__list__item">
               <div className="form-check">

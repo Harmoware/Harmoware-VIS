@@ -223,7 +223,7 @@ declare module 'harmoware-vis' {
       setRoutePaths: (paths: Array<RoutePaths>) => {| paths: Array<RoutePaths>, type: string |},
       setClicked: (clickedObject: null | Array<ClickedObject>) =>
         {| clickedObject: null | Array<ClickedObject>, type: string |},
-    }, optionVisible?: boolean, optionChange?: boolean, optionOpacity?: number,
+    }, optionVisible?: boolean, optionChange?: boolean, optionOpacity?: number, visible?: boolean,
     optionCellSize?: number, optionElevationScale?: number, lightSettings?: LightSettings,
     getColor?: (x: any) => Array<number>, getRadius?: (x: any) => number,
     getColor1?: (x: any) => Array<number>, getColor2?: (x: any) => Array<number>,
