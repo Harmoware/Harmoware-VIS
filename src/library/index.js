@@ -164,12 +164,13 @@ export const analyzeDepotsBase =
 };
 
 const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
-  const { color, optColor, optElevation, normal } = ((props.depotsBase[idx]: any): DataOption);
   const retValue = {};
-  if (color) retValue.color = color;
-  if (optColor) retValue.optColor = optColor;
-  if (optElevation) retValue.optElevation = optElevation;
-  if (normal) retValue.normal = normal;
+  const basedata = props.depotsBase[idx];
+  Object.keys(basedata).forEach((key) => {
+    if (!(key === 'position' || key === 'longitude' || key === 'latitude')) {
+      retValue[key] = basedata[key];
+    }
+  });
   return retValue;
 };
 export const getDepots = (props: Props): Array<DepotsData> => {
@@ -199,13 +200,19 @@ export const getDepots = (props: Props): Array<DepotsData> => {
 };
 
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOption => {
-  const { color, optColor, optElevation, normal } =
-    ((props.movesbase[idx1].operation[idx2]: any): DataOption);
   const retValue = {};
-  if (color) retValue.color = color;
-  if (optColor) retValue.optColor = optColor;
-  if (optElevation) retValue.optElevation = optElevation;
-  if (normal) retValue.normal = normal;
+  const basedata = props.movesbase[idx1];
+  Object.keys(basedata).forEach((key1) => {
+    if (!(key1 === 'departuretime' || key1 === 'arrivaltime' || key1 === 'operation')) {
+      retValue[key1] = basedata[key1];
+    }
+  });
+  const operationdata = basedata.operation[idx2];
+  Object.keys(operationdata).forEach((key2) => {
+    if (!(key2 === 'elapsedtime' || key2 === 'position' || key2 === 'longitude' || key2 === 'latitude')) {
+      retValue[key2] = operationdata[key2];
+    }
+  });
   return retValue;
 };
 export const getMoveObjects = (props : Props): Array<MovedData> => {

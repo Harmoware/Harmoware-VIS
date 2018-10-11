@@ -20,6 +20,7 @@ type Props = {
   optionOpacity: number,
   optionCellSize: number,
   optionElevationScale: number,
+  visible: boolean,
   lightSettings: LightSettings,
   getColor: (x: any) => Array<number>,
   getRadius: (x: any) => number,
@@ -50,6 +51,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionOpacity: 0.25,
     optionCellSize: 12,
     optionElevationScale: 1,
+    visible: true,
     getColor: (x: DataOption) => x.color || COLOR1,
     getColor1: (x: DataOption) => (x.optColor && x.optColor[0]) || x.color || COLOR1,
     getColor2: (x: DataOption) => (x.optColor && x.optColor[1]) || x.color || COLOR1,
@@ -76,7 +78,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const { routePaths, layerRadiusScale, layerOpacity, movedData, movesbase,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionVisible, optionChange, lightSettings, getColor, getRadius: propGetRadius,
-      getColor1, getColor2, getColor3, getColor4,
+      visible, getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
       getCubeColor, getCubeElevation, i18n
     } = this.props;
@@ -134,6 +136,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getPosition,
         getColor,
         getRadius,
+        visible,
         opacity: layerOpacity,
         pickable: true,
         radiusMinPixels: 1
@@ -142,13 +145,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: 'route-paths',
         data: routePaths,
         strokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
+        visible,
         fp64: false,
         pickable: false
       }),
       new GridCellLayer({
         id: 'moves-opt1',
         data: movedData,
-        visible: optionVisible && !optionChange,
+        visible: visible && optionVisible && !optionChange,
         getPosition: getPosition1,
         getColor: getColor1,
         getElevation: getElevation1,
@@ -161,7 +165,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new GridCellLayer({
         id: 'moves-opt2',
         data: movedData,
-        visible: optionVisible && !optionChange,
+        visible: visible && optionVisible && !optionChange,
         getPosition: getPosition2,
         getColor: getColor2,
         getElevation: getElevation2,
@@ -174,7 +178,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new GridCellLayer({
         id: 'moves-opt3',
         data: movedData,
-        visible: optionVisible && !optionChange,
+        visible: visible && optionVisible && !optionChange,
         getPosition: getPosition3,
         getColor: getColor3,
         getElevation: getElevation3,
@@ -187,7 +191,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new GridCellLayer({
         id: 'moves-opt4',
         data: movedData,
-        visible: optionVisible && !optionChange,
+        visible: visible && optionVisible && !optionChange,
         getPosition: getPosition4,
         getColor: getColor4,
         getElevation: getElevation4,
@@ -200,7 +204,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new CubeiconLayer({
         id: 'moves-opt-cube',
         data: movedData,
-        visible: optionVisible && optionChange,
+        visible: visible && optionVisible && optionChange,
         getPosition,
         getColor: getCubeColor,
         getElevation: getCubeElevation,

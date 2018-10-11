@@ -13,6 +13,7 @@ import Controller from '../components/controller';
 const MAPBOX_TOKEN: ? string = process.env.MAPBOX_ACCESS_TOKEN;
 
 type State = {
+  moveDataVisible: boolean,
   moveOptionVisible: boolean,
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
@@ -27,12 +28,17 @@ class App extends Container<Props, State> implements Component {
   constructor() {
     super();
     this.state = {
+      moveDataVisible: true,
       moveOptionVisible: false,
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
       popup: [0, 0, '']
     };
+  }
+
+  getMoveDataChecked(e: InputEvent) {
+    this.setState({ moveDataVisible: e.target.checked });
   }
 
   getMoveOptionChecked(e: InputEvent) {
@@ -76,6 +82,7 @@ class App extends Container<Props, State> implements Component {
       <div>
         <Controller
           {...props}
+          getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
@@ -111,6 +118,7 @@ class App extends Container<Props, State> implements Component {
                 clickedObject,
                 actions,
                 lightSettings,
+                visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
