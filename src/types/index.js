@@ -151,10 +151,10 @@ export type Position = {position: Array<number>};
 export type Radius = {radius: number};
 
 export type DataOption = {
-  color: Array<number>,
-  optColor: Array<number>,
-  optElevation: Array<number>,
-  normal: Array<number>,
+  color?: Array<number>,
+  optColor?: Array<number>,
+  optElevation?: Array<number>,
+  normal?: Array<number>,
 }
 
 export type Context = {
