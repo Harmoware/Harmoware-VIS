@@ -2,6 +2,7 @@
 
 import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
+import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import type { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
@@ -213,6 +214,13 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
+      }),
+      new EnhancedArcLayer({
+        id: 'moves-opt-arc',
+        data: movedData,
+        visible,
+        getStrokeWidths: (x: any) => Math.max(pixelsPerMeter[0] * 10, 1),
+        opacity: layerOpacity
       }),
     ];
   }
