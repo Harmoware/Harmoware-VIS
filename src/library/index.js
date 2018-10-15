@@ -243,8 +243,10 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
           movedData.push({
             position: [position[0] - positionprogress[0], position[1] - positionprogress[1],
               position[2] - positionprogress[2]],
+            sourcePosition: position,
+            targetPosition: nextposition,
             ...getOptionFunction(props, i, j),
-            movesbaseidx: i
+            movesbaseidx: i,
           });
         }
       }

@@ -38,7 +38,8 @@ declare module 'harmoware-vis' {
     specularRatio?: number, lightsStrength?: Array<number>, numberOfLights?: number
   };
 
-  declare export type MovedData = { movesbaseidx: number, position: Array<number> };
+  declare export type MovedData = { movesbaseidx: number, position: Array<number>,
+    sourcePosition: Array<number>, targetPosition: Array<number> };
 
   declare export type Position = { position: Array<number> };
   declare export type LongLat = { longitude: number, latitude: number };

@@ -264,6 +264,7 @@ The MovesLayer will render moving objects such as vehicles.
 | routePaths | Array required | -- | Harmoware-VIS state `routePaths` |
 | movesbase| Array required | -- | Harmoware-VIS state `movesbase` |
 | movedData| Array required | -- | Harmoware-VIS state `movedData` |
+| visible | Boolean option | true | Icon display availability |
 | clickedObject | Array required |--  | Harmoware-VIS state `clickedObject` |
 | layerRadiusScale | Number option | 1 | Icon size scale |
 | layerOpacity | Number option | 0.75 | Icon opacity |
