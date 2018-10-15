@@ -218,8 +218,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new EnhancedArcLayer({
         id: 'moves-opt-arc',
         data: movedData,
-        visible,
-        getStrokeWidths: (x: any) => Math.max(pixelsPerMeter[0] * 10, 1),
+        visible: visible && optionVisible,
+        getStrokeWidths: (x: any) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
         opacity: layerOpacity
       }),
     ];

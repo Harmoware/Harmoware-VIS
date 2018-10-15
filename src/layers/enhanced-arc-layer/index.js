@@ -10,6 +10,8 @@ import type { Context } from '../../types';
 type Data = {
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
+  sourceColor: Array<number>,
+  targetColor: Array<number>,
   color: Array<number>,
   strokeWidth: number,
 }
@@ -34,8 +36,8 @@ export default class EnhancedArcLayer extends Layer<Props> {
     opacity: 0.75,
     getSourcePosition: (x: Data) => x.sourcePosition,
     getTargetPosition: (x: Data) => x.targetPosition,
-    getSourceColor: (x: Data) => x.color || COLOR1,
-    getTargetColor: (x: Data) => x.color || COLOR1,
+    getSourceColor: (x: Data) => x.sourceColor || x.color || COLOR1,
+    getTargetColor: (x: Data) => x.targetColor || x.color || COLOR1,
     getStrokeWidths: (x: Data) => x.strokeWidth || 1
   };
 
