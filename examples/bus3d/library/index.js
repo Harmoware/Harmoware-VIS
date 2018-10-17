@@ -134,7 +134,14 @@ export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
     name = `${systemcode}-${direction} ${timetable}発 ${systemname}`;
     optionValue = getOptionValue(busprop);
   }
-  return { code, name, color, radius, ...optionValue };
+  return {
+    code,
+    name,
+    color,
+    radius,
+    ...optionValue,
+    sourcePosition: undefined,
+    targetPosition: undefined };
 };
 
 export const updateArcLayerData = (props) => {
