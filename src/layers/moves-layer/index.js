@@ -219,6 +219,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: 'moves-opt-arc',
         data: movedData,
         visible: visible && optionVisible,
+        pickable: true,
         getStrokeWidths: (x: any) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
         opacity: layerOpacity
       }),
