@@ -6594,4 +6594,8 @@
 "48769": [{"bscode": 712, "color": [255, 0, 0]}],
 "48777": [{"bscode": 712, "color": [255, 0, 0]}, {"bscode": 711, "color": [230, 25, 0]}],
 "48784": [{"bscode": 712, "color": [255, 0, 0]}],
-"48787": [{"bscode": 711, "color": [0, 0, 255]}]}}
+"48787": [{"bscode": 711, "color": [0, 0, 255]}]
+},"archoption":[
+{"diagramId": "01001","sourceDepotsCode": "725","sourceDepotsOrder": "1","sourceColor": [255,0,0,255],"targetDepotsCode": "728","targetDepotsOrder": "2","targetColor": [0,255,0,255],"strokeWidth": 10},
+{"diagramId": "01001","sourceDepotsCode": "730","sourceDepotsOrder": "4","sourceColor": [255,0,255,255],"targetDepotsCode": "732","targetDepotsOrder": "6","targetColor": [0,255,255,255],"strokeWidth": 20}
+]}
