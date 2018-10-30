@@ -227,8 +227,9 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
     } else
     if (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime) {
       for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
-        const { elapsedtime, position } = operation[j];
-        const { elapsedtime: nextelapsedtime, position: nextposition } = operation[j + 1];
+        const { elapsedtime, position, color } = operation[j];
+        const { elapsedtime: nextelapsedtime, position: nextposition,
+          color: nextcolor } = operation[j + 1];
         if (elapsedtime <= settime && settime < nextelapsedtime) {
           const elapsedtimespan = settime - elapsedtime;
           const timespan = nextelapsedtime - elapsedtime;
@@ -245,6 +246,8 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
               position[2] - positionprogress[2]],
             sourcePosition: position,
             targetPosition: nextposition,
+            sourceColor: color || COLOR1,
+            targetColor: nextcolor || COLOR1,
             ...getOptionFunction(props, i, j),
             movesbaseidx: i,
           });
