@@ -1,7 +1,7 @@
 // flow-typed signature: ce24589cf6d452da12351c5258b38be5
 // flow-typed version: 4940ac8b5a/redux-saga_v0.16.x/flow_>=v0.56.0
 
-// @flow
+
 
 declare module "redux-saga" {
   import typeof * as _effects from "redux-saga/effects";
@@ -358,7 +358,7 @@ declare module "redux-saga" {
 }
 
 declare module "redux-saga/effects" {
-  import type {
+  import {
     ActionChannelEffect,
     AllEffect,
     Buffer,

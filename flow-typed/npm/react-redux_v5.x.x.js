@@ -1,10 +1,10 @@
 // flow-typed signature: 07b14037d20017b3e6ce45ae30995f7b
 // flow-typed version: dcd1531faf/react-redux_v5.x.x/flow_>=v0.62.0
 
-import type { Dispatch, Store } from "redux";
+import { Dispatch, Store } from "redux";
 
 declare module "react-redux" {
-  import type { ComponentType, ElementConfig } from 'react';
+  import { ComponentType, ElementConfig } from 'react';
 
   declare export class Provider<S, A> extends React$Component<{
     store: Store<S, A>,
