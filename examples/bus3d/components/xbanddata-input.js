@@ -1,7 +1,7 @@
-
+// @flow
 
 import React, { Component } from 'react';
-import { InputEvent } from 'harmoware-vis';
+import type { InputEvent } from 'harmoware-vis';
 import typeof { setRainfall } from '../actions';
 
 type Props = {
