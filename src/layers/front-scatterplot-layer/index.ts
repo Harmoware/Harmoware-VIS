@@ -26,10 +26,16 @@ interface Props {
   getRadius: (x: any) => number,
   getColor: (x: any) => Array<number>
 }
+interface State {
+  attributeManager: any,
+  model: any,
+}
 
-export default class FrontScatterplotLayer extends Layer<Props> {
+export default class FrontScatterplotLayer extends Layer<Props, State> {
   props: Props;
+  state: State;
   context: Context;
+  setState: (any) => void;
 
   static defaultProps = {
     radiusScale: 1,

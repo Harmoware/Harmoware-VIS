@@ -135,7 +135,6 @@ export interface BasedState {
   linemapDataOriginal: string,
   loading: boolean,
   inputFileName: Object,
-  isDragging: boolean,
 };
 
 export interface BasedProps extends BasedState {

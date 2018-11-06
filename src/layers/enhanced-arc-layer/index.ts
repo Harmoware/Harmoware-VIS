@@ -26,10 +26,15 @@ interface Props {
   getTargetColor: (x: any) => Array<number>,
   getStrokeWidths: (x: any) => number,
 }
+interface State {
+  attributeManager: any,
+}
 
-export default class EnhancedArcLayer extends Layer<Props> {
+export default class EnhancedArcLayer extends Layer<Props, State> {
   props: Props;
+  state: State;
   context: Context;
+  setState: (any) => void;
 
   static defaultProps = {
     visible: true,

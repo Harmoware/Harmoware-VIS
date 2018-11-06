@@ -21,7 +21,10 @@ const ua = typeof window.navigator !== 'undefined' ?
   window.navigator.userAgent.toLowerCase() : '';
 const firefox = ua.indexOf('firefox') !== -1;
 
-interface Props extends Viewport {
+interface customViewport extends Viewport {
+  isDragging: boolean,
+}
+interface Props extends customViewport {
   children?: Element,
   ref: (any) => void,
   onViewportChange: (customViewport) => void

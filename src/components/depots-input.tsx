@@ -33,6 +33,7 @@ export default class DepotsInput extends React.Component<Props> {
     actions.setLoading(true);
     actions.setDepotsBase([]);
     reader.readAsText(file);
+    const file_name: string = file.name;
     reader.onload = () => {
       let readdata = [];
       try {
@@ -45,7 +46,7 @@ export default class DepotsInput extends React.Component<Props> {
       if (readdata.length > 0) {
         const { longitude, latitude, position } = readdata[0];
         if ((longitude && latitude) || position) {
-          actions.setInputFilename({ depotsFileName: (file.name: string) });
+          actions.setInputFilename({ depotsFileName: file_name });
           actions.setLoading(false);
           actions.setDepotsBase(readdata);
           return;

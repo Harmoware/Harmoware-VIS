@@ -30,10 +30,16 @@ interface Props {
   getElevation: (x: any) => Array<number>,
   getColor: (x: any) => Array<Array<number>>
 }
+interface State {
+  attributeManager: any,
+}
 
-export default class CubeiconLayer extends Layer<Props> {
+export default class CubeiconLayer extends Layer<Props, State> {
   props: Props;
+  state: State;
   context: Context;
+  setState: (any) => void;
+  setUniforms: (any) => void;
 
   static defaultProps = {
     visible: true,
