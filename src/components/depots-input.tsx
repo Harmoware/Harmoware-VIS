@@ -1,22 +1,22 @@
 
 
-import React, { Component } from 'react';
-import { InputEvent, I18n } from '../types';
+import * as React from 'react';
+import { InputEvent, Depotsbase } from '../types';
 import { setDepotsBase, setLoading, setInputFilename } from '../actions';
 
-type Props = {
+interface Props {
   actions: {
     setDepotsBase: typeof setDepotsBase,
     setLoading: typeof setLoading,
     setInputFilename: typeof setInputFilename
   },
-  i18n: I18n,
+  i18n: { formatError: string },
   id: string,
   className: string,
   style: Object
 }
 
-export default class DepotsInput extends Component<Props> {
+export default class DepotsInput extends React.Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'バス停データ形式不正'
@@ -34,7 +34,7 @@ export default class DepotsInput extends Component<Props> {
     actions.setDepotsBase([]);
     reader.readAsText(file);
     reader.onload = () => {
-      let readdata = '';
+      let readdata = [];
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

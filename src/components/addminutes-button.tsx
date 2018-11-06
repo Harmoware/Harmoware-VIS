@@ -1,25 +1,23 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
-import { Node } from 'react';
-import { I18n } from '../types';
 import { addMinutes } from '../actions';
 
 type addMinutesType = typeof addMinutes;
 
-type Props = {
+interface Props {
   addMinutes: number,
-  children?: Node,
+  children?: Element,
   actions: {
     addMinutes: addMinutesType
   },
-  i18n: I18n,
+  i18n: { minutesCaption: string },
   className: string
 }
 
-export default class AddMinutesButton extends Component<Props> {
+export default class AddMinutesButton extends React.Component<Props> {
   static defaultProps = {
     addMinutes: 10,
     i18n: {

@@ -106,7 +106,7 @@ export const analyzeMovesBase =
       longArray.push(+longitude);
       latiArray.push(+latitude);
       if (!baseBounds && longitude && latitude && !nonmapView) {
-        let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || {};
+        let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
         eastlongitiude = !eastlongitiude ? longitude : Math.max(eastlongitiude, longitude);
         westlongitiude = !westlongitiude ? longitude : Math.min(westlongitiude, longitude);
         southlatitude = !southlatitude ? latitude : Math.min(southlatitude, latitude);
@@ -189,7 +189,7 @@ export const getDepots = (props: Props): Array<DepotsData> => {
         (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
         bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude)) {
         const itemmap = {
-          position: [parseFloat(position[0]), parseFloat(position[1]), parseFloat(position[2])],
+          position: [parseFloat(position[0].toString()), parseFloat(position[1].toString()), parseFloat(position[2].toString())],
           ...getOptionFunction(props, i)
         };
         depotsData.push(itemmap);
@@ -267,8 +267,7 @@ const routeDelete = (movesbaseidx: number, props: {
       actions.setClicked(null);
       actions.setRoutePaths([]);
     } else {
-      const newClickedObject = clickedObject.filter(
-        (current: Object) => current.object.movesbaseidx !== movesbaseidx);
+      const newClickedObject = clickedObject.filter(current => current.object.movesbaseidx !== movesbaseidx);
       actions.setClicked(newClickedObject);
       const newRoutePaths = routePaths.filter(current => current.movesbaseidx !== movesbaseidx);
       actions.setRoutePaths(newRoutePaths);
@@ -390,5 +389,5 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   return connect(mapStateToProps, mapDispatchToProps)(App);
 };
 
-export const getCombinedReducer = (combined: Object | null) : any =>
+export const getCombinedReducer = (combined: any) : any =>
   combineReducers({ base: reducers, ...combined });

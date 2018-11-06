@@ -1,10 +1,10 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { setSecPerHour } from '../actions';
 import { InputEvent } from '../types';
 
-type Props = {
+interface Props {
   secperhour: number,
   actions: {
     setSecPerHour: typeof setSecPerHour
@@ -16,7 +16,7 @@ type Props = {
   className: string
 }
 
-export default class SpeedRange extends Component<Props> {
+export default class SpeedRange extends React.Component<Props> {
   static defaultProps = {
     maxsecperhour: 3600,
     min: 1,

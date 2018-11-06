@@ -1,14 +1,14 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { RingLoader } from 'react-spinners';
 
-type Props = {
+interface Props {
   loading: boolean,
   color: string
 }
 
-export default class LoadingIcon extends Component<Props> {
+export default class LoadingIcon extends React.Component<Props> {
   static defaultProps = {
     loading: false,
     color: 'white'

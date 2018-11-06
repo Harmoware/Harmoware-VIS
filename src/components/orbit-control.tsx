@@ -1,7 +1,8 @@
 /* global window */
-import React from 'react';
+import * as React from 'react';
 import { PerspectiveViewport } from 'deck.gl';
 import { vec3 } from 'gl-matrix';
+import { Viewport } from '../types';
 
 /* Utils */
 
@@ -20,10 +21,17 @@ const ua = typeof window.navigator !== 'undefined' ?
   window.navigator.userAgent.toLowerCase() : '';
 const firefox = ua.indexOf('firefox') !== -1;
 
-/* Interaction */
+interface Props extends Viewport {
+  children?: Element,
+  ref: (any) => void,
+  onViewportChange: (customViewport) => void
+}
 
-export default class OrbitController extends React.Component {
-  static getViewport({ width, height, lookAt, distance, rotationX, rotationY, fov }) {
+export default class OrbitController extends React.Component<Props>{
+  dragStartPos: Array<number>;
+
+  static getViewport(viewport: Viewport) {
+    const { width, height, lookAt, distance, rotationX, rotationY, fov } = viewport;
     const cameraPos = vec3.add([], lookAt, [0, 0, distance]);
     vec3.rotateX(cameraPos, cameraPos, lookAt, (rotationX / 180) * Math.PI);
     vec3.rotateY(cameraPos, cameraPos, lookAt, (rotationY / 180) * Math.PI);
@@ -43,6 +51,15 @@ export default class OrbitController extends React.Component {
     super(props);
     this.dragStartPos = null;
   }
+
+  static defaultProps = {
+    lookAt: [0, 0, 0],
+    rotationX: 0,
+    rotationY: 0,
+    minDistance: 0,
+    maxDistance: Infinity,
+    fov: 50
+  };
 
   onDragStart(evt) {
     const { pageX, pageY } = evt;
@@ -126,12 +143,3 @@ export default class OrbitController extends React.Component {
     );
   }
 }
-
-OrbitController.defaultProps = {
-  lookAt: [0, 0, 0],
-  rotationX: 0,
-  rotationY: 0,
-  minDistance: 0,
-  maxDistance: Infinity,
-  fov: 50
-};

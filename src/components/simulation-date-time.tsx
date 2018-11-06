@@ -1,8 +1,8 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 
-type Props = {
+interface Props {
   timeBegin: number,
   settime: number,
   caption: string,
@@ -11,7 +11,7 @@ type Props = {
   className: string
 }
 
-export default class SimulationDateTime extends Component<Props> {
+export default class SimulationDateTime extends React.Component<Props> {
   static defaultProps = {
     caption: '',
     locales: 'ja-JP',

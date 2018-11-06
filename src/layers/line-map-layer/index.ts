@@ -4,7 +4,7 @@ import { CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
 import { LineMapData, LineData } from '../../types';
 
-type Props = {
+interface Props {
   layerOpacity: number,
   linemapData: Array<LineMapData>,
   strokeWidth: number,

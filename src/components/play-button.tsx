@@ -1,22 +1,20 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_play_circle_outline as icPlayArrow } from 'react-icons-kit/md';
-import { Node } from 'react';
-import { I18n } from '../types';
 import { setAnimatePause } from '../actions';
 
-type Props = {
+interface Props {
   actions: {
     setAnimatePause: typeof setAnimatePause
   },
-  children: Node,
-  i18n: I18n,
+  children: Element,
+  i18n: { playButtonCaption: string },
   className: string
 }
 
-export default class PlayButton extends Component<Props> {
+export default class PlayButton extends React.Component<Props> {
   static defaultProps = {
     i18n: {
       playButtonCaption: '️PLAY'

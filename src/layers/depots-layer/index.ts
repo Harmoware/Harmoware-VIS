@@ -3,9 +3,9 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
+import { DepotsData, LightSettings, Position, Radius, DataOption, Context } from '../../types';
 
-type Props = {
+interface Props {
   layerRadiusScale: number,
   layerOpacity: number,
   depotsData: Array<DepotsData>,
@@ -25,7 +25,7 @@ type Props = {
   getElevation2: (x: any) => number,
   getElevation3: (x: any) => number,
   getElevation4: (x: any) => number,
-  i18n: I18n
+  i18n: { error: string }
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {

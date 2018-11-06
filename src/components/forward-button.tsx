@@ -1,22 +1,20 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_forward as icForward } from 'react-icons-kit/md';
-import { Node } from 'react';
-import { I18n } from '../types';
 import { setAnimateReverse } from '../actions';
 
-type Props = {
+interface Props {
   actions: {
     setAnimateReverse: typeof setAnimateReverse
   },
-  children: Node,
-  i18n: I18n,
+  children: Element,
+  i18n: { forwardButtonCaption: string },
   className: string
 }
 
-export default class ForwardButton extends Component<Props> {
+export default class ForwardButton extends React.Component<Props> {
   static defaultProps = {
     i18n: {
       forwardButtonCaption: 'FORWARD'

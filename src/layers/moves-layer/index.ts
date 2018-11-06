@@ -3,12 +3,12 @@ import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context, I18n } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context } from '../../types';
 import * as Actions from '../../actions';
 
 type ActionTypes = typeof Actions;
 
-type Props = {
+interface Props {
   routePaths: Array<RoutePaths>,
   layerRadiusScale: number,
   layerOpacity: number,
@@ -37,7 +37,7 @@ type Props = {
   getCubeElevation: (x: any) => Array<number>,
   onHover: Function,
   onClick: Function,
-  i18n: I18n
+  i18n: { error: string }
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {

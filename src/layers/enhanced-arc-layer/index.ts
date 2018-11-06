@@ -16,7 +16,7 @@ type Data = {
   strokeWidth: number,
 }
 
-type Props = {
+interface Props {
   data: Array<Data>,
   visible: boolean,
   opacity: number,

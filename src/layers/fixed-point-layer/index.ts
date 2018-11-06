@@ -5,7 +5,7 @@ import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { COLOR4 } from '../../constants/settings';
 import { DepotsData, Position, DataOption, Radius } from '../../types';
 
-type Props = {
+interface Props {
   layerOpacity: number,
   depotsData: Array<DepotsData>,
   getColor: (x: any) => Array<number>,

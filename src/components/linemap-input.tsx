@@ -1,22 +1,22 @@
 
 
-import React, { Component } from 'react';
-import { InputEvent, I18n } from '../types';
+import * as React from 'react';
+import { InputEvent } from '../types';
 import { setLinemapData, setLoading, setInputFilename } from '../actions';
 
-type Props = {
+interface Props {
   actions: {
     setLinemapData: typeof setLinemapData,
     setLoading: typeof setLoading,
     setInputFilename: typeof setInputFilename
   },
-  i18n: I18n,
+  i18n: { formatError: string },
   id: string,
   className: string,
   style: Object
 }
 
-export default class LinemapInput extends Component<Props> {
+export default class LinemapInput extends React.Component<Props> {
   static defaultProps = {
     i18n: {
       formatError: 'ラインマップデータ形式不正'
@@ -34,7 +34,7 @@ export default class LinemapInput extends Component<Props> {
     actions.setLinemapData([]);
     reader.readAsText(file);
     reader.onload = () => {
-      let readdata = '';
+      let readdata = [];
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

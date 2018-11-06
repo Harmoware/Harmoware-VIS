@@ -1,9 +1,9 @@
 
 
-import { Component } from 'react';
+import * as React from 'react';
 import { BasedProps as Props } from '../types';
 
-export default class Root extends Component<Props> {
+export default class Root extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));

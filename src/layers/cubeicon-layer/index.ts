@@ -16,7 +16,7 @@ type Data = {
   color: Array<Array<number>>,
 }
 
-type Props = {
+interface Props {
   data: Array<Data>,
   visible: boolean,
   cellSize: number,

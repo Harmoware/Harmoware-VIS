@@ -1,14 +1,12 @@
 
 
-import React from 'react';
-import { render } from 'react-dom';
-import MapGL from 'react-map-gl';
+import * as React from 'react';
 import DeckGL, { Layer } from 'deck.gl';
 import { BaseActions as Actions, Viewport } from '../types';
 import { setViewport } from '../actions';
 import OrbitController from './orbit-control';
 
-type Props = {
+interface Props {
   viewport : Viewport,
   actions: Actions,
   onChangeViewport: typeof setViewport,

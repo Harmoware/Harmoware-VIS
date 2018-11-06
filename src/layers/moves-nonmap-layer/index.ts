@@ -9,7 +9,7 @@ import * as Actions from '../../actions';
 
 type ActionTypes = typeof Actions;
 
-type Props = {
+interface Props {
   layerOpacity: number,
   movedData: Array<MovedData>,
   movesbase: Array<Movesbase>,

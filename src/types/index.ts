@@ -7,7 +7,7 @@ declare type ElementEventTemplate<E> = {
 
 export type InputEvent = ElementEventTemplate<HTMLInputElement>
 
-export type Viewport = {
+export interface Viewport {
   longitude?: number,
   latitude?: number,
   zoom?: number,
@@ -26,7 +26,7 @@ export type Viewport = {
   fov?: number
 };
 
-export type LightSettings = {
+export interface LightSettings {
   lightsPosition?: Array<number>,
   ambientRatio?: number,
   diffuseRatio?: number,
@@ -35,14 +35,14 @@ export type LightSettings = {
   numberOfLights?: number
 };
 
-export type Bounds = {
+export interface Bounds {
   westlongitiude: number,
   eastlongitiude: number,
   southlatitude: number,
   northlatitude: number
 };
 
-export type Movesbase = {
+export interface Movesbase {
   departuretime: number,
   arrivaltime: number,
   operation: Array<{
@@ -55,7 +55,7 @@ export type Movesbase = {
   }>
 };
 
-export type AnalyzedBaseData = {
+export interface AnalyzedBaseData {
   timeBegin : number,
   timeLength : number,
   bounds: Bounds,
@@ -63,48 +63,48 @@ export type AnalyzedBaseData = {
   viewport: Viewport
 };
 
-export type MovesbaseFile = {
+export interface MovesbaseFile {
   timeBegin: number,
   timeLength: number,
   bounds: Bounds,
   movesbase: Array<Movesbase>,
 };
 
-export type Depotsbase = {
+export interface Depotsbase {
   longitude: number,
   latitude: number,
   position: Array<number>
 };
 
-export type ClickedObject = {
+export interface ClickedObject {
   object: {movesbaseidx: number},
   layer: {id: string}
 };
 
-export type LineData = {
+export interface LineData {
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
 };
 
-export type RoutePaths = {
+export interface RoutePaths {
   movesbaseidx: number,
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
 };
 
-export type LineMapData = {
+export interface LineMapData {
   sourcePosition: Array<number>,
   targetPosition: Array<number>,
   color: Array<number>
 };
 
-export type MovedData = { movesbaseidx: number, position: Array<number> };
+export interface MovedData { movesbaseidx: number, position: Array<number> };
 
-export type DepotsData = { position: Array<number> };
+export interface DepotsData { position: Array<number> };
 
-export type BasedState = {
+export interface BasedState {
   animatePause: boolean,
   animateReverse: boolean,
   beforeFrameTimestamp: number,
@@ -135,28 +135,29 @@ export type BasedState = {
   linemapDataOriginal: string,
   loading: boolean,
   inputFileName: Object,
+  isDragging: boolean,
 };
 
-export type BasedProps = {
+export interface BasedProps extends BasedState {
   actions: ActionType
-} & BasedState;
+};
 
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
 export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
 
 export type BaseActions = ActionType;
 
-export type Position = {position: Array<number>};
-export type Radius = {radius: number};
+export interface Position {position: Array<number>};
+export interface Radius {radius: number};
 
-export type DataOption = {
+export interface DataOption {
   color?: Array<number>,
   optColor?: Array<number>,
   optElevation?: Array<number>,
   normal?: Array<number>,
 }
 
-export type Context = {
+export interface Context {
   shaderCache: any,
   gl: any,
   viewport: {
@@ -168,28 +169,27 @@ export type Context = {
   }
 }
 
-export type I18n = Object;
-
-export type ActionTypes =
-  {|type: string, min: number|} &
-  {|type: string, props: BasedProps|} &
-  {|type: string, time: number|} &
-  {|type: string, leading: number|} &
-  {|type: string, trailing: number|} &
-  {|type: string, viewport: Viewport|} &
-  {|type: string, lightSettings: LightSettings|} &
-  {|type: string, base: (Array<Movesbase> | MovesbaseFile)|} &
-  {|type: string, depotsBase: Array<Depotsbase>|} &
-  {|type: string, pause: boolean|} &
-  {|type: string, reverse: boolean|} &
-  {|type: string, secperhour: number|} &
-  {|type: string, clickedObject: null | Array<ClickedObject>|} &
-  {|type: string, paths: Array<RoutePaths>|} &
-  {|type: string, defaultZoom: number|} &
-  {|type: string, defaultPitch: number|} &
-  {|type: string, func: GetMovesOptionFunc|} &
-  {|type: string, func: GetDepotsOptionFunc|} &
-  {|type: string, nonmapView: boolean|} &
-  {|type: string, linemapData: Array<LineMapData>|} &
-  {|type: string, loading: boolean|} &
-  {|type: string, inputFileName: Object|};
+export interface ActionTypes {
+  type: string,
+  min?: number,
+  props?: BasedProps,
+  time?: number,
+  leading?: number,
+  trailing?: number,
+  viewport?: Viewport,
+  lightSettings?: LightSettings,
+  base?: Array<Movesbase> | MovesbaseFile,
+  depotsBase?: Array<Depotsbase>,
+  pause?: boolean,
+  reverse?: boolean,
+  secperhour?: number,
+  clickedObject?: null | Array<ClickedObject>,
+  paths?: Array<RoutePaths>,
+  defaultZoom?: number,
+  defaultPitch?: number,
+  func?: GetMovesOptionFunc | GetDepotsOptionFunc,
+  nonmapView?: boolean,
+  linemapData?: Array<LineMapData>,
+  loading?: boolean,
+  inputFileName?: Object
+}

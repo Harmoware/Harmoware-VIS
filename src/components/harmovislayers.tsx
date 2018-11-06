@@ -1,12 +1,12 @@
 
 
-import React from 'react';
+import * as React from 'react';
 import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';
 import { Viewport } from '../types';
 import { setViewport, setNonmapView } from '../actions';
 
-type Props = {
+interface Props {
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle: string,

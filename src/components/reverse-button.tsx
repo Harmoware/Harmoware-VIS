@@ -1,22 +1,20 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_replay as icReplay } from 'react-icons-kit/md';
-import { Node } from 'react';
-import { I18n } from '../types';
 import { setAnimateReverse } from '../actions';
 
-type Props = {
+interface Props {
   actions: {
     setAnimateReverse: typeof setAnimateReverse
   },
-  children: Node,
-  i18n: I18n,
+  children: Element,
+  i18n: { reverseButtonCaption: string },
   className: string
 }
 
-export default class ReverseButton extends Component<Props> {
+export default class ReverseButton extends React.Component<Props> {
   static defaultProps = {
     i18n: {
       reverseButtonCaption: 'REVERSE'

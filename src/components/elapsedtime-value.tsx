@@ -1,10 +1,10 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { InputEvent } from '../types';
 import { setTime } from '../actions';
 
-type Props = {
+interface Props {
   settime: number,
   timeLength: number,
   min: number,
@@ -15,7 +15,7 @@ type Props = {
   className: string
 }
 
-export default class ElapsedTimeValue extends Component<Props> {
+export default class ElapsedTimeValue extends React.Component<Props> {
   static defaultProps = {
     min: -100,
     className: 'harmovis_input_number'

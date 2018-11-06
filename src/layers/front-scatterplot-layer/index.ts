@@ -17,14 +17,14 @@ type Data = {
   color: Array<number>,
 }
 
-type Props = {
+interface Props {
   data: Array<Data>,
   radiusScale: number,
   radiusMinPixels: number,
   radiusMaxPixels: number,
-  getPosition: (x: any) => Object,
-  getRadius: (x: any) => Object,
-  getColor: (x: any) => Object
+  getPosition: (x: any) => Array<number>,
+  getRadius: (x: any) => number,
+  getColor: (x: any) => Array<number>
 }
 
 export default class FrontScatterplotLayer extends Layer<Props> {
@@ -98,9 +98,9 @@ export default class FrontScatterplotLayer extends Layer<Props> {
     let i = 0;
     data.forEach((point) => {
       const position = getPosition(point);
-      value[i + 0] = (get(position, 0): any);
-      value[i + 1] = (get(position, 1): any);
-      value[i + 2] = (get(position, 2): any) || 0;
+      value[i + 0] = (get(position, 0));
+      value[i + 1] = (get(position, 1));
+      value[i + 2] = (get(position, 2)) || 0;
       i += size;
     });
   }
@@ -111,7 +111,7 @@ export default class FrontScatterplotLayer extends Layer<Props> {
     let i = 0;
     data.forEach((point) => {
       const radius = getRadius(point);
-      value[i] = isNaN(radius) ? 1 : (radius: any);
+      value[i] = isNaN(radius) ? 1 : radius;
       i += size;
     });
   }
@@ -122,10 +122,10 @@ export default class FrontScatterplotLayer extends Layer<Props> {
     let i = 0;
     data.forEach((point) => {
       const color = getColor(point) || DEFAULT_COLOR;
-      value[i + 0] = (get(color, 0): any);
-      value[i + 1] = (get(color, 1): any);
-      value[i + 2] = (get(color, 2): any);
-      value[i + 3] = isNaN(get(color, 3)) ? 255 : (get(color, 3): any);
+      value[i + 0] = (get(color, 0));
+      value[i + 1] = (get(color, 1));
+      value[i + 2] = (get(color, 2));
+      value[i + 3] = isNaN(get(color, 3)) ? 255 : (get(color, 3));
       i += size;
     });
   }

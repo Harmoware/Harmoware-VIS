@@ -1,12 +1,12 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_navigation as icNavigation } from 'react-icons-kit/md';
 import { setViewport } from '../actions';
 
 
-type Props = {
+interface Props {
   buttonType: string,
   actions: {
     setViewport: typeof setViewport
@@ -23,7 +23,7 @@ type Props = {
   className: string
 }
 
-export default class NavigationButton extends Component<Props> {
+export default class NavigationButton extends React.Component<Props> {
   static defaultProps = {
     className: 'harmovis_button'
   }
