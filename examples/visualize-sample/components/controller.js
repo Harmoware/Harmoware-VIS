@@ -6,7 +6,7 @@ import { MovesInput, DepotsInput,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
-import type { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
+import { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
 
 type ControllerProps = {
   settime: number,

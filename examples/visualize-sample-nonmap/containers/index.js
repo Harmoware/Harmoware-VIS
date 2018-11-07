@@ -1,11 +1,11 @@
 // @flow
 
 import React from 'react';
-import type { Component } from 'react';
+import { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
   connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
-import type { BasedProps, InputEvent } from 'harmoware-vis';
+import { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
