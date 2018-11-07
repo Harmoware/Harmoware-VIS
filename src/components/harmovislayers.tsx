@@ -14,7 +14,7 @@ interface Props {
     setViewport: typeof setViewport,
     setNonmapView: typeof setNonmapView
   },
-  onChangeViewport: setViewport,
+  onChangeViewport: typeof setViewport,
   layers: Array<typeof Layer>
 }
 

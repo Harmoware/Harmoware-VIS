@@ -17,18 +17,19 @@ type Data = {
 }
 
 interface Props {
-  data: Array<Data>,
-  visible: boolean,
-  cellSize: number,
-  coverage: number,
-  elevationScale: number,
-  opacity: number,
-  extruded: boolean,
-  fp64: boolean,
-  lightSettings: LightSettings,
-  getPosition: (x: any) => Array<number>,
-  getElevation: (x: any) => Array<number>,
-  getColor: (x: any) => Array<Array<number>>
+  id?: string,
+  data?: Array<Data>,
+  visible?: boolean,
+  cellSize?: number,
+  coverage?: number,
+  elevationScale?: number,
+  opacity?: number,
+  extruded?: boolean,
+  fp64?: boolean,
+  lightSettings?: LightSettings,
+  getPosition?: (x: any) => Array<number>,
+  getElevation?: (x: any) => Array<number>,
+  getColor?: (x: any) => Array<Array<number>>
 }
 interface State {
   attributeManager: any,
@@ -40,6 +41,10 @@ export default class CubeiconLayer extends Layer<Props, State> {
   context: Context;
   setState: (any) => void;
   setUniforms: (any) => void;
+
+  constructor(props) {
+    super(props);
+  }
 
   static defaultProps = {
     visible: true,

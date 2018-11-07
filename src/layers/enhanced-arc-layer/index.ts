@@ -17,14 +17,15 @@ type Data = {
 }
 
 interface Props {
-  data: Array<Data>,
-  visible: boolean,
-  opacity: number,
-  getSourcePosition: (x: any) => Array<number>,
-  getTargetPosition: (x: any) => Array<number>,
-  getSourceColor: (x: any) => Array<number>,
-  getTargetColor: (x: any) => Array<number>,
-  getStrokeWidths: (x: any) => number,
+  id?: string,
+  data?: Array<Data>,
+  visible?: boolean,
+  opacity?: number,
+  getSourcePosition?: (x: any) => Array<number>,
+  getTargetPosition?: (x: any) => Array<number>,
+  getSourceColor?: (x: any) => Array<number>,
+  getTargetColor?: (x: any) => Array<number>,
+  getStrokeWidths?: (x: any) => number,
 }
 interface State {
   attributeManager: any,
@@ -35,6 +36,10 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
   state: State;
   context: Context;
   setState: (any) => void;
+
+  constructor(props) {
+    super(props);
+  }
 
   static defaultProps = {
     visible: true,

@@ -1,7 +1,7 @@
 
 
 import * as React from 'react';
-import { InputEvent } from '../types';
+import { InputEvent, Movesbase, MovesbaseFile } from '../types';
 import { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading, setInputFilename } from '../actions';
 
 interface Props {
@@ -37,8 +37,9 @@ export default class MovesInput extends React.Component<Props> {
     actions.setLoading(true);
     actions.setMovesBase([]);
     reader.readAsText(file);
+    const file_name: string = file.name;
     reader.onload = () => {
-      let readdata = '';
+      let readdata: Array<Movesbase> | MovesbaseFile = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {
@@ -54,7 +55,7 @@ export default class MovesInput extends React.Component<Props> {
           return;
         }
       }
-      actions.setInputFilename({ movesFileName: (file.name: string) });
+      actions.setInputFilename({ movesFileName: file_name });
       actions.setMovesBase(readdata);
       actions.setRoutePaths([]);
       actions.setClicked(null);

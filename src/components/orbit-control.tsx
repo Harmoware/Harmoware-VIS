@@ -22,15 +22,16 @@ const ua = typeof window.navigator !== 'undefined' ?
 const firefox = ua.indexOf('firefox') !== -1;
 
 interface customViewport extends Viewport {
-  isDragging: boolean,
+  isDragging?: boolean,
 }
 interface Props extends customViewport {
-  children?: Element,
-  ref: (any) => void,
-  onViewportChange: (customViewport) => void
+  children?: JSX.Element,
+  ref?: (canvas: any) => void,
+  onViewportChange?: (customViewport) => void
 }
 
 export default class OrbitController extends React.Component<Props>{
+  props: Props;
   dragStartPos: Array<number>;
 
   static getViewport(viewport: Viewport) {

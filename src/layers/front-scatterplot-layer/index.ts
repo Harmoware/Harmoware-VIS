@@ -18,13 +18,14 @@ type Data = {
 }
 
 interface Props {
-  data: Array<Data>,
-  radiusScale: number,
-  radiusMinPixels: number,
-  radiusMaxPixels: number,
-  getPosition: (x: any) => Array<number>,
-  getRadius: (x: any) => number,
-  getColor: (x: any) => Array<number>
+  id?: string,
+  data?: Array<Data>,
+  radiusScale?: number,
+  radiusMinPixels?: number,
+  radiusMaxPixels?: number,
+  getPosition?: (x: any) => Array<number>,
+  getRadius?: (x: any) => number,
+  getColor?: (x: any) => Array<number>
 }
 interface State {
   attributeManager: any,
@@ -36,6 +37,10 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
   state: State;
   context: Context;
   setState: (any) => void;
+
+  constructor(props) {
+    super(props);
+  }
 
   static defaultProps = {
     radiusScale: 1,

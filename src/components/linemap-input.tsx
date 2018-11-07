@@ -33,6 +33,7 @@ export default class LinemapInput extends React.Component<Props> {
     actions.setLoading(true);
     actions.setLinemapData([]);
     reader.readAsText(file);
+    const file_name: string = file.name;
     reader.onload = () => {
       let readdata = [];
       try {
@@ -45,7 +46,7 @@ export default class LinemapInput extends React.Component<Props> {
       if (readdata.length > 0) {
         const { sourcePosition, targetPosition } = readdata[0];
         if (sourcePosition && targetPosition) {
-          actions.setInputFilename({ linemapFileName: (file.name: string) });
+          actions.setInputFilename({ linemapFileName: file_name });
           actions.setLoading(false);
           actions.setLinemapData(readdata);
           return;
