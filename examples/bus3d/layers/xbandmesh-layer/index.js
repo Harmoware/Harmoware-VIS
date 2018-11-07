@@ -1,4 +1,4 @@
-// @flow
+
 
 import { GridCellLayer, CompositeLayer } from 'deck.gl';
 import type { LightSettings } from 'harmoware-vis';

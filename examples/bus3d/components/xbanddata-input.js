@@ -1,4 +1,4 @@
-// @flow
+
 
 import React, { Component } from 'react';
 import type { InputEvent } from 'harmoware-vis';
