@@ -12,18 +12,9 @@ module.exports = {
   module: {
     rules: [{
       // Compile ES2015 using buble
-      test: /\.js$/,
+      test: /\.(js|ts|tsx)$/,
       loader: 'babel-loader',
       include: [resolve(__dirname, './src'), resolve(__dirname, './node_modules/mapbox-gl/js/')]
-    },
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'eslint-loader',
-      options: {
-        fix: true
-        // eslint options (if necessary)
-      }
     }]
   },
 

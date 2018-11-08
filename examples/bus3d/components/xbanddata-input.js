@@ -1,11 +1,11 @@
 
 
 import React, { Component } from 'react';
-import type { InputEvent } from 'harmoware-vis';
-import typeof { setRainfall } from '../actions';
+import { InputEvent } from 'harmoware-vis';
+import { setRainfall } from '../actions';
 
 type Props = {
-  actions: { setRainfall: setRainfall, setLoading: Function },
+  actions: { setRainfall: typeof setRainfall, setLoading: Function },
 }
 
 type State = {

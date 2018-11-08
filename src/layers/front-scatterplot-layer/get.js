@@ -12,10 +12,10 @@ function isObject(value: Object): boolean {
 }
 
 // Default getter is container indexing
-const squareBracketGetter: (Object, (String|number)) => any =
-(container: Object, key: String|number) => container[key];
-const getMethodGetter: (Object, (String|number)) => any =
-(obj: Object, key: String|number) => obj.get(key);
+const squareBracketGetter: any =
+(container: Object, key: string|number) => container[key];
+const getMethodGetter: any =
+(obj: Object, key: string|number) => obj.get(key);
 // Cache key to key arrays for speed
 const keyMap = {};
 
@@ -23,7 +23,7 @@ const keyMap = {};
 // TODO - follow prototype chain?
 // @private
 // @return {Function} - get function: (container, key) => value
-function getGetter(container: Object): (Object, (String|number)) => any {
+function getGetter(container: Object): any {
   // Check if container has a special get method
   const prototype = Object.getPrototypeOf(container);
   return prototype.get ? getMethodGetter : squareBracketGetter;
@@ -32,7 +32,7 @@ function getGetter(container: Object): (Object, (String|number)) => any {
 // Takes a string of '.' separated keys and returns an array of keys
 // E.g. 'feature.geometry.type' => 'feature', 'geometry', 'type'
 // @private
-function getKeys(compositeKey: (String|number|number[])): number[] {
+function getKeys(compositeKey: (string|number|number[])): number[] {
   if (typeof compositeKey === 'string') {
     // else assume string and split around dots
     let keyList: number[] = keyMap[compositeKey];
@@ -57,13 +57,13 @@ function getKeys(compositeKey: (String|number|number[])): number[] {
  * @return {*} - value in the final key of the nested container
  */
 export default
-function get(container: Object, compositeKey: (String|number|number[])): Object|typeof undefined {
+function get(container: Object, compositeKey: (string|number|number[])): Object|typeof undefined {
   // Split the key into subkeys
   const keyList: number[] = getKeys(compositeKey);
   // Recursively get the value of each key;
   let value: Object = container;
   for (let i = 0; i < keyList.length; i += 1) {
-    const key: (String|number) = keyList[i];
+    const key: (string|number) = keyList[i];
     // If any intermediate subfield is not a container, return undefined
     if (!isObject(value)) {
       return undefined;

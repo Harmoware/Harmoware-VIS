@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { HexagonLayer } from 'deck.gl';
-import type { Component } from 'react';
+import { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
-import type { BasedProps as Props, InputEvent } from 'harmoware-vis';
+import { BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
 

@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f582f5472bd244d39803d83af736e52387061ee3
 import { GridCellLayer, CompositeLayer } from 'deck.gl';
-import type { LightSettings } from 'harmoware-vis';
+import { LightSettings } from 'harmoware-vis';
 
-type Props = {
+interface Props {
   rainfall: Array<any>,
   layerOpacity: number,
   layerCellSize: number,
