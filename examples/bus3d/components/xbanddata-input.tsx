@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import { InputEvent } from 'harmoware-vis';
-import { setRainfall } from '../actions';
+import typeof { setRainfall } from '../actions';
 
 type Props = {
-  actions: { setRainfall: typeof setRainfall, setLoading: Function },
+  actions: { setRainfall: setRainfall, setLoading: Function },
 }
 
 type State = {

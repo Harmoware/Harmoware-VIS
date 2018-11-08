@@ -7,7 +7,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: resolve(__dirname, './index.js')
+    app: resolve(__dirname, './index.tsx')
   },
 
   output: {
@@ -20,20 +20,19 @@ module.exports = {
   module: {
     rules: [{
       // Compile ES2015 using buble
-      test: /\.(js|ts|tsx)$/,
+      test: /\.ts|\.tsx|\.js|\.jsx$/,
       loader: 'babel-loader',
       include: [resolve(__dirname), resolve(__dirname, '../../src'), resolve(__dirname, './node_modules/mapbox-gl/js/')],
       options: {
         presets: [
-          '@babel/preset-env',
-          '@babel/preset-react',
-          '@babel/preset-typescript'
+          '@babel/env',
+          '@babel/react',
+          '@babel/typescript'
         ],
         plugins: [
-        '@babel/plugin-transform-runtime',
-        '@babel/plugin-syntax-dynamic-import',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread' ]
+          '@babel/proposal-class-properties',
+          '@babel/proposal-object-rest-spread' 
+        ]
       }
     },
     {
@@ -55,7 +54,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       'harmoware-vis': resolve('./src/index.ts'),
       // From mapbox-gl-js README. Required for non-browserify bundlers (e.g. webpack):
