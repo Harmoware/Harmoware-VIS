@@ -1,7 +1,7 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
-import axios from 'axios';
+import * as axios from 'axios';
 import csvtojson from 'csvtojson';
-import iconv from 'iconv-lite';
+import * as iconv from 'iconv-lite';
 import { settings, Actions as baseActions, getContainerProp } from 'harmoware-vis';
 
 import * as types from '../constants/action-types';
@@ -28,14 +28,14 @@ function fetchJSON(path, option = {}) {
 
 function fetchCSV(path, useShiftJis = false) {
   return new Promise((resolve/* , reject */) => {
-    const option = {};
+    const option: {responseType?: string} = {};
     if (useShiftJis) {
       option.responseType = 'arraybuffer';
     }
     axios.get(path, option).then((res) => {
       let data = res.data;
       if (useShiftJis) {
-        data = iconv.decode(new Buffer(data), 'shift_jis').toString('utf8');
+        data = iconv.decode(new Buffer(data), 'shift_jis').toString();
       }
       csvtojson().fromString(data).on('end_parsed', (result) => {
         resolve(Object.assign({}, res, {

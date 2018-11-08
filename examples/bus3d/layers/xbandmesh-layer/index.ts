@@ -3,20 +3,24 @@
 import { GridCellLayer, CompositeLayer } from 'deck.gl';
 import { LightSettings } from 'harmoware-vis';
 
-type Props = {
-  rainfall: Array<any>,
-  layerOpacity: number,
-  layerCellSize: number,
-  layerElevationScale: number,
-  lightSettings: LightSettings,
-  getElevation: (x: any) => number,
-  getColor: (x: any) => Array<number>,
-  getRainfallColor: (x: number) => Array<number>,
-  defaultColor: Array<number>
+interface Props {
+  rainfall?: Array<any>,
+  layerOpacity?: number,
+  layerCellSize?: number,
+  layerElevationScale?: number,
+  lightSettings?: LightSettings,
+  getElevation?: (x: any) => number,
+  getColor?: (x: any) => Array<number>,
+  getRainfallColor?: (x: number) => Array<number>,
+  defaultColor?: Array<number>
 }
 
 export default class XbandmeshLayer extends CompositeLayer<Props> {
   props: Props;
+
+  constructor(props) {
+    super(props);
+  }
 
   static defaultProps = {
     layerOpacity: 0.2,

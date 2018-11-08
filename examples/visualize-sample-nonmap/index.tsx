@@ -3,7 +3,7 @@ import { getCombinedReducer } from 'harmoware-vis';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
-import React from 'react';
+import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './containers';
 import i18n from './locales/I18n';

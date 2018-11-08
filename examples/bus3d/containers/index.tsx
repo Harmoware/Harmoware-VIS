@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
@@ -13,7 +13,36 @@ import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '..
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
-class App extends Container {
+interface Props {
+  actions: any,
+  settime: any,
+  timeBegin: any,
+  elevationScale: any,
+  selectedBusstop: any,
+  rainfall: any,
+  lightSettings: any,
+  routePaths: any,
+  xbandCellSize: any,
+  viewport: any,
+  hovered: any,
+  clickedObject: any,
+  busoption: any,
+  movesbase: any,
+  movedData: any,
+  depotsData: any,
+  loading: any,
+}
+interface State {
+  optionChange: boolean,
+  archLayerChange: boolean,
+  arcdata: Array<any>
+}
+
+class App extends Container<Props, State> {
+  props: Props;
+  state: State;
+  setState: Function;
+
   constructor(props) {
     super(props);
     const { actions } = props;

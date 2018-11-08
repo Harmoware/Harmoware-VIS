@@ -1,6 +1,6 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPause,
   ic_forward as icForward, ic_replay as icReplay,
@@ -12,20 +12,19 @@ import { MovesInput, DepotsInput, LinemapInput,
 import { Actions, InputEvent } from 'harmoware-vis';
 import i18n from './../locales/I18n';
 
-type ControllerProps = {
-  settime: number,
-  timeBegin: number,
-  timeLength: number,
-  secperhour: number,
-  animatePause: boolean,
-  animateReverse: boolean,
-  animatePause: boolean,
-  actions: Actions,
-  t: Function,
-  viewport: Object,
+interface Props {
+  settime?: number,
+  timeBegin?: number,
+  timeLength?: number,
+  secperhour?: number,
+  animatePause?: boolean,
+  animateReverse?: boolean,
+  actions?: Actions,
+  t?: Function,
+  viewport?: Object,
 }
 
-export default class Controller extends Component<ControllerProps> {
+export default class Controller extends React.Component<Props> {
   onLanguageSelect(e: InputEvent) {
     const value = e.target.value;
     i18n.changeLanguage(value);

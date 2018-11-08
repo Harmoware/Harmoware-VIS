@@ -28,15 +28,39 @@ import fs from './depots-arc-layer-fragment.glsl';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
-const defaultProps = {
-  getSourcePosition: x => x.sourcePosition,
-  getTargetPosition: x => x.targetPosition,
-  getSourceColor: x => x.color || DEFAULT_COLOR,
-  getTargetColor: x => x.color || DEFAULT_COLOR,
-  getStrokeWidths: x => x.strokeWidth || 1
-};
+interface Props {
+  id?: string,
+  data?: any,
+  getSourcePosition?: any,
+  getTargetPosition?: any,
+  getSourceColor?: any,
+  getTargetColor?: any,
+  getStrokeWidths?: any,
+}
+interface State {
+  attributeManager: any,
+}
 
-export default class DepotsArcLayer extends Layer {
+export default class DepotsArcLayer extends Layer<Props, State> {
+  props: Props;
+  state: State;
+  context: any;
+  setState: Function;
+
+  static defaultProps = {
+    getSourcePosition: x => x.sourcePosition,
+    getTargetPosition: x => x.targetPosition,
+    getSourceColor: x => x.color || DEFAULT_COLOR,
+    getTargetColor: x => x.color || DEFAULT_COLOR,
+    getStrokeWidths: x => x.strokeWidth || 1
+  }
+
+  static layerName = 'DepotsArcLayer';
+
+  constructor(props) {
+    super(props);
+  }
+
   getShaders() {
     return { vs, fs };
   }
@@ -140,6 +164,3 @@ export default class DepotsArcLayer extends Layer {
     });
   }
 }
-
-DepotsArcLayer.layerName = 'DepotsArcLayer';
-DepotsArcLayer.defaultProps = defaultProps;

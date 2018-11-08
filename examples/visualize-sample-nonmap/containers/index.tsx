@@ -1,7 +1,6 @@
 
 
-import React from 'react';
-import { Component } from 'react';
+import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
   connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
@@ -9,15 +8,26 @@ import { BasedProps, InputEvent } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
-type State = {
+interface Props extends BasedProps {
+  t?: Function,
+  actions?: any,
+  viewport?: any,
+  movedData?: any,
+  movesbase?: any,
+  depotsData?: any,
+  linemapData?: any,
+  routePaths?: any,
+  clickedObject?: any,
+  loading?: any,
+}
+interface State {
   popup: Array<any>
 }
 
-type Props = { t: Function } & BasedProps
-
-class App extends Container<Props, State> implements Component {
+class App extends Container<Props, State> implements React.Component {
   props: Props;
   state: State;
+  setState: <K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void) => void;
 
   constructor() {
     super();
@@ -41,7 +51,7 @@ class App extends Container<Props, State> implements Component {
         let disptext = '';
         const objctlist = Object.entries(el.object);
         for (let i = 0, lengthi = objctlist.length; i < lengthi; i += 1) {
-          const strvalue = (objctlist[i][1]: any).toString();
+          const strvalue = objctlist[i][1].toString();
           disptext += i > 0 ? '\n' : '';
           disptext += (`${objctlist[i][0]}: ${strvalue}`);
         }

@@ -5,14 +5,13 @@ import { HexagonLayer } from 'deck.gl';
 import { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
-import { BasedProps as Props, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps as Props, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
 
-const MAPBOX_TOKEN: ? string = process.env.MAPBOX_ACCESS_TOKEN;
+const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
-type State = {
+interface State {
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
   depotOptionVisible: boolean,
@@ -21,9 +20,10 @@ type State = {
   popup: Array<any>
 }
 
-class App extends Container<Props, State> implements Component {
+class App extends Container<Props, State> implements React.Component {
   props: Props;
   state: State;
+  setState: Function;
 
   constructor() {
     super();
@@ -68,7 +68,7 @@ class App extends Container<Props, State> implements Component {
         let disptext = '';
         const objctlist = Object.entries(el.object);
         for (let i = 0, lengthi = objctlist.length; i < lengthi; i += 1) {
-          const strvalue = (objctlist[i][1]: any).toString();
+          const strvalue = objctlist[i][1].toString();
           disptext += i > 0 ? '\n' : '';
           disptext += (`${objctlist[i][0]}: ${strvalue}`);
         }

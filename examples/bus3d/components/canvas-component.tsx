@@ -1,14 +1,16 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 
-type Props = {
-  width: number,
-  height: number,
-  updateCanvas: Function,
+interface Props {
+  width?: number,
+  height?: number,
+  updateCanvas?: Function,
 }
 
-export default class CanvasComponent extends Component<Props> {
+export default class CanvasComponent extends React.Component<Props> {
+  canvas: any;
+
   componentDidMount() {
     this.updateCanvas();
   }
@@ -24,14 +26,14 @@ export default class CanvasComponent extends Component<Props> {
   }
 
   updateCanvas() {
-    const { canvas } = (this: any);
+    const { canvas } = this;
     const context = canvas.getContext('2d');
     this.props.updateCanvas(context);
   }
 
   render() {
     return (<canvas
-      ref={(canvas) => { (this: any).canvas = canvas; }}
+      ref={(canvas) => { this.canvas = canvas; }}
       width={this.props.width} height={this.props.height}
     />);
   }

@@ -1,20 +1,20 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { InputEvent } from 'harmoware-vis';
-import typeof { setRainfall } from '../actions';
+import { setRainfall } from '../actions';
 
-type Props = {
-  actions: { setRainfall: setRainfall, setLoading: Function },
+interface Props {
+  actions?: { setRainfall: typeof setRainfall, setLoading: Function },
 }
 
-type State = {
+interface State {
   filename: string,
 }
 
-export default class XbandDataInput extends Component<Props, State> {
-  constructor() {
-    super();
+export default class XbandDataInput extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
     this.state = {
       filename: '',
     };
@@ -30,7 +30,7 @@ export default class XbandDataInput extends Component<Props, State> {
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = () => {
-      let readdata: Array<{ position: number, elevation: number, color: Array<number> }> | string = '';
+      let readdata: any = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {
@@ -56,7 +56,7 @@ export default class XbandDataInput extends Component<Props, State> {
   }
 
   render() {
-    const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
     return (
       <div className="input-group input-group-sm">
         <label htmlFor="XbandDataInput" className="harmovis_button">雨量データ選択

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
@@ -26,9 +26,41 @@ const getNextCellSize = (xbandCellSize) => {
   return xbandCellSize + 50;
 };
 
-export default class Controller extends Component {
-  constructor() {
-    super();
+interface Props {
+  actions?: any,
+  movesbase?: any,
+  busmovesbasedic?: any,
+  depotsData?: any,
+  clickedObject?: any,
+  xbandCellSize?: any,
+  trailing?: any,
+  defaultZoom?: any,
+  defaultPitch?: any,
+  answer?: any,
+  settime?: any,
+  timeLength?: any,
+  secperhour?: any,
+  selectedBusstop?: any,
+  selectedBus?: any,
+  answers?: any,
+  date?: any,
+  animatePause?: any,
+  animateReverse?: any,
+  xbandFname?: any,
+  getOptionChangeChecked?: any,
+  getArchLayerChangeChecked?: any,
+  viewport?: any,
+  delayrange?: any,
+  movedData?: any,
+}
+
+interface State {
+  filename: string
+}
+
+export default class Controller extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
     this.state = {
       filename: '',
     };
@@ -110,9 +142,9 @@ export default class Controller extends Component {
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = (ev) => {
-      let readdata = '';
+      let readdata: any = null;
       try {
-        readdata = JSON.parse(reader.result);
+        readdata = JSON.parse(reader.result.toString());
       } catch (exception) {
         actions.setLoading(false);
         window.alert(exception);
@@ -157,7 +189,7 @@ export default class Controller extends Component {
     const optionsTrip = answers.map(
       ans => <option value={ans} key={ans}>{ans}</option>);
 
-    const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
       <div className="harmovis_controller container" id="controller_area">

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default ({ viewport, hovered }) => {
   // set flags used below to determine if SVG highlight elements should be rendered.

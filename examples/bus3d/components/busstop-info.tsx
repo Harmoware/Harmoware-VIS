@@ -1,6 +1,12 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
-export default class BusStopInfo extends Component {
+interface Props {
+  selectedBusstop?: any,
+  date?: any,
+  depotsData?: any,
+}
+
+export default class BusStopInfo extends React.Component<Props> {
   render() {
     const { selectedBusstop, date, depotsData } = this.props;
     const d = new Date(date);

@@ -1,42 +1,41 @@
 
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton,
+  Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
-import { Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
 
-type ControllerProps = {
-  settime: number,
-  timeBegin: number,
-  timeLength: number,
-  secperhour: number,
-  animatePause: boolean,
-  animateReverse: boolean,
-  getMoveDataChecked: (e: InputEvent) => void,
-  getMoveOptionChecked: (e: InputEvent) => void,
-  getDepotOptionChecked: (e: InputEvent) => void,
-  getHeatmapVisible: (e: InputEvent) => void,
-  getOptionChangeChecked: (e: InputEvent) => void,
-  animatePause: boolean,
-  actions: Actions,
-  clickedObject: null | Array<ClickedObject>,
-  routePaths: Array<RoutePaths>,
-  inputFileName: Object,
-  viewport: Object,
+interface Props {
+  settime?: number,
+  timeBegin?: number,
+  timeLength?: number,
+  secperhour?: number,
+  animatePause?: boolean,
+  animateReverse?: boolean,
+  getMoveDataChecked?: (e: InputEvent) => void,
+  getMoveOptionChecked?: (e: InputEvent) => void,
+  getDepotOptionChecked?: (e: InputEvent) => void,
+  getHeatmapVisible?: (e: InputEvent) => void,
+  getOptionChangeChecked?: (e: InputEvent) => void,
+  actions?: Actions,
+  clickedObject?: null | Array<ClickedObject>,
+  routePaths?: Array<RoutePaths>,
+  inputFileName?: {movesFileName: any, depotsFileName: any},
+  viewport?: Object,
 }
 
-type State = {
+interface State {
   currentGroupindex: number,
   routeGroupDisplay: boolean,
-  saveRouteGroup: Array<Object>
+  saveRouteGroup: Array<{clickedObject: any, routePaths: any}>
 }
 
-export default class Controller extends Component<ControllerProps, State> {
-  constructor() {
-    super();
+export default class Controller extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
     this.state = {
       currentGroupindex: 0,
       routeGroupDisplay: false,

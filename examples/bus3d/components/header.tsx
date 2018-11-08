@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import CanvasComponent from './canvas-component';
 import { p02d, p04d, delaycolor, hsvToRgb } from '../library';
 
@@ -6,7 +6,19 @@ const weekDayList = ['日', '月', '火', '水', '木', '金', '土'];
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
-export default class Header extends Component {
+interface Props {
+  actions?: any,
+  date?: any,
+  movedData?: any,
+  busoption?: any,
+  bsoptFname?: any,
+  elevationScale?: any,
+  clickedObject?: any,
+  delayrange?: any,
+  delayheight?: any,
+}
+
+export default class Header extends React.Component<Props> {
 /*  constructor(props) {
     super(props);
   } */
