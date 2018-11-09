@@ -3,8 +3,7 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
-import { BasedProps, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
@@ -21,13 +20,16 @@ interface Props extends BasedProps {
   loading?: any,
 }
 interface State {
-  popup: Array<any>
+  popup: [number, number, string]
 }
 
 class App extends Container<Props, State> implements React.Component {
   props: Props;
   state: State;
+  context: any;
+  refs: any;
   setState: <K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void) => void;
+  forceUpdate: any;
 
   constructor() {
     super();

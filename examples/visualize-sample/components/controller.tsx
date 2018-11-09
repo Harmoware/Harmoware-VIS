@@ -113,7 +113,7 @@ export default class Controller extends React.Component<Props, State> {
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
     const { movesFileName, depotsFileName } = inputFileName;
-    const nowrapstyle = { textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
       <div className="harmovis_controller" id="controller_area">
@@ -133,7 +133,7 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li className="harmovis_controller__list__item">
               <div className="form-check">
-                <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked="checked" />
+                <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
               </div>
             </li>

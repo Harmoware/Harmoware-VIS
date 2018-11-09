@@ -7,15 +7,13 @@
  * @param {*} value - JavaScript value to be tested
  * @return {Boolean} - true if argument is a JavaScript object
  */
-function isObject(value: Object): boolean {
+function isObject(value) {
   return value !== null && typeof value === 'object';
 }
 
 // Default getter is container indexing
-const squareBracketGetter: any =
-(container: Object, key: string|number) => container[key];
-const getMethodGetter: any =
-(obj: Object, key: string|number) => obj.get(key);
+const squareBracketGetter = (container, key) => container[key];
+const getMethodGetter = (obj, key) => obj.get(key);
 // Cache key to key arrays for speed
 const keyMap = {};
 
@@ -23,7 +21,7 @@ const keyMap = {};
 // TODO - follow prototype chain?
 // @private
 // @return {Function} - get function: (container, key) => value
-function getGetter(container: Object): any {
+function getGetter(container) {
   // Check if container has a special get method
   const prototype = Object.getPrototypeOf(container);
   return prototype.get ? getMethodGetter : squareBracketGetter;
@@ -32,10 +30,10 @@ function getGetter(container: Object): any {
 // Takes a string of '.' separated keys and returns an array of keys
 // E.g. 'feature.geometry.type' => 'feature', 'geometry', 'type'
 // @private
-function getKeys(compositeKey: (string|number|number[])): number[] {
+function getKeys(compositeKey) {
   if (typeof compositeKey === 'string') {
     // else assume string and split around dots
-    let keyList: number[] = keyMap[compositeKey];
+    let keyList = keyMap[compositeKey];
     if (!keyList) {
       keyList = compositeKey.split('.');
       keyMap[compositeKey] = keyList;
@@ -43,7 +41,7 @@ function getKeys(compositeKey: (string|number|number[])): number[] {
     return keyList;
   }
   // Wrap in array if needed
-  return Array.isArray(compositeKey) ? compositeKey : [(compositeKey: any)];
+  return Array.isArray(compositeKey) ? compositeKey : [compositeKey];
 }
 
 /**
@@ -57,13 +55,13 @@ function getKeys(compositeKey: (string|number|number[])): number[] {
  * @return {*} - value in the final key of the nested container
  */
 export default
-function get(container: Object, compositeKey: (string|number|number[])): Object|typeof undefined {
+function get(container, compositeKey) {
   // Split the key into subkeys
-  const keyList: number[] = getKeys(compositeKey);
+  const keyList = getKeys(compositeKey);
   // Recursively get the value of each key;
-  let value: Object = container;
+  let value = container;
   for (let i = 0; i < keyList.length; i += 1) {
-    const key: (string|number) = keyList[i];
+    const key = keyList[i];
     // If any intermediate subfield is not a container, return undefined
     if (!isObject(value)) {
       return undefined;

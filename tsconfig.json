@@ -13,5 +13,12 @@
       "es2018",
       "dom"
       ]
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "bower_components",
+    "jspm_packages",
+    "<outDir>"
+  ]
 }

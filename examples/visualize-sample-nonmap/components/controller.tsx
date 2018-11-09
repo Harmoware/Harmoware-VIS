@@ -10,7 +10,7 @@ import { MovesInput, DepotsInput, LinemapInput,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue,
   SimulationDateTime, NavigationButton } from 'harmoware-vis';
 import { Actions, InputEvent } from 'harmoware-vis';
-import i18n from './../locales/I18n';
+import i18n from '../locales/I18n';
 
 interface Props {
   settime?: number,

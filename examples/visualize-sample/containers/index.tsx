@@ -1,8 +1,7 @@
 
 
-import React from 'react';
+import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
-import { Component } from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon, BasedProps as Props, InputEvent } from 'harmoware-vis';
@@ -23,7 +22,10 @@ interface State {
 class App extends Container<Props, State> implements React.Component {
   props: Props;
   state: State;
-  setState: Function;
+  context: any;
+  refs: any;
+  setState: <K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void) => void;
+  forceUpdate: any;
 
   constructor() {
     super();
