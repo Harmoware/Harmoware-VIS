@@ -35,12 +35,7 @@ interface State {
   attributeManager: any,
 }
 
-export default class CubeiconLayer extends Layer<Props, State> {
-  props: Props;
-  state: State;
-  context: Context;
-  setState: (any) => void;
-  setUniforms: (any) => void;
+export default class CubeiconLayer extends Layer {
 
   constructor(props) {
     super(props);

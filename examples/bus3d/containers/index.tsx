@@ -38,10 +38,7 @@ interface State {
   arcdata: Array<any>
 }
 
-class App extends Container<Props, State> {
-  props: Props;
-  state: State;
-  setState: Function;
+class App extends Container {
 
   constructor(props) {
     super(props);

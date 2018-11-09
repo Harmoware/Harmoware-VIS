@@ -40,9 +40,7 @@ interface Props {
   i18n: { error: string }
 }
 
-export default class MovesLayer extends CompositeLayer<Props> {
-  props: Props;
-  context: Context;
+export default class MovesLayer extends CompositeLayer {
 
   static defaultProps = {
     layerRadiusScale: 1,

@@ -4,7 +4,6 @@
 
 import { Layer, COORDINATE_SYSTEM } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
-import get from './get';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
 import { LightSettings, Context } from '../../types';

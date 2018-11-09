@@ -32,10 +32,6 @@ interface State {
 }
 
 export default class EnhancedArcLayer extends Layer<Props, State> {
-  props: Props;
-  state: State;
-  context: Context;
-  setState: (any) => void;
 
   constructor(props) {
     super(props);

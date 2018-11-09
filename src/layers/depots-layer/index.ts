@@ -28,9 +28,13 @@ interface Props {
   i18n: { error: string }
 }
 
-export default class DepotsLayer extends CompositeLayer<Props> {
-  props: Props;
-  context: Context;
+interface CompositeLayerType<P, C> {
+  props: P;
+  context: C;
+  constructor(p: P);
+}
+
+export default class DepotsLayer extends CompositeLayer {
 
   static layerName = 'DepotsLayer';
   static defaultProps = {
