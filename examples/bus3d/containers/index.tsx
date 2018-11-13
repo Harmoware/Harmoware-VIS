@@ -14,23 +14,23 @@ const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
 interface Props {
-  actions: any,
-  settime: any,
-  timeBegin: any,
-  elevationScale: any,
-  selectedBusstop: any,
-  rainfall: any,
-  lightSettings: any,
-  routePaths: any,
-  xbandCellSize: any,
-  viewport: any,
-  hovered: any,
-  clickedObject: any,
-  busoption: any,
-  movesbase: any,
-  movedData: any,
-  depotsData: any,
-  loading: any,
+  actions?: any;
+  settime?: any;
+  timeBegin?: any;
+  elevationScale?: any;
+  selectedBusstop?: any;
+  rainfall?: any;
+  lightSettings?: any;
+  routePaths?: any;
+  xbandCellSize?: any;
+  viewport?: any;
+  hovered?: any;
+  clickedObject?: any;
+  busoption?: any;
+  movesbase?: any;
+  movedData?: any;
+  depotsData?: any;
+  loading?: any;
 }
 interface State {
   optionChange: boolean,
@@ -38,7 +38,7 @@ interface State {
   arcdata: Array<any>
 }
 
-class App extends Container {
+class App extends Container<Props, State> {
 
   constructor(props) {
     super(props);
