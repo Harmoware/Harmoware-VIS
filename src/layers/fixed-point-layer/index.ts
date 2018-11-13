@@ -13,7 +13,6 @@ interface Props {
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {
-  props: Props;
 
   static defaultProps = {
     layerOpacity: 0.75,

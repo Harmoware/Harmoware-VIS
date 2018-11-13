@@ -20,11 +20,6 @@ interface State {
 }
 
 class App extends Container<Props, State> {
-  props: Props;
-  state: State;
-  context: any;
-  refs: any;
-  forceUpdate: any;
 
   constructor() {
     super();

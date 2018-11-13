@@ -31,8 +31,6 @@ interface Props extends customViewport {
 }
 
 export default class OrbitController extends React.Component<Props>{
-  props: Props;
-  dragStartPos: Array<number>;
 
   static getViewport(viewport: Viewport) {
     const { width, height, lookAt, distance, rotationX, rotationY, fov } = viewport;

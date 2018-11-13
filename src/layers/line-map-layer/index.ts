@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
-  props: Props;
 
   static defaultProps = {
     layerOpacity: 1.0,

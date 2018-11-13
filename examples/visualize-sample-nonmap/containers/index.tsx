@@ -24,12 +24,6 @@ interface State {
 }
 
 class App extends Container<Props, State> implements React.Component {
-  props: Props;
-  state: State;
-  context: any;
-  refs: any;
-  setState: <K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void) => void;
-  forceUpdate: any;
 
   constructor() {
     super();
