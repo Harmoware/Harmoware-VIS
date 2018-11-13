@@ -22,7 +22,7 @@ module.exports = {
       // Compile ES2015 using buble
       test: /\.ts|\.tsx|\.js|\.jsx$/,
       loader: 'babel-loader',
-      include: [resolve(__dirname), resolve(__dirname, '../../src'), resolve(__dirname, './node_modules/mapbox-gl/js/')],
+      include: [resolve(__dirname), resolve(__dirname, './src'), resolve(__dirname, './node_modules/mapbox-gl/js/')],
       options: {
         presets: [
           '@babel/env',

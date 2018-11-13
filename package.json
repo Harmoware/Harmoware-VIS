@@ -3,6 +3,7 @@
   "description": "This is a minimal standalone version of the TripsLayer example on [deck.gl](http://deck.gl) website.",
   "version": "1.1.1",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "start": "webpack-dev-server --progress --hot --port 3030 --open --mode development",
     "build": "webpack --mode production",
@@ -11,6 +12,7 @@
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
     "np": "np --no-cleanup",
+    "tsc": "tsc ./src/index.ts --jsx react",
     "deploy": "npm-run-all -s lib np"
   },
   "dependencies": {
