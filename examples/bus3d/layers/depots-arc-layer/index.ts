@@ -41,7 +41,7 @@ interface State {
   attributeManager: any,
 }
 
-export default class DepotsArcLayer extends Layer {
+export default class DepotsArcLayer extends Layer<Props, State> {
 
   static defaultProps = {
     getSourcePosition: x => x.sourcePosition,

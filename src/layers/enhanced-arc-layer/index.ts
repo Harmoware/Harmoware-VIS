@@ -1,6 +1,6 @@
 
 
-import { Layer, COORDINATE_SYSTEM } from 'deck.gl';
+import { Layer } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';
 import fragment from './enhanced-arc-layer-fragment.glsl';
@@ -13,7 +13,7 @@ type Data = {
   sourceColor: Array<number>,
   targetColor: Array<number>,
   color: Array<number>,
-  strokeWidth: number,
+  strokeWidth: number
 }
 
 interface Props {
@@ -29,6 +29,7 @@ interface Props {
 }
 interface State {
   attributeManager: any,
+  model: any
 }
 
 export default class EnhancedArcLayer extends Layer<Props, State> {

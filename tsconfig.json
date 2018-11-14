@@ -8,12 +8,12 @@
       // JSXの書式を有効に設定
       "jsx": "react",
       "outDir": "lib",
-      "rootDir": "./src",
+      "rootDir": "./",
       "allowJs": true,
       "moduleResolution": "node",
-      "baseUrl": "./",
+      "baseUrl": ".",
       "paths": {
-        "harmoware-vis": ["src"]
+        "harmoware-vis": ["./src/*"]
       },
       "lib": [
       "es2018",
@@ -23,6 +23,7 @@
   "exclude": [
     "node_modules",
     "lib",
+    "examples",
     "bower_components",
     "jspm_packages",
     "<outDir>"

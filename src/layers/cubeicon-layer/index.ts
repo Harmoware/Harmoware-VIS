@@ -33,9 +33,10 @@ interface Props {
 }
 interface State {
   attributeManager: any,
+  model: any
 }
 
-export default class CubeiconLayer extends Layer {
+export default class CubeiconLayer extends Layer<Props, State> {
 
   constructor(props) {
     super(props);
@@ -104,7 +105,7 @@ export default class CubeiconLayer extends Layer {
     return data.reduce((v, d) => v + (getElevation(d) || [0]).length, 0);
   }
 
-  draw({ uniforms }: any) {
+  draw() {
     const { cellSize } = this.props;
     super.draw({ uniforms: Object.assign({
       cellSize
