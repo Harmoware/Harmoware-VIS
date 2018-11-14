@@ -2,14 +2,14 @@
 
 // Copyright (c) 2015 - 2017 Uber Technologies, Inc.
 
-import { Layer, COORDINATE_SYSTEM } from 'deck.gl';
+import { Layer, experimental } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
-import get from './get';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
 import { LightSettings, Context } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
+const { get } = experimental;
 
 type Data = {
   position: Array<number>,
