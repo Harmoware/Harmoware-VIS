@@ -12,7 +12,7 @@
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
     "np": "np --no-cleanup",
-    "tsc": "tsc ./src/index.ts --jsx react",
+    "tsc": "tsc --p tsconfig.json",
     "deploy": "npm-run-all -s lib np"
   },
   "dependencies": {
