@@ -8,10 +8,10 @@
       // JSXの書式を有効に設定
       "jsx": "react",
       "allowJs": true,
+      "outDir": "./tsOutputs",
       "moduleResolution": "node",
-      "baseUrl": "./",
       "paths": {
-        "harmoware-vis": ["src"]
+        "harmoware-vis": ["src/index.ts"]
       },
       "lib": [
       "es2018",

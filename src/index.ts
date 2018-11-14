@@ -107,3 +107,4 @@ export {
   // reducer
   reducer
 };
+export * from "./types";

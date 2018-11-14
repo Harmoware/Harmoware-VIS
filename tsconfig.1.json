@@ -8,6 +8,7 @@
       // JSXの書式を有効に設定
       "jsx": "react",
       "allowJs": true,
+      "outFile": "./tsOutputs",
       "moduleResolution": "node",
       "baseUrl": "./",
       "paths": {
