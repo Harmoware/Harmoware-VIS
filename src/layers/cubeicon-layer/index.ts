@@ -74,7 +74,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     });
   }
 
-  updateState({ props, oldProps, changeFlags }: any) {
+  updateState({ props, oldProps, changeFlags }) {
     super.updateState({ props, oldProps, changeFlags });
     this.updateUniforms();
   }
@@ -109,7 +109,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     const { cellSize } = this.props;
     super.draw({ uniforms: Object.assign({
       cellSize
-    }, uniforms) });
+    })});
   }
 
   calculateInstancePositions(attribute: { value: Array<number>, size: number }) {

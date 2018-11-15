@@ -5,7 +5,6 @@ import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';
 import fragment from './enhanced-arc-layer-fragment.glsl';
 import { COLOR1 } from '../../constants/settings';
-import { Context } from '../../types';
 
 type Data = {
   sourcePosition: Array<number>,
