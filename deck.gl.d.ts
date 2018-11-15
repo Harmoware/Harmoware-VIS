@@ -30,10 +30,24 @@ declare module "deck.gl" {
 
   export class GridCellLayer<Props = {}, State = {}> extends Layer<Props, State> {}
 
-  export interface COORDINATE_SYSTEM {
-    LNGLAT: [number, number, number]
-    METER_OFFSETS: [number, number, number]
-    IDENTITY: [number, number, number]
-    LNGLAT_DEPRECATED: [number, number, number]
+  export class LineLayer<Props = {}, State = {}> extends Layer<Props, State> {}
+
+  export default class DeckGL<Props = {}, State = {}> extends React.Component<Props, State> {}
+
+  export const COORDINATE_SYSTEM;
+  export const experimental;
+  
+  interface PerspectiveViewportOption {
+    width: number; 
+    height: number; 
+    lookAt: number[]; 
+    far:number; 
+    near: number; 
+    fovy: number; 
+    eye: any;
+  }
+
+  export class PerspectiveViewport {
+    constructor(props: PerspectiveViewportOption);
   }
 }
