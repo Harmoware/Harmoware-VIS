@@ -9,12 +9,9 @@
       "jsx": "react",
       "outDir": "lib",
       "rootDir": "./",
-      "allowJs": true,
+      "declaration": true,
+      "declarationDir": "./types",
       "moduleResolution": "node",
-      "baseUrl": ".",
-      "paths": {
-        "harmoware-vis": ["./src/*"]
-      },
       "lib": [
       "es2018",
       "dom"

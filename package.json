@@ -3,7 +3,7 @@
   "description": "This is a minimal standalone version of the TripsLayer example on [deck.gl](http://deck.gl) website.",
   "version": "1.1.1",
   "main": "lib/index.js",
-  "types": "index.d.ts",
+  "types": "./types/src/index.d.ts",
   "scripts": {
     "start": "webpack-dev-server --progress --hot --port 3030 --open --mode development",
     "build": "webpack --mode production",
