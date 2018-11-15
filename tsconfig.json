@@ -12,6 +12,10 @@
       "declaration": true,
       "declarationDir": "./types",
       "moduleResolution": "node",
+      "baseUrl": ".",
+      "paths": {
+        "harmoware-vis": ["src/"]
+      },
       "lib": [
       "es2018",
       "dom"
@@ -20,7 +24,6 @@
   "exclude": [
     "node_modules",
     "lib",
-    "examples",
     "bower_components",
     "jspm_packages",
     "<outDir>"
