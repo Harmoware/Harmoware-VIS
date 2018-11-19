@@ -3,11 +3,11 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
-interface Props extends BasedProps {
+interface Props {
   t?: Function,
   actions?: any,
   viewport?: any,
@@ -81,7 +81,7 @@ class App extends Container<Props, State> implements React.Component {
                 depotsData, onHover
               }),
               new MovesNonmapLayer({
-                movedData, movesbase, actions, routePaths, clickedObject, onHover
+                movedData, movesbase, actions, routePaths, clickedObject, onHover,
               }),
               new LineMapLayer({
                 linemapData, onHover

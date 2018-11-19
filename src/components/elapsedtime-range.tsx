@@ -7,13 +7,13 @@ import { setTime } from '../actions';
 interface Props {
   settime: number,
   timeLength: number,
-  min: number,
-  step: number,
+  min?: number,
+  step?: number,
   actions: {
     setTime: typeof setTime
   },
-  id: string,
-  className: string
+  id?: string,
+  className?: string
 }
 
 export default class ElapsedTimeRange extends React.Component<Props> {

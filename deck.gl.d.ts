@@ -5,7 +5,7 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  export class Layer<Props = {}, State = {}> {
+  interface Layer<Props = {}, State = {}> {
     constructor(props: Props);
     context: any;
     props: Props;
@@ -21,8 +21,11 @@ declare module "deck.gl" {
       oldProps: Props,
       changeFlags: any
     }): void;
+    onHover: (el: any) => void;
+    onClick: (el: any) => void;
   }
 
+  export class Layer<Props = {}, State = {}> implements Layer {}
 
   export class CompositeLayer<Props = {}, State = {}> extends Layer<Props, State> {}
 

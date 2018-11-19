@@ -4,8 +4,8 @@ import * as React from 'react';
 import { RingLoader } from 'react-spinners';
 
 interface Props {
-  loading: boolean,
-  color: string
+  loading?: boolean,
+  color?: string
 }
 
 export default class LoadingIcon extends React.Component<Props> {

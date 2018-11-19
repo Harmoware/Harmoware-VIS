@@ -19,7 +19,7 @@ interface Props {
   secperhour?: number,
   animatePause?: boolean,
   animateReverse?: boolean,
-  actions?: Actions,
+  actions?: typeof Actions,
   t?: Function,
   viewport?: Object,
 }

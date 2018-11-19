@@ -17,7 +17,7 @@ type Data = {
 
 interface Props {
   id?: string,
-  data?: Array<Data>,
+  data: Array<Data>,
   visible?: boolean,
   opacity?: number,
   getSourcePosition?: (x: any) => Array<number>,
@@ -25,6 +25,8 @@ interface Props {
   getSourceColor?: (x: any) => Array<number>,
   getTargetColor?: (x: any) => Array<number>,
   getStrokeWidths?: (x: any) => number,
+  onHover?: (el: any) => void,
+  onClick?: (el: any) => void,
 }
 interface State {
   attributeManager: any,

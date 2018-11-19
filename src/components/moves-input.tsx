@@ -14,10 +14,10 @@ interface Props {
     setLoading: typeof setLoading,
     setInputFilename: typeof setInputFilename
   },
-  i18n: { formatError: string },
-  id: string,
-  className: string,
-  style: Object
+  i18n?: { formatError: string },
+  id?: string,
+  className?: string,
+  style?: Object
 }
 
 export default class MovesInput extends React.Component<Props> {

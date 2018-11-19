@@ -8,13 +8,13 @@ import { addMinutes } from '../actions';
 type addMinutesType = typeof addMinutes;
 
 interface Props {
-  addMinutes: number,
-  children?: Element,
+  addMinutes?: number,
+  children?: any,
   actions: {
     addMinutes: addMinutesType
   },
-  i18n: { minutesCaption: string },
-  className: string
+  i18n?: { minutesCaption: string },
+  className?: string
 }
 
 export default class AddMinutesButton extends React.Component<Props> {

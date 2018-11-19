@@ -5,10 +5,12 @@ import { COLOR2 } from '../../constants/settings';
 import { LineMapData, LineData } from '../../types';
 
 interface Props {
-  layerOpacity: number,
+  layerOpacity?: number,
   linemapData: Array<LineMapData>,
-  strokeWidth: number,
-  getColor: (x: any) => Array<number>
+  strokeWidth?: number,
+  getColor?: (x: any) => Array<number>,
+  onHover?: (el: any) => void,
+  onClick?: (el: any) => void,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {

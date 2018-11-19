@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from 'harmoware-vis';
+import { Actions, Bus3dProps, AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from '../types';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
@@ -26,32 +26,10 @@ const getNextCellSize = (xbandCellSize) => {
   return xbandCellSize + 50;
 };
 
-interface Props {
-  actions?: any,
-  movesbase?: any,
-  busmovesbasedic?: any,
-  depotsData?: any,
-  clickedObject?: any,
-  xbandCellSize?: any,
-  trailing?: any,
-  defaultZoom?: any,
-  defaultPitch?: any,
-  answer?: any,
-  settime?: any,
-  timeLength?: any,
-  secperhour?: any,
-  selectedBusstop?: any,
-  selectedBus?: any,
-  answers?: any,
-  date?: any,
-  animatePause?: any,
-  animateReverse?: any,
-  xbandFname?: any,
-  getOptionChangeChecked?: any,
-  getArchLayerChangeChecked?: any,
-  viewport?: any,
-  delayrange?: any,
-  movedData?: any,
+interface Props extends Bus3dProps {
+  date: number,
+  getOptionChangeChecked: (event: any) => void,
+  getArchLayerChangeChecked: (event: any) => void,
 }
 
 interface State {
@@ -59,7 +37,7 @@ interface State {
 }
 
 export default class Controller extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       filename: '',
@@ -136,7 +114,7 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   handleChangeFile(e) {
-    const { actions, trailing, defaultZoom, defaultPitch } = this.props;
+    const { actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
     actions.setLoading(true);

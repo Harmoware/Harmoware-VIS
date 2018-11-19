@@ -1,11 +1,10 @@
 
 
 import * as React from 'react';
-import { InputEvent } from 'harmoware-vis';
-import { setRainfall } from '../actions';
+import { Bus3dActions, InputEvent } from '../types';
 
 interface Props {
-  actions?: { setRainfall: typeof setRainfall, setLoading: Function },
+  actions: typeof Bus3dActions,
 }
 
 interface State {
@@ -13,7 +12,7 @@ interface State {
 }
 
 export default class XbandDataInput extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       filename: '',

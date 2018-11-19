@@ -9,9 +9,9 @@ interface Props {
   actions: {
     setAnimatePause: typeof setAnimatePause
   },
-  children: Element,
-  i18n: { pauseButtonCaption: string },
-  className: string
+  children?: any,
+  i18n?: { pauseButtonCaption: string },
+  className?: string
 }
 
 export default class PauseButton extends React.Component<Props> {

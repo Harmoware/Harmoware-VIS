@@ -1,4 +1,4 @@
-import { settings } from 'harmoware-vis';
+import { settings } from '../types';
 
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 

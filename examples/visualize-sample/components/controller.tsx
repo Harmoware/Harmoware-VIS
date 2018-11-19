@@ -20,7 +20,7 @@ interface Props {
   getDepotOptionChecked?: (e: InputEvent) => void,
   getHeatmapVisible?: (e: InputEvent) => void,
   getOptionChangeChecked?: (e: InputEvent) => void,
-  actions?: Actions,
+  actions?: typeof Actions,
   clickedObject?: null | Array<ClickedObject>,
   routePaths?: Array<RoutePaths>,
   inputFileName?: {movesFileName: any, depotsFileName: any},

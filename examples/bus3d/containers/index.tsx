@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  Actions, connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon, Bus3dProps } from '../types';
+  import { Actions as BaseActions } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -9,36 +10,19 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
+import { Layer } from 'deck.gl';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
-interface Props {
-  actions?: any;
-  settime?: any;
-  timeBegin?: any;
-  elevationScale?: any;
-  selectedBusstop?: any;
-  rainfall?: any;
-  lightSettings?: any;
-  routePaths?: any;
-  xbandCellSize?: any;
-  viewport?: any;
-  hovered?: any;
-  clickedObject?: any;
-  busoption?: any;
-  movesbase?: any;
-  movedData?: any;
-  depotsData?: any;
-  loading?: any;
-}
+interface Props extends Bus3dProps {}
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: Array<any>
+  arcdata: any
 }
 
-class App extends Container<Props, State> {
+class App extends Container {
 
   constructor(props) {
     super(props);
@@ -68,11 +52,13 @@ class App extends Container<Props, State> {
   }
 
   render() {
-    const props = this.props;
+    const props = this.props as Props;
     const {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
+
+    const state = this.state as State;
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
@@ -99,7 +85,6 @@ class App extends Container<Props, State> {
       <div>
         <Header
           {...props} date={date}
-          busoption={busoption}
         />
         <Controller
           {...props} date={date}
@@ -119,7 +104,7 @@ class App extends Container<Props, State> {
         <div className="harmovis_area">
           <HarmoVisLayers
             viewport={viewport}
-            actions={actions}
+            actions={actions as any}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
               new XbandmeshLayer({
@@ -131,8 +116,8 @@ class App extends Container<Props, State> {
                 depotsData,
                 lightSettings,
                 optionElevationScale: elevationScale,
-                optionVisible: busoption.busstopsoption,
-                optionChange: this.state.optionChange,
+                optionVisible: 'busstopsoption' in busoption,
+                optionChange: state.optionChange,
                 onHover,
                 onClick: onClickBusstop
               }),
@@ -141,18 +126,18 @@ class App extends Container<Props, State> {
                 movesbase,
                 movedData,
                 clickedObject,
-                actions,
+                actions: actions as any,
                 lightSettings,
                 optionElevationScale: elevationScale,
-                optionVisible: busoption.busmovesoption,
-                optionChange: this.state.optionChange,
+                optionVisible: 'busmovesoption' in busoption,
+                optionChange: state.optionChange,
                 onHover,
                 onClick: onClickBus
               }),
               new DepotsArcLayer({
                 id: 'arch-layer',
-                data: this.state.arcdata,
-                visible: !this.state.archLayerChange,
+                data: state.arcdata,
+                visible: !state.archLayerChange,
                 pickable: true,
                 getSourcePosition: d => d.sourcePosition,
                 getTargetPosition: d => d.targetPosition,

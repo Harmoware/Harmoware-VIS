@@ -6,41 +6,42 @@ import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Context } from '../../types';
 import * as Actions from '../../actions';
 
-type ActionTypes = typeof Actions;
-
 interface Props {
   routePaths: Array<RoutePaths>,
-  layerRadiusScale: number,
-  layerOpacity: number,
+  layerRadiusScale?: number,
+  layerOpacity?: number,
   movedData: Array<MovedData>,
   movesbase: Array<Movesbase>,
   clickedObject: null | Array<ClickedObject>,
-  actions: ActionTypes,
-  optionVisible: boolean,
-  optionChange: boolean,
-  optionOpacity: number,
-  optionCellSize: number,
-  optionElevationScale: number,
-  visible: boolean,
+  actions: typeof Actions,
+  optionVisible?: boolean,
+  optionChange?: boolean,
+  optionOpacity?: number,
+  optionCellSize?: number,
+  optionElevationScale?: number,
+  visible?: boolean,
   lightSettings: LightSettings,
-  getColor: (x: any) => Array<number>,
-  getRadius: (x: any) => number,
-  getColor1: (x: any) => Array<number>,
-  getColor2: (x: any) => Array<number>,
-  getColor3: (x: any) => Array<number>,
-  getColor4: (x: any) => Array<number>,
-  getElevation1: (x: any) => number,
-  getElevation2: (x: any) => number,
-  getElevation3: (x: any) => number,
-  getElevation4: (x: any) => number,
-  getCubeColor: (x: any) => Array<Array<number>>,
-  getCubeElevation: (x: any) => Array<number>,
-  onHover: Function,
-  onClick: Function,
-  i18n: { error: string }
+  getColor?: (x: any) => Array<number>,
+  getRadius?: (x: any) => number,
+  getColor1?: (x: any) => Array<number>,
+  getColor2?: (x: any) => Array<number>,
+  getColor3?: (x: any) => Array<number>,
+  getColor4?: (x: any) => Array<number>,
+  getElevation1?: (x: any) => number,
+  getElevation2?: (x: any) => number,
+  getElevation3?: (x: any) => number,
+  getElevation4?: (x: any) => number,
+  getCubeColor?: (x: any) => Array<Array<number>>,
+  getCubeElevation?: (x: any) => Array<number>,
+  onHover?: (el: any) => void,
+  onClick?: (el: any) => void,
+  i18n?: { error: string }
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
+  constructor(props: Props) {
+    super();
+  };
 
   static defaultProps = {
     layerRadiusScale: 1,

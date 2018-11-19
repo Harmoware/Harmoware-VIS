@@ -9,9 +9,9 @@ interface Props {
   actions: {
     setAnimateReverse: typeof setAnimateReverse
   },
-  children: Element,
-  i18n: { reverseButtonCaption: string },
-  className: string
+  children?: any,
+  i18n?: { reverseButtonCaption: string },
+  className?: string
 }
 
 export default class ReverseButton extends React.Component<Props> {

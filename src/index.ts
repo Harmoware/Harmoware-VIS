@@ -21,6 +21,8 @@ import {
   setLoading,
 } from './actions';
 
+import { BasedState, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData } from './types';
+
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
 import LinemapInput from './components/linemap-input';
@@ -72,6 +74,18 @@ const Actions = {
 export {
   // actions
   Actions,
+  // state
+  BasedState,
+  Bounds,
+  ClickedObject,
+  Depotsbase,
+  DepotsData,
+  LightSettings,
+  MovedData,
+  Movesbase,
+  RoutePaths,
+  Viewport,
+  LineMapData,
   // components
   MovesInput,
   DepotsInput,
@@ -107,4 +121,9 @@ export {
   // reducer
   reducer
 };
-export * from "./types";
+
+export type InputEvent = {
+  target: HTMLInputElement
+} & Event;
+//export type InputEvent = ElementEventTemplate<HTMLInputElement>
+

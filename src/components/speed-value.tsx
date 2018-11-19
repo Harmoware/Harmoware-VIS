@@ -8,10 +8,10 @@ interface Props {
   actions: {
     setSecPerHour: typeof setSecPerHour
   },
-  maxsecperhour: number,
-  min: number,
-  id: string,
-  className: string
+  maxsecperhour?: number,
+  min?: number,
+  id?: string,
+  className?: string
 }
 
 export default class SpeedValue extends React.Component<Props> {

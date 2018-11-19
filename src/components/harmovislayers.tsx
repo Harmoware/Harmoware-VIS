@@ -9,12 +9,12 @@ import { setViewport, setNonmapView } from '../actions';
 interface Props {
   viewport : Viewport,
   mapboxApiAccessToken: string,
-  mapStyle: string,
+  mapStyle?: string,
   actions: {
     setViewport: typeof setViewport,
-    setNonmapView: typeof setNonmapView
+    setNonmapView: typeof setNonmapView,
   },
-  onChangeViewport: typeof setViewport,
+  onChangeViewport?: typeof setViewport,
   layers: Array<typeof Layer>
 }
 

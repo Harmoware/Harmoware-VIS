@@ -9,11 +9,11 @@ interface Props {
   actions: {
     setSecPerHour: typeof setSecPerHour
   },
-  maxsecperhour: number,
-  min: number,
-  step: number,
-  id: string,
-  className: string
+  maxsecperhour?: number,
+  min?: number,
+  step?: number,
+  id?: string,
+  className?: string
 }
 
 export default class SpeedRange extends React.Component<Props> {

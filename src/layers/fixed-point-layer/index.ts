@@ -6,10 +6,12 @@ import { COLOR4 } from '../../constants/settings';
 import { DepotsData, Position, DataOption, Radius } from '../../types';
 
 interface Props {
-  layerOpacity: number,
+  layerOpacity?: number,
   depotsData: Array<DepotsData>,
-  getColor: (x: any) => Array<number>,
-  getRadius: (x: any) => number
+  getColor?: (x: any) => Array<number>,
+  getRadius?: (x: any) => number,
+  onHover?: (el: any) => void,
+  onClick?: (el: any) => void,
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {

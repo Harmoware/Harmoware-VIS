@@ -4,12 +4,13 @@ import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps as Props, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
+interface Props {}
 interface State {
   moveDataVisible: boolean,
   moveOptionVisible: boolean,

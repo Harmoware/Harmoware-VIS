@@ -389,5 +389,5 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   return connect(mapStateToProps, mapDispatchToProps)(App);
 };
 
-export const getCombinedReducer = (combined: any) : any =>
+export const getCombinedReducer = (combined?: any) : any =>
   combineReducers({ base: reducers, ...combined });

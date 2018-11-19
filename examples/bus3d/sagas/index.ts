@@ -2,7 +2,7 @@ import { call, put, takeEvery, select } from 'redux-saga/effects';
 import * as axios from 'axios';
 import csvtojson from 'csvtojson';
 import * as iconv from 'iconv-lite';
-import { settings, Actions as baseActions, getContainerProp } from 'harmoware-vis';
+import { settings, Actions as baseActions, getContainerProp } from '../types';
 
 import * as types from '../constants/action-types';
 import { p02d, p04d, delaycolor } from '../library';

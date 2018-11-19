@@ -1,27 +1,19 @@
 import * as React from 'react';
 import CanvasComponent from './canvas-component';
 import { p02d, p04d, delaycolor, hsvToRgb } from '../library';
+import { Actions, Bus3dProps, AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from '../types';
+
 
 const weekDayList = ['日', '月', '火', '水', '木', '金', '土'];
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
-interface Props {
-  actions?: any,
-  date?: any,
-  movedData?: any,
-  busoption?: any,
-  bsoptFname?: any,
-  elevationScale?: any,
-  clickedObject?: any,
-  delayrange?: any,
-  delayheight?: any,
+interface Props extends Bus3dProps{
+  date: number,
 }
 
 export default class Header extends React.Component<Props> {
-/*  constructor(props) {
-    super(props);
-  } */
 
   onBusReleaseClick() {
     const { actions } = this.props;

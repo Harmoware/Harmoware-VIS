@@ -12,15 +12,15 @@ interface Props {
     setViewport: typeof setViewport
   },
   viewport: {
-    zoom: number,
-    minZoom: number,
-    maxZoom: number,
-    distance: number,
-    minDistance: number,
-    maxDistance: number,
-    bearing: number,
+    zoom?: number,
+    minZoom?: number,
+    maxZoom?: number,
+    distance?: number,
+    minDistance?: number,
+    maxDistance?: number,
+    bearing?: number,
   },
-  className: string
+  className?: string
 }
 
 export default class NavigationButton extends React.Component<Props> {
