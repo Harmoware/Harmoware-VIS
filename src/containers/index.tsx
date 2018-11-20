@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { BasedProps as Props } from '../types';
 
-export default class Root<P = Props, S = {}> extends React.Component<Props, {}> {
+export default class Root<P extends Props, S = {}> extends React.Component<P, {}> {
 
   constructor(props: P) {
     super(props);

@@ -21,6 +21,8 @@ import {
   setLoading,
 } from './actions';
 
+import * as types from './types';
+
 import { BasedState, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData } from './types';
 
 import MovesInput from './components/moves-input';
@@ -119,7 +121,9 @@ export {
   connectToHarmowareVis,
   getCombinedReducer,
   // reducer
-  reducer
+  reducer,
+  // type
+  types
 };
 
 export type InputEvent = {

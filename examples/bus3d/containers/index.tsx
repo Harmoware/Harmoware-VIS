@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, Bus3dProps } from '../types';
-  import { Actions as BaseActions } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon, Actions, types } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -10,19 +9,26 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
-import { Layer } from 'deck.gl';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
-interface Props extends Bus3dProps {}
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: any
+  arcdata: any,
 }
 
-class App extends Container {
+interface Props extends types.BasedProps {
+  elevationScale: number,
+  selectedBusstop: any,
+  rainfall: any,
+  xbandCellSize: any,
+  hovered: any,
+  busoption: any,
+}
+
+class App extends Container<Props, State> {
 
   constructor(props) {
     super(props);
@@ -52,13 +58,13 @@ class App extends Container {
   }
 
   render() {
-    const props = this.props as Props;
+    const props = this.props;
     const {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
-    const state = this.state as State;
+    const state = this.state;
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
