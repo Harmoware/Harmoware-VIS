@@ -1,4 +1,4 @@
-import { getCombinedReducer } from '../types';
+import { getCombinedReducer } from 'harmoware-vis';
 import controller from './controller';
 import data from './data';
 import bus3d from './bus3d';

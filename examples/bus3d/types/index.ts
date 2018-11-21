@@ -121,4 +121,3 @@ export interface Bus3dMovedData extends MovedData {
 export interface Bus3dClickedObject extends ClickedObject {
     object: {movesbaseidx: number, name?: string},
 };
-export * from 'harmoware-vis';

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
+import { Bus3dProps } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, Bus3dProps, InputEvent } from '../types';
+  connectToHarmowareVis, settings, LoadingIcon, InputEvent } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';

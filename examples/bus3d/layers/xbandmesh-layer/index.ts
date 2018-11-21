@@ -1,7 +1,7 @@
 
 
 import { GridCellLayer, CompositeLayer } from 'deck.gl';
-import { LightSettings } from '../../types';
+import { LightSettings } from 'harmoware-vis';
 
 interface Props {
   rainfall: Array<any>,

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Bus3dProps, AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton, InputEvent } from '../types';
+import { Bus3dProps } from '../types';
+import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton, ElapsedTimeRange,
+  ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton, InputEvent } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 

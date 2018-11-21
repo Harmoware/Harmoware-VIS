@@ -1,7 +1,8 @@
 
 
 import * as React from 'react';
-import { Bus3dActions, InputEvent } from '../types';
+import { Bus3dActions } from '../types';
+import { InputEvent } from 'harmoware-vis';
 
 interface Props {
   actions: typeof Bus3dActions,
