@@ -1,3 +1,6 @@
+import * as React from 'react';
+import DeckGL, { Layer, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+
 declare module "deck.gl" {
   interface Uniforms {
     extruded: boolean,
@@ -5,7 +8,7 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  interface Layer<P = {}, S = {}> {
+  interface LayerInterface<P = {}, S = {}> {
     constructor(props: P);
     context: any;
     props: P;

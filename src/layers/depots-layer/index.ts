@@ -32,7 +32,7 @@ interface Props {
 
 export default class DepotsLayer extends CompositeLayer<Props> {
   constructor(props) {
-    super();
+    super(props);
   };
 
   static layerName = 'DepotsLayer';
@@ -68,7 +68,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     } = this.props;
 
     if (optionVisible && !lightSettings) {
-      alert(i18n.error);
       return null;
     }
     if (!depotsData) {

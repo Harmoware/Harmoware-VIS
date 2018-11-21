@@ -39,7 +39,7 @@ interface Props {
 
 export default class MovesLayer extends CompositeLayer<Props> {
   constructor(props: Props) {
-    super();
+    super(props);
   };
 
   static defaultProps = {
@@ -84,7 +84,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     if (!routePaths || !movesbase || !actions ||
       typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
-      alert(i18n.error);
       return null;
     }
     if (!movedData) {

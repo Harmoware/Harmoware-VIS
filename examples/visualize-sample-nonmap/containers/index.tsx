@@ -26,7 +26,7 @@ interface State {
 class App extends Container<Props, State> implements React.Component {
 
   constructor() {
-    super();
+    super(props);
     this.state = {
       popup: [0, 0, '']
     };
