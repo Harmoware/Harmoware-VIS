@@ -13,16 +13,15 @@ import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '..
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
-interface Props extends Bus3dProps {}
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
   arcdata: any
 }
 
-class App extends Container<Props, State> {
+class App extends Container<Bus3dProps, State> {
 
-  constructor(props: Props) {
+  constructor(props: Bus3dProps) {
     super(props);
     const { actions } = props;
     actions.initializeFetch('datalist.json');
@@ -43,7 +42,7 @@ class App extends Container<Props, State> {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: Bus3dProps) {
     const { actions, settime, timeBegin, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, timeBegin, xbandCellSize, answer, xbandFname);
     this.setState({ arcdata: updateArcLayerData(nextProps) });
@@ -51,6 +50,7 @@ class App extends Container<Props, State> {
 
   render() {
     const props = this.props;
+    const state = this.state;
     const {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,

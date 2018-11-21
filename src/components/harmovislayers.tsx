@@ -15,7 +15,7 @@ interface Props {
     setNonmapView: typeof setNonmapView,
   },
   onChangeViewport?: typeof setViewport,
-  layers: Array<typeof Layer>
+  layers: Layer[]
 }
 
 export default class HarmoVisLayers extends React.Component<Props> {
