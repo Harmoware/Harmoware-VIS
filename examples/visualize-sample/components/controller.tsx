@@ -4,27 +4,16 @@ import * as React from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton,
-  Actions, InputEvent, ClickedObject, RoutePaths } from 'harmoware-vis';
+  Actions, InputEvent, ClickedObject, RoutePaths, BasedProps } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
-interface Props {
-  settime?: number,
-  timeBegin?: number,
-  timeLength?: number,
-  secperhour?: number,
-  animatePause?: boolean,
-  animateReverse?: boolean,
-  getMoveDataChecked?: (e: InputEvent) => void,
-  getMoveOptionChecked?: (e: InputEvent) => void,
-  getDepotOptionChecked?: (e: InputEvent) => void,
-  getHeatmapVisible?: (e: InputEvent) => void,
-  getOptionChangeChecked?: (e: InputEvent) => void,
-  actions?: typeof Actions,
-  clickedObject?: null | Array<ClickedObject>,
-  routePaths?: Array<RoutePaths>,
-  inputFileName?: {movesFileName: any, depotsFileName: any},
-  viewport?: Object,
+interface Props extends BasedProps{
+  getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 interface State {

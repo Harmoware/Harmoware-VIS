@@ -1,5 +1,3 @@
-import * as React from 'react';
-import DeckGL, { Layer, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 
 declare module "deck.gl" {
   interface Uniforms {
@@ -35,6 +33,8 @@ declare module "deck.gl" {
   export class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
 
   export class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
+
+  export class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
 
   export default class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
 

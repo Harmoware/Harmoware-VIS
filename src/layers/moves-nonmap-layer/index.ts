@@ -7,14 +7,16 @@ import { COLOR1 } from '../../constants/settings';
 import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius, Actions } from '../../types';
 
 interface Props {
-  layerOpacity?: number;
-  movedData: Array<MovedData>;
-  movesbase: Array<Movesbase>;
-  getColor?: (x: any) => Array<number>;
-  getRadius?: (x: any) => number;
-  routePaths?: Array<RoutePaths>;
-  actions: typeof Actions;
-  clickedObject?: null | Array<ClickedObject>;
+  layerOpacity?: number,
+  movedData: Array<MovedData>,
+  movesbase: Array<Movesbase>,
+  getColor?: (x: any) => Array<number>,
+  getRadius?: (x: any) => number,
+  routePaths?: Array<RoutePaths>,
+  actions: typeof Actions,
+  clickedObject?: null | Array<ClickedObject>,
+  onHover?: (el: any) => void,
+  onClick?: (el: any) => void,
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {

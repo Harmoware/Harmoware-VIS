@@ -3,12 +3,10 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_replay as icReplay } from 'react-icons-kit/md';
-import { setAnimateReverse } from '../actions';
+import { Actions } from '../types';
 
 interface Props {
-  actions: {
-    setAnimateReverse: typeof setAnimateReverse
-  },
+  actions: typeof Actions,
   children?: any,
   i18n?: { reverseButtonCaption: string },
   className?: string

@@ -9,7 +9,7 @@ interface Props {
   viewport: Viewport,
   actions: typeof Actions,
   onChangeViewport?: typeof Actions.setViewport,
-  layers: Array<typeof Layer>
+  layers: Layer[]
 };
 
 export default class HarmoVisNonMapLayers extends React.Component<Props, any> {

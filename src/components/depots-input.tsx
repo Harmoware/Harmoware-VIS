@@ -1,15 +1,10 @@
 
 
 import * as React from 'react';
-import { InputEvent, Depotsbase } from '../types';
-import { setDepotsBase, setLoading, setInputFilename } from '../actions';
+import { Actions, InputEvent } from '../types';
 
 interface Props {
-  actions: {
-    setDepotsBase: typeof setDepotsBase,
-    setLoading: typeof setLoading,
-    setInputFilename: typeof setInputFilename
-  },
+  actions: typeof Actions,
   i18n?: { formatError: string },
   id?: string,
   className?: string,

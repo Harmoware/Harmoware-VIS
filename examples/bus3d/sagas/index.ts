@@ -125,7 +125,7 @@ function* fetchDataByAnswer({ answer }) {
     });
     yield put(Actions.setBusTripsCsv([]));
     yield put(Actions.setBusTripIndex({}));
-    yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase: busmovesbase }));
+    yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase: busmovesbase } as any));
     yield put(Actions.setBusMovesBaseDic({}));
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
@@ -261,9 +261,9 @@ function* setupByCSV() {
       savebusstatus = [];
     }
     if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/)) {
-      const tiemConversion = (ndate, sTime) => {
+      const tiemConversion = (ndate: number[], sTime) => {
         const hms = sTime.split(':').map(current => parseInt(current, 10));
-        return new Date(...ndate, hms[0], hms[1], hms[2] || 0).getTime();
+        return new Date(ndate[0], ndate[1], ndate[2], hms[0], hms[1], hms[2] || 0).getTime();
       };
       const dtime = tiemConversion(ymd, actualdep);
       const dtime2 = tiemConversion(ymd, timetable);
@@ -391,7 +391,7 @@ function* setupByCSV() {
       busmovesbasedic[diagramid] = idx;
     }
   });
-  yield put(Actions.setMovesBase({ movesbase: busmovesbase }));
+  yield put(Actions.setMovesBase({ movesbase: busmovesbase } as any));
   yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
 }
 

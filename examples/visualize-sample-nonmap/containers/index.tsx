@@ -25,7 +25,7 @@ interface State {
 
 class App extends Container<Props, State> implements React.Component {
 
-  constructor() {
+  constructor(props) {
     super(props);
     this.state = {
       popup: [0, 0, '']
@@ -78,13 +78,20 @@ class App extends Container<Props, State> implements React.Component {
             actions={actions}
             layers={[
               new FixedPointLayer({
-                depotsData, onHover
+                depotsData,
+                onHover,
               }),
               new MovesNonmapLayer({
-                movedData, movesbase, actions, routePaths, clickedObject, onHover,
+                movedData,
+                movesbase,
+                actions,
+                routePaths,
+                clickedObject,
+                onHover,
               }),
               new LineMapLayer({
-                linemapData, onHover
+                linemapData,
+                onHover,
               })
             ]}
           />

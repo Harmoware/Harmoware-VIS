@@ -5,7 +5,7 @@ import { analyzeMovesBase, analyzeDepotsBase, analyzelinemapData,
   getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { BasedState as State, AnalyzedBaseData, BasedProps, Viewport, LightSettings,
   Movesbase, MovesbaseFile, Depotsbase, ClickedObject, RoutePaths,
-  GetMovesOptionFunc, GetDepotsOptionFunc, LineMapData } from '../types';
+  GetMovesOptionFunc, GetDepotsOptionFunc, LineMapData, AnyObject } from '../types';
 
 interface ActionTypes {
   type: string,
@@ -29,7 +29,7 @@ interface ActionTypes {
   nonmapView?: boolean,
   linemapData?: Array<LineMapData>,
   loading?: boolean,
-  inputFileName?: Object
+  inputFileName?: AnyObject,
 }
 
 const initialState: State = {

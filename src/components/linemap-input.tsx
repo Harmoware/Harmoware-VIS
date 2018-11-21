@@ -1,15 +1,10 @@
 
 
 import * as React from 'react';
-import { InputEvent } from '../types';
-import { setLinemapData, setLoading, setInputFilename } from '../actions';
+import { Actions, InputEvent } from '../types';
 
 interface Props {
-  actions: {
-    setLinemapData: typeof setLinemapData,
-    setLoading: typeof setLoading,
-    setInputFilename: typeof setInputFilename
-  },
+  actions: typeof Actions,
   i18n?: { formatError: string },
   id?: string,
   className?: string,

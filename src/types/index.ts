@@ -132,7 +132,7 @@ export interface BasedState {
   linemapData?: Array<LineMapData>,
   linemapDataOriginal?: string,
   loading?: boolean,
-  inputFileName?: Object,
+  inputFileName?: AnyObject,
 };
 
 export interface ActionsInterface {
@@ -191,3 +191,6 @@ export interface Context {
   }
 }
 
+export interface AnyObject {
+  [propName: string]: any,
+}

@@ -154,7 +154,7 @@ export const updateArcLayerData = (props) => {
 
   if (Object.keys(bustripindex).length === 0) {
     const d = new Date(timeBegin * 1000);
-    const date: Array<Number> = [d.getFullYear(), d.getMonth(), d.getDate()];
+    const date: Array<number> = [d.getFullYear(), d.getMonth(), d.getDate()];
 
     const bssidx = {};
     busstopscsv.forEach((current, idx) => {
@@ -165,7 +165,7 @@ export const updateArcLayerData = (props) => {
       const { diagramid, timetable, actualdep, busstopcode, busstoporder } = csvdata;
       if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/) && bssidx[busstopcode]) {
         const hms = actualdep.split(':').map(current => parseInt(current, 10));
-        const timeDeparture = new Date(...date, hms[0], hms[1], hms[2], 0).getTime() / 1000;
+        const timeDeparture = new Date(date[0], date[1], date[2], hms[0], hms[1], hms[2], 0).getTime() / 1000;
         const busstopinfo = busstopscsv[bssidx[busstopcode]];
         bustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {
           elapsedtime: (timeDeparture - timeBegin),
