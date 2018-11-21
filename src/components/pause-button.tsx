@@ -3,12 +3,10 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_pause_circle_outline as icPause } from 'react-icons-kit/md';
-import { setAnimatePause } from '../actions';
+import { Actions } from '../types';
 
 interface Props {
-  actions: {
-    setAnimatePause: typeof setAnimatePause
-  },
+  actions: typeof Actions,
   children?: any,
   i18n?: { pauseButtonCaption: string },
   className?: string

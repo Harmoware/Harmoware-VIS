@@ -21,9 +21,8 @@ import {
   setLoading,
 } from './actions';
 
-import * as types from './types';
-
-import { BasedState, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData } from './types';
+import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings,
+  MovedData, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, InputEvent } from './types';
 
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
@@ -52,7 +51,7 @@ import Container from './containers';
 import reducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
 
-const Actions = {
+const Actions: ActionsInterface = {
   addMinutes,
   setTime,
   setLeading,
@@ -76,8 +75,10 @@ const Actions = {
 export {
   // actions
   Actions,
+  ActionsInterface,
   // state
   BasedState,
+  BasedProps,
   Bounds,
   ClickedObject,
   Depotsbase,
@@ -122,12 +123,9 @@ export {
   getCombinedReducer,
   // reducer
   reducer,
-  // type
-  types
+  // InputEvent
+  InputEvent
 };
 
-export type InputEvent = {
-  target: HTMLInputElement
-} & Event;
-//export type InputEvent = ElementEventTemplate<HTMLInputElement>
+
 

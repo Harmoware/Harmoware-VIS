@@ -2,15 +2,14 @@
 
 import * as React from 'react';
 import DeckGL, { Layer } from 'deck.gl';
-import * as Actions from '../actions';
-import { Viewport } from '../types';
+import { Viewport, Actions } from '../types';
 import OrbitController from './orbit-control';
 
 interface Props {
   viewport: Viewport,
   actions: typeof Actions,
   onChangeViewport?: typeof Actions.setViewport,
-  layers: Array<typeof Layer>
+  layers: Layer[]
 };
 
 export default class HarmoVisNonMapLayers extends React.Component<Props, any> {

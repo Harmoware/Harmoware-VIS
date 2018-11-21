@@ -4,13 +4,12 @@ import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, InputEvent } from 'harmoware-vis';
 
 import Controller from '../components/controller';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
-interface Props {}
 interface State {
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
@@ -20,10 +19,10 @@ interface State {
   popup: Array<any>
 }
 
-class App extends Container<Props, State> {
+class App extends Container<BasedProps, State> {
 
-  constructor() {
-    super();
+  constructor(props: BasedProps) {
+    super(props);
     this.state = {
       moveDataVisible: true,
       moveOptionVisible: false,
@@ -34,23 +33,23 @@ class App extends Container<Props, State> {
     };
   }
 
-  getMoveDataChecked(e: InputEvent) {
+  getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveDataVisible: e.target.checked });
   }
 
-  getMoveOptionChecked(e: InputEvent) {
+  getMoveOptionChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveOptionVisible: e.target.checked });
   }
 
-  getDepotOptionChecked(e: InputEvent) {
+  getDepotOptionChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ depotOptionVisible: e.target.checked });
   }
 
-  getOptionChangeChecked(e: InputEvent) {
+  getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getHeatmapVisible(e: InputEvent) {
+  getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ heatmapVisible: e.target.checked });
   }
 

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import CanvasComponent from './canvas-component';
-import { p02d, p04d, delaycolor, hsvToRgb } from '../library';
-import { Actions, Bus3dProps, AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from '../types';
-
+import { p02d, hsvToRgb } from '../library';
+import { Bus3dProps } from '../types';
 
 const weekDayList = ['日', '月', '火', '水', '木', '金', '土'];
 const CANVAS_WIDTH = 240;

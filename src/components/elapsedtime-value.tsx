@@ -1,16 +1,13 @@
 
 
 import * as React from 'react';
-import { InputEvent } from '../types';
-import { setTime } from '../actions';
+import { Actions, InputEvent } from '../types';
 
 interface Props {
   settime: number,
   timeLength: number,
   min?: number,
-  actions: {
-    setTime: typeof setTime
-  },
+  actions: typeof Actions,
   id?: string,
   className?: string
 }

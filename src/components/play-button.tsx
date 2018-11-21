@@ -3,12 +3,10 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_play_circle_outline as icPlayArrow } from 'react-icons-kit/md';
-import { setAnimatePause } from '../actions';
+import { Actions } from '../types';
 
 interface Props {
-  actions: {
-    setAnimatePause: typeof setAnimatePause
-  },
+  actions: typeof Actions,
   children?: any,
   i18n?: { playButtonCaption: string },
   className?: string

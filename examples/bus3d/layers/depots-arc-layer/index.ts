@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import { Layer, COORDINATE_SYSTEM } from 'deck.gl';
+import { Layer } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 
 import vs from './depots-arc-layer-vertex.glsl';
@@ -39,6 +39,7 @@ interface Props {
 }
 interface State {
   attributeManager: any,
+  model: any,
 }
 
 export default class DepotsArcLayer extends Layer<Props, State> {

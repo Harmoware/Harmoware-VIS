@@ -1,14 +1,11 @@
 
 
 import * as React from 'react';
-import { setSecPerHour } from '../actions';
-import { InputEvent } from '../types';
+import { Actions, InputEvent } from '../types';
 
 interface Props {
   secperhour: number,
-  actions: {
-    setSecPerHour: typeof setSecPerHour
-  },
+  actions: typeof Actions,
   maxsecperhour?: number,
   min?: number,
   step?: number,

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
+import { Bus3dProps } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, Actions, types } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon, InputEvent } from 'harmoware-vis';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -16,21 +17,12 @@ const { COLOR1 } = settings;
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: any,
+  arcdata: Array<any>
 }
 
-interface Props extends types.BasedProps {
-  elevationScale: number,
-  selectedBusstop: any,
-  rainfall: any,
-  xbandCellSize: any,
-  hovered: any,
-  busoption: any,
-}
+class App extends Container<Bus3dProps, State> {
 
-class App extends Container<Props, State> {
-
-  constructor(props) {
+  constructor(props: Bus3dProps) {
     super(props);
     const { actions } = props;
     actions.initializeFetch('datalist.json');
@@ -43,15 +35,15 @@ class App extends Container<Props, State> {
     };
   }
 
-  getOptionChangeChecked(e) {
+  getOptionChangeChecked(e: InputEvent) {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getArchLayerChangeChecked(e) {
+  getArchLayerChangeChecked(e: InputEvent) {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Bus3dProps) {
     const { actions, settime, timeBegin, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, timeBegin, xbandCellSize, answer, xbandFname);
     this.setState({ arcdata: updateArcLayerData(nextProps) });
@@ -59,12 +51,11 @@ class App extends Container<Props, State> {
 
   render() {
     const props = this.props;
+    const state = this.state;
     const {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
-
-    const state = this.state;
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {
@@ -123,7 +114,7 @@ class App extends Container<Props, State> {
                 lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busstopsoption' in busoption,
-                optionChange: state.optionChange,
+                optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBusstop
               }),
@@ -132,18 +123,18 @@ class App extends Container<Props, State> {
                 movesbase,
                 movedData,
                 clickedObject,
-                actions: actions as any,
+                actions,
                 lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busmovesoption' in busoption,
-                optionChange: state.optionChange,
+                optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBus
               }),
               new DepotsArcLayer({
                 id: 'arch-layer',
-                data: state.arcdata,
-                visible: !state.archLayerChange,
+                data: this.state.arcdata,
+                visible: !this.state.archLayerChange,
                 pickable: true,
                 getSourcePosition: d => d.sourcePosition,
                 getTargetPosition: d => d.targetPosition,

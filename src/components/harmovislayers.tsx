@@ -3,19 +3,15 @@
 import * as React from 'react';
 import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';
-import { Viewport } from '../types';
-import { setViewport, setNonmapView } from '../actions';
+import { Actions, Viewport } from '../types';
 
 interface Props {
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
-  actions: {
-    setViewport: typeof setViewport,
-    setNonmapView: typeof setNonmapView,
-  },
-  onChangeViewport?: typeof setViewport,
-  layers: Array<typeof Layer>
+  actions: typeof Actions,
+  onChangeViewport?: typeof Actions.setViewport,
+  layers: Layer[]
 }
 
 export default class HarmoVisLayers extends React.Component<Props> {

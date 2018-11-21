@@ -3,16 +3,12 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
-import { addMinutes } from '../actions';
-
-type addMinutesType = typeof addMinutes;
+import { Actions } from '../types';
 
 interface Props {
   addMinutes?: number,
   children?: any,
-  actions: {
-    addMinutes: addMinutesType
-  },
+  actions: typeof Actions,
   i18n?: { minutesCaption: string },
   className?: string
 }

@@ -6,7 +6,6 @@ import { Layer, experimental } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
-import { LightSettings, Context } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 const { get } = experimental;

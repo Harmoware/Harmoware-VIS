@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Actions, Bus3dProps, AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from '../types';
+import { Bus3dProps } from '../types';
+import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton, ElapsedTimeRange,
+  ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton, InputEvent } from 'harmoware-vis';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
@@ -44,7 +45,7 @@ export default class Controller extends React.Component<Props, State> {
     };
   }
 
-  onTripSelect(e) {
+  onTripSelect(e: InputEvent) {
     const answer = e.target.value;
     const { actions } = this.props;
     actions.setAnswer(answer);
@@ -57,7 +58,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setAnimateReverse(false);
   }
 
-  onBusSelect(e) {
+  onBusSelect(e: InputEvent) {
     const { actions, movesbase, busmovesbasedic } = this.props;
     const code = e.target.value;
     const movesbaseidx = busmovesbasedic[code];
@@ -73,7 +74,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setSelectedBus(code);
   }
 
-  onBusstopSelect(e) {
+  onBusstopSelect(e: InputEvent) {
     const value = e.target.value;
 
     const { actions, depotsData } = this.props;
@@ -97,7 +98,7 @@ export default class Controller extends React.Component<Props, State> {
     });
   }
 
-  setDelayRange(e) {
+  setDelayRange(e: InputEvent) {
     const range = e.target.value;
     const { actions, clickedObject } = this.props;
     actions.setDelayRange(range);
@@ -113,7 +114,7 @@ export default class Controller extends React.Component<Props, State> {
     }
   }
 
-  handleChangeFile(e) {
+  handleChangeFile(e: InputEvent) {
     const { actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];

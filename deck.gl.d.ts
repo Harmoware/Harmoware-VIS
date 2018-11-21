@@ -1,3 +1,4 @@
+
 declare module "deck.gl" {
   interface Uniforms {
     extruded: boolean,
@@ -5,37 +6,37 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  interface Layer<Props = {}, State = {}> {
-    constructor(props: Props);
+  export class Layer <P = {}, S = {}> {
+    constructor(props: P);
     context: any;
-    props: Props;
-    state: State;
+    props: P;
+    state: S;
     setUniforms(uniforms: Uniforms);
     draw({uniforms: Uniforms});
-    setState<K extends keyof State>(
-      state: ((prevState: Readonly<State>, props: Readonly<Props>) => (Pick<State, K> | State | null)) | (Pick<State, K> | State | null),
+    setState<K extends keyof S>(
+      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
       callback?: () => void
     ): void;
     updateState(state: {
-      props: Props,
-      oldProps: Props,
+      props: P,
+      oldProps: P,
       changeFlags: any
     }): void;
     onHover: (el: any) => void;
     onClick: (el: any) => void;
   }
 
-  export class Layer<Props = {}, State = {}> implements Layer {}
+  export class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class CompositeLayer<Props = {}, State = {}> extends Layer<Props, State> {}
+  export class ScatterplotLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class ScatterplotLayer<Props = {}, State = {}> extends Layer<Props, State> {}
+  export class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class GridCellLayer<Props = {}, State = {}> extends Layer<Props, State> {}
+  export class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class LineLayer<Props = {}, State = {}> extends Layer<Props, State> {}
+  export class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export default class DeckGL<Props = {}, State = {}> extends React.Component<Props, State> {}
+  export default class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
 
   export const COORDINATE_SYSTEM;
   export const experimental;
