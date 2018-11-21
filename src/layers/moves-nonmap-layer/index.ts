@@ -4,8 +4,7 @@ import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius } from '../../types';
-import * as Actions from '../../actions';
+import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius, Actions } from '../../types';
 
 interface Props {
   layerOpacity?: number;

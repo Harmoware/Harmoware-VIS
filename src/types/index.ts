@@ -1,5 +1,9 @@
 import * as BaseActions from '../actions';
 
+export type InputEvent = {
+  target: HTMLInputElement
+} & Event;
+
 export interface Viewport {
   longitude?: number,
   latitude?: number,
