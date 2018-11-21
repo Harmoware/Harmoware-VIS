@@ -22,8 +22,8 @@ interface State {
 
 class App extends Container<Props, State> {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       moveDataVisible: true,
       moveOptionVisible: false,

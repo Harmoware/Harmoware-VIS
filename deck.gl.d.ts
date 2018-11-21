@@ -1,3 +1,6 @@
+import * as React from 'react';
+import DeckGL, { Layer, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+
 declare module "deck.gl" {
   interface Uniforms {
     extruded: boolean,
@@ -5,7 +8,7 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  interface Layer<P = {}, S = {}> {
+  interface LayerInterface<P = {}, S = {}> {
     constructor(props: P);
     context: any;
     props: P;
@@ -31,32 +34,7 @@ declare module "deck.gl" {
 
   export class ScatterplotLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  
-  interface GridCellLayerProps {
-    layerRadiusScale?: number,
-    layerOpacity?: number,
-    optionVisible?: boolean,
-    optionChange?: boolean,
-    optionOpacity?: number,
-    optionCellSize?: number,
-    optionElevationScale?: number,
-    visible?: boolean,
-    getColor?: (x: any) => Array<number>,
-    getRadius?: (x: any) => number,
-    getColor1?: (x: any) => Array<number>,
-    getColor2?: (x: any) => Array<number>,
-    getColor3?: (x: any) => Array<number>,
-    getColor4?: (x: any) => Array<number>,
-    getElevation1?: (x: any) => number,
-    getElevation2?: (x: any) => number,
-    getElevation3?: (x: any) => number,
-    getElevation4?: (x: any) => number,
-    getCubeColor?: (x: any) => Array<Array<number>>,
-    getCubeElevation?: (x: any) => Array<number>,
-    onHover?: (el: any) => void,
-    onClick?: (el: any) => void,
-  }
-  export class GridCellLayer<GridCellLayerProps, S = {}> extends Layer {}
+  export class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
 
   export class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
 

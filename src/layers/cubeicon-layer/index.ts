@@ -41,7 +41,7 @@ interface State {
 export default class CubeiconLayer extends Layer<Props, State> {
 
   constructor(props) {
-    super();
+    super(props);
   }
 
   static defaultProps = {

@@ -55,7 +55,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
   static layerName = 'DepotsArcLayer';
 
   constructor(props) {
-    super();
+    super(props);
   }
 
   getShaders() {

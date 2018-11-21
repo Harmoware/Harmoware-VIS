@@ -18,7 +18,7 @@ interface Props {
 export default class XbandmeshLayer extends CompositeLayer<Props> {
 
   constructor(props: Props) {
-    super();
+    super(props);
   }
 
   static defaultProps = {
