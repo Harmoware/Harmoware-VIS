@@ -17,7 +17,7 @@ interface Props extends Bus3dProps {}
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: any
+  arcdata: Array<any>
 }
 
 class App extends Container<Props, State> {
@@ -113,7 +113,7 @@ class App extends Container<Props, State> {
                 lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busstopsoption' in busoption,
-                optionChange: state.optionChange,
+                optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBusstop
               }),
@@ -122,18 +122,18 @@ class App extends Container<Props, State> {
                 movesbase,
                 movedData,
                 clickedObject,
-                actions: actions as any,
+                actions,
                 lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busmovesoption' in busoption,
-                optionChange: state.optionChange,
+                optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBus
               }),
               new DepotsArcLayer({
                 id: 'arch-layer',
-                data: state.arcdata,
-                visible: !state.archLayerChange,
+                data: this.state.arcdata,
+                visible: !this.state.archLayerChange,
                 pickable: true,
                 getSourcePosition: d => d.sourcePosition,
                 getTargetPosition: d => d.targetPosition,

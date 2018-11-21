@@ -1,4 +1,4 @@
-import * as Actions from '../actions';
+import * as BaseActions from '../actions';
 
 export interface Viewport {
   longitude?: number,
@@ -131,12 +131,30 @@ export interface BasedState {
   inputFileName?: Object,
 };
 
-interface ActionsInterface {
+export interface ActionsInterface {
+  addMinutes?: typeof BaseActions.addMinutes,
+  setTime?: typeof BaseActions.setTime,
+  setLeading?: typeof BaseActions.setLeading,
+  setTrailing?: typeof BaseActions.setTrailing,
+  setViewport?: typeof BaseActions.setViewport,
+  setLightSettings?: typeof BaseActions.setLightSettings,
+  setMovesBase?: typeof BaseActions.setMovesBase,
+  setDepotsBase?: typeof BaseActions.setDepotsBase,
+  setAnimatePause?: typeof BaseActions.setAnimatePause,
+  setAnimateReverse?: typeof BaseActions.setAnimateReverse,
+  setSecPerHour?: typeof BaseActions.setSecPerHour,
+  setClicked?: typeof BaseActions.setClicked,
+  setRoutePaths?: typeof BaseActions.setRoutePaths,
+  setDefaultZoom?: typeof BaseActions.setDefaultZoom,
+  setDefaultPitch?: typeof BaseActions.setDefaultPitch,
+  setMovesOptionFunc?: typeof BaseActions.setMovesOptionFunc,
+  setDepotsOptionFunc?: typeof BaseActions.setDepotsOptionFunc,
+  setLoading?: typeof BaseActions.setLoading,
   [propName: string]: any,
 }
-const actions: ActionsInterface = { ...Actions };
+export const Actions: ActionsInterface = { ...BaseActions };
 export interface BasedProps extends BasedState {
-  actions?: typeof actions
+  actions?: typeof Actions
 };
 
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
