@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, Actions, types } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon, Bus3dProps, InputEvent } from '../types';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -13,24 +13,16 @@ import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '..
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
+interface Props extends Bus3dProps {}
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: any,
-}
-
-interface Props extends types.BasedProps {
-  elevationScale: number,
-  selectedBusstop: any,
-  rainfall: any,
-  xbandCellSize: any,
-  hovered: any,
-  busoption: any,
+  arcdata: any
 }
 
 class App extends Container<Props, State> {
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { actions } = props;
     actions.initializeFetch('datalist.json');
@@ -43,15 +35,15 @@ class App extends Container<Props, State> {
     };
   }
 
-  getOptionChangeChecked(e) {
+  getOptionChangeChecked(e: InputEvent) {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getArchLayerChangeChecked(e) {
+  getArchLayerChangeChecked(e: InputEvent) {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { actions, settime, timeBegin, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, timeBegin, xbandCellSize, answer, xbandFname);
     this.setState({ arcdata: updateArcLayerData(nextProps) });
@@ -63,8 +55,6 @@ class App extends Container<Props, State> {
       actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
-
-    const state = this.state;
 
     const onHover = el => actions.setHovered(el);
     const onClickBus = (el) => {

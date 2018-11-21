@@ -1,4 +1,4 @@
-import { Actions as BaseActions, BasedState, DepotsData, Movesbase, MovedData, ClickedObject } from 'harmoware-vis';
+import { Actions as BaseActions, ActionsInterface, BasedState, DepotsData, Movesbase, MovedData, ClickedObject } from 'harmoware-vis';
 import * as Actions from '../actions';
 
 export interface Bus3dState extends BasedState {
@@ -30,9 +30,41 @@ export interface Bus3dState extends BasedState {
 export interface Bus3dProps extends Bus3dState {
     actions?: typeof Bus3dActions,
 };
-export const Bus3dActions = {
+interface Bus3dActionsInterface extends ActionsInterface {
+    fetchDataList: typeof Actions.fetchDataList,
+    fetchDataByAnswer: typeof Actions.fetchDataByAnswer,
+    fetchBusstopCSV: typeof Actions.fetchBusstopCSV,
+    fetchBusstopRoutesJSON: typeof Actions.fetchBusstopRoutesJSON,
+    fetchRoutesJSON: typeof Actions.fetchRoutesJSON,
+    fetchBusstopsOption: typeof Actions.fetchBusstopsOption,
+    initializeFetch: typeof Actions.initializeFetch,
+    setupFetch: typeof Actions.setupFetch,
+    updateRoute: typeof Actions.updateRoute,
+    updateRainfall: typeof Actions.updateRainfall,
+    setDelayHeight: typeof Actions.setDelayHeight,
+    setScaleElevation: typeof Actions.setScaleElevation,
+    setCellSize: typeof Actions.setCellSize,
+    setXbandFname: typeof Actions.setXbandFname,
+    setDelayRange: typeof Actions.setDelayRange,
+    setBsoptFname: typeof Actions.setBsoptFname,
+    setSelectedBusstop: typeof Actions.setSelectedBusstop,
+    setSelectedBus: typeof Actions.setSelectedBus,
+    setAnswers: typeof Actions.setAnswers,
+    setAnswer: typeof Actions.setAnswer,
+    setHovered: typeof Actions.setHovered,
+    setBusOption: typeof Actions.setBusOption,
+    setBusMovesBaseDic: typeof Actions.setBusMovesBaseDic,
+    setRoutesData: typeof Actions.setRoutesData,
+    setBusTripsCsv: typeof Actions.setBusTripsCsv,
+    setBusstopsCsv: typeof Actions.setBusstopsCsv,
+    setBusRoutes: typeof Actions.setBusRoutes,
+    setBusTripIndex: typeof Actions.setBusTripIndex,
+    setArchBase: typeof Actions.setArchBase,
+    setRainfall: typeof Actions.setRainfall,
+}
+export const Bus3dActions: Bus3dActionsInterface = {
+    ...Actions,
     ...BaseActions,
-    ...Actions
 };
 
 export interface BusTripsCsvData {
@@ -89,3 +121,4 @@ export interface Bus3dMovedData extends MovedData {
 export interface Bus3dClickedObject extends ClickedObject {
     object: {movesbaseidx: number, name?: string},
 };
+export * from 'harmoware-vis';

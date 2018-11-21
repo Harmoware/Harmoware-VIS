@@ -131,8 +131,12 @@ export interface BasedState {
   inputFileName?: Object,
 };
 
+interface ActionsInterface {
+  [propName: string]: any,
+}
+const actions: ActionsInterface = { ...Actions };
 export interface BasedProps extends BasedState {
-  actions?: typeof Actions
+  actions?: typeof actions
 };
 
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);

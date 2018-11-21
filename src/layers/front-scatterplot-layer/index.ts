@@ -36,7 +36,7 @@ interface State {
 export default class FrontScatterplotLayer extends Layer<Props, State> {
 
   constructor(props) {
-    super(props);
+    super();
   }
 
   static defaultProps = {

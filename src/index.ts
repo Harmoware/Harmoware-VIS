@@ -21,9 +21,7 @@ import {
   setLoading,
 } from './actions';
 
-import * as types from './types';
-
-import { BasedState, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData } from './types';
+import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData } from './types';
 
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
@@ -52,7 +50,28 @@ import Container from './containers';
 import reducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
 
-const Actions = {
+interface ActionsInterface {
+  addMinutes: typeof addMinutes,
+  setTime: typeof setTime,
+  setLeading: typeof setLeading,
+  setTrailing: typeof setTrailing,
+  setViewport: typeof setViewport,
+  setLightSettings: typeof setLightSettings,
+  setMovesBase: typeof setMovesBase,
+  setDepotsBase: typeof setDepotsBase,
+  setAnimatePause: typeof setAnimatePause,
+  setAnimateReverse: typeof setAnimateReverse,
+  setSecPerHour: typeof setSecPerHour,
+  setClicked: typeof setClicked,
+  setRoutePaths: typeof setRoutePaths,
+  setDefaultZoom: typeof setDefaultZoom,
+  setDefaultPitch: typeof setDefaultPitch,
+  setMovesOptionFunc: typeof setMovesOptionFunc,
+  setDepotsOptionFunc: typeof setDepotsOptionFunc,
+  setLoading: typeof setLoading,
+  [propName: string]: any,
+};
+const Actions: ActionsInterface = {
   addMinutes,
   setTime,
   setLeading,
@@ -76,8 +95,10 @@ const Actions = {
 export {
   // actions
   Actions,
+  ActionsInterface,
   // state
   BasedState,
+  BasedProps,
   Bounds,
   ClickedObject,
   Depotsbase,
@@ -121,9 +142,7 @@ export {
   connectToHarmowareVis,
   getCombinedReducer,
   // reducer
-  reducer,
-  // type
-  types
+  reducer
 };
 
 export type InputEvent = {

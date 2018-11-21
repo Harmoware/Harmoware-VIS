@@ -36,7 +36,7 @@ interface State {
 export default class EnhancedArcLayer extends Layer<Props, State> {
 
   constructor(props) {
-    super(props);
+    super();
   }
 
   static defaultProps = {
