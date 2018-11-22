@@ -1,5 +1,3 @@
-
-
 import * as types from '../constants/action-types';
 import { BasedProps as Props, LightSettings, Viewport,
   Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc,

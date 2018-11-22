@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Actions, InputEvent } from '../types';
+import { ActionTypes, InputEvent } from '../types';
 
 interface Props {
   secperhour: number,
-  actions: typeof Actions,
+  actions: ActionTypes,
   maxsecperhour?: number,
   min?: number,
   id?: string,

@@ -3,14 +3,14 @@
 import * as React from 'react';
 import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';
-import { Actions, Viewport } from '../types';
+import { ActionTypes, Viewport } from '../types';
 
 interface Props {
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
-  actions: typeof Actions,
-  onChangeViewport?: typeof Actions.setViewport,
+  actions: ActionTypes,
+  onChangeViewport?(viewport: Viewport): any,
   layers: Layer[]
 }
 

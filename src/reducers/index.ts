@@ -1,5 +1,3 @@
-
-
 import * as types from '../constants/action-types';
 import { analyzeMovesBase, analyzeDepotsBase, analyzelinemapData,
   getMoveObjects, getDepots, calcLoopTime } from '../library';

@@ -1,14 +1,14 @@
 
 
 import * as React from 'react';
-import { Actions, InputEvent, Movesbase, MovesbaseFile } from '../types';
+import { ActionTypes, InputEvent, Movesbase, MovesbaseFile } from '../types';
 
 interface Props {
-  actions: typeof Actions,
+  actions: ActionTypes,
   i18n?: { formatError: string },
   id?: string,
   className?: string,
-  style?: Object
+  style?: React.CSSProperties
 }
 
 export default class MovesInput extends React.Component<Props> {

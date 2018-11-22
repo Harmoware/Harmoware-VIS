@@ -3,11 +3,11 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_forward as icForward } from 'react-icons-kit/md';
-import { Actions } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
-  actions: typeof Actions,
-  children?: any,
+  actions: ActionTypes,
+  children?: React.ReactNode,
   i18n?: { forwardButtonCaption: string },
   className?: string
 }

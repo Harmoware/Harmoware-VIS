@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 import DeckGL, { Layer } from 'deck.gl';
-import { Viewport, Actions } from '../types';
+import { Viewport, ActionTypes } from '../types';
 import OrbitController from './orbit-control';
 
 interface Props {
   viewport: Viewport,
-  actions: typeof Actions,
-  onChangeViewport?: typeof Actions.setViewport,
+  actions: ActionTypes,
+  onChangeViewport?(viewport: Viewport): any,
   layers: Layer[]
 };
 

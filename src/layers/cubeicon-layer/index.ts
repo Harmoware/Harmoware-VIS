@@ -4,7 +4,7 @@ import { Layer } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings, Context } from '../../types';
+import { LightSettings } from 'harmoware-vis';
 
 registerShaderModules([picking]);
 

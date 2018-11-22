@@ -5,14 +5,15 @@ declare type Data = {
     color: Array<number>;
 };
 interface Props {
-    id?: string;
-    data?: Array<Data>;
+    data: Array<Data>;
     radiusScale?: number;
     radiusMinPixels?: number;
     radiusMaxPixels?: number;
     getPosition?: (x: any) => Array<number>;
     getRadius?: (x: any) => number;
     getColor?: (x: any) => Array<number>;
+    onHover?: (el: any) => void;
+    onClick?: (el: any) => void;
 }
 interface State {
     attributeManager: any;

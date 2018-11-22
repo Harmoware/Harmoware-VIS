@@ -135,33 +135,16 @@ export interface BasedState {
   inputFileName?: AnyObject,
 };
 
-export interface ActionsInterface {
-  addMinutes?: typeof BaseActions.addMinutes,
-  setTime?: typeof BaseActions.setTime,
-  setLeading?: typeof BaseActions.setLeading,
-  setTrailing?: typeof BaseActions.setTrailing,
-  setViewport?: typeof BaseActions.setViewport,
-  setLightSettings?: typeof BaseActions.setLightSettings,
-  setMovesBase?: typeof BaseActions.setMovesBase,
-  setDepotsBase?: typeof BaseActions.setDepotsBase,
-  setAnimatePause?: typeof BaseActions.setAnimatePause,
-  setAnimateReverse?: typeof BaseActions.setAnimateReverse,
-  setSecPerHour?: typeof BaseActions.setSecPerHour,
-  setClicked?: typeof BaseActions.setClicked,
-  setRoutePaths?: typeof BaseActions.setRoutePaths,
-  setDefaultZoom?: typeof BaseActions.setDefaultZoom,
-  setDefaultPitch?: typeof BaseActions.setDefaultPitch,
-  setMovesOptionFunc?: typeof BaseActions.setMovesOptionFunc,
-  setDepotsOptionFunc?: typeof BaseActions.setDepotsOptionFunc,
-  setLoading?: typeof BaseActions.setLoading,
-  [propName: string]: any,
-}
-export const Actions: ActionsInterface = { ...BaseActions };
+export type ActionTypes = typeof BaseActions;
+
+export interface ActionsInterface extends ActionTypes { }
+
 export interface BasedProps extends BasedState {
-  actions?: typeof Actions
+  actions?: ActionTypes
 };
 
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
+
 export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
 
 export interface Position {

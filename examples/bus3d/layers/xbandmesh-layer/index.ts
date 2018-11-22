@@ -1,5 +1,3 @@
-
-
 import { GridCellLayer, CompositeLayer } from 'deck.gl';
 import { LightSettings } from 'harmoware-vis';
 

@@ -1,14 +1,12 @@
-
-
 import * as React from 'react';
-import { Actions, InputEvent } from '../types';
+import { ActionTypes, InputEvent } from '../types';
 
 interface Props {
   settime: number,
   timeLength: number,
   min?: number,
   step?: number,
-  actions: typeof Actions,
+  actions: ActionTypes,
   id?: string,
   className?: string
 }

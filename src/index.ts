@@ -1,5 +1,3 @@
-
-
 import {
   addMinutes,
   setTime,
@@ -19,10 +17,35 @@ import {
   setMovesOptionFunc,
   setDepotsOptionFunc,
   setLoading,
+  increaseTime,
+  decreaseTime,
+  setFrameTimestamp,
+  setTimeStamp,
+  setNonmapView,
+  setLinemapData,
+  setInputFilename
 } from './actions';
 
-import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings,
-  MovedData, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, InputEvent } from './types';
+import { 
+  BasedState, 
+  BasedProps, 
+  Bounds, 
+  ClickedObject, 
+  Depotsbase, 
+  DepotsData, 
+  LightSettings,
+  MovedData, 
+  Movesbase, 
+  RoutePaths, 
+  Viewport, 
+  LineMapData, 
+  ActionsInterface, 
+  Position,
+  Radius, 
+  DataOption,
+  InputEvent,
+  LineData 
+} from './types';
 
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
@@ -70,25 +93,18 @@ const Actions: ActionsInterface = {
   setMovesOptionFunc,
   setDepotsOptionFunc,
   setLoading,
+  increaseTime,
+  decreaseTime,
+  setFrameTimestamp,
+  setTimeStamp,
+  setNonmapView,
+  setLinemapData,
+  setInputFilename
 };
 
 export {
   // actions
   Actions,
-  ActionsInterface,
-  // state
-  BasedState,
-  BasedProps,
-  Bounds,
-  ClickedObject,
-  Depotsbase,
-  DepotsData,
-  LightSettings,
-  MovedData,
-  Movesbase,
-  RoutePaths,
-  Viewport,
-  LineMapData,
   // components
   MovesInput,
   DepotsInput,
@@ -123,9 +139,23 @@ export {
   getCombinedReducer,
   // reducer
   reducer,
-  // InputEvent
-  InputEvent
+  // types
+  BasedState,
+  BasedProps, 
+  Bounds, 
+  ClickedObject, 
+  Depotsbase, 
+  DepotsData, 
+  LightSettings,
+  MovedData, 
+  Movesbase, 
+  RoutePaths, 
+  Viewport, 
+  LineMapData, 
+  ActionsInterface, 
+  InputEvent,
+  Position,
+  Radius, 
+  DataOption,
+  LineData
 };
-
-
-

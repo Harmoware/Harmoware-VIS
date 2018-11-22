@@ -1,22 +1,13 @@
 import * as React from 'react';
-import { InputEvent } from '../types';
-import { setMovesBase, setRoutePaths, setClicked, setAnimatePause, setAnimateReverse, setLoading, setInputFilename } from '../actions';
+import { ActionTypes, InputEvent } from '../types';
 interface Props {
-    actions: {
-        setMovesBase: typeof setMovesBase;
-        setRoutePaths: typeof setRoutePaths;
-        setClicked: typeof setClicked;
-        setAnimatePause: typeof setAnimatePause;
-        setAnimateReverse: typeof setAnimateReverse;
-        setLoading: typeof setLoading;
-        setInputFilename: typeof setInputFilename;
-    };
-    i18n: {
+    actions: ActionTypes;
+    i18n?: {
         formatError: string;
     };
-    id: string;
-    className: string;
-    style: Object;
+    id?: string;
+    className?: string;
+    style?: React.CSSProperties;
 }
 export default class MovesInput extends React.Component<Props> {
     static defaultProps: {

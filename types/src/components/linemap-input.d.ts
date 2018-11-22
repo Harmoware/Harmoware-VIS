@@ -1,18 +1,13 @@
 import * as React from 'react';
-import { InputEvent } from '../types';
-import { setLinemapData, setLoading, setInputFilename } from '../actions';
+import { ActionTypes, InputEvent } from '../types';
 interface Props {
-    actions: {
-        setLinemapData: typeof setLinemapData;
-        setLoading: typeof setLoading;
-        setInputFilename: typeof setInputFilename;
-    };
-    i18n: {
+    actions: ActionTypes;
+    i18n?: {
         formatError: string;
     };
-    id: string;
-    className: string;
-    style: Object;
+    id?: string;
+    className?: string;
+    style?: React.CSSProperties;
 }
 export default class LinemapInput extends React.Component<Props> {
     static defaultProps: {

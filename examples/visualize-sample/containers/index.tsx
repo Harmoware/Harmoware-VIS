@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';

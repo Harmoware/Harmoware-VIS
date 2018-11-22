@@ -3,10 +3,10 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_pause_circle_outline as icPause } from 'react-icons-kit/md';
-import { Actions } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
-  actions: typeof Actions,
+  actions: ActionTypes,
   children?: any,
   i18n?: { pauseButtonCaption: string },
   className?: string
