@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_play_circle_outline as icPlayArrow } from 'react-icons-kit/md';

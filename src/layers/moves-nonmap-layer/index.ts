@@ -1,5 +1,3 @@
-
-
 import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';

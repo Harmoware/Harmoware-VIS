@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import DeckGL, { Layer } from 'deck.gl';
 import { Viewport, ActionTypes } from '../types';

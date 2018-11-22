@@ -1,5 +1,3 @@
-
-
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';

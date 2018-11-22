@@ -1,5 +1,3 @@
-
-
 import { Layer } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';

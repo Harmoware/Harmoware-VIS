@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { ActionTypes, InputEvent } from '../types';
 

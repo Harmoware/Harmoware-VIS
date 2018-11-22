@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';

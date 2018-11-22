@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';

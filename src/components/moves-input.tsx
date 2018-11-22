@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { ActionTypes, InputEvent, Movesbase, MovesbaseFile } from '../types';
 

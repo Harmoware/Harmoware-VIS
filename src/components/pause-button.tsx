@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_pause_circle_outline as icPause } from 'react-icons-kit/md';

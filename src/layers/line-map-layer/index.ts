@@ -1,5 +1,3 @@
-
-
 import { CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
 import { LineMapData, LineData } from 'harmoware-vis';

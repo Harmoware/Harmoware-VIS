@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_navigation as icNavigation } from 'react-icons-kit/md';

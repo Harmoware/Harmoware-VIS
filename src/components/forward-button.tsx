@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_forward as icForward } from 'react-icons-kit/md';
