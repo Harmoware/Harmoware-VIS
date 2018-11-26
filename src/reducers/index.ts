@@ -358,6 +358,38 @@ export default (state: State = initialState, action: ActionTypes) => {
           inputFileName
         });
       })();
+    case types.UPDATEMOVESBASE:
+      return (() => {
+        let startState = {};
+        const analyzeData: AnalyzedBaseData = analyzeMovesBase(false, action.base);
+        const { timeBegin, bounds, movesbase } = analyzeData;
+        if(state.timeLength === 0){ //初回？
+          const settime = state.leading * -1;
+          const viewport = Object.assign({}, state.viewport,
+            analyzeData.viewport,
+            { zoom: state.defaultZoom, pitch: state.defaultPitch });
+          let depotsBase = state.depotsBase;
+          let linemapData = state.linemapData;
+          startState = Object.assign({}, startState, {
+            bounds, viewport, settime, depotsBase, linemapData
+          });
+        }
+        let { timeLength } = analyzeData;
+        if (timeLength > 0) {
+          timeLength += state.trailing;
+        }
+        const loopTime = calcLoopTime(timeLength, state.secperhour);
+        const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
+
+        if(timeBegin !== state.timeBegin || timeLength !== state.timeLength ||
+          loopTime !== state.loopTime || starttimestamp !== state.starttimestamp){
+          startState = Object.assign({}, startState, {
+            timeBegin, timeLength, loopTime, starttimestamp
+          });
+        }
+
+        return Object.assign({}, state, startState, { movesbase });
+      })();
     default:
       return state;
   }

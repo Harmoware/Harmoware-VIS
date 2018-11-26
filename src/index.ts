@@ -23,7 +23,8 @@ import {
   setTimeStamp,
   setNonmapView,
   setLinemapData,
-  setInputFilename
+  setInputFilename,
+  updateMovesBase
 } from './actions';
 
 import { 
@@ -99,7 +100,8 @@ const Actions: ActionsInterface = {
   setTimeStamp,
   setNonmapView,
   setLinemapData,
-  setInputFilename
+  setInputFilename,
+  updateMovesBase
 };
 
 export {

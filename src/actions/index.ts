@@ -96,3 +96,8 @@ export const setLoading =
 export const setInputFilename =
   (inputFileName: Object) : {type: string, inputFileName: Object} =>
     ({ type: types.SETINPUTFILENAME, inputFileName });
+
+export const updateMovesBase =
+  (base: (Array<Movesbase> | MovesbaseFile)) :
+    {type: string, base: (Array<Movesbase> | MovesbaseFile)} =>
+      ({ type: types.UPDATEMOVESBASE, base }); 
