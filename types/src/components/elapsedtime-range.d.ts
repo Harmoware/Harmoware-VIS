@@ -1,16 +1,13 @@
 import * as React from 'react';
-import { InputEvent } from '../types';
-import { setTime } from '../actions';
+import { ActionTypes, InputEvent } from '../types';
 interface Props {
     settime: number;
     timeLength: number;
-    min: number;
-    step: number;
-    actions: {
-        setTime: typeof setTime;
-    };
-    id: string;
-    className: string;
+    min?: number;
+    step?: number;
+    actions: ActionTypes;
+    id?: string;
+    className?: string;
 }
 export default class ElapsedTimeRange extends React.Component<Props> {
     static defaultProps: {

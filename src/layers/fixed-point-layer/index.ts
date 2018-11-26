@@ -1,9 +1,7 @@
-
-
 import { CompositeLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, Position, DataOption, Radius } from '../../types';
+import { DepotsData, Position, DataOption, Radius } from 'harmoware-vis';
 
 interface Props {
   layerOpacity?: number,

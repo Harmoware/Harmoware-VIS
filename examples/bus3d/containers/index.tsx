@@ -101,7 +101,7 @@ class App extends Container<Bus3dProps, State> {
         <div className="harmovis_area">
           <HarmoVisLayers
             viewport={viewport}
-            actions={actions as any}
+            actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
               new XbandmeshLayer({

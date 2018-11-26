@@ -1,9 +1,7 @@
-
-
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
+import { DepotsData, LightSettings, Position, Radius, DataOption } from 'harmoware-vis';
 
 interface Props {
   layerRadiusScale?: number,

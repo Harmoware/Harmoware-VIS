@@ -1,5 +1,3 @@
-
-
 import { Layer } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';

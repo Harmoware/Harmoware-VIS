@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { setAnimateReverse } from '../actions';
+import { ActionTypes } from '../types';
 interface Props {
-    actions: {
-        setAnimateReverse: typeof setAnimateReverse;
-    };
-    children: Element;
-    i18n: {
+    actions: ActionTypes;
+    children?: React.ReactNode;
+    i18n?: {
         reverseButtonCaption: string;
     };
-    className: string;
+    className?: string;
 }
 export default class ReverseButton extends React.Component<Props> {
     static defaultProps: {

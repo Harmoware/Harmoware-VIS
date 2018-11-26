@@ -1,8 +1,6 @@
-
-
 import { CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
-import { LineMapData, LineData } from '../../types';
+import { LineMapData, LineData } from 'harmoware-vis';
 
 interface Props {
   layerOpacity?: number,

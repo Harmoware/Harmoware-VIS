@@ -1,13 +1,13 @@
 import { Layer } from 'deck.gl';
-import { LightSettings } from '../../types';
+import { LightSettings } from 'harmoware-vis';
 declare type Data = {
     position: Array<number>;
     elevation: Array<number>;
     color: Array<Array<number>>;
 };
 interface Props {
-    id?: string;
-    data?: Array<Data>;
+    id: string;
+    data: Array<Data>;
     visible?: boolean;
     cellSize?: number;
     coverage?: number;
@@ -15,10 +15,12 @@ interface Props {
     opacity?: number;
     extruded?: boolean;
     fp64?: boolean;
-    lightSettings?: LightSettings;
+    lightSettings: LightSettings;
     getPosition?: (x: any) => Array<number>;
     getElevation?: (x: any) => Array<number>;
     getColor?: (x: any) => Array<Array<number>>;
+    onHover?: (el: any) => void;
+    onClick?: (el: any) => void;
 }
 interface State {
     attributeManager: any;

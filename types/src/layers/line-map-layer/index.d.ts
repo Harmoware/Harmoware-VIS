@@ -1,10 +1,12 @@
 import { CompositeLayer, LineLayer } from 'deck.gl';
-import { LineMapData, LineData } from '../../types';
+import { LineMapData, LineData } from 'harmoware-vis';
 interface Props {
-    layerOpacity: number;
+    layerOpacity?: number;
     linemapData: Array<LineMapData>;
-    strokeWidth: number;
-    getColor: (x: any) => Array<number>;
+    strokeWidth?: number;
+    getColor?: (x: any) => Array<number>;
+    onHover?: (el: any) => void;
+    onClick?: (el: any) => void;
 }
 export default class LineMapLayer extends CompositeLayer<Props> {
     static defaultProps: {

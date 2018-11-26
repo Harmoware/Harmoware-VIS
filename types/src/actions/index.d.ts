@@ -39,9 +39,9 @@ export declare const setLightSettings: (lightSettings: LightSettings) => {
     type: string;
     lightSettings: LightSettings;
 };
-export declare const setMovesBase: (base: Movesbase[] | MovesbaseFile) => {
+export declare const setMovesBase: (base: MovesbaseFile | Movesbase[]) => {
     type: string;
-    base: Movesbase[] | MovesbaseFile;
+    base: MovesbaseFile | Movesbase[];
 };
 export declare const setDepotsBase: (depotsBase: Depotsbase[]) => {
     type: string;

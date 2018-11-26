@@ -1,5 +1,3 @@
-
-
 export const ADDMINUTES = 'ADDMINUTES';
 export const INCREASETIME = 'INCREASETIME';
 export const DECREASETIME = 'DECREASETIME';

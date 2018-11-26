@@ -1,13 +1,11 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_replay as icReplay } from 'react-icons-kit/md';
-import { Actions } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
-  actions: typeof Actions,
-  children?: any,
+  actions: ActionTypes,
+  children?: React.ReactNode,
   i18n?: { reverseButtonCaption: string },
   className?: string
 }

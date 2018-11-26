@@ -1,14 +1,12 @@
-
-
 import * as React from 'react';
-import { Actions, InputEvent } from '../types';
+import { ActionTypes, InputEvent } from '../types';
 
 interface Props {
-  actions: typeof Actions,
+  actions: ActionTypes,
   i18n?: { formatError: string },
   id?: string,
   className?: string,
-  style?: Object
+  style?: React.CSSProperties
 }
 
 export default class LinemapInput extends React.Component<Props> {

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { setAnimatePause } from '../actions';
+import { ActionTypes } from '../types';
 interface Props {
-    actions: {
-        setAnimatePause: typeof setAnimatePause;
-    };
-    children: Element;
-    i18n: {
+    actions: ActionTypes;
+    children?: React.ReactNode;
+    i18n?: {
         playButtonCaption: string;
     };
-    className: string;
+    className?: string;
 }
 export default class PlayButton extends React.Component<Props> {
     static defaultProps: {

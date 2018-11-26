@@ -1,19 +1,17 @@
 import { CompositeLayer, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
-import { MovedData, Movesbase, RoutePaths, ClickedObject, DataOption } from '../../types';
-import * as Actions from '../../actions';
-declare type ActionTypes = typeof Actions;
+import { MovedData, Movesbase, RoutePaths, ClickedObject, DataOption, Actions } from 'harmoware-vis';
 interface Props {
-    layerOpacity: number;
+    layerOpacity?: number;
     movedData: Array<MovedData>;
     movesbase: Array<Movesbase>;
-    getColor: (x: any) => Array<number>;
-    getRadius: (x: any) => number;
-    routePaths: Array<RoutePaths>;
-    actions: ActionTypes;
-    clickedObject: null | Array<ClickedObject>;
-    onHover: Function;
-    onClick: Function;
+    getColor?: (x: any) => Array<number>;
+    getRadius?: (x: any) => number;
+    routePaths?: Array<RoutePaths>;
+    actions: typeof Actions;
+    clickedObject?: null | Array<ClickedObject>;
+    onHover?: (el: any) => void;
+    onClick?: (el: any) => void;
 }
 export default class MovesNonmapLayer extends CompositeLayer<Props> {
     static defaultProps: {

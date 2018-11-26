@@ -1,10 +1,8 @@
-
-
 import { connect } from 'react-redux';
-import { bindActionCreators, combineReducers } from 'redux';
+import { bindActionCreators, combineReducers, ReducersMapObject } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { Actions as ActionsTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
+import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
 import { COLOR1 } from '../constants/settings';
@@ -260,7 +258,7 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
 
 const routeDelete = (movesbaseidx: number, props: {
   routePaths: Array<RoutePaths>, clickedObject: Array<ClickedObject>,
-  actions: typeof ActionsTypes }): void => {
+  actions: ActionTypes }): void => {
   const { actions, clickedObject, routePaths } = props;
   if (clickedObject.length > 0 && routePaths.length > 0) {
     if (clickedObject.length === 1) {
@@ -277,7 +275,7 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export const onHoverClick = (pickParams:
   {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: {
-    movesbase: Array<Movesbase>, routePaths: Array<RoutePaths>, actions: typeof ActionsTypes,
+    movesbase: Array<Movesbase>, routePaths: Array<RoutePaths>, actions: ActionTypes,
     clickedObject: Array<ClickedObject>, onHover: Function, onClick: Function }}}}): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
@@ -327,7 +325,7 @@ export const onHoverClick = (pickParams:
 
 export const checkClickedObjectToBeRemoved = (
   movedData: Array<MovedData>, clickedObject: null | Array<ClickedObject>,
-  routePaths: Array<RoutePaths>, actions: typeof ActionsTypes): void => {
+  routePaths: Array<RoutePaths>, actions: ActionTypes): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
       let deleted = true;
@@ -389,5 +387,5 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   return connect(mapStateToProps, mapDispatchToProps)(App);
 };
 
-export const getCombinedReducer = (combined?: any) : any =>
+export const getCombinedReducer = (combined?: any) =>
   combineReducers({ base: reducers, ...combined });

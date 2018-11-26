@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { BasedProps as Props } from '../types';
 

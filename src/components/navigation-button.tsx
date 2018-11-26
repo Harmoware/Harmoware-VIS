@@ -1,14 +1,12 @@
-
-
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_navigation as icNavigation } from 'react-icons-kit/md';
-import { Actions } from '../types';
+import { ActionTypes } from '../types';
 
 
 interface Props {
   buttonType: string,
-  actions: typeof Actions,
+  actions: ActionTypes,
   viewport: {
     zoom?: number,
     minZoom?: number,
