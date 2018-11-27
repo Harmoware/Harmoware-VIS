@@ -83,15 +83,15 @@ reducer.case(addMinutes, (state, min) => {
   });
 });
 
-reducer.case(setViewport, (state, action) => {
-  const viewport = Object.assign({}, state.viewport, action.viewport);
+reducer.case(setViewport, (state, view) => {
+  const viewport = Object.assign({}, state.viewport, view);
   return Object.assign({}, state, {
     viewport
   });
 });
 
-reducer.case(setLightSettings, (state, action) => {
-  const lightSettings = Object.assign({}, state.lightSettings, action.lightSettings);
+reducer.case(setLightSettings, (state, light) => {
+  const lightSettings = Object.assign({}, state.lightSettings, light);
   return Object.assign({}, state, {
     lightSettings
   });
