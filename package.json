@@ -50,7 +50,9 @@
     "react-spinners": "^0.3.3",
     "react-stats": "^0.0.5",
     "redux": "^3.7.2",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "typescript-fsa": "^3.0.0-beta-2",
+    "typescript-fsa-reducers": "^1.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
