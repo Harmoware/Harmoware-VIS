@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation } from 'harmoware-vis';
@@ -124,10 +123,6 @@ class App extends Container<BasedProps, State> {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ heatmapVisible: e.target.checked });
-  }
-
   render() {
     const props = this.props;
     const {
@@ -156,7 +151,6 @@ class App extends Container<BasedProps, State> {
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
-          getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
         />
         <div className="harmovis_footer">
@@ -193,15 +187,6 @@ class App extends Container<BasedProps, State> {
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
-              }),
-              new HexagonLayer({
-                id: '3d-heatmap',
-                data: movedData,
-                radius: 100,
-                opacity: 0.5,
-                extruded: true,
-                lightSettings,
-                visible: this.state.heatmapVisible
               })
             ]}
           />

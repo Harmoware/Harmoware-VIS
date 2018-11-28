@@ -9,7 +9,6 @@ interface Props extends BasedProps{
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
@@ -93,7 +92,7 @@ export default class Controller extends React.Component<Props, State> {
   render() {
     const { settime, timeBegin, leading, timeLength, actions,
       secperhour, animatePause, animateReverse,
-      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
+      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked,
       getOptionChangeChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
@@ -133,12 +132,6 @@ export default class Controller extends React.Component<Props, State> {
               <div className="form-check">
                 <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
-              </div>
-            </li>
-            <li className="harmovis_controller__list__item">
-              <div className="form-check">
-                <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
-                <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
               </div>
             </li>
             <li className="harmovis_controller__list__item"><span>ナビゲーションパネル</span>
