@@ -360,29 +360,39 @@ export default (state: State = initialState, action: ActionTypes) => {
       })();
     case types.UPDATEMOVESBASE:
       return (() => {
-        let startState = {};
         const analyzeData: AnalyzedBaseData = analyzeMovesBase(false, action.base);
         const { timeBegin, bounds, movesbase } = analyzeData;
-        if(state.timeLength === 0){ //初回？
+        if(state.movesbase.length === 0){ //初回？
           const settime = state.leading * -1;
+          let { timeLength } = analyzeData;
+          if (timeLength > 0) {
+            timeLength += state.trailing;
+          }
+          const loopTime = calcLoopTime(timeLength, state.secperhour);
+          // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
+          const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
           const viewport = Object.assign({}, state.viewport,
             analyzeData.viewport,
             { zoom: state.defaultZoom, pitch: state.defaultPitch });
           let depotsBase = state.depotsBase;
           let linemapData = state.linemapData;
-          startState = Object.assign({}, startState, {
-            bounds, viewport, settime, depotsBase, linemapData
+          return Object.assign({}, state, {
+            timeBegin, timeLength, bounds,
+            movesbase, viewport, settime,
+            loopTime, starttimestamp,
+            depotsBase, linemapData
           });
         }
+
+        let startState = {};
         let { timeLength } = analyzeData;
         if (timeLength > 0) {
           timeLength += state.trailing;
         }
-        const loopTime = calcLoopTime(timeLength, state.secperhour);
-        const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
 
-        if(timeBegin !== state.timeBegin || timeLength !== state.timeLength ||
-          loopTime !== state.loopTime || starttimestamp !== state.starttimestamp){
+        if(timeBegin !== state.timeBegin || timeLength !== state.timeLength){
+          const loopTime = calcLoopTime(timeLength, state.secperhour);
+          const starttimestamp = (Date.now() - ((state.settime / timeLength) * loopTime));
           startState = Object.assign({}, startState, {
             timeBegin, timeLength, loopTime, starttimestamp
           });

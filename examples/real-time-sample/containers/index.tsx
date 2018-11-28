@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation } from 'harmoware-vis';
 import Controller from '../components/controller';
 import io from 'socket.io-client';
 
@@ -15,6 +15,26 @@ interface State {
   heatmapVisible: boolean,
   optionChange: boolean,
   popup: Array<any>
+}
+
+interface SocketData {
+  mtype: number,
+  id: number,
+  time: number,
+  lat: number,
+  lon: number,
+  angle: number,
+  speed: number
+}
+
+interface FixOperation extends MovesbaseOperation {
+  angle?: number,
+  speed?: number,
+}
+interface FixMovesbase extends Movesbase {
+  mtype?: number,
+  id?: number,
+  operation: FixOperation[]
 }
 
 class App extends Container<BasedProps, State> {
@@ -36,11 +56,56 @@ class App extends Container<BasedProps, State> {
   }
 
   componentWillMount() {
-    this.props.actions.setSecPerHour(3600);
+    const { setSecPerHour, setLeading, setTrailing } = this.props.actions;
+    setSecPerHour(3600);
+    setLeading(5);
+    setTrailing(5);
   }
 
-  getEvent(data: string){
-    console.log(data);
+  getEvent(socketData: string){
+    // console.log('data:'+socketData);
+    const { actions, timeBegin: propsTimeBegin, timeLength: propsTimeLength,
+      movesbase: propsMovesbase } = this.props
+    const { mtype, id, time, lat, lon, angle, speed }: SocketData = JSON.parse(socketData);
+    let hit = false;
+    let timeBegin = propsTimeBegin;
+    let timeLength = propsTimeLength;
+    if(timeBegin === 0){
+      timeBegin = time;
+      timeLength = 0;
+    }else
+    if(timeBegin !== time){
+      timeLength = time - timeBegin;
+    }
+    const setMovesbase: FixMovesbase[] = [];
+    for (let i = 0, lengthi = propsMovesbase.length; i < lengthi; i += 1) {
+      let setMovedata: FixMovesbase = Object.assign({}, propsMovesbase[i]);
+      if(mtype === setMovedata.mtype && id === setMovedata.id){
+        hit = true;
+        const { operation } = setMovedata;
+        const arrivaltime = time - timeBegin;
+        operation.push({
+          elapsedtime: time - timeBegin,
+          position: [lon, lat, 0],
+          angle, speed
+        });
+        setMovedata = Object.assign({}, setMovedata, { arrivaltime, operation });
+      }
+      setMovesbase.push(setMovedata);
+    }
+    if(!hit){
+      setMovesbase.push({
+          mtype, id,
+          departuretime: time - timeBegin,
+          arrivaltime: time - timeBegin,
+          operation: [{
+            elapsedtime: time - timeBegin,
+            position: [lon, lat, 0],
+            angle, speed
+          }]
+      });
+    }
+    actions.updateMovesBase({ timeBegin, timeLength, movesbase: setMovesbase });
   }
 
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {

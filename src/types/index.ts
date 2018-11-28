@@ -39,23 +39,25 @@ export interface Bounds {
   northlatitude: number
 };
 
+export interface MovesbaseOperation {
+  elapsedtime: number,
+  longitude?: number,
+  latitude?: number,
+  position: Array<number>,
+  color?: void | Array<number>,
+  normal?: void | Array<number>,
+};
+
 export interface Movesbase {
   departuretime: number,
   arrivaltime: number,
-  operation: Array<{
-    elapsedtime: number,
-    longitude?: number,
-    latitude?: number,
-    position: Array<number>,
-    color?: void | Array<number>,
-    normal?: void | Array<number>,
-  }>
+  operation: Array<MovesbaseOperation>
 };
 
 export interface MovesbaseFile {
-  timeBegin: number,
-  timeLength: number,
-  bounds: Bounds,
+  timeBegin?: number,
+  timeLength?: number,
+  bounds?: Bounds,
   movesbase: Array<Movesbase>,
 };
 

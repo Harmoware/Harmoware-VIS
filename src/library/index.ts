@@ -87,7 +87,7 @@ export const analyzeMovesBase =
   const latiArray = [];
   for (let i = 0, lengthi = basemovesbase.length; i < lengthi; i += 1) {
     const { departuretime, arrivaltime, operation } = basemovesbase[i];
-    if (!baseTimeBegin || !baseTimeLength) {
+    if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
       timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
       timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
     }
@@ -113,7 +113,7 @@ export const analyzeMovesBase =
       }
     }
   }
-  if (!baseTimeBegin || !baseTimeLength) {
+  if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
     for (let k = 0, lengthk = basemovesbase.length; k < lengthk; k += 1) {
       movesbase[k].departuretime -= timeBegin;

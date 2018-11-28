@@ -91,7 +91,7 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   render() {
-    const { settime, timeBegin, timeLength, actions,
+    const { settime, timeBegin, leading, timeLength, actions,
       secperhour, animatePause, animateReverse,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, inputFileName, viewport } = this.props;
@@ -173,7 +173,7 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />秒</label>
-              <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
+              <ElapsedTimeRange settime={settime} timeLength={timeLength} min={-leading} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
