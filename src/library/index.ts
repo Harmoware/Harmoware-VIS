@@ -67,12 +67,12 @@ export const analyzeMovesBase =
   let basemovesbase: Array<Movesbase>;
 
   if (Array.isArray(inputData)) { // Array?
-    basemovesbase = inputData;
+    basemovesbase = [...inputData];
   } else {
     baseTimeBegin = inputData.timeBegin;
     baseTimeLength = inputData.timeLength;
     baseBounds = inputData.bounds;
-    basemovesbase = inputData.movesbase;
+    basemovesbase = [...inputData.movesbase];
   }
 
   let timeBegin: number = typeof baseTimeBegin === 'number' ? baseTimeBegin : 0;
