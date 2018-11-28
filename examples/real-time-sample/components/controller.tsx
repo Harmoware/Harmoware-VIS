@@ -153,12 +153,12 @@ export default class Controller extends React.Component<Props, State> {
                 }
               </div>
               <div className="btn-group d-flex" role="group">
-                <AddMinutesButton addMinutes={-10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
                 <AddMinutesButton addMinutes={-5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                <AddMinutesButton addMinutes={-1} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
               <div className="btn-group d-flex" role="group">
+                <AddMinutesButton addMinutes={1} actions={actions} className="btn btn-outline-light btn-sm w-100" />
                 <AddMinutesButton addMinutes={5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-                <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
             <li className="harmovis_controller__list__item">
