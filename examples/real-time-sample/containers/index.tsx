@@ -63,19 +63,9 @@ class App extends Container<BasedProps, State> {
 
   getEvent(socketData: string){
     // console.log('data:'+socketData);
-    const { actions, timeBegin: propsTimeBegin, timeLength: propsTimeLength,
-      movesbase: propsMovesbase } = this.props
+    const { actions, movesbase: propsMovesbase } = this.props
     const { mtype, id, time, lat, lon, angle, speed }: SocketData = JSON.parse(socketData);
     let hit = false;
-    let timeBegin = propsTimeBegin;
-    let timeLength = propsTimeLength;
-    if(timeBegin === 0){
-      timeBegin = time;
-      timeLength = 0;
-    }else
-    if(timeBegin !== time){
-      timeLength = time - timeBegin;
-    }
     const movesbasedata: FixMovesbase[] = [...propsMovesbase];
     const setMovesbase: FixMovesbase[] = [];
     for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
@@ -83,9 +73,14 @@ class App extends Container<BasedProps, State> {
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
-        const arrivaltime = time - timeBegin;
+        if(operation.length >= 30){
+          operation.shift();
+          const departuretime = operation[0].elapsedtime;
+          setMovedata = Object.assign({}, setMovedata, { departuretime });
+        }
+        const arrivaltime = time;
         operation.push({
-          elapsedtime: time - timeBegin,
+          elapsedtime: time,
           position: [lon, lat, 0],
           angle, speed
         });
@@ -96,16 +91,16 @@ class App extends Container<BasedProps, State> {
     if(!hit){
       setMovesbase.push({
           mtype, id,
-          departuretime: time - timeBegin,
-          arrivaltime: time - timeBegin,
+          departuretime: time,
+          arrivaltime: time,
           operation: [{
-            elapsedtime: time - timeBegin,
+            elapsedtime: time,
             position: [lon, lat, 0],
             angle, speed
           }]
       });
     }
-    actions.updateMovesBase({ timeBegin, timeLength, movesbase: setMovesbase });
+    actions.updateMovesBase(setMovesbase);
   }
 
   deleteMovebase(deleteBeforeSecond: number) {

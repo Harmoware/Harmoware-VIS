@@ -115,12 +115,13 @@ export const analyzeMovesBase =
   }
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
+  }else{
     for (let k = 0, lengthk = basemovesbase.length; k < lengthk; k += 1) {
-      movesbase[k].departuretime -= timeBegin;
-      movesbase[k].arrivaltime -= timeBegin;
+      movesbase[k].departuretime += timeBegin;
+      movesbase[k].arrivaltime += timeBegin;
       const { operation } = basemovesbase[k];
       for (let l = 0, lengthl = operation.length; l < lengthl; l += 1) {
-        operation[l].elapsedtime -= timeBegin;
+        operation[l].elapsedtime += timeBegin;
       }
     }
   }
@@ -215,6 +216,7 @@ const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOpti
 };
 export const getMoveObjects = (props : Props): Array<MovedData> => {
   const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
+  const getTime = timeBegin + settime;
   const movedData: Array<MovedData> = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
@@ -223,13 +225,13 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
     if (typeof departuretime !== 'number' || typeof arrivaltime !== 'number') {
       // console.log(`バス運行実績データなし=>${i}`);
     } else
-    if (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime) {
+    if (timeBegin > 0 && timeLength > 0 && departuretime <= getTime && getTime < arrivaltime) {
       for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
         const { elapsedtime, position, color } = operation[j];
         const { elapsedtime: nextelapsedtime, position: nextposition,
           color: nextcolor } = operation[j + 1];
-        if (elapsedtime <= settime && settime < nextelapsedtime) {
-          const elapsedtimespan = settime - elapsedtime;
+        if (elapsedtime <= getTime && getTime < nextelapsedtime) {
+          const elapsedtimespan = getTime - elapsedtime;
           const timespan = nextelapsedtime - elapsedtime;
           const positionspan = [];
           positionspan[0] = position[0] - nextposition[0];

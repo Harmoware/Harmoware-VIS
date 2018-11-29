@@ -346,11 +346,16 @@ reducer.case(updateMovesBase, (state, base) => {
   if (timeLength > 0) {
     timeLength += state.trailing;
   }
+  let settime = state.settime;
+  if(timeBegin !== state.timeBegin){
+    settime -= timeBegin - state.timeBegin - 0.1;
+    startState = Object.assign({}, startState, { timeBegin, settime });
+  }
   if(timeBegin !== state.timeBegin || timeLength !== state.timeLength){
     const loopTime = calcLoopTime(timeLength, state.secperhour);
-    const starttimestamp = (Date.now() - ((state.settime / timeLength) * loopTime));
+    const starttimestamp = (Date.now() - ((settime / timeLength) * loopTime));
     startState = Object.assign({}, startState, {
-      timeBegin, timeLength, loopTime, starttimestamp
+      timeLength, loopTime, starttimestamp
     });
   }
   return Object.assign({}, state, startState, { movesbase });
