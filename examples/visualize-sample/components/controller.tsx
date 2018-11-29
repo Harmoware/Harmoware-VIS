@@ -175,11 +175,11 @@ export default class Controller extends React.Component<Props, State> {
               </div>
             </li>
             <li className="harmovis_controller__list__item">
-              再現中日時&nbsp;<SimulationDateTime timeBegin={timeBegin} settime={settime} />
+              再現中日時&nbsp;<SimulationDateTime settime={settime} />
             </li>
             <li className="harmovis_controller__list__item">
-              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />秒</label>
-              <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
+              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
+              <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>

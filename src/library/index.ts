@@ -216,7 +216,6 @@ const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOpti
 };
 export const getMoveObjects = (props : Props): Array<MovedData> => {
   const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
-  const getTime = timeBegin + settime;
   const movedData: Array<MovedData> = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
@@ -225,13 +224,13 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
     if (typeof departuretime !== 'number' || typeof arrivaltime !== 'number') {
       // console.log(`バス運行実績データなし=>${i}`);
     } else
-    if (timeBegin > 0 && timeLength > 0 && departuretime <= getTime && getTime < arrivaltime) {
+    if (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime) {
       for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
         const { elapsedtime, position, color } = operation[j];
         const { elapsedtime: nextelapsedtime, position: nextposition,
           color: nextcolor } = operation[j + 1];
-        if (elapsedtime <= getTime && getTime < nextelapsedtime) {
-          const elapsedtimespan = getTime - elapsedtime;
+        if (elapsedtime <= settime && settime < nextelapsedtime) {
+          const elapsedtimespan = settime - elapsedtime;
           const timespan = nextelapsedtime - elapsedtime;
           const positionspan = [];
           positionspan[0] = position[0] - nextposition[0];

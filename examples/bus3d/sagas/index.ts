@@ -503,12 +503,12 @@ function* updateRoute({ el, sw }) {
 }
 
 
-function* updateRainfall({ settime, timeBegin, xbandCellSize, answer, xbandFname }) {
+function* updateRainfall({ settime, xbandCellSize, answer, xbandFname }) {
   if (xbandCellSize === 0) {
     yield put(Actions.setXbandFname(''));
     return;
   }
-  const d = new Date((timeBegin + settime) * 1000);
+  const d = new Date(settime * 1000);
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();

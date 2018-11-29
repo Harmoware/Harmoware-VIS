@@ -44,8 +44,8 @@ class App extends Container<Bus3dProps, State> {
   }
 
   componentWillReceiveProps(nextProps: Bus3dProps) {
-    const { actions, settime, timeBegin, xbandCellSize, answer, xbandFname } = nextProps;
-    actions.updateRainfall(settime, timeBegin, xbandCellSize, answer, xbandFname);
+    const { actions, settime, xbandCellSize, answer, xbandFname } = nextProps;
+    actions.updateRainfall(settime, xbandCellSize, answer, xbandFname);
     this.setState({ arcdata: updateArcLayerData(nextProps) });
   }
 
@@ -53,7 +53,7 @@ class App extends Container<Bus3dProps, State> {
     const props = this.props;
     const state = this.state;
     const {
-      actions, settime, timeBegin, elevationScale, selectedBusstop, rainfall,
+      actions, settime, elevationScale, selectedBusstop, rainfall,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
@@ -76,7 +76,7 @@ class App extends Container<Bus3dProps, State> {
         actions.setSelectedBusstop(code);
       }
     };
-    const date = (timeBegin + settime) * 1000;
+    const date = settime * 1000;
 
     return (
       <div>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 interface Props {
-  timeBegin?: number,
   settime?: number,
   caption?: string,
   locales?: string,
@@ -24,9 +23,9 @@ export default class SimulationDateTime extends React.Component<Props> {
   }
 
   render() {
-    const { timeBegin, settime, caption, locales, options, className } = this.props;
+    const { settime, caption, locales, options, className } = this.props;
 
-    const date = new Date((timeBegin + settime) * 1000);
+    const date = new Date(settime * 1000);
     const nbsp = caption.length > 0 ? ' ' : '';
 
     return (
