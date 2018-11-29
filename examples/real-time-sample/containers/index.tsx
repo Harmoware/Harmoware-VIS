@@ -57,8 +57,8 @@ class App extends Container<BasedProps, State> {
   componentWillMount() {
     const { setSecPerHour, setLeading, setTrailing } = this.props.actions;
     setSecPerHour(3600);
-    setLeading(5);
-    setTrailing(5);
+    setLeading(3);
+    setTrailing(3);
   }
 
   getEvent(socketData: string){
@@ -76,9 +76,10 @@ class App extends Container<BasedProps, State> {
     if(timeBegin !== time){
       timeLength = time - timeBegin;
     }
+    const movesbasedata: FixMovesbase[] = [...propsMovesbase];
     const setMovesbase: FixMovesbase[] = [];
-    for (let i = 0, lengthi = propsMovesbase.length; i < lengthi; i += 1) {
-      let setMovedata: FixMovesbase = Object.assign({}, propsMovesbase[i]);
+    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
+      let setMovedata: FixMovesbase = Object.assign({}, movesbasedata[i]);
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
@@ -105,6 +106,10 @@ class App extends Container<BasedProps, State> {
       });
     }
     actions.updateMovesBase({ timeBegin, timeLength, movesbase: setMovesbase });
+  }
+
+  deleteMovebase(deleteBeforeSecond: number) {
+    console.log('deleteBeforeSecond:'+ deleteBeforeSecond);
   }
 
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -148,6 +153,7 @@ class App extends Container<BasedProps, State> {
       <div>
         <Controller
           {...props}
+          deleteMovebase={this.deleteMovebase.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}

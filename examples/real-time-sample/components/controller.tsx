@@ -6,6 +6,7 @@ import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
+  deleteMovebase?: (deleteBeforeSecond: number) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -26,6 +27,10 @@ export default class Controller extends React.Component<Props, State> {
       routeGroupDisplay: false,
       saveRouteGroup: [],
     };
+  }
+
+  deleteMovebase(deleteBeforeSecond: number) {
+    this.props.deleteMovebase(deleteBeforeSecond);
   }
 
   clearAllRoute() {
@@ -171,6 +176,13 @@ export default class Controller extends React.Component<Props, State> {
             <li className="harmovis_controller__list__item">
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
+            </li>
+            <li className="harmovis_controller__list__item"><div>位置データ操作</div>
+              <div className="btn-group d-flex" role="group">
+                <button onClick={this.deleteMovebase.bind(this,60)} className="btn btn-outline-light btn-sm w-100">
+                  <span><Icon icon={icDelete} />&nbsp;DELETE Before 1min</span>
+                </button>
+              </div>
             </li>
             <li className="harmovis_controller__list__item"><div>経路操作</div>
               <div className="btn-group d-flex" role="group">

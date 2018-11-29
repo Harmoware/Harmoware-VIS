@@ -362,9 +362,9 @@ export default (state: State = initialState, action: ActionTypes) => {
       return (() => {
         const analyzeData: AnalyzedBaseData = analyzeMovesBase(false, action.base);
         const { timeBegin, bounds, movesbase } = analyzeData;
-        if(state.movesbase.length === 0){ //初回？
+        let { timeLength } = analyzeData;
+        if(state.movesbase.length === 0 || timeLength === 0){ //初回？
           const settime = state.leading * -1;
-          let { timeLength } = analyzeData;
           if (timeLength > 0) {
             timeLength += state.trailing;
           }
@@ -385,7 +385,6 @@ export default (state: State = initialState, action: ActionTypes) => {
         }
 
         let startState = {};
-        let { timeLength } = analyzeData;
         if (timeLength > 0) {
           timeLength += state.trailing;
         }
