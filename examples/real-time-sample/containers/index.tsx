@@ -102,6 +102,7 @@ class App extends Container<BasedProps, State> {
     const { actions, animatePause, movesbase, settime } = this.props
     const movesbasedata: FixMovesbase[] = [...movesbase];
     const setMovesbase: FixMovesbase[] = [];
+    let dataModify = false;
     const compareTime = settime - maxKeepSecond;
     for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
       const { departuretime: propsdeparturetime, operation: propsoperation } = movesbasedata[i];
@@ -117,14 +118,21 @@ class App extends Container<BasedProps, State> {
       if(startIndex < propsoperation.length){
         setMovesbase.push(Object.assign({}, movesbasedata[i], {
           operation: propsoperation.slice(startIndex), departuretime }));
+        if(startIndex > 0){
+          dataModify = true;  
+        }
+      }else{
+        dataModify = true;
       }
     }
-    if(!animatePause){
-      actions.setAnimatePause(true);
-    }
-    actions.updateMovesBase(setMovesbase);
-    if(!animatePause){
-      actions.setAnimatePause(false);
+    if(dataModify){
+      if(!animatePause){
+        actions.setAnimatePause(true);
+      }
+      actions.updateMovesBase(setMovesbase);
+      if(!animatePause){
+        actions.setAnimatePause(false);
+      }
     }
   }
 
