@@ -6,7 +6,7 @@ import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
-  deleteMovebase?: (deleteBeforeSecond: number) => void,
+  deleteMovebase?: (maxKeepSecond: number) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -29,8 +29,8 @@ export default class Controller extends React.Component<Props, State> {
     };
   }
 
-  deleteMovebase(deleteBeforeSecond: number) {
-    this.props.deleteMovebase(deleteBeforeSecond);
+  deleteMovebase(maxKeepSecond: number) {
+    this.props.deleteMovebase(maxKeepSecond);
   }
 
   clearAllRoute() {
@@ -170,39 +170,39 @@ export default class Controller extends React.Component<Props, State> {
               再現中日時&nbsp;<SimulationDateTime settime={settime} />
             </li>
             <li className="harmovis_controller__list__item">
-              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
+              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒&nbsp;/&nbsp;全体&nbsp;{timeLength}&nbsp;秒</label>
               <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} min={-leading} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
             </li>
-            <li className="harmovis_controller__list__item"><div>位置データ操作</div>
+            <li className="harmovis_controller__list__item"><div>移動データ操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.deleteMovebase.bind(this,60)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;DELETE Before 1min</span>
+                  <span><Icon icon={icDelete} />&nbsp;1分以上前の移動データ削除</span>
                 </button>
               </div>
             </li>
             <li className="harmovis_controller__list__item"><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icSave} />&nbsp;SAVE&nbsp;
+                  <span><Icon icon={icSave} />&nbsp;保存&nbsp;
                     <span className="badge badge-light">{saveRouteGroup.length}</span>
                   </span>
                 </button>
                 <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
+                  <span><Icon icon={icLayers} />&nbsp;表示&nbsp;
                     <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
                   </span>
                 </button>
               </div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
+                  <span><Icon icon={icDeleteForever} />&nbsp;非表示</span>
                 </button>
                 <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;DELETE</span>
+                  <span><Icon icon={icDelete} />&nbsp;保存分削除</span>
                 </button>
               </div>
             </li>

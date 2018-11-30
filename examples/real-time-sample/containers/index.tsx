@@ -63,21 +63,16 @@ class App extends Container<BasedProps, State> {
 
   getEvent(socketData: string){
     // console.log('data:'+socketData);
-    const { actions, movesbase: propsMovesbase } = this.props
+    const { actions, movesbase } = this.props
     const { mtype, id, time, lat, lon, angle, speed }: SocketData = JSON.parse(socketData);
     let hit = false;
-    const movesbasedata: FixMovesbase[] = [...propsMovesbase];
+    const movesbasedata: FixMovesbase[] = [...movesbase];
     const setMovesbase: FixMovesbase[] = [];
     for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
       let setMovedata: FixMovesbase = Object.assign({}, movesbasedata[i]);
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
-        if(operation.length >= 30){
-          operation.shift();
-          const departuretime = operation[0].elapsedtime;
-          setMovedata = Object.assign({}, setMovedata, { departuretime });
-        }
         const arrivaltime = time;
         operation.push({
           elapsedtime: time,
@@ -103,8 +98,34 @@ class App extends Container<BasedProps, State> {
     actions.updateMovesBase(setMovesbase);
   }
 
-  deleteMovebase(deleteBeforeSecond: number) {
-    console.log('deleteBeforeSecond:'+ deleteBeforeSecond);
+  deleteMovebase(maxKeepSecond: number) {
+    const { actions, animatePause, movesbase, settime } = this.props
+    const movesbasedata: FixMovesbase[] = [...movesbase];
+    const setMovesbase: FixMovesbase[] = [];
+    const compareTime = settime - maxKeepSecond;
+    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
+      const { departuretime: propsdeparturetime, operation: propsoperation } = movesbasedata[i];
+      let departuretime = propsdeparturetime;
+      let startIndex = propsoperation.length;
+      for (let j = 0, lengthj = propsoperation.length; j < lengthj; j += 1) {
+        if(propsoperation[j].elapsedtime > compareTime){
+          startIndex = j;
+          departuretime = propsoperation[j].elapsedtime;
+          break;
+        }
+      }
+      if(startIndex < propsoperation.length){
+        setMovesbase.push(Object.assign({}, movesbasedata[i], {
+          operation: propsoperation.slice(startIndex), departuretime }));
+      }
+    }
+    if(!animatePause){
+      actions.setAnimatePause(true);
+    }
+    actions.updateMovesBase(setMovesbase);
+    if(!animatePause){
+      actions.setAnimatePause(false);
+    }
   }
 
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
