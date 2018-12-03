@@ -115,12 +115,13 @@ class App extends Container<BasedProps, State> {
           break;
         }
       }
+      if(startIndex === 0){
+        setMovesbase.push(Object.assign({}, movesbasedata[i]));
+      }else
       if(startIndex < propsoperation.length){
         setMovesbase.push(Object.assign({}, movesbasedata[i], {
           operation: propsoperation.slice(startIndex), departuretime }));
-        if(startIndex > 0){
-          dataModify = true;  
-        }
+        dataModify = true;  
       }else{
         dataModify = true;
       }
