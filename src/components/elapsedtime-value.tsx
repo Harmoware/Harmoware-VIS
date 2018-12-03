@@ -3,6 +3,7 @@ import { ActionTypes, InputEvent } from '../types';
 
 interface Props {
   settime: number,
+  timeBegin: number,
   timeLength: number,
   min?: number,
   actions: ActionTypes,
@@ -18,18 +19,18 @@ export default class ElapsedTimeValue extends React.Component<Props> {
 
   setTime(e: InputEvent) {
     const value = Number(e.target.value);
-    const { actions, timeLength, min } = this.props;
+    const { actions, timeBegin, timeLength, min } = this.props;
     const settime = Math.min(timeLength, Math.max(min, value));
-    actions.setTime(Math.floor(settime));
+    actions.setTime(Math.floor(settime + timeBegin));
   }
 
   render() {
-    const { settime, timeLength, min, id, className } = this.props;
+    const { settime, timeBegin, timeLength, min, id, className } = this.props;
 
     return (
       <input
         type="number"
-        value={Math.floor(settime)}
+        value={Math.floor(settime - timeBegin)}
         min={min} max={timeLength}
         onChange={this.setTime.bind(this)}
         id={id} className={className}

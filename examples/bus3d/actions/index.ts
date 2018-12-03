@@ -9,8 +9,8 @@ export const fetchBusstopsOption = () => ({ type: types.FETCHBUSSTOPSOPTION });
 export const initializeFetch = path => ({ type: types.INITIALIZEFETCH, path });
 export const setupFetch = answer => ({ type: types.SETUPFETCH, answer });
 export const updateRoute = (el, sw) => ({ type: types.UPDATEROUTE, el, sw });
-export const updateRainfall = (settime, timeBegin, xbandCellSize, answer, xbandFname) => (
-  { type: types.UPDATERAINFALL, settime, timeBegin, xbandCellSize, answer, xbandFname });
+export const updateRainfall = (settime, xbandCellSize, answer, xbandFname) => (
+  { type: types.UPDATERAINFALL, settime, xbandCellSize, answer, xbandFname });
 /** reducer * */
 export const setDelayHeight = height => ({ type: types.SETDELAYHEIGHT, height });
 export const setScaleElevation = elevation => ({ type: types.SETSCALEELEVATION, elevation });

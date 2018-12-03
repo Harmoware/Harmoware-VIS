@@ -72,7 +72,8 @@ const getOptionValue = (optionData) => {
 };
 
 export const getBusstopOptionValue = (props, busstopsbaseidx) => {
-  const { depotsBase, settime, selectedBusstop, hovered } = props;
+  const { depotsBase, settime, timeBegin, selectedBusstop, hovered } = props;
+  const currentTime = settime - timeBegin;
   const { code, name, option } = depotsBase[busstopsbaseidx];
   let color = COLOR4;
   let radius = 30;
@@ -83,11 +84,11 @@ export const getBusstopOptionValue = (props, busstopsbaseidx) => {
     radius = 50;
   }
   let optionValue = {};
-  if (option && option.stime <= settime) {
+  if (option && option.stime <= currentTime) {
     for (let i = 0, lengthi = option.data.length; i < lengthi; i += 1) {
       const optiondata = option.data[i];
-      if ((optiondata.time <= settime && settime <= option.etime) ||
-          (option.etime < settime && i === (lengthi - 1))) {
+      if ((optiondata.time <= currentTime && currentTime <= option.etime) ||
+          (option.etime < currentTime && i === (lengthi - 1))) {
         optionValue = Object.assign({}, optionValue, {
           ...getOptionValue(optiondata)
         });
@@ -147,6 +148,7 @@ export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
 export const updateArcLayerData = (props) => {
   const { busoption, archbase, bustripscsv, bustripindex, busstopscsv,
     actions, timeBegin, settime } = props;
+  const currentTime = settime - timeBegin;
   if (!busoption.archoption || busoption.archoption.length === 0 ||
     bustripscsv.length === 0 || busstopscsv.length === 0 || timeBegin === 0) {
     return []; // データがない
@@ -204,7 +206,7 @@ export const updateArcLayerData = (props) => {
   const arcdata = [];
   archbase.forEach((archbasedata) => {
     const { departuretime, arrivaltime, arcdata: basearcdata } = archbasedata;
-    if (departuretime <= settime && settime <= arrivaltime) {
+    if (departuretime <= currentTime && currentTime <= arrivaltime) {
       arcdata.push({ ...basearcdata });
     }
   });

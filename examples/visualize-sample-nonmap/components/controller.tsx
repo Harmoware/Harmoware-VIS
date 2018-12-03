@@ -90,13 +90,13 @@ export default class Controller extends React.Component<Props> {
           </li>
           <hr />
           <li className="harmovis_controller__list__item">
-            <SimulationDateTime timeBegin={timeBegin} settime={settime} locales={t('locales')} className="caSpan" />
+            <SimulationDateTime settime={settime} locales={t('locales')} className="caSpan" />
           </li>
           <hr />
           <li className="harmovis_controller__list__item">
             <span className="harmovis_controller__spacer">{t('elapsedTime')}
-              <ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />{t('sec')}</span>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} className="caRange" />
+              <ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />{t('sec')}</span>
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} className="caRange" />
           </li>
           <hr />
           <li className="harmovis_controller__list__item">

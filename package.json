@@ -9,6 +9,7 @@
     "build": "webpack --mode production",
     "lib": "babel src --out-dir lib",
     "bus3d": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/bus3d --config ./examples/bus3d/webpack.config.js --mode development",
+    "real-time-sample": "webpack-dev-server --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
     "np": "np --no-cleanup",
@@ -50,7 +51,11 @@
     "react-spinners": "^0.3.3",
     "react-stats": "^0.0.5",
     "redux": "^3.7.2",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
+    "typescript-fsa": "^3.0.0-beta-2",
+    "typescript-fsa-reducers": "^1.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

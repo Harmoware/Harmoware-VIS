@@ -156,7 +156,7 @@ export default class Controller extends React.Component<Props, State> {
 
   render() {
     const {
-      answer, settime, timeLength, secperhour, xbandCellSize,
+      answer, settime, timeBegin, timeLength, secperhour, xbandCellSize,
       selectedBusstop, selectedBus, answers, date, actions,
       animatePause, animateReverse, xbandFname, getOptionChangeChecked,
       getArchLayerChangeChecked, viewport,
@@ -227,8 +227,8 @@ export default class Controller extends React.Component<Props, State> {
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <li>
-            <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeLength={timeLength} actions={actions} />秒</label>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} actions={actions} id="ElapsedTimeRange" />
+            <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
           </li>
           <li>
             <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>

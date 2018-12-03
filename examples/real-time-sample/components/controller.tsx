@@ -6,10 +6,10 @@ import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
+  deleteMovebase?: (maxKeepSecond: number) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
@@ -27,6 +27,10 @@ export default class Controller extends React.Component<Props, State> {
       routeGroupDisplay: false,
       saveRouteGroup: [],
     };
+  }
+
+  deleteMovebase(maxKeepSecond: number) {
+    this.props.deleteMovebase(maxKeepSecond);
   }
 
   clearAllRoute() {
@@ -91,26 +95,20 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   render() {
-    const { settime, timeBegin, timeLength, actions,
+    const { settime, timeBegin, leading, timeLength, actions,
       secperhour, animatePause, animateReverse,
-      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
+      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked,
       getOptionChangeChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
-    const { movesFileName, depotsFileName } = inputFileName;
+    const { depotsFileName } = inputFileName;
     const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
       <div className="harmovis_controller" id="controller_area">
         <div className="container">
           <ul className="list-group harmovis_controller__list">
-            <li className="harmovis_controller__list__item">
-              <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
-                運行データ選択<MovesInput actions={actions} id="MovesInput" style={{ display: 'none' }} />
-              </label>
-              <div style={nowrapstyle}>{movesFileName || '選択されていません'}</div>
-            </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
                 停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
@@ -141,12 +139,6 @@ export default class Controller extends React.Component<Props, State> {
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
-              <div className="form-check">
-                <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
-                <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
-              </div>
-            </li>
             <li className="harmovis_controller__list__item"><span>ナビゲーションパネル</span>
               <div className="btn-group d-flex" role="group">
                 <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
@@ -166,44 +158,51 @@ export default class Controller extends React.Component<Props, State> {
                 }
               </div>
               <div className="btn-group d-flex" role="group">
-                <AddMinutesButton addMinutes={-10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
                 <AddMinutesButton addMinutes={-5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                <AddMinutesButton addMinutes={-1} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
               <div className="btn-group d-flex" role="group">
+                <AddMinutesButton addMinutes={1} actions={actions} className="btn btn-outline-light btn-sm w-100" />
                 <AddMinutesButton addMinutes={5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-                <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
             <li className="harmovis_controller__list__item">
               再現中日時&nbsp;<SimulationDateTime settime={settime} />
             </li>
             <li className="harmovis_controller__list__item">
-              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
-              <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
+              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒&nbsp;/&nbsp;全体&nbsp;{timeLength}&nbsp;秒</label>
+              <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} min={-leading} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
             <li className="harmovis_controller__list__item">
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
             </li>
+            <li className="harmovis_controller__list__item"><div>移動データ操作</div>
+              <div className="btn-group d-flex" role="group">
+                <button onClick={this.deleteMovebase.bind(this,60)} className="btn btn-outline-light btn-sm w-100">
+                  <span><Icon icon={icDelete} />&nbsp;1分以上前の移動データ削除</span>
+                </button>
+              </div>
+            </li>
             <li className="harmovis_controller__list__item"><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icSave} />&nbsp;SAVE&nbsp;
+                  <span><Icon icon={icSave} />&nbsp;保存&nbsp;
                     <span className="badge badge-light">{saveRouteGroup.length}</span>
                   </span>
                 </button>
                 <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
+                  <span><Icon icon={icLayers} />&nbsp;表示&nbsp;
                     <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
                   </span>
                 </button>
               </div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
+                  <span><Icon icon={icDeleteForever} />&nbsp;非表示</span>
                 </button>
                 <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;DELETE</span>
+                  <span><Icon icon={icDelete} />&nbsp;保存分削除</span>
                 </button>
               </div>
             </li>

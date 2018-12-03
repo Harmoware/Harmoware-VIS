@@ -23,28 +23,30 @@ import {
   setTimeStamp,
   setNonmapView,
   setLinemapData,
-  setInputFilename
+  setInputFilename,
+  updateMovesBase
 } from './actions';
 
-import { 
-  BasedState, 
-  BasedProps, 
-  Bounds, 
-  ClickedObject, 
-  Depotsbase, 
-  DepotsData, 
+import {
+  BasedState,
+  BasedProps,
+  Bounds,
+  ClickedObject,
+  Depotsbase,
+  DepotsData,
   LightSettings,
-  MovedData, 
-  Movesbase, 
-  RoutePaths, 
-  Viewport, 
-  LineMapData, 
-  ActionsInterface, 
+  MovedData,
+  Movesbase,
+  MovesbaseOperation,
+  RoutePaths,
+  Viewport,
+  LineMapData,
+  ActionsInterface,
   Position,
-  Radius, 
+  Radius,
   DataOption,
   InputEvent,
-  LineData 
+  LineData
 } from './types';
 
 import MovesInput from './components/moves-input';
@@ -99,7 +101,8 @@ const Actions: ActionsInterface = {
   setTimeStamp,
   setNonmapView,
   setLinemapData,
-  setInputFilename
+  setInputFilename,
+  updateMovesBase
 };
 
 export {
@@ -141,21 +144,22 @@ export {
   reducer,
   // types
   BasedState,
-  BasedProps, 
-  Bounds, 
-  ClickedObject, 
-  Depotsbase, 
-  DepotsData, 
+  BasedProps,
+  Bounds,
+  ClickedObject,
+  Depotsbase,
+  DepotsData,
   LightSettings,
-  MovedData, 
-  Movesbase, 
-  RoutePaths, 
-  Viewport, 
-  LineMapData, 
-  ActionsInterface, 
+  MovedData,
+  MovesbaseOperation,
+  Movesbase,
+  RoutePaths,
+  Viewport,
+  LineMapData,
+  ActionsInterface,
   InputEvent,
   Position,
-  Radius, 
+  Radius,
   DataOption,
   LineData
 };
