@@ -15,7 +15,4 @@ export const general = {
   minute: '分',
   hour: '時',
   permission: 'サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。',
-  link: 'リンク',
 };
-
-export default general;

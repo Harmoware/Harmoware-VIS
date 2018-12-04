@@ -8,17 +8,17 @@ import XbandDataInput from './xbanddata-input';
 
 const getXbandLabelBySize = (xbandCellSize, label: string) => {
   if (xbandCellSize === 0) {
-    return label + '(0)';
+    return `${label}(0)`;
   } else if (xbandCellSize <= 50) {
-    return label + '(1)';
+    return `${label}(1)`;
   } else if (xbandCellSize <= 100) {
-    return label + '(2)';
+    return `${label}(2)`;
   } else if (xbandCellSize <= 150) {
-    return label + '(3)';
+    return `${label}(3)`;
   } else if (xbandCellSize >= 200) {
-    return label + '(4)';
+    return `${label}(4)`;
   }
-  return label + '(X)';
+  return `${label}(X)`;
 };
 
 const getNextCellSize = (xbandCellSize) => {
@@ -225,12 +225,12 @@ export default class Controller extends React.Component<Props, State> {
           </li>
           <li className="harmovis_controller__list__item">
             {animatePause ?
-              <PlayButton actions={actions}>⏯️&nbsp;{t('PlayButton')}</PlayButton> :
-              <PauseButton actions={actions}>⏯️&nbsp;{t('PauseButton')}</PauseButton>
+              <PlayButton actions={actions}>⏯️&nbsp;{t('play')}</PlayButton> :
+              <PauseButton actions={actions}>⏯️&nbsp;{t('pause')}</PauseButton>
             }&nbsp;
             {animateReverse ?
-              <ForwardButton actions={actions}>▶️&nbsp;{t('ForwardButton')}</ForwardButton> :
-              <ReverseButton actions={actions}>◀️&nbsp;{t('ReverseButton')}</ReverseButton>
+              <ForwardButton actions={actions}>▶️&nbsp;{t('forward')}</ForwardButton> :
+              <ReverseButton actions={actions}>◀️&nbsp;{t('reverse')}</ReverseButton>
             }
           </li>
           <li className="harmovis_controller__list__item">
