@@ -2,22 +2,23 @@ import * as React from 'react';
 import { Bus3dProps } from '../types';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton, ElapsedTimeRange,
   ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton, InputEvent } from 'harmoware-vis';
+import i18n from '../locales/I18n';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
-const getXbandLabelBySize = (xbandCellSize) => {
+const getXbandLabelBySize = (xbandCellSize, label: string) => {
   if (xbandCellSize === 0) {
-    return '雨量表示(0)';
+    return label + '(0)';
   } else if (xbandCellSize <= 50) {
-    return '雨量表示(1)';
+    return label + '(1)';
   } else if (xbandCellSize <= 100) {
-    return '雨量表示(2)';
+    return label + '(2)';
   } else if (xbandCellSize <= 150) {
-    return '雨量表示(3)';
+    return label + '(3)';
   } else if (xbandCellSize >= 200) {
-    return '雨量表示(4)';
+    return label + '(4)';
   }
-  return '雨量表示(X)';
+  return label + '(X)';
 };
 
 const getNextCellSize = (xbandCellSize) => {
@@ -31,6 +32,7 @@ interface Props extends Bus3dProps {
   date: number,
   getOptionChangeChecked: (event: any) => void,
   getArchLayerChangeChecked: (event: any) => void,
+  t?: Function,
 }
 
 interface State {
@@ -43,6 +45,11 @@ export default class Controller extends React.Component<Props, State> {
     this.state = {
       filename: '',
     };
+  }
+
+  onLanguageSelect(e: InputEvent) {
+    const value = e.target.value;
+    i18n.changeLanguage(value);
   }
 
   onTripSelect(e: InputEvent) {
@@ -157,13 +164,13 @@ export default class Controller extends React.Component<Props, State> {
   render() {
     const {
       answer, settime, timeBegin, timeLength, secperhour, xbandCellSize,
-      selectedBusstop, selectedBus, answers, date, actions,
+      selectedBusstop, selectedBus, answers, date, actions, t,
       animatePause, animateReverse, xbandFname, getOptionChangeChecked,
       getArchLayerChangeChecked, viewport,
       delayrange, depotsData, movedData, busmovesbasedic
     } = this.props;
 
-    const xBandViewLabel = getXbandLabelBySize(xbandCellSize);
+    const xBandViewLabel = getXbandLabelBySize(xbandCellSize, t('XbandLabel'));
 
     const optionsTrip = answers.map(
       ans => <option value={ans} key={ans}>{ans}</option>);
@@ -175,7 +182,20 @@ export default class Controller extends React.Component<Props, State> {
         <ul className="list-group harmovis_controller__list">
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
-              <label htmlFor="trip_select">運行データ選択</label>
+              <label htmlFor="language_select">{t('title')}</label>
+              <select
+                className="w-100"
+                id="language_select" value={t('langId')}
+                onChange={this.onLanguageSelect.bind(this)}
+              >
+                <option value="ja">日本語</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </li>
+          <li className="harmovis_controller__list__item">
+            <div className="input-group input-group-sm">
+              <label htmlFor="trip_select">{t('trip_select')}</label>
               <select
                 className="w-100"
                 id="trip_select" value={answer}
@@ -186,18 +206,18 @@ export default class Controller extends React.Component<Props, State> {
           <li className="harmovis_controller__list__item">
             <div className="form-check">
               <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
-              <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
+              <label htmlFor="OptionChangeChecked" className="form-check-label">{t('OptionChangeChecked')}</label>
             </div>
           </li>
           <li className="harmovis_controller__list__item">
             <div className="form-check">
               <input type="checkbox" id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} className="form-check-input" />
-              <label htmlFor="ArchLayerChangeChecked" className="form-check-label">アーチレイヤ表示切替</label>
+              <label htmlFor="ArchLayerChangeChecked" className="form-check-label">{t('ArchLayerChangeChecked')}</label>
             </div>
           </li>
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
-              <label htmlFor="MovesInput" className="harmovis_button">運行データ選択
+              <label htmlFor="MovesInput" className="harmovis_button">{t('trip_select')}
                 <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} id="MovesInput" style={{ display: 'none' }} />
               </label>
               <div style={nowrapstyle}>{this.state.filename}</div>
@@ -205,21 +225,21 @@ export default class Controller extends React.Component<Props, State> {
           </li>
           <li className="harmovis_controller__list__item">
             {animatePause ?
-              <PlayButton actions={actions}>⏯️ 　開始　</PlayButton> :
-              <PauseButton actions={actions}>⏯️ 一時停止</PauseButton>
+              <PlayButton actions={actions}>⏯️&nbsp;{t('PlayButton')}</PlayButton> :
+              <PauseButton actions={actions}>⏯️&nbsp;{t('PauseButton')}</PauseButton>
             }&nbsp;
             {animateReverse ?
-              <ForwardButton actions={actions}>▶️ 正再生</ForwardButton> :
-              <ReverseButton actions={actions}>◀️ 逆再生</ReverseButton>
+              <ForwardButton actions={actions}>▶️&nbsp;{t('ForwardButton')}</ForwardButton> :
+              <ReverseButton actions={actions}>◀️&nbsp;{t('ReverseButton')}</ReverseButton>
             }
           </li>
           <li className="harmovis_controller__list__item">
-            <AddMinutesButton addMinutes={-10} actions={actions}>⏮ -10分</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5分</AddMinutesButton>
+            <AddMinutesButton addMinutes={-10} actions={actions}>⏮ -10{t('minute')}</AddMinutesButton>&nbsp;
+            <AddMinutesButton addMinutes={-5} actions={actions}>⏮ -5{t('minute')}</AddMinutesButton>
           </li>
           <li className="harmovis_controller__list__item">
-            <AddMinutesButton addMinutes={5} actions={actions}>5分 ⏭</AddMinutesButton>&nbsp;
-            <AddMinutesButton addMinutes={10} actions={actions}>10分 ⏭</AddMinutesButton>
+            <AddMinutesButton addMinutes={5} actions={actions}>5{t('minute')} ⏭</AddMinutesButton>&nbsp;
+            <AddMinutesButton addMinutes={10} actions={actions}>10{t('minute')} ⏭</AddMinutesButton>
           </li>
           <li className="harmovis_controller__list__item">
             <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} />&nbsp;
@@ -227,15 +247,15 @@ export default class Controller extends React.Component<Props, State> {
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <li>
-            <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
+            <label htmlFor="ElapsedTimeRange">{t('elapsedTime')}<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />{t('sec')}</label>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
           </li>
           <li>
-            <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
+            <label htmlFor="SpeedRange">{t('speed')}<SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</label>
             <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
           </li>
           <li>
-            <label htmlFor="delayrange">遅延度LV&nbsp;0～{delayrange}&nbsp;分</label>
+            <label htmlFor="delayrange">{t('delayrange')}LV&nbsp;0～{delayrange}&nbsp;{t('minute')}</label>
             <input type="range" value={delayrange} min="1" max="120" step="1" onChange={this.setDelayRange.bind(this)} id="delayrange" className="harmovis_input_range" />
           </li>
           <li className="harmovis_controller__list__item">
@@ -245,17 +265,17 @@ export default class Controller extends React.Component<Props, State> {
             </div>
           </li>
           <li className="harmovis_controller__list__item">
-            <XbandDataInput actions={actions} />
+            <XbandDataInput actions={actions} t={t} />
           </li>
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
-              <label htmlFor="busstop_select">バス停検索</label>
+              <label htmlFor="busstop_select">{t('busStopLocation')}</label>
               <select
                 className="w-100"
                 id="busstop_select" value={selectedBusstop}
                 onChange={this.onBusstopSelect.bind(this)}
               >
-                <option value="">0000 バス停を選択</option>
+                <option value="">0000 {t('busstopSelect')}</option>
                 {depotsData.map(
                   busstop => <option
                     value={busstop.code} key={busstop.code}
@@ -272,7 +292,7 @@ export default class Controller extends React.Component<Props, State> {
           <li className="harmovis_controller__list__item">
             {animatePause && Object.keys(busmovesbasedic).length > 0 &&
               <div className="input-group input-group-sm">
-                <label htmlFor="bus_select">運行中バス選択</label>
+                <label htmlFor="bus_select">{t('busSelect')}</label>
                 <select
                   className="w-100"
                   id="bus_select" value={selectedBus}
