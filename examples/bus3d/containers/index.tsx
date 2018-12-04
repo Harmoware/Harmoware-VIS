@@ -3,6 +3,7 @@ import { FPSStats } from 'react-stats';
 import { Bus3dProps } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, settings, LoadingIcon, InputEvent } from 'harmoware-vis';
+import { translate } from 'react-i18next';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
@@ -10,9 +11,14 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
+import i18n from '../locales/I18n';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
+
+interface Bus3dAppProps extends Bus3dProps {
+  t?: Function,
+}
 
 interface State {
   optionChange: boolean,
@@ -20,9 +26,9 @@ interface State {
   arcdata: Array<any>
 }
 
-class App extends Container<Bus3dProps, State> {
+class App extends Container<Bus3dAppProps, State> {
 
-  constructor(props: Bus3dProps) {
+  constructor(props: Bus3dAppProps) {
     super(props);
     const { actions } = props;
     actions.initializeFetch('datalist.json');
@@ -43,7 +49,7 @@ class App extends Container<Bus3dProps, State> {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  componentWillReceiveProps(nextProps: Bus3dProps) {
+  componentWillReceiveProps(nextProps: Bus3dAppProps) {
     const { actions, settime, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, xbandCellSize, answer, xbandFname);
     this.setState({ arcdata: updateArcLayerData(nextProps) });
@@ -51,9 +57,8 @@ class App extends Container<Bus3dProps, State> {
 
   render() {
     const props = this.props;
-    const state = this.state;
     const {
-      actions, settime, elevationScale, selectedBusstop, rainfall,
+      actions, settime, elevationScale, selectedBusstop, rainfall, t,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
@@ -81,7 +86,7 @@ class App extends Container<Bus3dProps, State> {
     return (
       <div>
         <Header
-          {...props} date={date}
+          {...props} date={date} language={i18n.language}
         />
         <Controller
           {...props} date={date}
@@ -90,7 +95,7 @@ class App extends Container<Bus3dProps, State> {
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
-            サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
+            {t('permission')}</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;
           latitude:{viewport.latitude}&nbsp;
           zoom:{viewport.zoom}&nbsp;
@@ -153,4 +158,4 @@ class App extends Container<Bus3dProps, State> {
   }
 }
 
-export default connectToHarmowareVis(App, moreActions);
+export default connectToHarmowareVis(translate()(App), translate()(moreActions));

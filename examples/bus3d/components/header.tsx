@@ -3,12 +3,15 @@ import CanvasComponent from './canvas-component';
 import { p02d, hsvToRgb } from '../library';
 import { Bus3dProps } from '../types';
 
-const weekDayList = ['日', '月', '火', '水', '木', '金', '土'];
+const weekDayListJp = ['日', '月', '火', '水', '木', '金', '土'];
+const weekDayListEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
 interface Props extends Bus3dProps{
   date: number,
+  language: string,
+  t?: Function,
 }
 
 export default class Header extends React.Component<Props> {
@@ -31,13 +34,13 @@ export default class Header extends React.Component<Props> {
 
   render() {
     const {
-      date, movedData, busoption, bsoptFname, elevationScale,
+      date, movedData, busoption, bsoptFname, elevationScale, t, language,
       clickedObject, delayrange, delayheight } = this.props;
     const d = new Date(date);
     const year = d.getFullYear();
     const month = d.getMonth() + 1;
     const day = d.getDate();
-    const wday = weekDayList[d.getDay()];
+    const wday = (language && language === 'en') ? weekDayListEn[d.getDay()] : weekDayListJp[d.getDay()];
     const hour = d.getHours();
     const min = d.getMinutes();
     const sec = d.getSeconds();
@@ -66,10 +69,10 @@ export default class Header extends React.Component<Props> {
     return (
       <div className="harmovis_header container" id="header_area">
         <span className="harmovis_header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
-        <span id="bus_count" className="harmovis_header__spacer">{movedData.length} 台運行中</span>
+        <span id="bus_count" className="harmovis_header__spacer">{movedData.length}&nbsp;{t('Operating')}</span>
         {Object.keys(busoption).length <= 0 ?
-          <span className="harmovis_header__spacer">バス拡張情報なし</span> :
-          <span className="harmovis_header__spacer">{`バス拡張情報：${bsoptFname}`}</span>
+          <span className="harmovis_header__spacer">{t('busoption')}{t('non')}</span> :
+          <span className="harmovis_header__spacer">{t('busoption')}{`：${bsoptFname}`}</span>
         }
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
@@ -79,10 +82,10 @@ export default class Header extends React.Component<Props> {
             onChange={this.setScaleElevation.bind(this)}
           />}
         <br />
-        <span className="harmovis_header__spacer">遅延 0分</span>
+        <span className="harmovis_header__spacer">{t('delayrange')} 0{t('minute')}</span>
         <CanvasComponent {...canvasProps} />
-        <span className="harmovis_header__spacer">～{delayrange}分</span>
-        {flg && clickedObject && <span className="harmovis_header__spacer">３Ｄ表示</span>}
+        <span className="harmovis_header__spacer">～{delayrange}{t('minute')}</span>
+        {flg && clickedObject && <span className="harmovis_header__spacer">{t('TD_display')}</span>}
         {flg && clickedObject &&
           <span className="harmovis_header__spacer">
             <input
@@ -95,8 +98,8 @@ export default class Header extends React.Component<Props> {
         {getClickedInfo &&
           <div>
             <span className="harmovis_header__spacer">
-            選択バス情報&nbsp;
-              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button" style={{ width: '80px' }}>解除</button>
+            {t('busInformation')}&nbsp;
+              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button" style={{ width: '80px' }}>{t('release')}</button>
             </span>
             <span className="harmovis_header__spacer">
               {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}

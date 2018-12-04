@@ -6,6 +6,7 @@ import { InputEvent } from 'harmoware-vis';
 
 interface Props {
   actions: typeof Bus3dActions,
+  t?: Function,
 }
 
 interface State {
@@ -56,10 +57,11 @@ export default class XbandDataInput extends React.Component<Props, State> {
   }
 
   render() {
+    const { t } = this.props;
     const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
     return (
       <div className="input-group input-group-sm">
-        <label htmlFor="XbandDataInput" className="harmovis_button">雨量データ選択
+        <label htmlFor="XbandDataInput" className="harmovis_button">{t('XbandDataInput')}
           <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id="XbandDataInput" style={{ display: 'none' }} />
         </label>
         <div style={nowrapstyle}>{this.state.filename}</div>
