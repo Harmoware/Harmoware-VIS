@@ -3,8 +3,13 @@ import MapGL from 'react-map-gl';
 import DeckGL, { Layer } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 
+interface thisViewport extends Viewport {
+  width: number,
+  height: number,
+}
+
 interface Props {
-  viewport : Viewport,
+  viewport : thisViewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
   actions: ActionTypes,
@@ -32,8 +37,8 @@ export default class HarmoVisLayers extends React.Component<Props> {
 
     return (
       <MapGL
-        {...viewport} mapStyle={mapStyle} perspectiveEnabled
-        onChangeViewport={onChangeViewport}
+        {...viewport} mapStyle={mapStyle}
+        onViewportChange={onChangeViewport}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
         <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />

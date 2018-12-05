@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton, BasedProps } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime,
+  NavigationButton, BasedProps } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
-import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
+import { ic_delete_forever as icDeleteForever, ic_save as icSave,
+  ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
