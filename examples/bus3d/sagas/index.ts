@@ -71,8 +71,6 @@ function* fetchDataList({ path }) {
 
 function* fetchDataByAnswer({ answer }) {
   const fileextension = answer.split('.');
-  const { leading, trailing, defaultZoom, defaultPitch
-  } = getContainerProp(yield select());
   if (fileextension[1] === 'json') {
     yield put(Actions.setLoading(true));
     const { data } = yield fetchJSON(`${DATAPATH}${answer}`);
@@ -224,8 +222,7 @@ function* fetchBusstopsOption() {
 
 function* setupByCSV() {
   const { bustripscsv, busstopscsv, routesdata, busroutes,
-    answer, leading, trailing, busoption, defaultZoom, defaultPitch
-  } = getContainerProp(yield select());
+    answer, busoption } = getContainerProp(yield select());
   const fileextension = answer.split('.');
   if (fileextension[1] !== 'csv') {
     return;
@@ -458,7 +455,7 @@ function* updateRoute({ el, sw }) {
     return;
   }
   const { object, layer } = el[0];
-  const { code, name, memo, movesbaseidx } = object;
+  const { movesbaseidx } = object;
   const { id } = layer;
   const { delayheight, movesbase } = getContainerProp(yield select());
   let { delayrange } = getContainerProp(yield select());

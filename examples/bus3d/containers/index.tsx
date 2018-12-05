@@ -85,9 +85,7 @@ class App extends Container<Bus3dAppProps, State> {
 
     return (
       <div>
-        <Header
-          {...props} date={date} language={i18n.language}
-        />
+        <Header {...props} />
         <Controller
           {...props} date={date}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}

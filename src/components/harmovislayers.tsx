@@ -9,7 +9,7 @@ interface thisViewport extends Viewport {
 }
 
 interface Props {
-  viewport : thisViewport,
+  viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
   actions: ActionTypes,
@@ -37,7 +37,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
 
     return (
       <MapGL
-        {...viewport} mapStyle={mapStyle}
+        {...(viewport as thisViewport)} mapStyle={mapStyle}
         onViewportChange={onChangeViewport}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
