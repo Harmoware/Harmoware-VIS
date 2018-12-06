@@ -47,26 +47,26 @@ export const delaycolor = (delaysec, delayrange) => {
 };
 
 const getOptionValue = (optionData) => {
-  const elevation = 'elevation';
-  const color = 'color';
-  const memo = 'memo';
   const returnValue: any = {};
-  if (optionData && optionData.elevation) {
-    if (!Array.isArray(optionData.elevation)) {
-      returnValue.optElevation = [optionData.elevation];
-    } else {
-      returnValue.optElevation = optionData.elevation;
+  if(optionData){
+    const { elevation, color, memo } = optionData;
+    if (elevation) {
+      if (!Array.isArray(elevation)) {
+        returnValue.optElevation = [elevation];
+      } else {
+        returnValue.optElevation = elevation;
+      }
     }
-  }
-  if (optionData && optionData.color) {
-    if (!Array.isArray(optionData.color[0])) {
-      returnValue.optColor = [optionData.color];
-    } else {
-      returnValue.optColor = optionData.color;
+    if (color) {
+      if (!Array.isArray(color[0])) {
+        returnValue.optColor = [color];
+      } else {
+        returnValue.optColor = color;
+      }
     }
-  }
-  if (optionData && optionData.memo) {
-    returnValue[memo] = optionData.memo;
+    if (memo) {
+      returnValue.memo = memo;
+    }
   }
   return returnValue;
 };

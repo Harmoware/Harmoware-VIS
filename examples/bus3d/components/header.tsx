@@ -7,8 +7,23 @@ import { Bus3dProps } from '../types';
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
+const canvasProps = {
+  width: CANVAS_WIDTH,
+  height: CANVAS_HEIGHT,
+  updateCanvas: (context) => {
+    const cont = context;
+    const hMin = 0;
+    const hMax = 120;
+    const unit = CANVAS_WIDTH / hMax;
+    for (let h = hMin; h <= hMax; h += 1) {
+      cont.fillStyle = `rgb(${hsvToRgb(h, 1, 1).join(',')})`;
+      cont.fillRect((hMax - h) * unit, 0, unit, CANVAS_HEIGHT);
+    }
+  },
+};
+
 interface Props extends Bus3dProps{
-  t?: Function,
+  t: Function,
 }
 
 export default class Header extends React.Component<Props> {
@@ -34,20 +49,6 @@ export default class Header extends React.Component<Props> {
       movedData, busoption, bsoptFname, elevationScale, t,
       clickedObject, delayrange, delayheight, settime } = this.props;
     const flg = clickedObject ? clickedObject[0].object.name.match(/^\d+-[12]/) : null;
-    const canvasProps = {
-      width: CANVAS_WIDTH,
-      height: CANVAS_HEIGHT,
-      updateCanvas: (context) => {
-        const cont = context;
-        const hMin = 0;
-        const hMax = 120;
-        const unit = CANVAS_WIDTH / hMax;
-        for (let h = hMin; h <= hMax; h += 1) {
-          cont.fillStyle = `rgb(${hsvToRgb(h, 1, 1).join(',')})`;
-          cont.fillRect((hMax - h) * unit, 0, unit, CANVAS_HEIGHT);
-        }
-      },
-    };
     const getClickedInfo = movedData.find((element) => {
       if (clickedObject && clickedObject[0].object &&
         clickedObject[0].object.movesbaseidx === element.movesbaseidx) {

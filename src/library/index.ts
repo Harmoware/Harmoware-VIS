@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, combineReducers, ReducersMapObject } from 'redux';
+import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
@@ -81,12 +81,12 @@ export const analyzeMovesBase =
     westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
   };
 
-  const movesbase: Array<Movesbase> = basemovesbase.slice();
+  const movesbase: Array<Movesbase> = basemovesbase;
   let timeEnd: number = 0;
-  const longArray = [];
-  const latiArray = [];
-  for (let i = 0, lengthi = basemovesbase.length; i < lengthi; i += 1) {
-    const { departuretime, arrivaltime, operation } = basemovesbase[i];
+  const longArray: number[] = [];
+  const latiArray: number[] = [];
+  for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
+    const { departuretime, arrivaltime, operation } = movesbase[i];
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
       timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
       timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
@@ -116,10 +116,10 @@ export const analyzeMovesBase =
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
   }else{
-    for (let k = 0, lengthk = basemovesbase.length; k < lengthk; k += 1) {
+    for (let k = 0, lengthk = movesbase.length; k < lengthk; k += 1) {
       movesbase[k].departuretime += timeBegin;
       movesbase[k].arrivaltime += timeBegin;
-      const { operation } = basemovesbase[k];
+      const { operation } = movesbase[k];
       for (let l = 0, lengthl = operation.length; l < lengthl; l += 1) {
         operation[l].elapsedtime += timeBegin;
       }
@@ -163,7 +163,7 @@ export const analyzeDepotsBase =
 };
 
 const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
-  const retValue = {};
+  const retValue: DataOption = {};
   const basedata = props.depotsBase[idx];
   Object.keys(basedata).forEach((key) => {
     if (!(key === 'position' || key === 'longitude' || key === 'latitude')) {

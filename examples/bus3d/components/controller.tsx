@@ -32,7 +32,7 @@ interface Props extends Bus3dProps {
   date: number,
   getOptionChangeChecked: (event: any) => void,
   getArchLayerChangeChecked: (event: any) => void,
-  t?: Function,
+  t: Function,
 }
 
 interface State {

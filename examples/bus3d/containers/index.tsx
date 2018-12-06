@@ -11,13 +11,12 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
-import i18n from '../locales/I18n';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
 interface Bus3dAppProps extends Bus3dProps {
-  t?: Function,
+  t: Function,
 }
 
 interface State {
@@ -74,7 +73,7 @@ class App extends Container<Bus3dAppProps, State> {
       }
     };
     const onClickBusstop = (el) => {
-      const { movesbaseidx, code } = el.object;
+      const { code } = el.object;
       if (selectedBusstop.length > 0 && selectedBusstop === code) {
         actions.setSelectedBusstop('');
       } else {

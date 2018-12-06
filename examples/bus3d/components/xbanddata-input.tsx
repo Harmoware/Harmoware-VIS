@@ -6,7 +6,7 @@ import { InputEvent } from 'harmoware-vis';
 
 interface Props {
   actions: typeof Bus3dActions,
-  t?: Function,
+  t: Function,
 }
 
 interface State {
