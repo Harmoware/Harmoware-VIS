@@ -6,9 +6,9 @@ interface Props {
   layerOpacity?: number,
   linemapData: Array<LineMapData>,
   strokeWidth?: number,
-  getColor?: (x: any) => Array<number>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getColor?: (x) => Array<number>,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {

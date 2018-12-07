@@ -19,15 +19,15 @@ interface Props {
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,
-  getPosition?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  getColor?: (x: any) => Array<number>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getPosition?: (x) => Array<number>,
+  getRadius?: (x) => number,
+  getColor?: (x) => Array<number>,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any,
+  attributeManager,
+  model,
 }
 
 export default class FrontScatterplotLayer extends Layer<Props, State> {
@@ -65,7 +65,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  draw({ uniforms }: any) {
+  draw({ uniforms }) {
     const { radiusScale, radiusMinPixels, radiusMaxPixels } = this.props;
     this.state.model.render(Object.assign({}, uniforms, {
       outline: 0,
@@ -76,7 +76,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     }));
   }
 
-  getModel(gl: any) {
+  getModel(gl) {
     // a square that minimally cover the unit circle
     const positions = [
       -1, -1, 0, -1, 1, 0, 1, 1, 0,

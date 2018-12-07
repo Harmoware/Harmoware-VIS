@@ -25,8 +25,8 @@ interface customViewport extends Viewport {
   isDragging?: boolean,
 }
 interface Props extends customViewport {
-  children?: JSX.Element,
-  ref?: (canvas: any) => void,
+  children?: React.ReactNode,
+  ref?: (canvas) => void,
   onViewportChange?: (customViewport) => void
 }
 

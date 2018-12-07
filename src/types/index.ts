@@ -111,8 +111,8 @@ export interface BasedState {
   depotsBase?: Array<Depotsbase>,
   depotsBaseOriginal?: string,
   depotsData?: Array<DepotsData>,
-  getDepotsOptionFunc?: null | ((props: any, i: number) => any),
-  getMovesOptionFunc?: null | ((props: any, i: number, j: number) => any),
+  getDepotsOptionFunc?: null | (<P>(props: P, i: number) => any),
+  getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => any),
   leading?: number,
   lightSettings?: LightSettings,
   loopTime?: number,
@@ -161,8 +161,8 @@ export interface DataOption {
 }
 
 export interface Context {
-  shaderCache: any,
-  gl: any,
+  shaderCache,
+  gl,
   viewport: {
     distanceScales: {
       degreesPerPixel: Array<number>,

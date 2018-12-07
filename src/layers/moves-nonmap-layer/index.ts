@@ -8,13 +8,13 @@ interface Props {
   layerOpacity?: number,
   movedData: Array<MovedData>,
   movesbase: Array<Movesbase>,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
+  getColor?: (x) => Array<number>,
+  getRadius?: (x) => number,
   routePaths?: Array<RoutePaths>,
   actions: typeof Actions,
   clickedObject?: null | Array<ClickedObject>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {

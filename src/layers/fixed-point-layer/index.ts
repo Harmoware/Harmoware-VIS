@@ -6,10 +6,10 @@ import { DepotsData, Position, DataOption, Radius } from 'harmoware-vis';
 interface Props {
   layerOpacity?: number,
   depotsData: Array<DepotsData>,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getColor?: (x) => Array<number>,
+  getRadius?: (x) => number,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {

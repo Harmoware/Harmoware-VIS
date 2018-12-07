@@ -25,15 +25,15 @@ interface Props {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x: any) => Array<number>,
-  getElevation?: (x: any) => Array<number>,
-  getColor?: (x: any) => Array<Array<number>>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getPosition?: (x) => Array<number>,
+  getElevation?: (x) => Array<number>,
+  getColor?: (x) => Array<Array<number>>,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any
+  attributeManager,
+  model
 }
 
 export default class CubeiconLayer extends Layer<Props, State> {
@@ -79,7 +79,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     this.updateUniforms();
   }
 
-  getModel(gl: any) {
+  getModel(gl) {
     return new Model(gl, Object.assign({}, this.getShaders(), {
       //      id: this.props.id,
       geometry: new CubeGeometry(),

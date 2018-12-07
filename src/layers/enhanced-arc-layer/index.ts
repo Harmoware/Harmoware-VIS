@@ -18,17 +18,17 @@ interface Props {
   data: Array<Data>,
   visible?: boolean,
   opacity?: number,
-  getSourcePosition?: (x: any) => Array<number>,
-  getTargetPosition?: (x: any) => Array<number>,
-  getSourceColor?: (x: any) => Array<number>,
-  getTargetColor?: (x: any) => Array<number>,
-  getStrokeWidths?: (x: any) => number,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getSourcePosition?: (x) => Array<number>,
+  getTargetPosition?: (x) => Array<number>,
+  getSourceColor?: (x) => Array<number>,
+  getTargetColor?: (x) => Array<number>,
+  getStrokeWidths?: (x) => number,
+  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any
+  attributeManager,
+  model
 }
 
 export default class EnhancedArcLayer extends Layer<Props, State> {
@@ -69,7 +69,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl: any) {
+  getModel(gl) {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*

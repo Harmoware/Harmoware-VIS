@@ -16,7 +16,7 @@ const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) 
 const getAverage = (array: Array<number>) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
 
-export const getContainerProp = (state: any) : any => {
+export const getContainerProp = (state)  => {
   let prop = {};
   Object.keys(state).forEach((key) => {
     prop = Object.assign({}, prop, { ...state[key] });
@@ -391,13 +391,13 @@ export const analyzelinemapData =
     return linemapData;
   };
 
-export const defaultMapStateToProps = (state : any) : any => getContainerProp(state);
+export const defaultMapStateToProps = (state)  => getContainerProp(state);
 
-export const connectToHarmowareVis = (App: any, moreActions: any = null,
-  mapStateToProps: any = defaultMapStateToProps) => {
+export const connectToHarmowareVis = (App, moreActions = null,
+  mapStateToProps = defaultMapStateToProps) => {
   const extendedActions = Object.assign({}, Actions, moreActions);
 
-  function mapDispatchToProps(dispatch: any) {
+  function mapDispatchToProps(dispatch) {
     return { actions: bindActionCreators(extendedActions, dispatch) };
   }
 

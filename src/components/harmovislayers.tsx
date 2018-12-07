@@ -26,7 +26,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
     this.props.actions.setNonmapView(false);
   }
 
-  initialize(gl: any) {
+  initialize(gl) {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
   }

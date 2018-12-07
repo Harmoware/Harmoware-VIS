@@ -4,7 +4,7 @@ interface Props {
   settime?: number,
   caption?: string,
   locales?: string,
-  options?: any,
+  options?: object,
   className?: string
 }
 
