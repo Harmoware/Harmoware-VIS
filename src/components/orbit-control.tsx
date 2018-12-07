@@ -66,13 +66,13 @@ export default class OrbitController extends React.Component<Props>{
     fov: 50
   };
 
-  onDragStart(evt) {
+  onDragStart(evt: React.MouseEvent<HTMLDivElement>) {
     const { pageX, pageY } = evt;
     this.dragStartPos = [pageX, pageY];
     this.props.onViewportChange({ isDragging: true });
   }
 
-  onDrag(evt) {
+  onDrag(evt: React.MouseEvent<HTMLDivElement>) {
     if (this.dragStartPos) {
       const { pageX, pageY } = evt;
       const { width, height } = this.props;
@@ -105,12 +105,12 @@ export default class OrbitController extends React.Component<Props>{
     }
   }
 
-  onDragEnd() {
+  onDragEnd(evt: React.MouseEvent<HTMLDivElement>) {
     this.dragStartPos = null;
     this.props.onViewportChange({ isDragging: false });
   }
 
-  onWheel(evt) {
+  onWheel(evt: React.WheelEvent<HTMLDivElement>) {
     evt.preventDefault();
     let value = evt.deltaY;
     // Firefox doubles the values on retina screens...

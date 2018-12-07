@@ -45,7 +45,6 @@ import {
   Position,
   Radius,
   DataOption,
-  InputEvent,
   LineData
 } from './types';
 
@@ -157,7 +156,6 @@ export {
   Viewport,
   LineMapData,
   ActionsInterface,
-  InputEvent,
   Position,
   Radius,
   DataOption,

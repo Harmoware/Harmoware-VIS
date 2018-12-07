@@ -7,7 +7,6 @@ import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue,
   SimulationDateTime, NavigationButton, BasedProps, Viewport } from 'harmoware-vis';
-import { InputEvent } from 'harmoware-vis';
 import i18n from '../locales/I18n';
 
 interface Props extends BasedProps {
@@ -16,7 +15,7 @@ interface Props extends BasedProps {
 }
 
 export default class Controller extends React.Component<Props> {
-  onLanguageSelect(e: InputEvent) {
+  onLanguageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     i18n.changeLanguage(value);
   }

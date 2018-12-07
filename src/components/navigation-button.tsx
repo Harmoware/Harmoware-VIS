@@ -16,7 +16,7 @@ export default class NavigationButton extends React.Component<Props> {
     className: 'harmovis_button'
   }
 
-  setViewport(argument: Object) {
+  setViewport(argument: Viewport) {
     this.props.actions.setViewport(argument);
   }
 

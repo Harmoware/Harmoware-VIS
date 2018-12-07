@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Bus3dProps } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
@@ -40,11 +40,11 @@ class App extends Container<Bus3dAppProps, State> {
     };
   }
 
-  getOptionChangeChecked(e: InputEvent) {
+  getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getArchLayerChangeChecked(e: InputEvent) {
+  getArchLayerChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ archLayerChange: e.target.checked });
   }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent, Movesbase, MovesbaseFile } from '../types';
+import { ActionTypes, Movesbase, MovesbaseFile } from '../types';
 
 interface Props {
   actions: ActionTypes,
@@ -16,7 +16,7 @@ export default class MovesInput extends React.Component<Props> {
     }
   }
 
-  onSelect(e: InputEvent) {
+  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const { i18n, actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
