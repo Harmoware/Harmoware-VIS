@@ -1,7 +1,7 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
-import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Actions } from 'harmoware-vis';
 
@@ -51,6 +51,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionCellSize: 12,
     optionElevationScale: 1,
     visible: true,
+    getRadius: (x: Radius) => x.radius || 20,
     getColor: (x: DataOption) => x.color || COLOR1,
     getColor1: (x: DataOption) => (x.optColor && x.optColor[0]) || x.color || COLOR1,
     getColor2: (x: DataOption) => (x.optColor && x.optColor[1]) || x.color || COLOR1,
@@ -69,14 +70,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesLayer';
 
-  getPickingInfo(pickParams: any) {
+  getPickingInfo(pickParams: pickParams) {
     onHoverClick(pickParams);
   }
 
   renderLayers() {
     const { routePaths, layerRadiusScale, layerOpacity, movedData, movesbase,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionVisible, optionChange, lightSettings, getColor, getRadius: propGetRadius,
+      optionVisible, optionChange, lightSettings, getColor, getRadius,
       visible, getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
       getCubeColor, getCubeElevation, i18n
@@ -106,7 +107,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return [pos[0] - optionMedianLng, pos[1] - optionMedianLat, pos[2]];
     };
 
-    const getRadius = propGetRadius || ((x: Radius) => (x.radius || 20));
     const getPosition1 = (x: Position) => {
       const pos = getOptPosition(x);
       return [pos[0] + optionShiftLng, pos[1] + optionShiftLat, pos[2]];

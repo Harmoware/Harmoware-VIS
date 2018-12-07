@@ -1,6 +1,6 @@
 import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
-import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius, Actions } from 'harmoware-vis';
 
@@ -21,18 +21,19 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
     layerOpacity: 0.75,
-    getColor: (x: DataOption) => x.color || COLOR1
+    getColor: (x: DataOption) => x.color || COLOR1,
+    getRadius: (x: Radius) => x.radius || 2,
   };
 
   static layerName = 'MovesNonmapLayer';
 
-  getPickingInfo(pickParams: any) {
+  getPickingInfo(pickParams: pickParams) {
     onHoverClick(pickParams);
   }
 
   renderLayers() {
     const { layerOpacity, actions, clickedObject,
-      movedData, getColor, getRadius: propGetRadius,
+      movedData, getColor, getRadius,
       routePaths } = this.props;
 
     if (!movedData) {
@@ -40,7 +41,6 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     }
 
     const getPosition = (x: Position) => x.position;
-    const getRadius = propGetRadius || ((x: Radius) => (x.radius || 2));
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 

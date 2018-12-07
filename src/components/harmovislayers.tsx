@@ -13,7 +13,7 @@ interface Props {
   mapboxApiAccessToken: string,
   mapStyle?: string,
   actions: ActionTypes,
-  onChangeViewport?(viewport: Viewport): any,
+  onViewportChange?(viewport: Viewport): void,
   layers: Layer[]
 }
 
@@ -33,12 +33,12 @@ export default class HarmoVisLayers extends React.Component<Props> {
 
   render() {
     const { viewport, mapStyle, actions, mapboxApiAccessToken, layers } = this.props;
-    const onChangeViewport = this.props.onChangeViewport || actions.setViewport;
+    const onViewportChange = this.props.onViewportChange || actions.setViewport;
 
     return (
       <MapGL
         {...(viewport as thisViewport)} mapStyle={mapStyle}
-        onViewportChange={onChangeViewport}
+        onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
         <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />

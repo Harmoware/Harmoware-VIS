@@ -6,25 +6,25 @@ import OrbitController from './orbit-control';
 interface Props {
   viewport: Viewport,
   actions: ActionTypes,
-  onChangeViewport?(viewport: Viewport): any,
+  onViewportChange?(viewport: Viewport): void,
   layers: Layer[]
 };
 
-export default class HarmoVisNonMapLayers extends React.Component<Props, any> {
+export default class HarmoVisNonMapLayers extends React.Component<Props> {
   componentDidMount() {
     this.props.actions.setNonmapView(true);
   }
 
-  initialize(gl: any) {
+  initialize(gl) {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
   }
 
-  canvas: any;
+  canvas;
 
   render() {
     const { viewport, actions, layers } = this.props;
-    const onChangeViewport = this.props.onChangeViewport || actions.setViewport;
+    const onViewportChange = this.props.onViewportChange || actions.setViewport;
     const { width, height } = viewport;
     const glViewport = OrbitController.getViewport(viewport);
 
@@ -32,7 +32,7 @@ export default class HarmoVisNonMapLayers extends React.Component<Props, any> {
       <OrbitController
         {...viewport}
         ref={(canvas) => { this.canvas = canvas; }}
-        onViewportChange={onChangeViewport}
+        onViewportChange={onViewportChange}
       >
         <DeckGL
           width={width} height={height} viewport={glViewport}

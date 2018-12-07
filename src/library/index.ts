@@ -274,10 +274,26 @@ const routeDelete = (movesbaseidx: number, props: {
   }
 };
 
-export const onHoverClick = (pickParams:
-  {mode: string, info: {object: {movesbaseidx: number}, layer: {id: string, props: {
-    movesbase: Array<Movesbase>, routePaths: Array<RoutePaths>, actions: ActionTypes,
-    clickedObject: Array<ClickedObject>, onHover: Function, onClick: Function }}}}): void => {
+export interface pickParams {
+  mode: string,
+  info: {
+    object: {
+        movesbaseidx: number
+    },
+    layer: {
+      id: string,
+      props: {
+        movesbase: Array<Movesbase>,
+        routePaths: Array<RoutePaths>,
+        actions: ActionTypes,
+        clickedObject: Array<ClickedObject>,
+        onHover: Function,
+        onClick: Function,
+      }
+    }
+  }
+}
+export const onHoverClick = (pickParams: pickParams): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
@@ -388,5 +404,5 @@ export const connectToHarmowareVis = (App: any, moreActions: any = null,
   return connect(mapStateToProps, mapDispatchToProps)(App);
 };
 
-export const getCombinedReducer = (combined?: any) =>
+export const getCombinedReducer = (combined?: object) =>
   combineReducers({ base: reducers, ...combined });
