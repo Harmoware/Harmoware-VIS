@@ -531,14 +531,14 @@ function* updateRainfall({ settime, xbandCellSize, answer, xbandFname }) {
 }
 
 export default function* rootSaga() {
-  yield takeEvery(types.FETCHDATALIST, fetchDataList);
-  yield takeEvery(types.FETCHDATABYANSWER, fetchDataByAnswer);
-  yield takeEvery(types.FETCHBUSSTOPCSV, fetchBusstopCSV);
-  yield takeEvery(types.FETCHBUSSTOPROUTESJSON, fetchBusstopRoutesJSON);
-  yield takeEvery(types.FETCHROUTESJSON, fetchRoutesJSON);
-  yield takeEvery(types.FETCHBUSSTOPSOPTION, fetchBusstopsOption);
-  yield takeEvery(types.INITIALIZEFETCH, initializeFetch);
-  yield takeEvery(types.SETUPFETCH, setupFetch);
-  yield takeEvery(types.UPDATEROUTE, updateRoute);
-  yield takeEvery(types.UPDATERAINFALL, updateRainfall);
+  yield takeEvery(types.FETCHDATALIST as any, fetchDataList);
+  yield takeEvery(types.FETCHDATABYANSWER as any, fetchDataByAnswer);
+  yield takeEvery(types.FETCHBUSSTOPCSV as any, fetchBusstopCSV);
+  yield takeEvery(types.FETCHBUSSTOPROUTESJSON as any, fetchBusstopRoutesJSON);
+  yield takeEvery(types.FETCHROUTESJSON as any, fetchRoutesJSON);
+  yield takeEvery(types.FETCHBUSSTOPSOPTION as any, fetchBusstopsOption);
+  yield takeEvery(types.INITIALIZEFETCH as any, initializeFetch);
+  yield takeEvery(types.SETUPFETCH as any, setupFetch);
+  yield takeEvery(types.UPDATEROUTE as any, updateRoute);
+  yield takeEvery(types.UPDATERAINFALL as any, updateRainfall);
 }

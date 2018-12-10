@@ -15,12 +15,12 @@ export default class HarmoVisNonMapLayers extends React.Component<Props> {
     this.props.actions.setNonmapView(true);
   }
 
-  initialize(gl) {
+  initialize(gl: WebGLRenderingContext) {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
   }
 
-  canvas;
+  canvas: HTMLCanvasElement;
 
   render() {
     const { viewport, actions, layers } = this.props;

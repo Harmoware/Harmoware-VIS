@@ -77,7 +77,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     }));
   }
 
-  getModel(gl) {
+  getModel(gl: WebGLRenderingContext) {
     // a square that minimally cover the unit circle
     const positions = [
       -1, -1, 0, -1, 1, 0, 1, 1, 0,

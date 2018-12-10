@@ -88,16 +88,17 @@ export interface BusStopsCsvData extends Depotsbase {
 export interface BusOptionData {
     busmovesoption?: Object[],
     busstopsoption?: Object[],
-    archoption?: Object[],
+    archoption?: Arcdata[],
 };
 export interface ArchBaseData {
     departuretime: number,
     arrivaltime: number,
-    arcdata: PositionPair,
+    arcdata: Arcdata,
 };
-export interface PositionPair {
+export interface Arcdata {
     sourcePosition: number[],
     targetPosition: number[],
+    [propName: string]: any,
 };
 
 export interface Bus3dDepotsData extends DepotsData {

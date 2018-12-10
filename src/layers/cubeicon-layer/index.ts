@@ -79,7 +79,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     this.updateUniforms();
   }
 
-  getModel(gl) {
+  getModel(gl: WebGLRenderingContext) {
     return new Model(gl, Object.assign({}, this.getShaders(), {
       //      id: this.props.id,
       geometry: new CubeGeometry(),

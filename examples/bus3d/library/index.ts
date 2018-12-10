@@ -1,4 +1,5 @@
 import { settings } from 'harmoware-vis';
+import { Bus3dProps, Arcdata } from '../types'
 
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
@@ -145,7 +146,7 @@ export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
     targetPosition: undefined };
 };
 
-export const updateArcLayerData = (props) => {
+export const updateArcLayerData = (props: Bus3dProps) => {
   const { busoption, archbase, bustripscsv, bustripindex, busstopscsv,
     actions, timeBegin, settime } = props;
   const currentTime = settime - timeBegin;
@@ -203,7 +204,7 @@ export const updateArcLayerData = (props) => {
     actions.setArchBase(archbase);
   }
 
-  const arcdata = [];
+  const arcdata: Arcdata[] = [];
   archbase.forEach((archbasedata) => {
     const { departuretime, arrivaltime, arcdata: basearcdata } = archbasedata;
     if (departuretime <= currentTime && currentTime <= arrivaltime) {

@@ -70,7 +70,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl) {
+  getModel(gl: WebGLRenderingContext) {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*

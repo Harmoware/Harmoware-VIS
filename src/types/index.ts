@@ -162,7 +162,7 @@ export interface DataOption {
 
 export interface Context {
   shaderCache,
-  gl,
+  gl: WebGLRenderingContext,
   viewport: {
     distanceScales: {
       degreesPerPixel: number[],

@@ -8,7 +8,7 @@ declare module "deck.gl" {
 
   export class Layer <P = {}, S = {}> {
     constructor(props: P);
-    context: any;
+    context;
     props: P;
     state: S;
     setUniforms(uniforms: Uniforms);
