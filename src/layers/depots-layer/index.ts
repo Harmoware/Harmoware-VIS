@@ -1,7 +1,7 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, LightSettings, Position, Radius, DataOption } from 'harmoware-vis';
+import { DepotsData, LightSettings, Position, Radius, DataOption, EventInfo } from '../../types';
 
 interface Props {
   layerRadiusScale?: number,
@@ -24,8 +24,8 @@ interface Props {
   getElevation3?: (x) => number,
   getElevation4?: (x) => number,
   i18n?: { error: string },
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {

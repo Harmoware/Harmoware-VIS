@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Bus3dProps } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon, EventInfo } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
@@ -61,7 +61,7 @@ class App extends Container<Bus3dAppProps, State> {
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
-    const onHover = el => actions.setHovered(el);
+    const onHover = (event: EventInfo) => actions.setHovered(event);
     const onClickBus = (el) => {
       const { movesbaseidx, code } = el.object;
       if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {

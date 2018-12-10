@@ -1,14 +1,14 @@
 import { CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
-import { LineMapData, LineData } from 'harmoware-vis';
+import { LineMapData, LineData, EventInfo } from '../../types';
 
 interface Props {
   layerOpacity?: number,
   linemapData: LineMapData[],
   strokeWidth?: number,
   getColor?: (x) => number[],
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {

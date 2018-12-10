@@ -22,8 +22,8 @@ declare module "deck.gl" {
       oldProps: P,
       changeFlags: any
     }): void;
-    onHover: (el: any) => void;
-    onClick: (el: any) => void;
+    onHover: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
   export class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}

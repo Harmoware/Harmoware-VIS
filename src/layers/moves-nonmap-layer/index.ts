@@ -2,7 +2,9 @@ import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius, Actions } from 'harmoware-vis';
+import { MovedData, Movesbase, RoutePaths, ClickedObject, Position,
+  DataOption, Radius, EventInfo } from '../../types';
+import * as Actions from '../../actions';
 
 interface Props {
   layerOpacity?: number,
@@ -13,8 +15,8 @@ interface Props {
   routePaths?: RoutePaths[],
   actions: typeof Actions,
   clickedObject?: null | ClickedObject[],
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {

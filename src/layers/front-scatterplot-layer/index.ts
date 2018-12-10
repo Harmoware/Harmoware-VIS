@@ -4,6 +4,7 @@ import { Layer, experimental } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
+import { EventInfo } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 const { get } = experimental;
@@ -22,8 +23,8 @@ interface Props {
   getPosition?: (x) => number[],
   getRadius?: (x) => number,
   getColor?: (x) => number[],
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
   attributeManager,

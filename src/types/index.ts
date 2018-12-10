@@ -172,6 +172,25 @@ export interface Context {
   }
 }
 
+export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
+  object: {
+      movesbaseidx: number
+  },
+  layer: {
+    id: string,
+    props: {
+      movesbase: Movesbase[],
+      routePaths: RoutePaths[],
+      actions: ActionTypes,
+      clickedObject: ClickedObject[],
+      onHover: (event: React.MouseEvent<HTMLButtonElement>) => void,
+      onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    }
+  },
+  x: number,
+  y: number,
+}
+
 export interface AnyObject {
   [propName: string]: any,
 }

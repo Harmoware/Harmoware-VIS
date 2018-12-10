@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation, EventInfo } from 'harmoware-vis';
 import Controller from '../components/controller';
 import * as io from 'socket.io-client';
 
@@ -159,7 +159,7 @@ class App extends Container<BasedProps, State> {
       actions, lightSettings, routePaths, viewport, loading,
       clickedObject, movesbase, movedData, depotsData } = props;
 
-    const onHover = (el) => {
+    const onHover = (el: EventInfo) => {
       if (el && el.object) {
         let disptext = '';
         const objctlist = Object.entries(el.object);

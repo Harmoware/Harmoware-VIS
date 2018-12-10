@@ -45,7 +45,8 @@ import {
   Position,
   Radius,
   DataOption,
-  LineData
+  LineData,
+  EventInfo
 } from './types';
 
 import MovesInput from './components/moves-input';
@@ -159,5 +160,6 @@ export {
   Position,
   Radius,
   DataOption,
-  LineData
+  LineData,
+  EventInfo
 };

@@ -3,7 +3,9 @@ import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Actions } from 'harmoware-vis';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
+  Position, Radius, DataOption, EventInfo } from '../../types';
+import * as Actions from '../../actions';
 
 interface Props {
   routePaths: RoutePaths[],
@@ -32,8 +34,8 @@ interface Props {
   getElevation4?: (x) => number,
   getCubeColor?: (x) => number[][],
   getCubeElevation?: (x) => number[],
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
   i18n?: { error: string }
 }
 

@@ -2,7 +2,7 @@ import { Layer } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings } from 'harmoware-vis';
+import { LightSettings, EventInfo } from '../../types';
 
 registerShaderModules([picking]);
 
@@ -28,8 +28,8 @@ interface Props {
   getPosition?: (x) => number[],
   getElevation?: (x) => number[],
   getColor?: (x) => number[][],
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
   attributeManager,

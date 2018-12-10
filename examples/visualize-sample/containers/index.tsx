@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo } from 'harmoware-vis';
 import Controller from '../components/controller';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
@@ -56,7 +56,7 @@ class App extends Container<BasedProps, State> {
       actions, lightSettings, routePaths, viewport, loading,
       clickedObject, movesbase, movedData, depotsData } = props;
 
-    const onHover = (el) => {
+    const onHover = (el: EventInfo) => {
       if (el && el.object) {
         let disptext = '';
         const objctlist = Object.entries(el.object);

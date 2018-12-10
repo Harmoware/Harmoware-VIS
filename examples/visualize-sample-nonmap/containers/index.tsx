@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
-  connectToHarmowareVis, LoadingIcon, BasedProps, Viewport } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, Viewport, EventInfo } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
@@ -32,7 +32,7 @@ class App extends Container<Props, State> implements React.Component {
       dispLookAt = viewport.lookAt.join(',');
     }
 
-    const onHover = (el) => {
+    const onHover = (el: EventInfo) => {
       if (el && el.object) {
         let disptext = '';
         const objctlist = Object.entries(el.object);

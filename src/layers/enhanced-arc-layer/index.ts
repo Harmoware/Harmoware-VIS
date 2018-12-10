@@ -3,6 +3,7 @@ import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';
 import fragment from './enhanced-arc-layer-fragment.glsl';
 import { COLOR1 } from '../../constants/settings';
+import { EventInfo } from '../../types';
 
 type Data = {
   sourcePosition: number[],
@@ -23,8 +24,8 @@ interface Props {
   getSourceColor?: (x) => number[],
   getTargetColor?: (x) => number[],
   getStrokeWidths?: (x) => number,
-  onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
   attributeManager,

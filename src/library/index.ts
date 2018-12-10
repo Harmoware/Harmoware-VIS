@@ -4,7 +4,7 @@ import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
-  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData } from '../types';
+  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
 const scaleInfo = { scaleZ: 0, xMid: 0, yMid: 0 };
@@ -276,22 +276,7 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export interface pickParams {
   mode: string,
-  info: {
-    object: {
-        movesbaseidx: number
-    },
-    layer: {
-      id: string,
-      props: {
-        movesbase: Movesbase[],
-        routePaths: RoutePaths[],
-        actions: ActionTypes,
-        clickedObject: ClickedObject[],
-        onHover: Function,
-        onClick: Function,
-      }
-    }
-  }
+  info: EventInfo,
 }
 export const onHoverClick = (pickParams: pickParams): void => {
   const { mode, info } = pickParams;
