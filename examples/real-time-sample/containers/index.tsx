@@ -13,7 +13,7 @@ interface State {
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
-  popup: Array<any>
+  popup: any[]
 }
 
 interface SocketData {

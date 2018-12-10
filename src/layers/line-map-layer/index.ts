@@ -4,9 +4,9 @@ import { LineMapData, LineData } from 'harmoware-vis';
 
 interface Props {
   layerOpacity?: number,
-  linemapData: Array<LineMapData>,
+  linemapData: LineMapData[],
   strokeWidth?: number,
-  getColor?: (x) => Array<number>,
+  getColor?: (x) => number[],
   onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }

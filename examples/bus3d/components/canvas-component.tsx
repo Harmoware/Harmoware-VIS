@@ -5,11 +5,11 @@ import * as React from 'react';
 interface Props {
   width: number,
   height: number,
-  updateCanvas: (any) => void,
+  updateCanvas: (context) => void,
 }
 
 export default class CanvasComponent extends React.Component<Props> {
-  canvas: any;
+  canvas;
 
   componentDidMount() {
     this.updateCanvas();

@@ -30,8 +30,8 @@ const getNextCellSize = (xbandCellSize) => {
 
 interface Props extends Bus3dProps {
   date: number,
-  getOptionChangeChecked: (event: any) => void,
-  getArchLayerChangeChecked: (event: any) => void,
+  getOptionChangeChecked: (event) => void,
+  getArchLayerChangeChecked: (event) => void,
   t: Function,
 }
 
@@ -128,7 +128,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = (ev) => {
-      let readdata: any = null;
+      let readdata = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

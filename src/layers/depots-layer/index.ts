@@ -6,19 +6,19 @@ import { DepotsData, LightSettings, Position, Radius, DataOption } from 'harmowa
 interface Props {
   layerRadiusScale?: number,
   layerOpacity?: number,
-  depotsData: Array<DepotsData>,
+  depotsData: DepotsData[],
   optionVisible?: boolean,
   optionChange?: boolean,
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
   lightSettings: LightSettings,
-  getColor?: (x) => Array<number>,
+  getColor?: (x) => number[],
   getRadius?: (x) => number,
-  getColor1?: (x) => Array<number>,
-  getColor2?: (x) => Array<number>,
-  getColor3?: (x) => Array<number>,
-  getColor4?: (x) => Array<number>,
+  getColor1?: (x) => number[],
+  getColor2?: (x) => number[],
+  getColor3?: (x) => number[],
+  getColor4?: (x) => number[],
   getElevation1?: (x) => number,
   getElevation2?: (x) => number,
   getElevation3?: (x) => number,
@@ -84,7 +84,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const getPosition = (x: Position) => x.position;
 
     const getOptPosition = (x: Position) => {
-      const pos: Array<number> = getPosition(x);
+      const pos: number[] = getPosition(x);
       return [pos[0] - optionMedianLng, pos[1] - optionMedianLat, pos[2]];
     };
 

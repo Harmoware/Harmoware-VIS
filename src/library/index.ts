@@ -13,22 +13,22 @@ const DEGREE_SCALE = 100;
 const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) /
   (2 * Math.PI * (EQUATOR_RADIUS * Math.cos((latitude * Math.PI) / 180.0))));
 
-const getAverage = (array: Array<number>) => array.length &&
+const getAverage = (array: number[]) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
 
-export const getContainerProp = (state)  => {
+export const getContainerProp = <P>(state: P)  => {
   let prop = {};
   Object.keys(state).forEach((key) => {
     prop = Object.assign({}, prop, { ...state[key] });
   });
-  return prop;
+  return prop as P;
 };
 
 // LoopTime とは１ループにかける時間（ミリ秒）
 export const calcLoopTime =
 (timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
 
-function normalize(nonmapView: boolean, movesbase: Array<Movesbase>): Array<Movesbase> {
+function normalize(nonmapView: boolean, movesbase: Movesbase[]): Movesbase[] {
   if (!nonmapView) return movesbase;
   let xMin = Infinity;
   let yMin = Infinity;
@@ -60,11 +60,11 @@ function normalize(nonmapView: boolean, movesbase: Array<Movesbase>): Array<Move
 }
 
 export const analyzeMovesBase =
-(nonmapView: boolean, inputData: (Array<Movesbase> | MovesbaseFile)) : AnalyzedBaseData => {
+(nonmapView: boolean, inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
   let baseTimeBegin: void | number;
   let baseTimeLength: void | number;
   let baseBounds: void | Bounds;
-  let basemovesbase: Array<Movesbase>;
+  let basemovesbase: Movesbase[];
 
   if (Array.isArray(inputData)) { // Array?
     basemovesbase = [...inputData];
@@ -81,7 +81,7 @@ export const analyzeMovesBase =
     westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
   };
 
-  const movesbase: Array<Movesbase> = basemovesbase;
+  const movesbase: Movesbase[] = basemovesbase;
   let timeEnd: number = 0;
   const longArray: number[] = [];
   const latiArray: number[] = [];
@@ -134,7 +134,7 @@ export const analyzeMovesBase =
 };
 
 export const analyzeDepotsBase =
-(nonmapView: boolean, depotsBase: Array<Depotsbase>) : Array<Depotsbase> => {
+(nonmapView: boolean, depotsBase: Depotsbase[]) : Depotsbase[] => {
   if (!nonmapView) return depotsBase;
   let xMin = Infinity;
   let yMin = Infinity;
@@ -172,9 +172,9 @@ const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
   });
   return retValue;
 };
-export const getDepots = (props: Props): Array<DepotsData> => {
+export const getDepots = (props: Props): DepotsData[] => {
   const { nonmapView, depotsBase, bounds, getDepotsOptionFunc } = props;
-  const depotsData: Array<DepotsData> = [];
+  const depotsData: DepotsData[] = [];
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   if (nonmapView || (depotsBase.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {
@@ -214,9 +214,9 @@ const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOpti
   });
   return retValue;
 };
-export const getMoveObjects = (props : Props): Array<MovedData> => {
+export const getMoveObjects = (props : Props): MovedData[] => {
   const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
-  const movedData: Array<MovedData> = [];
+  const movedData: MovedData[] = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
@@ -258,7 +258,7 @@ export const getMoveObjects = (props : Props): Array<MovedData> => {
 };
 
 const routeDelete = (movesbaseidx: number, props: {
-  routePaths: Array<RoutePaths>, clickedObject: Array<ClickedObject>,
+  routePaths: RoutePaths[], clickedObject: ClickedObject[],
   actions: ActionTypes }): void => {
   const { actions, clickedObject, routePaths } = props;
   if (clickedObject.length > 0 && routePaths.length > 0) {
@@ -283,10 +283,10 @@ export interface pickParams {
     layer: {
       id: string,
       props: {
-        movesbase: Array<Movesbase>,
-        routePaths: Array<RoutePaths>,
+        movesbase: Movesbase[],
+        routePaths: RoutePaths[],
         actions: ActionTypes,
-        clickedObject: Array<ClickedObject>,
+        clickedObject: ClickedObject[],
         onHover: Function,
         onClick: Function,
       }
@@ -341,8 +341,8 @@ export const onHoverClick = (pickParams: pickParams): void => {
 };
 
 export const checkClickedObjectToBeRemoved = (
-  movedData: Array<MovedData>, clickedObject: null | Array<ClickedObject>,
-  routePaths: Array<RoutePaths>, actions: ActionTypes): void => {
+  movedData: MovedData[], clickedObject: null | ClickedObject[],
+  routePaths: RoutePaths[], actions: ActionTypes): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
       let deleted = true;
@@ -360,7 +360,7 @@ export const checkClickedObjectToBeRemoved = (
 };
 
 export const analyzelinemapData =
-  (nonmapView: boolean, linemapData: Array<LineMapData>) : Array<LineMapData> => {
+  (nonmapView: boolean, linemapData: LineMapData[]) : LineMapData[] => {
     if (!nonmapView) return linemapData;
     let xMin = Infinity;
     let yMin = Infinity;

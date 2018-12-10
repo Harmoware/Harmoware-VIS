@@ -30,7 +30,7 @@ export default class XbandDataInput extends React.Component<Props, State> {
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = () => {
-      let readdata: any = null;
+      let readdata = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

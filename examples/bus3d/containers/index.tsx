@@ -22,7 +22,7 @@ interface Bus3dAppProps extends Bus3dProps {
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: Array<any>
+  arcdata: any[]
 }
 
 class App extends Container<Bus3dAppProps, State> {

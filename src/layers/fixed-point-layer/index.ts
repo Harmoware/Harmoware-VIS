@@ -5,8 +5,8 @@ import { DepotsData, Position, DataOption, Radius } from 'harmoware-vis';
 
 interface Props {
   layerOpacity?: number,
-  depotsData: Array<DepotsData>,
-  getColor?: (x) => Array<number>,
+  depotsData: DepotsData[],
+  getColor?: (x) => number[],
   getRadius?: (x) => number,
   onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,

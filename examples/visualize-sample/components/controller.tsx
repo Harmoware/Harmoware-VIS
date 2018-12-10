@@ -18,7 +18,7 @@ interface Props extends BasedProps{
 interface State {
   currentGroupindex: number,
   routeGroupDisplay: boolean,
-  saveRouteGroup: Array<{clickedObject: any, routePaths: any}>
+  saveRouteGroup: {clickedObject: any, routePaths: any}[]
 }
 
 export default class Controller extends React.Component<Props, State> {

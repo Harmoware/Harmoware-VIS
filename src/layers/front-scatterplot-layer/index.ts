@@ -9,19 +9,19 @@ const DEFAULT_COLOR = [255, 255, 255, 255];
 const { get } = experimental;
 
 type Data = {
-  position: Array<number>,
+  position: number[],
   radius: number,
-  color: Array<number>,
+  color: number[],
 }
 
 interface Props {
-  data: Array<Data>,
+  data: Data[],
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,
-  getPosition?: (x) => Array<number>,
+  getPosition?: (x) => number[],
   getRadius?: (x) => number,
-  getColor?: (x) => Array<number>,
+  getColor?: (x) => number[],
   onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
@@ -97,7 +97,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     }));
   }
 
-  calculateInstancePositions(attribute: { value: Array<number>, size: number }) {
+  calculateInstancePositions(attribute: { value: number[], size: number }) {
     const { data, getPosition } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -110,7 +110,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceRadius(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceRadius(attribute: { value: number[], size: number }) {
     const { data, getRadius } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -121,7 +121,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceColors(attribute: { value: number[], size: number }) {
     const { data, getColor } = this.props;
     const { value, size } = attribute;
     let i = 0;

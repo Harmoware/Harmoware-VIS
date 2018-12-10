@@ -156,7 +156,7 @@ export const updateArcLayerData = (props) => {
 
   if (Object.keys(bustripindex).length === 0) {
     const d = new Date(timeBegin * 1000);
-    const date: Array<number> = [d.getFullYear(), d.getMonth(), d.getDate()];
+    const date: number[] = [d.getFullYear(), d.getMonth(), d.getDate()];
 
     const bssidx = {};
     busstopscsv.forEach((current, idx) => {

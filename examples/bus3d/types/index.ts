@@ -1,9 +1,11 @@
-import { Actions as BaseActions, ActionsInterface, BasedState, DepotsData, Movesbase, MovedData, ClickedObject } from 'harmoware-vis';
+import { Actions as BaseActions, ActionsInterface, BasedState,
+    DepotsData, Movesbase, MovesbaseOperation, MovedData, Depotsbase,
+    ClickedObject } from 'harmoware-vis';
 import * as Actions from '../actions';
 
 export interface Bus3dState extends BasedState {
-    bustripscsv?: Array<BusTripsCsvData>,
-    busstopscsv?: Array<BusStopsCsvData>,
+    bustripscsv?: BusTripsCsvData[],
+    busstopscsv?: BusStopsCsvData[],
     busroutes?: Object,
     delayheight?: number,
     delayrange?: number,
@@ -15,17 +17,18 @@ export interface Bus3dState extends BasedState {
     selectedBus?: string,
     answer?: string,
     hovered?: Object,
-    answers?: Array<string>,
+    answers?: string[],
     busoption?: BusOptionData,
     busmovesbasedic?: Object,
     routesdata?: Object,
     bustripindex?: Object,
-    archbase?: Array<ArchBaseData>,
-    rainfall?: Array<Object>,
-    depotsData?: Array<Bus3dDepotsData>,
-    movesbase?: Array<Bus3dMovesbase>,
-    movedData?: Array<Bus3dMovedData>,
-    clickedObject?: Array<Bus3dClickedObject>,
+    archbase?: ArchBaseData[],
+    rainfall?: Object[],
+    depotsBase?: BusStopsCsvData[],
+    depotsData?: Bus3dDepotsData[],
+    movesbase?: Bus3dMovesbase[],
+    movedData?: Bus3dMovedData[],
+    clickedObject?: Bus3dClickedObject[],
 };
 export interface Bus3dProps extends Bus3dState {
     actions?: typeof Bus3dActions,
@@ -78,16 +81,14 @@ export interface BusTripsCsvData {
     busstopcode: string,
     busstoporder: string,
 };
-export interface BusStopsCsvData {
+export interface BusStopsCsvData extends Depotsbase {
     code: string,
     name: string,
-    longitude: string,
-    latitude: string,
 };
 export interface BusOptionData {
-    busmovesoption?: Array<Object>,
-    busstopsoption?: Array<Object>,
-    archoption?: Array<Object>,
+    busmovesoption?: Object[],
+    busstopsoption?: Object[],
+    archoption?: Object[],
 };
 export interface ArchBaseData {
     departuretime: number,
@@ -95,8 +96,8 @@ export interface ArchBaseData {
     arcdata: PositionPair,
 };
 export interface PositionPair {
-    sourcePosition: Array<number>,
-    targetPosition: Array<number>,
+    sourcePosition: number[],
+    targetPosition: number[],
 };
 
 export interface Bus3dDepotsData extends DepotsData {
@@ -104,8 +105,12 @@ export interface Bus3dDepotsData extends DepotsData {
     name?: string,
     memo?: string,
 };
+export interface Bus3dMovesbaseOperation extends MovesbaseOperation {
+    delaysec?: number,
+};
 export interface Bus3dMovesbase extends Movesbase {
     busclass?: BusClass,
+    operation: Bus3dMovesbaseOperation[]
 };
 export interface BusClass {
     systemcode?: string,

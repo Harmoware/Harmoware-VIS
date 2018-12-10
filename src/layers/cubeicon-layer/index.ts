@@ -9,14 +9,14 @@ registerShaderModules([picking]);
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
 type Data = {
-  position: Array<number>,
-  elevation:Array<number>,
-  color: Array<Array<number>>,
+  position: number[],
+  elevation:number[],
+  color: number[][],
 }
 
 interface Props {
   id: string,
-  data: Array<Data>,
+  data: Data[],
   visible?: boolean,
   cellSize?: number,
   coverage?: number,
@@ -25,9 +25,9 @@ interface Props {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x) => Array<number>,
-  getElevation?: (x) => Array<number>,
-  getColor?: (x) => Array<Array<number>>,
+  getPosition?: (x) => number[],
+  getElevation?: (x) => number[],
+  getColor?: (x) => number[][],
   onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
@@ -112,7 +112,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     })});
   }
 
-  calculateInstancePositions(attribute: { value: Array<number>, size: number }) {
+  calculateInstancePositions(attribute: { value: number[], size: number }) {
     const { data, getPosition, getElevation, elevationScale } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -131,7 +131,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceColors(attribute: { value: number[], size: number }) {
     const { data, getColor, getElevation } = this.props;
     const { value, size } = attribute;
     let i = 0;

@@ -28,7 +28,7 @@ export default class MovesInput extends React.Component<Props> {
     reader.readAsText(file);
     const file_name: string = file.name;
     reader.onload = () => {
-      let readdata: Array<Movesbase> | MovesbaseFile = null;
+      let readdata: Movesbase[] | MovesbaseFile = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

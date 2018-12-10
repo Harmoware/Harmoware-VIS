@@ -6,13 +6,13 @@ import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, 
 
 interface Props {
   layerOpacity?: number,
-  movedData: Array<MovedData>,
-  movesbase: Array<Movesbase>,
-  getColor?: (x) => Array<number>,
+  movedData: MovedData[],
+  movesbase: Movesbase[],
+  getColor?: (x) => number[],
   getRadius?: (x) => number,
-  routePaths?: Array<RoutePaths>,
+  routePaths?: RoutePaths[],
   actions: typeof Actions,
-  clickedObject?: null | Array<ClickedObject>,
+  clickedObject?: null | ClickedObject[],
   onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
 }
