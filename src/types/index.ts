@@ -79,7 +79,7 @@ export interface LineData {
 };
 
 export interface RoutePaths {
-  movesbaseidx: number,
+  movesbaseidx?: number,
   sourcePosition: number[],
   targetPosition: number[],
   color?: number[]
@@ -183,8 +183,8 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
       routePaths: RoutePaths[],
       actions: ActionTypes,
       clickedObject: ClickedObject[],
-      onHover: (event: React.MouseEvent<HTMLButtonElement>) => void,
-      onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+      onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+      onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
     }
   },
   x: number,

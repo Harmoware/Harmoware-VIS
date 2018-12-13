@@ -1,12 +1,15 @@
 import { Actions as BaseActions, ActionsInterface, BasedState,
     DepotsData, Movesbase, MovesbaseOperation, MovedData, Depotsbase,
-    ClickedObject } from 'harmoware-vis';
+    ClickedObject, EventInfo } from 'harmoware-vis';
 import * as Actions from '../actions';
 
+export interface ComObj<T> {
+    [propName: string]: T,
+}
 export interface Bus3dState extends BasedState {
     bustripscsv?: BusTripsCsvData[],
     busstopscsv?: BusStopsCsvData[],
-    busroutes?: Object,
+    busroutes?: Busroutes,
     delayheight?: number,
     delayrange?: number,
     elevationScale?: number,
@@ -16,14 +19,14 @@ export interface Bus3dState extends BasedState {
     selectedBusstop?: string,
     selectedBus?: string,
     answer?: string,
-    hovered?: Object,
+    hovered?: Bus3dEventInfo,
     answers?: string[],
     busoption?: BusOptionData,
-    busmovesbasedic?: Object,
-    routesdata?: Object,
-    bustripindex?: Object,
+    busmovesbasedic?: ComObj<number>,
+    routesdata?: ComObj<string>,
+    bustripindex?: ComObj<{ elapsedtime: number, position: number[] }>,
     archbase?: ArchBaseData[],
-    rainfall?: Object[],
+    rainfall?: RainfallData[],
     depotsBase?: BusStopsCsvData[],
     depotsData?: Bus3dDepotsData[],
     movesbase?: Bus3dMovesbase[],
@@ -86,8 +89,15 @@ export interface BusStopsCsvData extends Depotsbase {
     name: string,
 };
 export interface BusOptionData {
-    busmovesoption?: Object[],
-    busstopsoption?: Object[],
+    busmovesoption?: {[propName: string]: any}[],
+    busstopsoption?: {
+        [propName: string]: {
+            bscode: number,
+            elevation: number | number[],
+            color: number[] | number[][],
+            memo: string
+        }[]
+    },
     archoption?: Arcdata[],
 };
 export interface ArchBaseData {
@@ -127,3 +137,17 @@ export interface Bus3dMovedData extends MovedData {
 export interface Bus3dClickedObject extends ClickedObject {
     object: {movesbaseidx: number, name?: string},
 };
+export interface Bus3dEventInfo extends EventInfo {
+    object: {
+        movesbaseidx: number,
+        code: string,
+    },
+};
+export interface Busroutes {
+    [propName: string]: string[],
+}
+export interface RainfallData {
+    position: number[],
+    elevation: number,
+    color: number[],
+}

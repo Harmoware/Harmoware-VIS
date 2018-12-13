@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MovesInput, DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime,
-  NavigationButton, BasedProps } from 'harmoware-vis';
+  NavigationButton, BasedProps, ClickedObject, RoutePaths } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave,
   ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
@@ -18,7 +18,10 @@ interface Props extends BasedProps{
 interface State {
   currentGroupindex: number,
   routeGroupDisplay: boolean,
-  saveRouteGroup: {clickedObject: any, routePaths: any}[]
+  saveRouteGroup: {
+    clickedObject: ClickedObject[],
+    routePaths: RoutePaths[],
+  }[]
 }
 
 export default class Controller extends React.Component<Props, State> {

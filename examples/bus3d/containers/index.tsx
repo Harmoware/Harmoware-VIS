@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
-import { Bus3dProps } from '../types';
+import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, EventInfo } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
@@ -22,7 +22,7 @@ interface Bus3dAppProps extends Bus3dProps {
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: any[]
+  arcdata: Arcdata[]
 }
 
 class App extends Container<Bus3dAppProps, State> {
@@ -61,8 +61,8 @@ class App extends Container<Bus3dAppProps, State> {
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
-    const onHover = (event: EventInfo) => actions.setHovered(event);
-    const onClickBus = (el) => {
+    const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
+    const onClickBus = (el: Bus3dEventInfo) => {
       const { movesbaseidx, code } = el.object;
       if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {
         actions.setClicked(null);
@@ -72,7 +72,7 @@ class App extends Container<Bus3dAppProps, State> {
         actions.setSelectedBus(code);
       }
     };
-    const onClickBusstop = (el) => {
+    const onClickBusstop = (el: Bus3dEventInfo) => {
       const { code } = el.object;
       if (selectedBusstop.length > 0 && selectedBusstop === code) {
         actions.setSelectedBusstop('');

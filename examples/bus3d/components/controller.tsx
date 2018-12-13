@@ -106,7 +106,7 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   setDelayRange(e: React.ChangeEvent<HTMLInputElement>) {
-    const range = e.target.value;
+    const range: number = Number(e.target.value);
     const { actions, clickedObject } = this.props;
     actions.setDelayRange(range);
     actions.updateRoute(clickedObject, false);

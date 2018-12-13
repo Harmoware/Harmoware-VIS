@@ -1,6 +1,11 @@
 import * as types from '../constants/action-types';
+import { BusTripsCsvData, BusStopsCsvData, Busroutes } from '../types';
 
-const initialState = {
+const initialState: {
+  bustripscsv: BusTripsCsvData[],
+  busstopscsv: BusStopsCsvData[],
+  busroutes: Busroutes,
+} = {
   bustripscsv: [],
   busstopscsv: [],
   busroutes: {}

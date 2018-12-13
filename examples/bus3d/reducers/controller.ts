@@ -1,6 +1,18 @@
 import * as types from '../constants/action-types';
+import { Bus3dEventInfo } from '../types'
 
-const initialState = {
+const initialState: {
+  delayheight: number,
+  delayrange: number,
+  elevationScale: number,
+  xbandCellSize: number,
+  bsoptFname: string,
+  xbandFname: string,
+  selectedBusstop: string,
+  selectedBus: string,
+  answer: string,
+  hovered: Bus3dEventInfo,
+} = {
   delayheight: 0,
   delayrange: 10,
   elevationScale: 5,

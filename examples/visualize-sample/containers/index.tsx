@@ -13,7 +13,7 @@ interface State {
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
-  popup: any[]
+  popup: [number, number, string]
 }
 
 class App extends Container<BasedProps, State> {

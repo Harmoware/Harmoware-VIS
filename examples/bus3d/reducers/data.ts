@@ -1,6 +1,15 @@
 import * as types from '../constants/action-types';
+import { ComObj, BusOptionData, ArchBaseData, RainfallData } from '../types';
 
-const initialState = {
+const initialState:{
+  answers: string[],
+  busoption: BusOptionData,
+  busmovesbasedic: ComObj<number>,
+  routesdata: ComObj<string>,
+  bustripindex: ComObj<{ elapsedtime: number, position: number[] }>,
+  archbase: ArchBaseData[],
+  rainfall: RainfallData[]
+} = {
   answers: [],
   busoption: {},
   busmovesbasedic: {},

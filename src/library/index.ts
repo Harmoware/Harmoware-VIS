@@ -376,7 +376,7 @@ export const analyzelinemapData =
     return linemapData;
   };
 
-export const defaultMapStateToProps = (state)  => getContainerProp(state);
+export const defaultMapStateToProps = <P>(state: P)  => getContainerProp<P>(state);
 
 export const connectToHarmowareVis = (App, moreActions = null,
   mapStateToProps = defaultMapStateToProps) => {

@@ -1,3 +1,5 @@
+import * as React from 'react';
+import { vec3 } from 'gl-matrix';
 
 declare module "deck.gl" {
   interface Uniforms {
@@ -20,7 +22,7 @@ declare module "deck.gl" {
     updateState(state: {
       props: P,
       oldProps: P,
-      changeFlags: any
+      changeFlags,
     }): void;
     onHover: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -48,7 +50,7 @@ declare module "deck.gl" {
     far:number; 
     near: number; 
     fovy: number; 
-    eye: any;
+    eye: vec3;
   }
 
   export class PerspectiveViewport {

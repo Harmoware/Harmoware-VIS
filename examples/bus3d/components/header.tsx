@@ -34,13 +34,13 @@ export default class Header extends React.Component<Props> {
     actions.setRoutePaths([]);
   }
 
-  setDelayHeight(e) {
+  setDelayHeight(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, clickedObject } = this.props;
     actions.setDelayHeight(e.target.value);
     actions.updateRoute(clickedObject, false);
   }
 
-  setScaleElevation(e) {
+  setScaleElevation(e: React.ChangeEvent<HTMLInputElement>) {
     this.props.actions.setScaleElevation(e.target.value);
   }
 
