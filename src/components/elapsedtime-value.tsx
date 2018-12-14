@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
   settime: number,
@@ -17,7 +17,7 @@ export default class ElapsedTimeValue extends React.Component<Props> {
     className: 'harmovis_input_number'
   }
 
-  setTime(e: InputEvent) {
+  setTime(e: React.ChangeEvent<HTMLInputElement>) {
     const value = Number(e.target.value);
     const { actions, timeBegin, timeLength, min } = this.props;
     const settime = Math.min(timeLength, Math.max(min, value));

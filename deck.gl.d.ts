@@ -1,3 +1,5 @@
+import * as React from 'react';
+import { vec3 } from 'gl-matrix';
 
 declare module "deck.gl" {
   interface Uniforms {
@@ -8,7 +10,7 @@ declare module "deck.gl" {
 
   export class Layer <P = {}, S = {}> {
     constructor(props: P);
-    context: any;
+    context;
     props: P;
     state: S;
     setUniforms(uniforms: Uniforms);
@@ -20,10 +22,10 @@ declare module "deck.gl" {
     updateState(state: {
       props: P,
       oldProps: P,
-      changeFlags: any
+      changeFlags,
     }): void;
-    onHover: (el: any) => void;
-    onClick: (el: any) => void;
+    onHover: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
   export class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}
@@ -48,7 +50,7 @@ declare module "deck.gl" {
     far:number; 
     near: number; 
     fovy: number; 
-    eye: any;
+    eye: vec3;
   }
 
   export class PerspectiveViewport {

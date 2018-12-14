@@ -2,21 +2,21 @@ import { Layer } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings } from 'harmoware-vis';
+import { LightSettings, EventInfo } from '../../types';
 
 registerShaderModules([picking]);
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
 type Data = {
-  position: Array<number>,
-  elevation:Array<number>,
-  color: Array<Array<number>>,
+  position: number[],
+  elevation:number[],
+  color: number[][],
 }
 
 interface Props {
   id: string,
-  data: Array<Data>,
+  data: Data[],
   visible?: boolean,
   cellSize?: number,
   coverage?: number,
@@ -25,15 +25,15 @@ interface Props {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x: any) => Array<number>,
-  getElevation?: (x: any) => Array<number>,
-  getColor?: (x: any) => Array<Array<number>>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getPosition?: (x) => number[],
+  getElevation?: (x) => number[],
+  getColor?: (x) => number[][],
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any
+  attributeManager,
+  model
 }
 
 export default class CubeiconLayer extends Layer<Props, State> {
@@ -79,7 +79,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     this.updateUniforms();
   }
 
-  getModel(gl: any) {
+  getModel(gl: WebGLRenderingContext) {
     return new Model(gl, Object.assign({}, this.getShaders(), {
       //      id: this.props.id,
       geometry: new CubeGeometry(),
@@ -112,7 +112,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     })});
   }
 
-  calculateInstancePositions(attribute: { value: Array<number>, size: number }) {
+  calculateInstancePositions(attribute: { value: number[], size: number }) {
     const { data, getPosition, getElevation, elevationScale } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -131,7 +131,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceColors(attribute: { value: number[], size: number }) {
     const { data, getColor, getElevation } = this.props;
     const { value, size } = attribute;
     let i = 0;

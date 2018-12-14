@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FPSStats } from 'react-stats';
-import { Bus3dProps } from '../types';
+import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon, InputEvent } from 'harmoware-vis';
+  connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
@@ -11,19 +11,18 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
-import i18n from '../locales/I18n';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
 interface Bus3dAppProps extends Bus3dProps {
-  t?: Function,
+  t: Function,
 }
 
 interface State {
   optionChange: boolean,
   archLayerChange: boolean,
-  arcdata: Array<any>
+  arcdata: Arcdata[]
 }
 
 class App extends Container<Bus3dAppProps, State> {
@@ -41,11 +40,11 @@ class App extends Container<Bus3dAppProps, State> {
     };
   }
 
-  getOptionChangeChecked(e: InputEvent) {
+  getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ optionChange: e.target.checked });
   }
 
-  getArchLayerChangeChecked(e: InputEvent) {
+  getArchLayerChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ archLayerChange: e.target.checked });
   }
 
@@ -62,8 +61,8 @@ class App extends Container<Bus3dAppProps, State> {
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movesbase, movedData, depotsData, loading } = props;
 
-    const onHover = el => actions.setHovered(el);
-    const onClickBus = (el) => {
+    const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
+    const onClickBus = (el: Bus3dEventInfo) => {
       const { movesbaseidx, code } = el.object;
       if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {
         actions.setClicked(null);
@@ -73,8 +72,8 @@ class App extends Container<Bus3dAppProps, State> {
         actions.setSelectedBus(code);
       }
     };
-    const onClickBusstop = (el) => {
-      const { movesbaseidx, code } = el.object;
+    const onClickBusstop = (el: Bus3dEventInfo) => {
+      const { code } = el.object;
       if (selectedBusstop.length > 0 && selectedBusstop === code) {
         actions.setSelectedBusstop('');
       } else {
@@ -85,9 +84,7 @@ class App extends Container<Bus3dAppProps, State> {
 
     return (
       <div>
-        <Header
-          {...props} date={date} language={i18n.language}
-        />
+        <Header {...props} />
         <Controller
           {...props} date={date}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}

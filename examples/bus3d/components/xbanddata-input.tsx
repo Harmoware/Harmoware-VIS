@@ -1,12 +1,9 @@
-
-
 import * as React from 'react';
 import { Bus3dActions } from '../types';
-import { InputEvent } from 'harmoware-vis';
 
 interface Props {
   actions: typeof Bus3dActions,
-  t?: Function,
+  t: Function,
 }
 
 interface State {
@@ -21,7 +18,7 @@ export default class XbandDataInput extends React.Component<Props, State> {
     };
   }
 
-  onSelect(e: InputEvent) {
+  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -31,7 +28,7 @@ export default class XbandDataInput extends React.Component<Props, State> {
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = () => {
-      let readdata: any = null;
+      let readdata = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

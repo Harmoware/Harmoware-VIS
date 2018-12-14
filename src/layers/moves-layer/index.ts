@@ -1,17 +1,19 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
-import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Actions } from 'harmoware-vis';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
+  Position, Radius, DataOption, EventInfo } from '../../types';
+import * as Actions from '../../actions';
 
 interface Props {
-  routePaths: Array<RoutePaths>,
+  routePaths: RoutePaths[],
   layerRadiusScale?: number,
   layerOpacity?: number,
-  movedData: Array<MovedData>,
-  movesbase: Array<Movesbase>,
-  clickedObject: null | Array<ClickedObject>,
+  movedData: MovedData[],
+  movesbase: Movesbase[],
+  clickedObject: null | ClickedObject[],
   actions: typeof Actions,
   optionVisible?: boolean,
   optionChange?: boolean,
@@ -20,20 +22,20 @@ interface Props {
   optionElevationScale?: number,
   visible?: boolean,
   lightSettings: LightSettings,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  getColor1?: (x: any) => Array<number>,
-  getColor2?: (x: any) => Array<number>,
-  getColor3?: (x: any) => Array<number>,
-  getColor4?: (x: any) => Array<number>,
-  getElevation1?: (x: any) => number,
-  getElevation2?: (x: any) => number,
-  getElevation3?: (x: any) => number,
-  getElevation4?: (x: any) => number,
-  getCubeColor?: (x: any) => Array<Array<number>>,
-  getCubeElevation?: (x: any) => Array<number>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getColor?: (x) => number[],
+  getRadius?: (x) => number,
+  getColor1?: (x) => number[],
+  getColor2?: (x) => number[],
+  getColor3?: (x) => number[],
+  getColor4?: (x) => number[],
+  getElevation1?: (x) => number,
+  getElevation2?: (x) => number,
+  getElevation3?: (x) => number,
+  getElevation4?: (x) => number,
+  getCubeColor?: (x) => number[][],
+  getCubeElevation?: (x) => number[],
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
   i18n?: { error: string }
 }
 
@@ -51,6 +53,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionCellSize: 12,
     optionElevationScale: 1,
     visible: true,
+    getRadius: (x: Radius) => x.radius || 20,
     getColor: (x: DataOption) => x.color || COLOR1,
     getColor1: (x: DataOption) => (x.optColor && x.optColor[0]) || x.color || COLOR1,
     getColor2: (x: DataOption) => (x.optColor && x.optColor[1]) || x.color || COLOR1,
@@ -69,14 +72,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesLayer';
 
-  getPickingInfo(pickParams: any) {
+  getPickingInfo(pickParams: pickParams) {
     onHoverClick(pickParams);
   }
 
   renderLayers() {
     const { routePaths, layerRadiusScale, layerOpacity, movedData, movesbase,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionVisible, optionChange, lightSettings, getColor, getRadius: propGetRadius,
+      optionVisible, optionChange, lightSettings, getColor, getRadius,
       visible, getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
       getCubeColor, getCubeElevation, i18n
@@ -106,7 +109,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return [pos[0] - optionMedianLng, pos[1] - optionMedianLat, pos[2]];
     };
 
-    const getRadius = propGetRadius || ((x: Radius) => (x.radius || 20));
     const getPosition1 = (x: Position) => {
       const pos = getOptPosition(x);
       return [pos[0] + optionShiftLng, pos[1] + optionShiftLat, pos[2]];
@@ -217,7 +219,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: movedData,
         visible: visible && optionVisible,
         pickable: true,
-        getStrokeWidths: (x: any) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
+        getStrokeWidths: (x) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
         opacity: layerOpacity
       }),
     ];

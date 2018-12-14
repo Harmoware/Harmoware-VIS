@@ -1,15 +1,15 @@
 import { CompositeLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, Position, DataOption, Radius } from 'harmoware-vis';
+import { DepotsData, Position, DataOption, Radius, EventInfo } from '../../types';
 
 interface Props {
   layerOpacity?: number,
-  depotsData: Array<DepotsData>,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  depotsData: DepotsData[],
+  getColor?: (x) => number[],
+  getRadius?: (x) => number,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {

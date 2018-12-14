@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
   secperhour: number,
@@ -19,7 +19,7 @@ export default class SpeedRange extends React.Component<Props> {
     className: 'harmovis_input_range'
   }
 
-  setSecPerHour(e : InputEvent) {
+  setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
     const value = Number(e.target.value);
     const { maxsecperhour, min, actions } = this.props;
     const secperhour = (maxsecperhour + min) - Math.floor(value);

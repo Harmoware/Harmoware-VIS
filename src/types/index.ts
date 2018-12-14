@@ -1,9 +1,5 @@
 import * as BaseActions from '../actions';
 
-export type InputEvent = {
-  target: HTMLInputElement
-} & Event;
-
 export interface Viewport {
   longitude?: number,
   latitude?: number,
@@ -14,7 +10,7 @@ export interface Viewport {
   bearing?: number,
   width?: number,
   height?: number,
-  lookAt?: Array<number>,
+  lookAt?: number[],
   distance?: number,
   minDistance?: number,
   maxDistance?: number,
@@ -24,11 +20,11 @@ export interface Viewport {
 };
 
 export interface LightSettings {
-  lightsPosition?: Array<number>,
+  lightsPosition?: number[],
   ambientRatio?: number,
   diffuseRatio?: number,
   specularRatio?: number,
-  lightsStrength?: Array<number>,
+  lightsStrength?: number[],
   numberOfLights?: number
 };
 
@@ -43,22 +39,22 @@ export interface MovesbaseOperation {
   elapsedtime: number,
   longitude?: number,
   latitude?: number,
-  position: Array<number>,
-  color?: void | Array<number>,
-  normal?: void | Array<number>,
+  position?: number[],
+  color?: void | number[],
+  normal?: void | number[],
 };
 
 export interface Movesbase {
   departuretime: number,
   arrivaltime: number,
-  operation: Array<MovesbaseOperation>
+  operation: MovesbaseOperation[]
 };
 
 export interface MovesbaseFile {
   timeBegin?: number,
   timeLength?: number,
   bounds?: Bounds,
-  movesbase: Array<Movesbase>,
+  movesbase: Movesbase[],
 };
 
 export interface AnalyzedBaseData extends MovesbaseFile {
@@ -68,7 +64,7 @@ export interface AnalyzedBaseData extends MovesbaseFile {
 export interface Depotsbase {
   longitude?: number,
   latitude?: number,
-  position: Array<number>
+  position?: number[]
 };
 
 export interface ClickedObject {
@@ -77,31 +73,31 @@ export interface ClickedObject {
 };
 
 export interface LineData {
-  sourcePosition: Array<number>,
-  targetPosition: Array<number>,
-  color?: Array<number>
+  sourcePosition: number[],
+  targetPosition: number[],
+  color?: number[]
 };
 
 export interface RoutePaths {
-  movesbaseidx: number,
-  sourcePosition: Array<number>,
-  targetPosition: Array<number>,
-  color?: Array<number>
+  movesbaseidx?: number,
+  sourcePosition: number[],
+  targetPosition: number[],
+  color?: number[]
 };
 
 export interface LineMapData {
-  sourcePosition: Array<number>,
-  targetPosition: Array<number>,
-  color?: Array<number>
+  sourcePosition: number[],
+  targetPosition: number[],
+  color?: number[]
 };
 
 export interface MovedData {
   movesbaseidx: number,
-  position: Array<number>
+  position: number[]
 };
 
 export interface DepotsData {
-  position: Array<number>
+  position: number[]
 };
 
 export interface BasedState {
@@ -109,21 +105,21 @@ export interface BasedState {
   animateReverse?: boolean,
   beforeFrameTimestamp?: number,
   bounds?: Bounds,
-  clickedObject?: null | Array<ClickedObject>,
+  clickedObject?: null | ClickedObject[],
   defaultPitch?: number,
   defaultZoom?: number,
-  depotsBase?: Array<Depotsbase>,
+  depotsBase?: Depotsbase[],
   depotsBaseOriginal?: string,
-  depotsData?: Array<DepotsData>,
-  getDepotsOptionFunc?: null | ((props: any, i: number) => any),
-  getMovesOptionFunc?: null | ((props: any, i: number, j: number) => any),
+  depotsData?: DepotsData[],
+  getDepotsOptionFunc?: null | (<P>(props: P, i: number) => any),
+  getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => any),
   leading?: number,
   lightSettings?: LightSettings,
   loopTime?: number,
-  movedData?: Array<MovedData>,
-  movesbase?: Array<Movesbase>,
+  movedData?: MovedData[],
+  movesbase?: Movesbase[],
   nonmapView?: boolean,
-  routePaths?: Array<RoutePaths>,
+  routePaths?: RoutePaths[],
   secperhour?: number,
   settime?: number,
   starttimestamp?: number,
@@ -131,7 +127,7 @@ export interface BasedState {
   timeLength?: number,
   trailing?: number,
   viewport?: Viewport,
-  linemapData?: Array<LineMapData>,
+  linemapData?: LineMapData[],
   linemapDataOriginal?: string,
   loading?: boolean,
   inputFileName?: AnyObject,
@@ -150,7 +146,7 @@ export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
 export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
 
 export interface Position {
-  position: Array<number>
+  position: number[]
 };
 
 export interface Radius {
@@ -158,22 +154,41 @@ export interface Radius {
 };
 
 export interface DataOption {
-  color?: Array<number>,
-  optColor?: Array<number>,
-  optElevation?: Array<number>,
-  normal?: Array<number>,
+  color?: number[],
+  optColor?: number[],
+  optElevation?: number[],
+  normal?: number[],
 }
 
 export interface Context {
-  shaderCache: any,
-  gl: any,
+  shaderCache,
+  gl: WebGLRenderingContext,
   viewport: {
     distanceScales: {
-      degreesPerPixel: Array<number>,
-      pixelsPerMeter: Array<number>
+      degreesPerPixel: number[],
+      pixelsPerMeter: number[]
     },
     getDistanceScales: Function
   }
+}
+
+export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
+  object: {
+      movesbaseidx: number
+  },
+  layer: {
+    id: string,
+    props: {
+      movesbase: Movesbase[],
+      routePaths: RoutePaths[],
+      actions: ActionTypes,
+      clickedObject: ClickedObject[],
+      onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+      onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    }
+  },
+  x: number,
+  y: number,
 }
 
 export interface AnyObject {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Bus3dProps } from '../types';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton, ElapsedTimeRange,
-  ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton, InputEvent } from 'harmoware-vis';
+  ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from 'harmoware-vis';
 import i18n from '../locales/I18n';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
@@ -30,9 +30,9 @@ const getNextCellSize = (xbandCellSize) => {
 
 interface Props extends Bus3dProps {
   date: number,
-  getOptionChangeChecked: (event: any) => void,
-  getArchLayerChangeChecked: (event: any) => void,
-  t?: Function,
+  getOptionChangeChecked: (event) => void,
+  getArchLayerChangeChecked: (event) => void,
+  t: Function,
 }
 
 interface State {
@@ -47,12 +47,12 @@ export default class Controller extends React.Component<Props, State> {
     };
   }
 
-  onLanguageSelect(e: InputEvent) {
+  onLanguageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     i18n.changeLanguage(value);
   }
 
-  onTripSelect(e: InputEvent) {
+  onTripSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const answer = e.target.value;
     const { actions } = this.props;
     actions.setAnswer(answer);
@@ -65,7 +65,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setAnimateReverse(false);
   }
 
-  onBusSelect(e: InputEvent) {
+  onBusSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, movesbase, busmovesbasedic } = this.props;
     const code = e.target.value;
     const movesbaseidx = busmovesbasedic[code];
@@ -81,7 +81,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setSelectedBus(code);
   }
 
-  onBusstopSelect(e: InputEvent) {
+  onBusstopSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
     const { actions, depotsData } = this.props;
@@ -105,8 +105,8 @@ export default class Controller extends React.Component<Props, State> {
     });
   }
 
-  setDelayRange(e: InputEvent) {
-    const range = e.target.value;
+  setDelayRange(e: React.ChangeEvent<HTMLInputElement>) {
+    const range: number = Number(e.target.value);
     const { actions, clickedObject } = this.props;
     actions.setDelayRange(range);
     actions.updateRoute(clickedObject, false);
@@ -121,14 +121,14 @@ export default class Controller extends React.Component<Props, State> {
     }
   }
 
-  handleChangeFile(e: InputEvent) {
+  handleChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = (ev) => {
-      let readdata: any = null;
+      let readdata = null;
       try {
         readdata = JSON.parse(reader.result.toString());
       } catch (exception) {

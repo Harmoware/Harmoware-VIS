@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { MovesInput, DepotsInput,
+import { DepotsInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
-  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, NavigationButton, BasedProps } from 'harmoware-vis';
+  ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime,
+  NavigationButton, BasedProps, ClickedObject, RoutePaths } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
-import { ic_delete_forever as icDeleteForever, ic_save as icSave, ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
+import { ic_delete_forever as icDeleteForever, ic_save as icSave,
+  ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
   deleteMovebase?: (maxKeepSecond: number) => void,
@@ -16,7 +18,10 @@ interface Props extends BasedProps{
 interface State {
   currentGroupindex: number,
   routeGroupDisplay: boolean,
-  saveRouteGroup: Array<{clickedObject: any, routePaths: any}>
+  saveRouteGroup: {
+    clickedObject: ClickedObject[],
+    routePaths: RoutePaths[],
+  }[]
 }
 
 export default class Controller extends React.Component<Props, State> {

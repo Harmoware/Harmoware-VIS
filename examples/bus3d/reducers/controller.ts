@@ -1,6 +1,18 @@
 import * as types from '../constants/action-types';
+import { Bus3dEventInfo } from '../types'
 
-const initialState = {
+const initialState: {
+  delayheight: number,
+  delayrange: number,
+  elevationScale: number,
+  xbandCellSize: number,
+  bsoptFname: string,
+  xbandFname: string,
+  selectedBusstop: string,
+  selectedBus: string,
+  answer: string,
+  hovered: Bus3dEventInfo,
+} = {
   delayheight: 0,
   delayrange: 10,
   elevationScale: 5,
@@ -13,7 +25,21 @@ const initialState = {
   hovered: null,
 };
 
-export default (state = initialState, action) => {
+interface Action {
+  type: string,
+  height: number,
+  delayrange: number,
+  elevation: number,
+  xbandCellSize: number,
+  name: string,
+  xbandFname: string,
+  busstop: string,
+  selectedBus: string,
+  answer: string,
+  hovered: Bus3dEventInfo,
+}
+
+export default (state = initialState, action: Action) => {
   switch (action.type) {
     case types.SETDELAYHEIGHT:
       return (() => {

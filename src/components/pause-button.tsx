@@ -5,7 +5,7 @@ import { ActionTypes } from '../types';
 
 interface Props {
   actions: ActionTypes,
-  children?: any,
+  children?: React.ReactNode,
   i18n?: { pauseButtonCaption: string },
   className?: string
 }

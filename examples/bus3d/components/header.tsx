@@ -1,17 +1,29 @@
 import * as React from 'react';
+import { SimulationDateTime } from 'harmoware-vis';
 import CanvasComponent from './canvas-component';
-import { p02d, hsvToRgb } from '../library';
+import { hsvToRgb } from '../library';
 import { Bus3dProps } from '../types';
 
-const weekDayListJp = ['日', '月', '火', '水', '木', '金', '土'];
-const weekDayListEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
 
+const canvasProps = {
+  width: CANVAS_WIDTH,
+  height: CANVAS_HEIGHT,
+  updateCanvas: (context) => {
+    const cont = context;
+    const hMin = 0;
+    const hMax = 120;
+    const unit = CANVAS_WIDTH / hMax;
+    for (let h = hMin; h <= hMax; h += 1) {
+      cont.fillStyle = `rgb(${hsvToRgb(h, 1, 1).join(',')})`;
+      cont.fillRect((hMax - h) * unit, 0, unit, CANVAS_HEIGHT);
+    }
+  },
+};
+
 interface Props extends Bus3dProps{
-  date: number,
-  language: string,
-  t?: Function,
+  t: Function,
 }
 
 export default class Header extends React.Component<Props> {
@@ -22,43 +34,21 @@ export default class Header extends React.Component<Props> {
     actions.setRoutePaths([]);
   }
 
-  setDelayHeight(e) {
+  setDelayHeight(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, clickedObject } = this.props;
     actions.setDelayHeight(e.target.value);
     actions.updateRoute(clickedObject, false);
   }
 
-  setScaleElevation(e) {
+  setScaleElevation(e: React.ChangeEvent<HTMLInputElement>) {
     this.props.actions.setScaleElevation(e.target.value);
   }
 
   render() {
     const {
-      date, movedData, busoption, bsoptFname, elevationScale, t, language,
-      clickedObject, delayrange, delayheight } = this.props;
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    const wday = (language && language === 'en') ? weekDayListEn[d.getDay()] : weekDayListJp[d.getDay()];
-    const hour = d.getHours();
-    const min = d.getMinutes();
-    const sec = d.getSeconds();
+      movedData, busoption, bsoptFname, elevationScale, t,
+      clickedObject, delayrange, delayheight, settime } = this.props;
     const flg = clickedObject ? clickedObject[0].object.name.match(/^\d+-[12]/) : null;
-    const canvasProps = {
-      width: CANVAS_WIDTH,
-      height: CANVAS_HEIGHT,
-      updateCanvas: (context) => {
-        const cont = context;
-        const hMin = 0;
-        const hMax = 120;
-        const unit = CANVAS_WIDTH / hMax;
-        for (let h = hMin; h <= hMax; h += 1) {
-          cont.fillStyle = `rgb(${hsvToRgb(h, 1, 1).join(',')})`;
-          cont.fillRect((hMax - h) * unit, 0, unit, CANVAS_HEIGHT);
-        }
-      },
-    };
     const getClickedInfo = movedData.find((element) => {
       if (clickedObject && clickedObject[0].object &&
         clickedObject[0].object.movesbaseidx === element.movesbaseidx) {
@@ -68,7 +58,7 @@ export default class Header extends React.Component<Props> {
     });
     return (
       <div className="harmovis_header container" id="header_area">
-        <span className="harmovis_header__spacer">{`${year}/${p02d(month)}/${p02d(day)}(${wday})${p02d(hour)}:${p02d(min)}:${p02d(sec)}`}</span>
+        <SimulationDateTime settime={settime} locales={t('locales')} className="harmovis_header__spacer" />
         <span id="bus_count" className="harmovis_header__spacer">{movedData.length}&nbsp;{t('Operating')}</span>
         {Object.keys(busoption).length <= 0 ?
           <span className="harmovis_header__spacer">{t('busoption')}{t('non')}</span> :

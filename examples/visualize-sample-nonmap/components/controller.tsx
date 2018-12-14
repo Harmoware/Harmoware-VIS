@@ -6,24 +6,16 @@ import { ic_play_circle_outline as icPlayArrow, ic_pause_circle_outline as icPau
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue,
-  SimulationDateTime, NavigationButton } from 'harmoware-vis';
-import { Actions, InputEvent } from 'harmoware-vis';
+  SimulationDateTime, NavigationButton, BasedProps, Viewport } from 'harmoware-vis';
 import i18n from '../locales/I18n';
 
-interface Props {
-  settime?: number,
-  timeBegin?: number,
-  timeLength?: number,
-  secperhour?: number,
-  animatePause?: boolean,
-  animateReverse?: boolean,
-  actions?: typeof Actions,
-  t?: Function,
-  viewport?: Object,
+interface Props extends BasedProps {
+  t: Function,
+  viewport: Viewport,
 }
 
 export default class Controller extends React.Component<Props> {
-  onLanguageSelect(e: InputEvent) {
+  onLanguageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
     i18n.changeLanguage(value);
   }

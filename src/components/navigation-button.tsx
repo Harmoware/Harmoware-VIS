@@ -1,21 +1,13 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_navigation as icNavigation } from 'react-icons-kit/md';
-import { ActionTypes } from '../types';
+import { ActionTypes, Viewport } from '../types';
 
 
 interface Props {
   buttonType: string,
   actions: ActionTypes,
-  viewport: {
-    zoom?: number,
-    minZoom?: number,
-    maxZoom?: number,
-    distance?: number,
-    minDistance?: number,
-    maxDistance?: number,
-    bearing?: number,
-  },
+  viewport: Viewport,
   className?: string
 }
 
@@ -24,7 +16,7 @@ export default class NavigationButton extends React.Component<Props> {
     className: 'harmovis_button'
   }
 
-  setViewport(argument: Object) {
+  setViewport(argument: Viewport) {
     this.props.actions.setViewport(argument);
   }
 

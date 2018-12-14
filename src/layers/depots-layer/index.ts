@@ -1,31 +1,31 @@
 import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, LightSettings, Position, Radius, DataOption } from 'harmoware-vis';
+import { DepotsData, LightSettings, Position, Radius, DataOption, EventInfo } from '../../types';
 
 interface Props {
   layerRadiusScale?: number,
   layerOpacity?: number,
-  depotsData: Array<DepotsData>,
+  depotsData: DepotsData[],
   optionVisible?: boolean,
   optionChange?: boolean,
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
   lightSettings: LightSettings,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  getColor1?: (x: any) => Array<number>,
-  getColor2?: (x: any) => Array<number>,
-  getColor3?: (x: any) => Array<number>,
-  getColor4?: (x: any) => Array<number>,
-  getElevation1?: (x: any) => number,
-  getElevation2?: (x: any) => number,
-  getElevation3?: (x: any) => number,
-  getElevation4?: (x: any) => number,
+  getColor?: (x) => number[],
+  getRadius?: (x) => number,
+  getColor1?: (x) => number[],
+  getColor2?: (x) => number[],
+  getColor3?: (x) => number[],
+  getColor4?: (x) => number[],
+  getElevation1?: (x) => number,
+  getElevation2?: (x) => number,
+  getElevation3?: (x) => number,
+  getElevation4?: (x) => number,
   i18n?: { error: string },
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {
@@ -84,7 +84,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const getPosition = (x: Position) => x.position;
 
     const getOptPosition = (x: Position) => {
-      const pos: Array<number> = getPosition(x);
+      const pos: number[] = getPosition(x);
       return [pos[0] - optionMedianLng, pos[1] - optionMedianLat, pos[2]];
     };
 

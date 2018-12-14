@@ -30,16 +30,16 @@ const DEFAULT_COLOR = [255, 255, 255, 255];
 
 interface Props {
   id?: string,
-  data?: any,
-  getSourcePosition?: any,
-  getTargetPosition?: any,
-  getSourceColor?: any,
-  getTargetColor?: any,
-  getStrokeWidths?: any,
+  data?: object[],
+  getSourcePosition?: Function,
+  getTargetPosition?: Function,
+  getSourceColor?: Function,
+  getTargetColor?: Function,
+  getStrokeWidths?: Function,
 }
 interface State {
-  attributeManager: any,
-  model: any,
+  attributeManager,
+  model,
 }
 
 export default class DepotsArcLayer extends Layer<Props, State> {
@@ -78,7 +78,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl) {
+  getModel(gl: WebGLRenderingContext) {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*

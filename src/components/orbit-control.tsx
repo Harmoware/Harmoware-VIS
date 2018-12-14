@@ -25,8 +25,8 @@ interface customViewport extends Viewport {
   isDragging?: boolean,
 }
 interface Props extends customViewport {
-  children?: JSX.Element,
-  ref?: (canvas: any) => void,
+  children?: React.ReactNode,
+  ref?: (canvas) => void,
   onViewportChange?: (customViewport) => void
 }
 
@@ -36,7 +36,8 @@ export default class OrbitController extends React.Component<Props>{
 
   static getViewport(viewport: Viewport) {
     const { width, height, lookAt, distance, rotationX, rotationY, fov } = viewport;
-    const cameraPos = vec3.add([], lookAt, [0, 0, distance]);
+    const outvec3 = vec3.create();
+    const cameraPos = vec3.add(outvec3, lookAt, [0, 0, distance]);
     vec3.rotateX(cameraPos, cameraPos, lookAt, (rotationX / 180) * Math.PI);
     vec3.rotateY(cameraPos, cameraPos, lookAt, (rotationY / 180) * Math.PI);
 
@@ -65,13 +66,13 @@ export default class OrbitController extends React.Component<Props>{
     fov: 50
   };
 
-  onDragStart(evt) {
+  onDragStart(evt: React.MouseEvent<HTMLDivElement>) {
     const { pageX, pageY } = evt;
     this.dragStartPos = [pageX, pageY];
     this.props.onViewportChange({ isDragging: true });
   }
 
-  onDrag(evt) {
+  onDrag(evt: React.MouseEvent<HTMLDivElement>) {
     if (this.dragStartPos) {
       const { pageX, pageY } = evt;
       const { width, height } = this.props;
@@ -92,7 +93,8 @@ export default class OrbitController extends React.Component<Props>{
 
         const unitsPerPixel = distance / Math.tan(((fov / 180) * Math.PI) / 2) / 2;
 
-        const newLookAt = vec3.add([], lookAt, [-unitsPerPixel * dx, unitsPerPixel * dy, 0]);
+        const outvec3 = vec3.create();
+        const newLookAt = vec3.add(outvec3, lookAt, [-unitsPerPixel * dx, unitsPerPixel * dy, 0]);
 
         this.props.onViewportChange({
           lookAt: newLookAt
@@ -103,12 +105,12 @@ export default class OrbitController extends React.Component<Props>{
     }
   }
 
-  onDragEnd() {
+  onDragEnd(evt: React.MouseEvent<HTMLDivElement>) {
     this.dragStartPos = null;
     this.props.onViewportChange({ isDragging: false });
   }
 
-  onWheel(evt) {
+  onWheel(evt: React.WheelEvent<HTMLDivElement>) {
     evt.preventDefault();
     let value = evt.deltaY;
     // Firefox doubles the values on retina screens...

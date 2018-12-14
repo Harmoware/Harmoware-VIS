@@ -3,32 +3,33 @@ import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';
 import fragment from './enhanced-arc-layer-fragment.glsl';
 import { COLOR1 } from '../../constants/settings';
+import { EventInfo } from '../../types';
 
 type Data = {
-  sourcePosition: Array<number>,
-  targetPosition: Array<number>,
-  sourceColor: Array<number>,
-  targetColor: Array<number>,
-  color: Array<number>,
+  sourcePosition: number[],
+  targetPosition: number[],
+  sourceColor: number[],
+  targetColor: number[],
+  color: number[],
   strokeWidth: number
 }
 
 interface Props {
   id?: string,
-  data: Array<Data>,
+  data: Data[],
   visible?: boolean,
   opacity?: number,
-  getSourcePosition?: (x: any) => Array<number>,
-  getTargetPosition?: (x: any) => Array<number>,
-  getSourceColor?: (x: any) => Array<number>,
-  getTargetColor?: (x: any) => Array<number>,
-  getStrokeWidths?: (x: any) => number,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getSourcePosition?: (x) => number[],
+  getTargetPosition?: (x) => number[],
+  getSourceColor?: (x) => number[],
+  getTargetColor?: (x) => number[],
+  getStrokeWidths?: (x) => number,
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any
+  attributeManager,
+  model
 }
 
 export default class EnhancedArcLayer extends Layer<Props, State> {
@@ -69,7 +70,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl: any) {
+  getModel(gl: WebGLRenderingContext) {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*
@@ -98,7 +99,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     return model;
   }
 
-  calculateInstancePositions(attribute: { value: Array<number>, size: number }) {
+  calculateInstancePositions(attribute: { value: number[], size: number }) {
     const { data, getSourcePosition, getTargetPosition } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -113,7 +114,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceSourceColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceSourceColors(attribute: { value: number[], size: number }) {
     const { data, getSourceColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -127,7 +128,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceTargetColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceTargetColors(attribute: { value: number[], size: number }) {
     const { data, getTargetColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -141,7 +142,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceStrokeWidths(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceStrokeWidths(attribute: { value: number[], size: number }) {
     const { data, getStrokeWidths } = this.props;
     const { value, size } = attribute;
     let i = 0;

@@ -1,27 +1,15 @@
-
-
 import * as React from 'react';
 
 interface Props {
-  width?: number,
-  height?: number,
-  updateCanvas?: Function,
+  width: number,
+  height: number,
+  updateCanvas: (context: CanvasRenderingContext2D) => void,
 }
 
 export default class CanvasComponent extends React.Component<Props> {
-  canvas: any;
+  canvas: HTMLCanvasElement;
 
   componentDidMount() {
-    this.updateCanvas();
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (this.props !== nextProps) {
-      this.updateCanvas();
-    }
-  }
-
-  componentDidUpdate() {
     this.updateCanvas();
   }
 

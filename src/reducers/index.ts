@@ -1,14 +1,14 @@
 import { analyzeMovesBase, analyzeDepotsBase, analyzelinemapData,
   getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { BasedState as State } from '../types';
+import { BasedState } from '../types';
 import { addMinutes, setViewport, setLightSettings, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
   setNonmapView, setLinemapData, setLoading, setInputFilename, updateMovesBase } from '../actions';
 
-const initialState: State = {
+const initialState: BasedState = {
   viewport: {
     longitude: 136.906428,
     latitude: 35.181453,
@@ -70,7 +70,7 @@ const initialState: State = {
   inputFileName: {}
 };
 
-const reducer = reducerWithInitialState<State>(initialState);
+const reducer = reducerWithInitialState<BasedState>(initialState);
 
 reducer.case(addMinutes, (state, min) => {
   let settime = state.settime + (min * 60);
@@ -356,6 +356,6 @@ reducer.case(updateMovesBase, (state, base) => {
   return Object.assign({}, state, startState, { movesbase });
 });
 
-reducer.default((state, ation) => state);
+reducer.default((state) => state);
 
 export default reducer.build();

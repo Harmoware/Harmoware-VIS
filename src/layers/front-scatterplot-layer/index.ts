@@ -4,30 +4,31 @@ import { Layer, experimental } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
+import { EventInfo } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 const { get } = experimental;
 
 type Data = {
-  position: Array<number>,
+  position: number[],
   radius: number,
-  color: Array<number>,
+  color: number[],
 }
 
 interface Props {
-  data: Array<Data>,
+  data: Data[],
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,
-  getPosition?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  getColor?: (x: any) => Array<number>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  getPosition?: (x) => number[],
+  getRadius?: (x) => number,
+  getColor?: (x) => number[],
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 interface State {
-  attributeManager: any,
-  model: any,
+  attributeManager,
+  model,
 }
 
 export default class FrontScatterplotLayer extends Layer<Props, State> {
@@ -65,7 +66,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  draw({ uniforms }: any) {
+  draw({ uniforms }) {
     const { radiusScale, radiusMinPixels, radiusMaxPixels } = this.props;
     this.state.model.render(Object.assign({}, uniforms, {
       outline: 0,
@@ -76,7 +77,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     }));
   }
 
-  getModel(gl: any) {
+  getModel(gl: WebGLRenderingContext) {
     // a square that minimally cover the unit circle
     const positions = [
       -1, -1, 0, -1, 1, 0, 1, 1, 0,
@@ -97,7 +98,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     }));
   }
 
-  calculateInstancePositions(attribute: { value: Array<number>, size: number }) {
+  calculateInstancePositions(attribute: { value: number[], size: number }) {
     const { data, getPosition } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -110,7 +111,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceRadius(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceRadius(attribute: { value: number[], size: number }) {
     const { data, getRadius } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -121,7 +122,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceColors(attribute: { value: Array<number>, size: number }) {
+  calculateInstanceColors(attribute: { value: number[], size: number }) {
     const { data, getColor } = this.props;
     const { value, size } = attribute;
     let i = 0;

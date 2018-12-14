@@ -1,38 +1,41 @@
 import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
-import { onHoverClick, checkClickedObjectToBeRemoved } from '../../library';
+import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { MovedData, Movesbase, RoutePaths, ClickedObject, Position, DataOption, Radius, Actions } from 'harmoware-vis';
+import { MovedData, Movesbase, RoutePaths, ClickedObject, Position,
+  DataOption, Radius, EventInfo } from '../../types';
+import * as Actions from '../../actions';
 
 interface Props {
   layerOpacity?: number,
-  movedData: Array<MovedData>,
-  movesbase: Array<Movesbase>,
-  getColor?: (x: any) => Array<number>,
-  getRadius?: (x: any) => number,
-  routePaths?: Array<RoutePaths>,
+  movedData: MovedData[],
+  movesbase: Movesbase[],
+  getColor?: (x) => number[],
+  getRadius?: (x) => number,
+  routePaths?: RoutePaths[],
   actions: typeof Actions,
-  clickedObject?: null | Array<ClickedObject>,
-  onHover?: (el: any) => void,
-  onClick?: (el: any) => void,
+  clickedObject?: null | ClickedObject[],
+  onHover?: (event: EventInfo) => void,
+  onClick?: (event: EventInfo) => void,
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
     layerOpacity: 0.75,
-    getColor: (x: DataOption) => x.color || COLOR1
+    getColor: (x: DataOption) => x.color || COLOR1,
+    getRadius: (x: Radius) => x.radius || 2,
   };
 
   static layerName = 'MovesNonmapLayer';
 
-  getPickingInfo(pickParams: any) {
+  getPickingInfo(pickParams: pickParams) {
     onHoverClick(pickParams);
   }
 
   renderLayers() {
     const { layerOpacity, actions, clickedObject,
-      movedData, getColor, getRadius: propGetRadius,
+      movedData, getColor, getRadius,
       routePaths } = this.props;
 
     if (!movedData) {
@@ -40,7 +43,6 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     }
 
     const getPosition = (x: Position) => x.position;
-    const getRadius = propGetRadius || ((x: Radius) => (x.radius || 2));
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 

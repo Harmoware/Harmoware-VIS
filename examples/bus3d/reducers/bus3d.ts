@@ -1,23 +1,35 @@
 import * as types from '../constants/action-types';
+import { BusTripsCsvData, BusStopsCsvData, Busroutes } from '../types';
 
-const initialState = {
+const initialState: {
+  bustripscsv: BusTripsCsvData[],
+  busstopscsv: BusStopsCsvData[],
+  busroutes: Busroutes,
+} = {
   bustripscsv: [],
   busstopscsv: [],
   busroutes: {}
 };
 
-export default (state = initialState, action) => {
+interface Action {
+  type: string,
+  bustripscsv: BusTripsCsvData[],
+  busstopscsv: BusStopsCsvData[],
+  routes: Busroutes,
+}
+
+export default (state = initialState, action: Action) => {
   switch (action.type) {
     case types.SETBUSTRIPSCSV:
       return (() => {
-        const bustripscsv = action.csv;
+        const bustripscsv = action.bustripscsv;
         return Object.assign({}, state, {
           bustripscsv
         });
       })();
     case types.SETBUSSTOPSCSV:
       return (() => {
-        const busstopscsv = action.csv;
+        const busstopscsv = action.busstopscsv;
         return Object.assign({}, state, {
           busstopscsv
         });
