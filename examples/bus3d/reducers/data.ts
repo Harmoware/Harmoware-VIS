@@ -19,7 +19,18 @@ const initialState:{
   rainfall: []
 };
 
-export default (state = initialState, action) => {
+interface Action {
+  type: string,
+  answers: string[],
+  option: BusOptionData,
+  dic: ComObj<number>,
+  routes: ComObj<string>,
+  bustripindex: ComObj<{ elapsedtime: number, position: number[] }>,
+  archbase: ArchBaseData[],
+  rainfall: RainfallData[]
+}
+
+export default (state = initialState, action: Action) => {
   switch (action.type) {
     case types.SETANSWERS:
       return (() => {

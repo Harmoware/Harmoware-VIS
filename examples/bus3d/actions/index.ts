@@ -28,8 +28,8 @@ export const setHovered = (hovered: Bus3dEventInfo) => ({ type: types.SETHOVERED
 export const setBusOption = (option: BusOptionData) => ({ type: types.SETBUSOPTION, option });
 export const setBusMovesBaseDic = (dic: ComObj<number>) => ({ type: types.SETBUSMOVESBASEDIC, dic });
 export const setRoutesData = (routes: ComObj<string>) => ({ type: types.SETROUTESDATA, routes });
-export const setBusTripsCsv = (csv: BusTripsCsvData[]) => ({ type: types.SETBUSTRIPSCSV, csv });
-export const setBusstopsCsv = (csv: BusStopsCsvData[]) => ({ type: types.SETBUSSTOPSCSV, csv });
+export const setBusTripsCsv = (bustripscsv: BusTripsCsvData[]) => ({ type: types.SETBUSTRIPSCSV, bustripscsv });
+export const setBusstopsCsv = (busstopscsv: BusStopsCsvData[]) => ({ type: types.SETBUSSTOPSCSV, busstopscsv });
 export const setBusRoutes = (routes: Busroutes) => ({ type: types.SETBUSROUTES, routes });
 export const setBusTripIndex = (bustripindex: ComObj<{ elapsedtime: number, position: number[] }>) => ({ type: types.SETBUSTRIPINDEX, bustripindex });
 export const setArchBase = (archbase: ArchBaseData[]) => ({ type: types.SETARCHBASE, archbase });

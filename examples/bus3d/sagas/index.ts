@@ -7,8 +7,8 @@ import { settings, Actions as baseActions, getContainerProp, RoutePaths } from '
 import * as types from '../constants/action-types';
 import { p02d, p04d, delaycolor } from '../library';
 import * as moreActions from '../actions';
-import { Bus3dState, BusStopsCsvData, Busroutes, BusTripsCsvData, RainfallData,
-  Bus3dMovesbase, Bus3dMovesbaseOperation, Bus3dClickedObject, BusOptionData } from '../types';
+import { Bus3dState, BusStopsCsvData, Bus3dDepotsbase, Busroutes, BusTripsCsvData, RainfallData,
+  Bus3dMovesbase, Bus3dMovesbaseOperation, Bus3dClickedObject, BusOptionData, ComObj, Busprop } from '../types';
 
 const Actions = Object.assign({}, baseActions, moreActions);
 
@@ -19,6 +19,11 @@ const BUSSTOPSPATH = './BusStopsData/';
 const ROUTESPATH = './routes/';
 
 interface Trip { segments: number[][], color: number[][] }
+interface Savebusinfo {
+  routecode?: string, systemcode?: string, direction?: string, systemname?: string, timetable?: string };
+interface Savebusstatus {
+  busstopcode: string, elapsedtime: number, order: number, delaysec: number, busprop: Busprop };
+interface Tripbase { diagramid: string, businfo: Savebusinfo, busstatus: Savebusstatus[] };
 
 function fetchJSON(path: string, option = {}) {
   return new Promise((resolve/* , reject */) => {
@@ -111,14 +116,12 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
           elapsedtime: tripsegment[2],
           longitude: tripsegment[0],
           latitude: tripsegment[1],
-          position: [tripsegment[0], tripsegment[1], 0],
           color: tripcolor });
         if (!(idx < (segments.length - 1) && (segments[idx + 1][2] - tripsegment[2]) <= 10)) {
           operation.push({
             elapsedtime: tripsegment[2] + 10,
             longitude: tripsegment[0],
             latitude: tripsegment[1],
-            position: [tripsegment[0], tripsegment[1], 0],
             color: tripcolor });
         }
       });
@@ -135,7 +138,8 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
     yield put(Actions.setLoading(true));
-    const { data } = yield fetchCSV(`${DATAPATH}${answer}`, true);
+    const { data } = (yield fetchCSV(`${DATAPATH}${answer}`, true)) as {
+      data: {[propName: string]: string}[] };
     if (!data) {
       yield put(Actions.setLoading(false));
       return;
@@ -163,15 +167,17 @@ function* fetchBusstopCSV() {
   const { busstopscsv } = getContainerProp<Bus3dState>(yield select());
   if (busstopscsv.length === 0) {
     yield put(Actions.setLoading(true));
-    const { data } = yield fetchCSV(`${BUSSTOPSPATH}busstops.csv`);
+    const { data } = (yield fetchCSV(`${BUSSTOPSPATH}busstops.csv`)) as {
+      data: {[propName: string]: string}[] };
     if (data) {
       const conversionData: BusStopsCsvData[] = data.map((current) => {
         const returnvalue = {
           code: current.停留所コード,
           name: current.停留所名,
-          longitude: current.経度,
-          latitude: current.緯度 };
-        return returnvalue;
+          longitude: Number(current.経度),
+          latitude: Number(current.緯度),
+        };
+        return returnvalue as BusStopsCsvData;
       });
       yield put(Actions.setBusstopsCsv(conversionData));
     }
@@ -244,14 +250,15 @@ function* setupByCSV() {
     parseInt(fileymd.substr(6, 2), 10)
   ];
   let savediagramid = '';
-  let savebusinfo = {};
-  let savebusstatus = [];
-  const tripbase = [];
-  const busmovesbase = [];
-  const busmovesbasedic = {};
+  let savebusinfo: Savebusinfo = {};
+  let savebusstatus: Savebusstatus[] = [];
+  const tripbase: Tripbase[] = [];
+  const busmovesbase: Bus3dMovesbase[] = [];
+  const busmovesbasedic: ComObj<number> = {};
 
-  const busmovesoption = busoption.busmovesoption || {};
-  let busoptionlist = null;
+  const busmovesoption = busoption.busmovesoption || {} as BusOptionData["busmovesoption"];
+  let busoptionlist = null as { [propName: string]: {
+        elevation: number, color: number[], memo: string, } };
 
   bustripscsv.forEach((csvdata) => {
     const { diagramid, routecode, systemcode, direction, systemname, timetable,
@@ -292,7 +299,7 @@ function* setupByCSV() {
   if (tripbase.length === 0) {
     return;
   }
-  const bssidx = {};
+  const bssidx: { [propName: string]: number } = {};
   busstopscsv.forEach((current, idx) => {
     bssidx[current.code] = idx;
   });
@@ -300,8 +307,8 @@ function* setupByCSV() {
   tripbase.forEach((trip, idx) => {
     const { diagramid, businfo, busstatus } = trip;
     const { systemcode, direction, systemname, timetable } = businfo;
-    const operation = [];
-    let savebusoption = null;
+    const operation: Bus3dMovesbaseOperation[] = [];
+    let savebusoption = null as Busprop;
     const busclass = { systemcode, direction, systemname, diagramid, timetable };
     for (let j = 0, lengthj = busstatus.length; j < lengthj; j += 1) {
       const { busstopcode, elapsedtime, order, delaysec, busprop } = busstatus[j];
@@ -375,8 +382,8 @@ function* setupByCSV() {
             if (rt[2] > 0 && rt[2] < distance) {
               operation.push({
                 elapsedtime: st + (dt * (rt[2] / distance)), // 経過時間
-                longitude: String(rt[1]),
-                latitude: String(rt[0]),
+                longitude: Number(rt[1]),
+                latitude: Number(rt[0]),
                 color: COLOR1,
                 delaysec: Math.floor(delaysec + ((nextdelaysec - delaysec) *
                   (rt[2] / distance))),
@@ -438,7 +445,7 @@ function* setupByBusstopCSV() {
       optionvalue.data.push({ time, elevation, color, memo });
     }
   });
-  const depotsBase: BusStopsCsvData[] = [];
+  const depotsBase: Bus3dDepotsbase[] = [];
   busstopscsv.forEach((csvdata) => {
     if(csvdata.code in option){
       depotsBase.push(Object.assign({}, csvdata, { option: option[csvdata.code] }));

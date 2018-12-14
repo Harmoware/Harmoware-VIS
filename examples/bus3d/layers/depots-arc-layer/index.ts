@@ -30,7 +30,7 @@ const DEFAULT_COLOR = [255, 255, 255, 255];
 
 interface Props {
   id?: string,
-  data?: any[],
+  data?: object[],
   getSourcePosition?: Function,
   getTargetPosition?: Function,
   getSourceColor?: Function,

@@ -12,14 +12,14 @@ export const p02d = (val) => {
 
 export const p04d = val => (`0000${val}`).substr(-4);
 
-export const hsvToRgb = (H, S, V) => {
+export const hsvToRgb = (H: number, S: number, V: number) => {
   const C = V * S;
   const Hp = H / 60;
   const X = C * (1 - Math.abs((Hp % 2) - 1));
 
-  let R;
-  let G;
-  let B;
+  let R: number;
+  let G: number;
+  let B: number;
   if (Hp >= 0 && Hp < 1) { [R, G, B] = [C, X, 0]; }
   if (Hp >= 1 && Hp < 2) { [R, G, B] = [X, C, 0]; }
   if (Hp >= 2 && Hp < 3) { [R, G, B] = [0, C, X]; }
@@ -37,7 +37,7 @@ export const hsvToRgb = (H, S, V) => {
   return [R, G, B];
 };
 
-export const delaycolor = (delaysec, delayrange) => {
+export const delaycolor = (delaysec: number, delayrange: number) => {
   let color = 0;
   if (delaysec < 0) {
     color = 120;
@@ -47,22 +47,24 @@ export const delaycolor = (delaysec, delayrange) => {
   return hsvToRgb(color, 1, 1);
 };
 
-const getOptionValue = (optionData) => {
-  const returnValue: any = {};
+const getOptionValue = (optionData: { elevation?: (number | number[]),
+  color?: (number[] | number[][]), memo?: string }) => {
+  const returnValue: { optElevation?: number[],
+    optColor?: number[][], memo?: string } = {};
   if(optionData){
     const { elevation, color, memo } = optionData;
     if (elevation) {
-      if (!Array.isArray(elevation)) {
-        returnValue.optElevation = [elevation];
-      } else {
+      if (Array.isArray(elevation)) {
         returnValue.optElevation = elevation;
+      } else {
+        returnValue.optElevation = [elevation];
       }
     }
     if (color) {
-      if (!Array.isArray(color[0])) {
-        returnValue.optColor = [color];
+      if (Array.isArray(color[0])) {
+        returnValue.optColor = color as number[][];
       } else {
-        returnValue.optColor = color;
+        returnValue.optColor = [color as number[]];
       }
     }
     if (memo) {
@@ -72,7 +74,7 @@ const getOptionValue = (optionData) => {
   return returnValue;
 };
 
-export const getBusstopOptionValue = (props, busstopsbaseidx) => {
+export const getBusstopOptionValue = (props: Bus3dProps, busstopsbaseidx: number) => {
   const { depotsBase, settime, timeBegin, selectedBusstop, hovered } = props;
   const currentTime = settime - timeBegin;
   const { code, name, option } = depotsBase[busstopsbaseidx];
@@ -99,7 +101,7 @@ export const getBusstopOptionValue = (props, busstopsbaseidx) => {
   return { code, name, color, radius, ...optionValue };
 };
 
-export const getBusOptionValue = (props, movesbaseidx, operationidx) => {
+export const getBusOptionValue = (props: Bus3dProps, movesbaseidx: number, operationidx: number) => {
   const { movesbase, delayrange, clickedObject, hovered } = props;
   const { busclass, operation } = movesbase[movesbaseidx];
   const { color: specifycolor, delaysec, busprop } = operation[operationidx];

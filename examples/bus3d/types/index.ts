@@ -27,7 +27,7 @@ export interface Bus3dState extends BasedState {
     bustripindex?: ComObj<{ elapsedtime: number, position: number[] }>,
     archbase?: ArchBaseData[],
     rainfall?: RainfallData[],
-    depotsBase?: BusStopsCsvData[],
+    depotsBase?: Bus3dDepotsbase[],
     depotsData?: Bus3dDepotsData[],
     movesbase?: Bus3dMovesbase[],
     movedData?: Bus3dMovedData[],
@@ -88,8 +88,29 @@ export interface BusStopsCsvData extends Depotsbase {
     code: string,
     name: string,
 };
+export interface Bus3dDepotsbase extends Depotsbase {
+    code: string,
+    name: string,
+    option?: {
+        stime: number;
+        etime: number;
+        data: {
+            time: number;
+            elevation: number | number[];
+            color: number[] | number[][];
+            memo: string;
+        }[]
+    },
+};
 export interface BusOptionData {
-    busmovesoption?: {[propName: string]: any}[],
+    busmovesoption?: {
+        [propName: string]: {
+            [propName: string]: {
+                elevation: number,
+                color: number[],
+                memo: string
+            }
+        }}[],
     busstopsoption?: {
         [propName: string]: {
             bscode: number,
@@ -98,7 +119,14 @@ export interface BusOptionData {
             memo: string
         }[]
     },
-    archoption?: Arcdata[],
+    archoption?: {
+        diagramId: string,
+        sourceDepotsCode: string,
+        sourceDepotsOrder: string,
+        targetDepotsCode: string,
+        targetDepotsOrder: string,
+        [propName: string]: any,
+    }[],
 };
 export interface ArchBaseData {
     departuretime: number,
@@ -118,12 +146,19 @@ export interface Bus3dDepotsData extends DepotsData {
 };
 export interface Bus3dMovesbaseOperation extends MovesbaseOperation {
     delaysec?: number,
+    busprop?: Busprop,
+};
+export interface Busprop {
+    elevation?: number | number[];
+    color?: number[] | number[][];
+    memo?: string;
 };
 export interface Bus3dMovesbase extends Movesbase {
     busclass?: BusClass,
     operation: Bus3dMovesbaseOperation[]
 };
 export interface BusClass {
+    diagramid?: string, 
     systemcode?: string,
     direction?: string,
     systemname?: string,

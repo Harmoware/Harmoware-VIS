@@ -25,7 +25,21 @@ const initialState: {
   hovered: null,
 };
 
-export default (state = initialState, action) => {
+interface Action {
+  type: string,
+  height: number,
+  delayrange: number,
+  elevation: number,
+  xbandCellSize: number,
+  name: string,
+  xbandFname: string,
+  busstop: string,
+  selectedBus: string,
+  answer: string,
+  hovered: Bus3dEventInfo,
+}
+
+export default (state = initialState, action: Action) => {
   switch (action.type) {
     case types.SETDELAYHEIGHT:
       return (() => {

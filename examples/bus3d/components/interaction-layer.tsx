@@ -15,8 +15,8 @@ interface ElementInfo {
 export default ({ viewport, hovered }: Props) => {
   // set flags used below to determine if SVG highlight elements should be rendered.
   // if truthy, each flag is replaced with the corresponding element to render.
-  const elementInfo: { hovered: any } = {
-    hovered: hovered && hovered.object
+  const elementInfo: { hovered: { movesbaseidx?: number, code?: string, } | JSX.Element } = {
+    hovered: hovered && hovered.object,
   };
 
   // render additional info about the focused elements (only nodes, not links)

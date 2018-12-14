@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { Bus3dActions } from '../types';
 

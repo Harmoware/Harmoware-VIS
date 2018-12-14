@@ -39,7 +39,7 @@ export interface MovesbaseOperation {
   elapsedtime: number,
   longitude?: number,
   latitude?: number,
-  position: number[],
+  position?: number[],
   color?: void | number[],
   normal?: void | number[],
 };
@@ -64,7 +64,7 @@ export interface AnalyzedBaseData extends MovesbaseFile {
 export interface Depotsbase {
   longitude?: number,
   latitude?: number,
-  position: number[]
+  position?: number[]
 };
 
 export interface ClickedObject {
