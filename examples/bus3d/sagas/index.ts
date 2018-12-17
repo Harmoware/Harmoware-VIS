@@ -202,13 +202,13 @@ function* fetchRoutesJSON() {
   if (Object.keys(routesdata).length === 0) {
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchJSON(`${ROUTESPATH}routes.json`)) as
-      { data:{ dep_station_code: string, des_station_code: string, route: string[] }};
+      { data:{ dep_station_code: string[], des_station_code: string[], route: string[] }};
     if (data) {
       const { dep_station_code: depStationCode, des_station_code: desStationCode, route } = data;
       const routesdict: { [propName: string]: string } = {};
       route.forEach((current, idx) => {
         routesdict[
-          p04d(String(depStationCode[idx])) + p04d(String(desStationCode[idx]))
+          p04d(depStationCode[idx]) + p04d(desStationCode[idx])
         ] = current;
       });
       yield put(Actions.setRoutesData(routesdict));

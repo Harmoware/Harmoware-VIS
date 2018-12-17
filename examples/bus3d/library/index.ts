@@ -3,14 +3,14 @@ import { Bus3dProps, Arcdata } from '../types'
 
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
-export const p02d = (val) => {
+export const p02d = (val: number) => {
   if (val < 10) {
     return `0${val}`;
   }
   return `${val}`;
 };
 
-export const p04d = val => (`0000${val}`).substr(-4);
+export const p04d = (val: string) => (`0000${val}`).substr(-4);
 
 export const hsvToRgb = (H: number, S: number, V: number) => {
   const C = V * S;
