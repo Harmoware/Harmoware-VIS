@@ -3,7 +3,7 @@ import { Bus3dActions } from '../types';
 
 interface Props {
   actions: typeof Bus3dActions,
-  t: Function,
+  t: (key: string) => string,
 }
 
 interface State {

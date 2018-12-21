@@ -1,5 +1,5 @@
 import { settings } from 'harmoware-vis';
-import { Bus3dProps, Arcdata } from '../types'
+import { Bus3dProps, Arcdata, ComObj } from '../types'
 
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
@@ -17,9 +17,7 @@ export const hsvToRgb = (H: number, S: number, V: number) => {
   const Hp = H / 60;
   const X = C * (1 - Math.abs((Hp % 2) - 1));
 
-  let R: number;
-  let G: number;
-  let B: number;
+  let R: number, G: number, B: number;
   if (Hp >= 0 && Hp < 1) { [R, G, B] = [C, X, 0]; }
   if (Hp >= 1 && Hp < 2) { [R, G, B] = [X, C, 0]; }
   if (Hp >= 2 && Hp < 3) { [R, G, B] = [0, C, X]; }
@@ -161,7 +159,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     const d = new Date(timeBegin * 1000);
     const date: number[] = [d.getFullYear(), d.getMonth(), d.getDate()];
 
-    const bssidx = {};
+    const bssidx: ComObj<number> = {};
     busstopscsv.forEach((current, idx) => {
       bssidx[current.code] = idx;
     });
@@ -169,7 +167,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     bustripscsv.forEach((csvdata) => {
       const { diagramid, timetable, actualdep, busstopcode, busstoporder } = csvdata;
       if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/) && bssidx[busstopcode]) {
-        const hms = actualdep.split(':').map(current => parseInt(current, 10));
+        const hms = actualdep.split(':').map(current => Number(current));
         const timeDeparture = new Date(date[0], date[1], date[2], hms[0], hms[1], hms[2], 0).getTime() / 1000;
         const busstopinfo = busstopscsv[bssidx[busstopcode]];
         bustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {

@@ -55,7 +55,7 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
   }
 
   initializeState() {
-    const { gl } = this.context;
+    const { gl } = this.context as { gl: WebGLRenderingContext };
     this.setState({ model: this.getModel(gl) });
 
     const { attributeManager } = this.state;

@@ -20,9 +20,9 @@ interface Props {
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,
-  getPosition?: (x) => number[],
-  getRadius?: (x) => number,
-  getColor?: (x) => number[],
+  getPosition?: (x: Data) => number[],
+  getRadius?: (x: Data) => number,
+  getColor?: (x: Data) => number[],
   onHover?: (event: EventInfo) => void,
   onClick?: (event: EventInfo) => void,
 }
@@ -33,7 +33,7 @@ interface State {
 
 export default class FrontScatterplotLayer extends Layer<Props, State> {
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -54,7 +54,7 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
   }
 
   initializeState() {
-    const { gl } = this.context;
+    const { gl } = this.context as { gl: WebGLRenderingContext };
     this.setState({ model: this.getModel(gl) });
 
     /* eslint-disable max-len */

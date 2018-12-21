@@ -6,7 +6,7 @@ import { translate } from 'react-i18next';
 import Controller from '../components/controller';
 
 interface Props extends BasedProps {
-  t: Function,
+  t: (key: string) => string,
   viewport: Viewport,
 }
 interface State {

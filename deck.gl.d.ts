@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Layer as OrgLayer } from 'deck.gl';
 import { vec3 } from 'gl-matrix';
 
 declare module "deck.gl" {
@@ -8,13 +9,13 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  export class Layer <P = {}, S = {}> {
+  export class Layer <P = {}, S = {}> implements OrgLayer {
     constructor(props: P);
     context;
     props: P;
     state: S;
     setUniforms(uniforms: Uniforms);
-    draw({uniforms: Uniforms});
+    draw({uniforms}:{uniforms: Uniforms});
     setState<K extends keyof S>(
       state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
       callback?: () => void
