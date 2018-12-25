@@ -93,11 +93,15 @@ export interface LineMapData {
 
 export interface MovedData {
   movesbaseidx: number,
-  position: number[]
+  position: number[],
+  radius: number,
+  color: number[],
 };
 
 export interface DepotsData {
-  position: number[]
+  position: number[],
+  radius: number,
+  color: number[],
 };
 
 export interface BasedState {

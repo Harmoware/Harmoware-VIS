@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Layer as OrgLayer } from 'deck.gl';
+import { Layer as OrgLayer, AttributeManager as OrgAttributeManager } from 'deck.gl';
 import { vec3 } from 'gl-matrix';
+import { number } from 'prop-types';
 
 declare module "deck.gl" {
   interface Uniforms {
@@ -9,7 +10,7 @@ declare module "deck.gl" {
     coverage: number
   }
 
-  export class Layer <P = {}, S = {}> implements OrgLayer {
+  class Layer <P = {}, S = {}> implements OrgLayer {
     constructor(props: P);
     context;
     props: P;
@@ -29,20 +30,24 @@ declare module "deck.gl" {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
-  export class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class ScatterplotLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class ScatterplotLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
 
-  export default class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
+  class AttributeManager implements OrgAttributeManager {
+    addInstanced(attributes: any, updaters?: any): void;
+  }
 
-  export const COORDINATE_SYSTEM;
-  export const experimental;
+  class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
+
+  const COORDINATE_SYSTEM: { IDENTITY: any };
+  const experimental;
   
   interface PerspectiveViewportOption {
     width: number; 
@@ -54,7 +59,7 @@ declare module "deck.gl" {
     eye: vec3;
   }
 
-  export class PerspectiveViewport {
+  class PerspectiveViewport {
     constructor(props: PerspectiveViewportOption);
   }
 }

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import { Layer } from 'deck.gl';
+import { Layer, AttributeManager } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 
 import vs from './depots-arc-layer-vertex.glsl';
@@ -40,8 +40,12 @@ interface Props {
   getStrokeWidths?: (x: Arcdata) => number,
 }
 interface State {
-  attributeManager,
-  model,
+  attributeManager: AttributeManager,
+  model: Model,
+}
+interface Attribute {
+  value: number[],
+  size: number
 }
 
 export default class DepotsArcLayer extends Layer<Props, State> {
@@ -80,7 +84,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl: WebGLRenderingContext) {
+  getModel(gl: WebGLRenderingContext): Model {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*
@@ -109,7 +113,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     return model;
   }
 
-  calculateInstancePositions(attribute) {
+  calculateInstancePositions(attribute: Attribute) {
     const { data, getSourcePosition, getTargetPosition } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -124,7 +128,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceSourceColors(attribute) {
+  calculateInstanceSourceColors(attribute: Attribute) {
     const { data, getSourceColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -138,7 +142,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceTargetColors(attribute) {
+  calculateInstanceTargetColors(attribute: Attribute) {
     const { data, getTargetColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -152,7 +156,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceStrokeWidths(attribute) {
+  calculateInstanceStrokeWidths(attribute: Attribute) {
     const { data, getStrokeWidths } = this.props;
     const { value, size } = attribute;
     let i = 0;
