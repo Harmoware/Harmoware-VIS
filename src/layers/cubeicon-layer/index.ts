@@ -1,4 +1,4 @@
-import { Layer } from 'deck.gl';
+import { Layer, AttributeManager } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
@@ -25,15 +25,19 @@ interface Props {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x) => number[],
-  getElevation?: (x) => number[],
-  getColor?: (x) => number[][],
+  getPosition?: (x: Data) => number[],
+  getElevation?: (x: Data) => number[],
+  getColor?: (x: Data) => number[][],
   onHover?: (event: EventInfo) => void,
   onClick?: (event: EventInfo) => void,
 }
 interface State {
-  attributeManager,
-  model
+  attributeManager: AttributeManager,
+  model: Model,
+}
+interface Attribute {
+  value: number[],
+  size: number
 }
 
 export default class CubeiconLayer extends Layer<Props, State> {
@@ -63,7 +67,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
   }
 
   initializeState() {
-    const { gl } = this.context;
+    const { gl } = this.context as { gl: WebGLRenderingContext };
     this.setState({ model: this.getModel(gl) });
 
     const { attributeManager } = this.state;
@@ -79,7 +83,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     this.updateUniforms();
   }
 
-  getModel(gl: WebGLRenderingContext) {
+  getModel(gl: WebGLRenderingContext): Model {
     return new Model(gl, Object.assign({}, this.getShaders(), {
       //      id: this.props.id,
       geometry: new CubeGeometry(),
@@ -112,7 +116,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     })});
   }
 
-  calculateInstancePositions(attribute: { value: number[], size: number }) {
+  calculateInstancePositions(attribute: Attribute) {
     const { data, getPosition, getElevation, elevationScale } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -131,7 +135,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     }
   }
 
-  calculateInstanceColors(attribute: { value: number[], size: number }) {
+  calculateInstanceColors(attribute: Attribute) {
     const { data, getColor, getElevation } = this.props;
     const { value, size } = attribute;
     let i = 0;

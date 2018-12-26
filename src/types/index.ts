@@ -93,11 +93,15 @@ export interface LineMapData {
 
 export interface MovedData {
   movesbaseidx: number,
-  position: number[]
+  position: number[],
+  radius: number,
+  color: number[],
 };
 
 export interface DepotsData {
-  position: number[]
+  position: number[],
+  radius: number,
+  color: number[],
 };
 
 export interface BasedState {
@@ -130,7 +134,7 @@ export interface BasedState {
   linemapData?: LineMapData[],
   linemapDataOriginal?: string,
   loading?: boolean,
-  inputFileName?: AnyObject,
+  inputFileName?: ComObj<any>,
 };
 
 export type ActionTypes = typeof BaseActions;
@@ -191,6 +195,6 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
   y: number,
 }
 
-export interface AnyObject {
-  [propName: string]: any,
+interface ComObj<T> {
+  [propName: string]: T,
 }

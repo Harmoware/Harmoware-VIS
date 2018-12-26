@@ -16,7 +16,7 @@ const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 const { COLOR1 } = settings;
 
 interface Bus3dAppProps extends Bus3dProps {
-  t: Function,
+  t: (key: string) => string,
 }
 
 interface State {

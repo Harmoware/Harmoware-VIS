@@ -23,7 +23,7 @@ const canvasProps = {
 };
 
 interface Props extends Bus3dProps{
-  t: Function,
+  t: (key: string) => string,
 }
 
 export default class Header extends React.Component<Props> {

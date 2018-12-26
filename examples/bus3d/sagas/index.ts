@@ -46,7 +46,7 @@ function fetchCSV(path: string, useShiftJis = false) {
       if (useShiftJis) {
         data = iconv.decode(new Buffer(data), 'shift_jis').toString();
       }
-      csvtojson().fromString(data).on('end_parsed', (result) => {
+      csvtojson().fromString(data).on('end_parsed', (result: object[]) => {
         resolve(Object.assign({}, res, {
           data: result
         }));
@@ -89,15 +89,16 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     }
     if (typeof data.busmovesbase !== 'undefined') {
       const { timeBegin, timeLength, bounds, busmovesbasedic }:Bus3dState = data; 
-      const { busmovesbase }:{ busmovesbase: Bus3dMovesbase[] } = data; 
+      const { busmovesbase: movesbase }:{ busmovesbase: Bus3dMovesbase[] } = data; 
       yield put(Actions.setBusTripsCsv([]));
       yield put(Actions.setBusTripIndex({}));
-      yield put(Actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase: busmovesbase }));
+      yield put(Actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase }));
       yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
       yield put(Actions.setLoading(false));
       return;
     }
-    const { timeBegin, timeLength, trips } = data as { timeBegin: number, timeLength: number, trips: Trip[] };
+    const { timeBegin, timeLength, trips }:
+      { timeBegin: number, timeLength: number, trips: Trip[] } = data;
     const d = new Date(timeBegin * 1000);
     const strYmdBegin = p02d(d.getFullYear()) + p02d(d.getMonth() + 1) + p02d(d.getDate());
     const fileYmd = fileextension[0].split('-')[1].substr(0, 8);
@@ -106,26 +107,19 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
       alert(`date error\ntimeBegin=${strYmdBegin}\nfileneme=${fileYmd}`);
       return;
     }
-    const busmovesbase: Bus3dMovesbase[] = [];
+    const movesbase: Bus3dMovesbase[] = [];
     trips.forEach((trip) => {
-      const { segments, color } = trip;
+      const { segments, color: colorSpec } = trip;
       const operation: Bus3dMovesbaseOperation[] = [];
       segments.forEach((tripsegment, idx) => {
-        const tripcolor = (color && color[idx]) ? color[idx] : COLOR1;
-        operation.push({
-          elapsedtime: tripsegment[2],
-          longitude: tripsegment[0],
-          latitude: tripsegment[1],
-          color: tripcolor });
+        const [longitude, latitude, elapsedtime] = tripsegment;
+        const color = (colorSpec && colorSpec[idx]) ? colorSpec[idx] : COLOR1;
+        operation.push({ elapsedtime, longitude, latitude, color });
         if (!(idx < (segments.length - 1) && (segments[idx + 1][2] - tripsegment[2]) <= 10)) {
-          operation.push({
-            elapsedtime: tripsegment[2] + 10,
-            longitude: tripsegment[0],
-            latitude: tripsegment[1],
-            color: tripcolor });
+          operation.push({ elapsedtime: (elapsedtime + 10), longitude, latitude, color });
         }
       });
-      busmovesbase.push({
+      movesbase.push({
         departuretime: segments[0][2],
         arrivaltime: segments[segments.length - 1][2],
         operation
@@ -133,19 +127,19 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     });
     yield put(Actions.setBusTripsCsv([]));
     yield put(Actions.setBusTripIndex({}));
-    yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase: busmovesbase }));
+    yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase }));
     yield put(Actions.setBusMovesBaseDic({}));
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchCSV(`${DATAPATH}${answer}`, true)) as {
-      data: {[propName: string]: string}[] };
+      data: ComObj<string>[] };
     if (!data) {
       yield put(Actions.setLoading(false));
       return;
     }
     const bustripscsv: BusTripsCsvData[] = data.map((current) => {
-      const returnvalue = {
+      return {
         diagramid: current.ダイヤＩＤ,
         routecode: current.路線コード,
         systemcode: current.系統コード,
@@ -155,7 +149,6 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
         actualdep: current.実績発時刻,
         busstopcode: current.停留所コード,
         busstoporder: current.並び順 };
-      return returnvalue;
     });
     yield put(Actions.setBusTripsCsv(bustripscsv));
     yield put(Actions.setBusTripIndex({}));
@@ -168,16 +161,15 @@ function* fetchBusstopCSV() {
   if (busstopscsv.length === 0) {
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchCSV(`${BUSSTOPSPATH}busstops.csv`)) as {
-      data: {[propName: string]: string}[] };
+      data: ComObj<string>[] };
     if (data) {
       const conversionData: BusStopsCsvData[] = data.map((current) => {
-        const returnvalue = {
+        return {
           code: current.停留所コード,
           name: current.停留所名,
           longitude: Number(current.経度),
           latitude: Number(current.緯度),
         };
-        return returnvalue as BusStopsCsvData;
       });
       yield put(Actions.setBusstopsCsv(conversionData));
     }
@@ -204,11 +196,11 @@ function* fetchRoutesJSON() {
     const { data } = (yield fetchJSON(`${ROUTESPATH}routes.json`)) as
       { data:{ dep_station_code: string[], des_station_code: string[], route: string[] }};
     if (data) {
-      const { dep_station_code: depStationCode, des_station_code: desStationCode, route } = data;
-      const routesdict: { [propName: string]: string } = {};
+      const { dep_station_code, des_station_code, route } = data;
+      const routesdict: ComObj<string> = {};
       route.forEach((current, idx) => {
         routesdict[
-          p04d(depStationCode[idx]) + p04d(desStationCode[idx])
+          p04d(dep_station_code[idx]) + p04d(des_station_code[idx])
         ] = current;
       });
       yield put(Actions.setRoutesData(routesdict));
@@ -246,8 +238,9 @@ function* setupByCSV() {
   }
   const fileymd = fileextension[0].split('-')[1];
   const ymd = [
-    parseInt(fileymd.substr(0, 4), 10), parseInt(fileymd.substr(4, 2), 10) - 1,
-    parseInt(fileymd.substr(6, 2), 10)
+    Number(fileymd.substr(0, 4)),
+    Number(fileymd.substr(4, 2)) - 1,
+    Number(fileymd.substr(6, 2))
   ];
   let savediagramid = '';
   let savebusinfo: Savebusinfo = {};
@@ -256,9 +249,9 @@ function* setupByCSV() {
   const busmovesbase: Bus3dMovesbase[] = [];
   const busmovesbasedic: ComObj<number> = {};
 
-  const busmovesoption = busoption.busmovesoption || {} as BusOptionData["busmovesoption"];
-  let busoptionlist = null as { [propName: string]: {
-        elevation: number, color: number[], memo: string, } };
+  const { busmovesoption } = busoption || {} as BusOptionData;
+  let busoptionlist = null as ComObj<{
+        elevation: number, color: number[], memo: string, }>;
 
   bustripscsv.forEach((csvdata) => {
     const { diagramid, routecode, systemcode, direction, systemname, timetable,
@@ -273,8 +266,8 @@ function* setupByCSV() {
       savebusstatus = [];
     }
     if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/)) {
-      const tiemConversion = (ndate: number[], sTime) => {
-        const hms = sTime.split(':').map(current => parseInt(current, 10));
+      const tiemConversion = (ndate: number[], sTime: string) => {
+        const hms = sTime.split(':').map(current => Number(current));
         return new Date(ndate[0], ndate[1], ndate[2], hms[0], hms[1], hms[2] || 0).getTime();
       };
       const dtime = tiemConversion(ymd, actualdep);
@@ -286,9 +279,8 @@ function* setupByCSV() {
       const pushdata = {
         busstopcode,
         elapsedtime: dtime / 1000,
-        order: parseInt(busstoporder, 10) - 1,
-        delaysec,
-        busprop
+        order: Number(busstoporder) - 1,
+        delaysec, busprop
       };
       savebusstatus.push(pushdata);
     }
@@ -299,7 +291,7 @@ function* setupByCSV() {
   if (tripbase.length === 0) {
     return;
   }
-  const bssidx: { [propName: string]: number } = {};
+  const bssidx: ComObj<number> = {};
   busstopscsv.forEach((current, idx) => {
     bssidx[current.code] = idx;
   });
@@ -309,33 +301,29 @@ function* setupByCSV() {
     const { systemcode, direction, systemname, timetable } = businfo;
     const operation: Bus3dMovesbaseOperation[] = [];
     let savebusoption = null as Busprop;
+    const color = COLOR1;
     const busclass = { systemcode, direction, systemname, diagramid, timetable };
     for (let j = 0, lengthj = busstatus.length; j < lengthj; j += 1) {
       const { busstopcode, elapsedtime, order, delaysec, busprop } = busstatus[j];
       if (bssidx[busstopcode]) {
         const busstoplocation = busstopscsv[bssidx[busstopcode]];
+        const { longitude, latitude } = busstoplocation;
         operation.push({
           elapsedtime: elapsedtime - 10, // 各経過時間 - min経過時間
-          longitude: busstoplocation.longitude,
-          latitude: busstoplocation.latitude,
-          color: COLOR1,
-          delaysec,
+          longitude, latitude, color, delaysec,
           busprop: savebusoption });
 
         savebusoption = busprop;
         operation.push({
           elapsedtime, // 各経過時間 - min経過時間(+10はバス停停車の仮時間)
-          longitude: busstoplocation.longitude,
-          latitude: busstoplocation.latitude,
-          color: COLOR1,
-          delaysec,
+          longitude, latitude, color, delaysec,
           busprop: savebusoption });
 
         if (j < busstatus.length - 1 && busstopcode !== busstatus[j + 1].busstopcode) {
           const busrouteskey = `${systemcode}-${direction}`;
           const { busstopcode: nextbusstopcode, elapsedtime: nextelapsedtime,
             order: nextorder, delaysec: nextdelaysec } = busstatus[j + 1];
-          const bsorderlist = [];
+          const bsorderlist: { busstopcode: string, nextbusstopcode: string }[] = [];
           if (busroutes[busrouteskey]) {
             const wkbusroute = busroutes[busrouteskey];
             for (let k = order; k < nextorder; k += 1) {
@@ -350,11 +338,11 @@ function* setupByCSV() {
           }
 
           let distance = 0;
-          let route = [];
+          let route: number[][] = [];
           for (let m = 0; m < bsorderlist.length; m += 1) {
             const bsslist = bsorderlist[m];
             if (routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]) {
-              const routedata = JSON.parse(
+              const routedata: { result: string, route: number[][], distance: number } = JSON.parse(
                 routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]);
               if (routedata.result === 'success') {
                 for (let n = 0; n < routedata.route.length; n += 1) {
@@ -382,9 +370,7 @@ function* setupByCSV() {
             if (rt[2] > 0 && rt[2] < distance) {
               operation.push({
                 elapsedtime: st + (dt * (rt[2] / distance)), // 経過時間
-                longitude: Number(rt[1]),
-                latitude: Number(rt[0]),
-                color: COLOR1,
+                longitude: Number(rt[1]), latitude: Number(rt[0]), color,
                 delaysec: Math.floor(delaysec + ((nextdelaysec - delaysec) *
                   (rt[2] / distance))),
                 busprop: savebusoption });
@@ -421,7 +407,7 @@ function* setupByBusstopCSV() {
     const optionvalue = busstopsoption[time];
     optionvalue.forEach((option) => {
       const { bscode, elevation, color, memo } = option;
-      optionlist.push({ time: parseInt(time, 10),
+      optionlist.push({ time: Number(time),
         bscode,
         elevation: elevation || null,
         color: color || null,
@@ -430,10 +416,9 @@ function* setupByBusstopCSV() {
     });
   });
   optionlist.sort((a, b) => (a.time - b.time));
-  const option: {
-    [propName: string]: { stime: number, etime: number, data: {
+  const option: ComObj<{ stime: number, etime: number, data: {
       time: number, elevation: number | number[], color: number[] | number[][], memo: string
-    }[] } } = {};
+    }[] }> = {};
   optionlist.forEach((optiondata) => {
     const { bscode, time, elevation, color, memo } = optiondata;
     if (typeof option[bscode] === 'undefined') {

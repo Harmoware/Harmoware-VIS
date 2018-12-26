@@ -103,40 +103,36 @@ export interface Bus3dDepotsbase extends Depotsbase {
     },
 };
 export interface BusOptionData {
-    busmovesoption?: {
-        [propName: string]: {
-            [propName: string]: {
-                elevation: number,
-                color: number[],
-                memo: string
-            }
-        }}[],
-    busstopsoption?: {
-        [propName: string]: {
-            bscode: number,
-            elevation: number | number[],
-            color: number[] | number[][],
-            memo: string
-        }[]
-    },
-    archoption?: {
-        diagramId: string,
-        sourceDepotsCode: string,
-        sourceDepotsOrder: string,
-        targetDepotsCode: string,
-        targetDepotsOrder: string,
-        [propName: string]: any,
-    }[],
+    busmovesoption?: ComObj<ComObj<{
+        elevation: number,
+        color: number[],
+        memo: string
+    }>>[],
+    busstopsoption?: ComObj<{
+        bscode: number,
+        elevation: number | number[],
+        color: number[] | number[][],
+        memo: string
+    }[]>,
+    archoption?: Archoption[],
 };
+interface Archoption extends ComObj<any> {
+    diagramId: string,
+    sourceDepotsCode: string,
+    sourceDepotsOrder: string,
+    targetDepotsCode: string,
+    targetDepotsOrder: string,
+}
 export interface ArchBaseData {
     departuretime: number,
     arrivaltime: number,
     arcdata: Arcdata,
 };
-export interface Arcdata {
+export interface Arcdata extends ComObj<any> {
     sourcePosition: number[],
     targetPosition: number[],
-    [propName: string]: any,
+    color: number[],
+    strokeWidth: number,
 };
 
 export interface Bus3dDepotsData extends DepotsData {
@@ -178,9 +174,7 @@ export interface Bus3dEventInfo extends EventInfo {
         code: string,
     },
 };
-export interface Busroutes {
-    [propName: string]: string[],
-}
+export interface Busroutes extends ComObj<string[]> {}
 export interface RainfallData {
     position: number[],
     elevation: number,

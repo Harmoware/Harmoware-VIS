@@ -8,8 +8,8 @@ interface Props {
   layerCellSize?: number,
   layerElevationScale?: number,
   lightSettings: LightSettings,
-  getElevation?: (x) => number,
-  getColor?: (x) => number[],
+  getElevation?: (x: RainfallData) => number,
+  getColor?: (x: RainfallData) => number[],
   getRainfallColor?: (x: number) => number[],
   defaultColor?: number[]
 }
@@ -24,8 +24,8 @@ export default class XbandmeshLayer extends CompositeLayer<Props> {
     layerOpacity: 0.2,
     layerCellSize: 100,
     layerElevationScale: 20,
-    getElevation: (x) => x.elevation || 0,
-    getColor: (x) => x.color,
+    getElevation: (x: RainfallData) => x.elevation || 0,
+    getColor: (x: RainfallData) => x.color,
     getRainfallColor: (x: number) => {
       if (x < 3) { // 0:白 => 3:水色
         return [255.0 - ((x / 3.0) * 255.0), 255.0, 255.0];
@@ -63,7 +63,7 @@ export default class XbandmeshLayer extends CompositeLayer<Props> {
     }
 
     const getCellColor =
-      x => getColor(x) || getRainfallColor(getElevation(x)) || defaultColor;
+      (x: RainfallData) => getColor(x) || getRainfallColor(getElevation(x)) || defaultColor;
 
     return [
       new GridCellLayer({

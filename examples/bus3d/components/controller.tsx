@@ -6,7 +6,7 @@ import i18n from '../locales/I18n';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
 
-const getXbandLabelBySize = (xbandCellSize, label: string) => {
+const getXbandLabelBySize = (xbandCellSize: number, label: string): string => {
   if (xbandCellSize === 0) {
     return `${label}(0)`;
   } else if (xbandCellSize <= 50) {
@@ -21,7 +21,7 @@ const getXbandLabelBySize = (xbandCellSize, label: string) => {
   return `${label}(X)`;
 };
 
-const getNextCellSize = (xbandCellSize) => {
+const getNextCellSize = (xbandCellSize: number): number => {
   if (xbandCellSize >= 200) {
     return 0;
   }
@@ -30,9 +30,9 @@ const getNextCellSize = (xbandCellSize) => {
 
 interface Props extends Bus3dProps {
   date: number,
-  getOptionChangeChecked: (event) => void,
-  getArchLayerChangeChecked: (event) => void,
-  t: Function,
+  getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getArchLayerChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  t: (key: string) => string,
 }
 
 interface State {
@@ -127,7 +127,7 @@ export default class Controller extends React.Component<Props, State> {
     const file = e.target.files[0];
     actions.setLoading(true);
     reader.readAsText(file);
-    reader.onload = (ev) => {
+    reader.onload = (ev: ProgressEvent) => {
       let readdata = null;
       try {
         readdata = JSON.parse(reader.result.toString());

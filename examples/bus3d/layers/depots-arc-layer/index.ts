@@ -20,36 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import { Layer } from 'deck.gl';
+import { Layer, AttributeManager } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 
 import vs from './depots-arc-layer-vertex.glsl';
 import fs from './depots-arc-layer-fragment.glsl';
 
+import { Arcdata } from '../../types'
+
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
 interface Props {
-  id?: string,
-  data?: object[],
-  getSourcePosition?: Function,
-  getTargetPosition?: Function,
-  getSourceColor?: Function,
-  getTargetColor?: Function,
-  getStrokeWidths?: Function,
+  id: string,
+  data: Arcdata[],
+  getSourcePosition?: (x: Arcdata) => number[],
+  getTargetPosition?: (x: Arcdata) => number[],
+  getSourceColor?: (x: Arcdata) => number[],
+  getTargetColor?: (x: Arcdata) => number[],
+  getStrokeWidths?: (x: Arcdata) => number,
 }
 interface State {
-  attributeManager,
-  model,
+  attributeManager: AttributeManager,
+  model: Model,
+}
+interface Attribute {
+  value: number[],
+  size: number
 }
 
 export default class DepotsArcLayer extends Layer<Props, State> {
 
   static defaultProps = {
-    getSourcePosition: x => x.sourcePosition,
-    getTargetPosition: x => x.targetPosition,
-    getSourceColor: x => x.color || DEFAULT_COLOR,
-    getTargetColor: x => x.color || DEFAULT_COLOR,
-    getStrokeWidths: x => x.strokeWidth || 1
+    getSourcePosition: (x: Arcdata):number[] => x.sourcePosition,
+    getTargetPosition: (x: Arcdata):number[] => x.targetPosition,
+    getSourceColor: (x: Arcdata):number[] => x.color || DEFAULT_COLOR,
+    getTargetColor: (x: Arcdata):number[] => x.color || DEFAULT_COLOR,
+    getStrokeWidths: (x: Arcdata):number => x.strokeWidth || 1
   }
 
   static layerName = 'DepotsArcLayer';
@@ -63,7 +69,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
   }
 
   initializeState() {
-    const { gl } = this.context;
+    const { gl } = this.context as { gl: WebGLRenderingContext };
     this.setState({ model: this.getModel(gl) });
 
     const { attributeManager } = this.state;
@@ -78,7 +84,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     /* eslint-enable max-len */
   }
 
-  getModel(gl: WebGLRenderingContext) {
+  getModel(gl: WebGLRenderingContext): Model {
     let positions = [];
     const NUM_SEGMENTS = 50;
     /*
@@ -107,7 +113,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     return model;
   }
 
-  calculateInstancePositions(attribute) {
+  calculateInstancePositions(attribute: Attribute) {
     const { data, getSourcePosition, getTargetPosition } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -122,7 +128,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceSourceColors(attribute) {
+  calculateInstanceSourceColors(attribute: Attribute) {
     const { data, getSourceColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -136,7 +142,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceTargetColors(attribute) {
+  calculateInstanceTargetColors(attribute: Attribute) {
     const { data, getTargetColor } = this.props;
     const { value, size } = attribute;
     let i = 0;
@@ -150,7 +156,7 @@ export default class DepotsArcLayer extends Layer<Props, State> {
     });
   }
 
-  calculateInstanceStrokeWidths(attribute) {
+  calculateInstanceStrokeWidths(attribute: Attribute) {
     const { data, getStrokeWidths } = this.props;
     const { value, size } = attribute;
     let i = 0;

@@ -10,7 +10,7 @@ import { MovesInput, DepotsInput, LinemapInput,
 import i18n from '../locales/I18n';
 
 interface Props extends BasedProps {
-  t: Function,
+  t: (key: string) => string,
   viewport: Viewport,
 }
 
