@@ -389,7 +389,7 @@ function* setupByCSV() {
       busmovesbasedic[diagramid] = idx;
     }
   });
-  yield put(Actions.setMovesBase({ movesbase: busmovesbase } as any));
+  yield put(Actions.setMovesBase({ movesbase: busmovesbase }));
   yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
 }
 
