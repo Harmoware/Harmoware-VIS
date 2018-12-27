@@ -1,5 +1,8 @@
 declare interface Window {
-  WheelEvent: any;
+  WheelEvent: {
+    DOM_DELTA_PIXEL: number,
+    DOM_DELTA_LINE: number,
+  };
 }
 
 declare module "react-icons-kit/md" {

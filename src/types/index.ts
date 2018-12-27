@@ -115,8 +115,8 @@ export interface BasedState {
   depotsBase?: Depotsbase[],
   depotsBaseOriginal?: string,
   depotsData?: DepotsData[],
-  getDepotsOptionFunc?: null | (<P>(props: P, i: number) => any),
-  getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => any),
+  getDepotsOptionFunc?: null | (<P>(props: P, i: number) => object),
+  getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => object),
   leading?: number,
   lightSettings?: LightSettings,
   loopTime?: number,
@@ -134,7 +134,7 @@ export interface BasedState {
   linemapData?: LineMapData[],
   linemapDataOriginal?: string,
   loading?: boolean,
-  inputFileName?: ComObj<any>,
+  inputFileName?: ComObj<string>,
 };
 
 export type ActionTypes = typeof BaseActions;
@@ -145,9 +145,9 @@ export interface BasedProps extends BasedState {
   actions?: ActionTypes
 };
 
-export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
+export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => object);
 
-export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
+export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => object);
 
 export interface Position {
   position: number[]
