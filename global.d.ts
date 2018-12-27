@@ -6,15 +6,15 @@ declare interface Window {
 }
 
 declare module "react-icons-kit/md" {
-  export const ic_fast_forward;
-  export const ic_fast_rewind;
-  export const ic_forward;
-  export const ic_pause_circle_outline;
-  export const ic_play_circle_outline;
-  export const ic_replay;
-  export const ic_navigation;
-  export const ic_delete_forever;
-  export const ic_save;
-  export const ic_layers;
-  export const ic_delete;
+  export const ic_fast_forward: object;
+  export const ic_fast_rewind: object;
+  export const ic_forward: object;
+  export const ic_pause_circle_outline: object;
+  export const ic_play_circle_outline: object;
+  export const ic_replay: object;
+  export const ic_navigation: object;
+  export const ic_delete_forever: object;
+  export const ic_save: object;
+  export const ic_layers: object;
+  export const ic_delete: object;
 }
