@@ -18,7 +18,7 @@ type Data  = {
 interface Props {
   id: string,
   data: Data[],
-  projectionMode: any,
+  projectionMode: number,
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,

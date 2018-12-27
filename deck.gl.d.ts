@@ -41,13 +41,15 @@ declare module "deck.gl" {
   class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
 
   class AttributeManager implements OrgAttributeManager {
-    addInstanced(attributes: any, updaters?: any): void;
+    addInstanced(attributes: object, updaters?: object): void;
   }
 
   class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
 
-  const COORDINATE_SYSTEM: { IDENTITY: any };
-  const experimental;
+  const COORDINATE_SYSTEM: { IDENTITY: number };
+  const experimental: {
+    get: (container: object, compositeKey: string | any) => any;
+}
   
   interface PerspectiveViewportOption {
     width: number; 

@@ -6,8 +6,8 @@ import { DepotsData, Position, DataOption, Radius, EventInfo } from '../../types
 interface Props {
   layerOpacity?: number,
   depotsData: DepotsData[],
-  getColor?: (x) => number[],
-  getRadius?: (x) => number,
+  getColor?: (x: DataOption) => number[],
+  getRadius?: (x: DataOption) => number,
   onHover?: (event: EventInfo) => void,
   onClick?: (event: EventInfo) => void,
 }
