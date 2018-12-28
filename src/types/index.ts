@@ -94,14 +94,18 @@ export interface LineMapData {
 export interface MovedData {
   movesbaseidx: number,
   position: number[],
-  radius: number,
-  color: number[],
+  sourcePosition: number[],
+  targetPosition: number[],
+  sourceColor: number[],
+  targetColor: number[],
+  radius?: number,
+  color?: (number | number[])[],
 };
 
 export interface DepotsData {
   position: number[],
-  radius: number,
-  color: number[],
+  radius?: number,
+  color?: (number | number[])[],
 };
 
 export interface BasedState {

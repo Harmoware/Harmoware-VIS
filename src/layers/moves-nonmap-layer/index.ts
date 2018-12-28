@@ -1,4 +1,4 @@
-import { CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, COORDINATE_SYSTEM, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
@@ -6,7 +6,7 @@ import { MovedData, Movesbase, RoutePaths, ClickedObject, Position,
   DataOption, Radius, EventInfo } from '../../types';
 import * as Actions from '../../actions';
 
-interface Props {
+interface Props extends LayerProps {
   layerOpacity?: number,
   movedData: MovedData[],
   movesbase: Movesbase[],
@@ -15,8 +15,6 @@ interface Props {
   routePaths?: RoutePaths[],
   actions: typeof Actions,
   clickedObject?: null | ClickedObject[],
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
 }
 
 export default class MovesNonmapLayer extends CompositeLayer<Props> {
@@ -49,7 +47,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     return [
       new FrontScatterplotLayer({
         id: 'moves-nonmap',
-        data: movedData,
+        data: movedData as any[],
         projectionMode: COORDINATE_SYSTEM.IDENTITY,
         getPosition,
         getColor,

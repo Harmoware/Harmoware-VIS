@@ -1,9 +1,9 @@
-import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
 import { DepotsData, LightSettings, Position, Radius, DataOption, EventInfo } from '../../types';
 
-interface Props {
+interface Props extends LayerProps {
   layerRadiusScale?: number,
   layerOpacity?: number,
   depotsData: DepotsData[],
@@ -24,12 +24,10 @@ interface Props {
   getElevation3?: (x) => number,
   getElevation4?: (x) => number,
   i18n?: { error: string },
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   };
 
@@ -205,7 +203,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       }),
       new CubeiconLayer({
         id: 'depots-opt-cube1',
-        data: depotsData,
+        data: depotsData as any[],
         visible: optionVisible && optionChange,
         getPosition: getCubePosition1,
         getColor: getCubeColor1,
@@ -218,7 +216,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       }),
       new CubeiconLayer({
         id: 'depots-opt-cube2',
-        data: depotsData,
+        data: depotsData as any[],
         visible: optionVisible && optionChange,
         getPosition: getCubePosition2,
         getColor: getCubeColor2,

@@ -1,14 +1,12 @@
-import { CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
+import { LayerProps, CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
 import { LineMapData, LineData, EventInfo } from '../../types';
 
-interface Props {
+interface Props extends LayerProps {
   layerOpacity?: number,
   linemapData: LineMapData[],
   strokeWidth?: number,
   getColor?: (x) => number[],
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {

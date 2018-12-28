@@ -1,35 +1,29 @@
-import { Layer, AttributeManager } from 'deck.gl';
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
 import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings, EventInfo } from '../../types';
+import { LightSettings, MovedData, DepotsData } from '../../types';
 
 registerShaderModules([picking]);
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
-type Data = {
+interface Data {
   position: number[],
   elevation:number[],
   color: number[][],
 }
 
-interface Props {
-  id: string,
-  data: Data[],
-  visible?: boolean,
+interface Props extends LayerProps {
   cellSize?: number,
   coverage?: number,
   elevationScale?: number,
-  opacity?: number,
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x: Data) => number[],
-  getElevation?: (x: Data) => number[],
-  getColor?: (x: Data) => number[][],
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
+  getPosition?: (x) => number[],
+  getElevation?: (x) => number[],
+  getColor?: (x) => (number | number[])[],
 }
 interface State {
   attributeManager: AttributeManager,
@@ -42,7 +36,7 @@ interface Attribute {
 
 export default class CubeiconLayer extends Layer<Props, State> {
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 

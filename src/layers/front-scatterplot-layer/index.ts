@@ -1,6 +1,6 @@
 // Copyright (c) 2015 - 2017 Uber Technologies, Inc.
 
-import { Layer, experimental, AttributeManager } from 'deck.gl';
+import { Layer, LayerProps, experimental, AttributeManager } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
@@ -12,23 +12,17 @@ const { get } = experimental;
 type Data  = {
   position: number[],
   radius: number,
-  color: number[],
+  color: (number | number[])[],
 };
 
-interface Props {
-  id: string,
+interface Props extends LayerProps {
   data: Data[],
-  projectionMode: number,
   radiusScale?: number,
   radiusMinPixels?: number,
   radiusMaxPixels?: number,
-  opacity: number,
-  pickable: boolean
-  getPosition?: (x: Data) => number[],
-  getRadius?: (x: Data) => number,
-  getColor?: (x: Data) => number[],
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
+  getPosition?: (x) => number[],
+  getRadius?: (x) => number,
+  getColor?: (x) => number[],
 }
 interface State {
   attributeManager: AttributeManager,

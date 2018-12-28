@@ -1,8 +1,8 @@
-import { GridCellLayer, CompositeLayer } from 'deck.gl';
+import { LayerProps, GridCellLayer, CompositeLayer } from 'deck.gl';
 import { LightSettings } from 'harmoware-vis';
 import { RainfallData } from '../../types'
 
-interface Props {
+interface Props extends LayerProps {
   rainfall: RainfallData[],
   layerOpacity?: number,
   layerCellSize?: number,

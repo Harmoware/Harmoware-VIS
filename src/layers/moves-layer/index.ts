@@ -1,4 +1,4 @@
-import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
@@ -7,7 +7,7 @@ import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
   Position, Radius, DataOption, EventInfo } from '../../types';
 import * as Actions from '../../actions';
 
-interface Props {
+interface Props extends LayerProps {
   routePaths: RoutePaths[],
   layerRadiusScale?: number,
   layerOpacity?: number,
@@ -20,22 +20,19 @@ interface Props {
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
-  visible?: boolean,
   lightSettings: LightSettings,
-  getColor?: (x) => number[],
-  getRadius?: (x) => number,
-  getColor1?: (x) => number[],
-  getColor2?: (x) => number[],
-  getColor3?: (x) => number[],
-  getColor4?: (x) => number[],
-  getElevation1?: (x) => number,
-  getElevation2?: (x) => number,
-  getElevation3?: (x) => number,
-  getElevation4?: (x) => number,
-  getCubeColor?: (x) => number[][],
-  getCubeElevation?: (x) => number[],
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
+  getColor?: (x: DataOption) => number[],
+  getRadius?: (x: Radius) => number,
+  getColor1?: (x: DataOption) => number[],
+  getColor2?: (x: DataOption) => number[],
+  getColor3?: (x: DataOption) => number[],
+  getColor4?: (x: DataOption) => number[],
+  getElevation1?: (x: DataOption) => number,
+  getElevation2?: (x: DataOption) => number,
+  getElevation3?: (x: DataOption) => number,
+  getElevation4?: (x: DataOption) => number,
+  getCubeColor?: (x: DataOption) => number[][],
+  getCubeElevation?: (x: DataOption) => number[],
   i18n?: { error: string }
 }
 
@@ -203,7 +200,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       }),
       new CubeiconLayer({
         id: 'moves-opt-cube',
-        data: movedData,
+        data: movedData as any[],
         visible: visible && optionVisible && optionChange,
         getPosition,
         getColor: getCubeColor,
@@ -216,7 +213,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       }),
       new EnhancedArcLayer({
         id: 'moves-opt-arc',
-        data: movedData,
+        data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
         getStrokeWidths: (x) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),

@@ -9,8 +9,18 @@ declare module "deck.gl" {
     opacity: number,
     coverage: number
   }
+  interface LayerProps {
+    id?: string;
+    data?: any[];
+    visible?: boolean;
+    pickable?: boolean;
+    opacity?: number;
+    onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    projectionMode?: number;
+  }
 
-  class Layer <P = {}, S = {}> implements OrgLayer {
+  class Layer <P extends LayerProps = LayerProps, S = {}> implements OrgLayer {
     constructor(props: P);
     context;
     props: P;
@@ -30,15 +40,15 @@ declare module "deck.gl" {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
-  class CompositeLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class CompositeLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
-  class ScatterplotLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class ScatterplotLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
-  class GridCellLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class GridCellLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
-  class LineLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class LineLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
-  class HexagonLayer<P = {}, S = {}> extends Layer<P, S> {}
+  class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class AttributeManager implements OrgAttributeManager {
     addInstanced(attributes: object, updaters?: object): void;

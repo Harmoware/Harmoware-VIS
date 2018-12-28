@@ -1,15 +1,13 @@
-import { CompositeLayer, COORDINATE_SYSTEM } from 'deck.gl';
+import { LayerProps, CompositeLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { COLOR4 } from '../../constants/settings';
 import { DepotsData, Position, DataOption, Radius, EventInfo } from '../../types';
 
-interface Props {
+interface Props extends LayerProps {
   layerOpacity?: number,
   depotsData: DepotsData[],
   getColor?: (x: DataOption) => number[],
   getRadius?: (x: DataOption) => number,
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
 }
 
 export default class FixedPointLayer extends CompositeLayer<Props> {
@@ -35,7 +33,7 @@ export default class FixedPointLayer extends CompositeLayer<Props> {
     return [
       new FrontScatterplotLayer({
         id: 'fixed-point',
-        data: depotsData,
+        data: depotsData as any[],
         projectionMode: COORDINATE_SYSTEM.IDENTITY,
         getPosition,
         getColor,

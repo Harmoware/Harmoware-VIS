@@ -1,4 +1,4 @@
-import { Layer, AttributeManager } from 'deck.gl';
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 import vertex from './enhanced-arc-layer-vertex.glsl';
 import fragment from './enhanced-arc-layer-fragment.glsl';
@@ -14,18 +14,13 @@ type Data = {
   strokeWidth: number
 }
 
-interface Props {
-  id?: string,
+interface Props extends LayerProps {
   data: Data[],
-  visible?: boolean,
-  opacity?: number,
   getSourcePosition?: (x: Data) => number[],
   getTargetPosition?: (x: Data) => number[],
   getSourceColor?: (x: Data) => number[],
   getTargetColor?: (x: Data) => number[],
   getStrokeWidths?: (x: Data) => number,
-  onHover?: (event: EventInfo) => void,
-  onClick?: (event: EventInfo) => void,
 }
 interface State {
   attributeManager: AttributeManager,
@@ -38,7 +33,7 @@ interface Attribute {
 
 export default class EnhancedArcLayer extends Layer<Props, State> {
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 

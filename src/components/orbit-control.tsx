@@ -52,7 +52,7 @@ export default class OrbitController extends React.Component<Props>{
     });
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.dragStartPos = null;
   }
