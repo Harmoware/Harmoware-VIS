@@ -33,28 +33,32 @@ jobs:
         root: .
         paths:
         - .
-  # Test
-  test:
+        
+  deploy:
     <<: *container_config
     steps:
-    - attach_workspace:
-        at: .
-    - run:
-        name: Workaround for GoogleChrome/puppeteer#290
-        command: 'sh .circleci/setup_puppeteer.sh'
-    - run:
-        name: Test
-        command: npm run test
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
 # Workflow
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
-    - build
-    - test:
-        requires:
-        - build
-        filters:
-          branches:
-            only:
-            - master
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
