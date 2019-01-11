@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import { Layer, AttributeManager } from 'deck.gl';
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
 import { GL, Model, Geometry } from 'luma.gl';
 
 import vs from './depots-arc-layer-vertex.glsl';
@@ -30,7 +30,7 @@ import { Arcdata } from '../../types'
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
-interface Props {
+interface Props extends LayerProps {
   id: string,
   data: Arcdata[],
   getSourcePosition?: (x: Arcdata) => number[],
