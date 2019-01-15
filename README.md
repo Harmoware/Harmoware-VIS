@@ -268,6 +268,7 @@ The MovesLayer will render moving objects such as vehicles.
 | clickedObject | Array required |--  | Harmoware-VIS state `clickedObject` |
 | layerRadiusScale | Number option | 1 | Icon size scale |
 | layerOpacity | Number option | 0.75 | Icon opacity |
+| getRadius | Function option | x => x.radius ││ 20 | Icon radius specification accessor |
 | getColor | Function option | x => x.color ││ GREEN | Icon color specification accessor |
 | optionVisible | Boolean option | true | Option information display availability |
 | optionChange | Boolean option | false | option Display pattern switching |
