@@ -1,19 +1,16 @@
 {
   "name": "harmoware-vis",
   "description": "This is a minimal standalone version of the TripsLayer example on [deck.gl](http://deck.gl) website.",
-  "version": "1.1.1",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "types": "./types/src/index.d.ts",
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --port 3030 --open --mode development",
-    "build": "webpack --mode production",
-    "lib": "babel src --out-dir lib",
+    "build:lib": "rm -rf ./types/ && tsc --p tsconfig.json",
     "bus3d": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/bus3d --config ./examples/bus3d/webpack.config.js --mode development",
     "real-time-sample": "webpack-dev-server --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
     "np": "np --no-cleanup",
-    "tsc": "tsc --p tsconfig.json",
     "deploy": "npm-run-all -s lib np"
   },
   "dependencies": {

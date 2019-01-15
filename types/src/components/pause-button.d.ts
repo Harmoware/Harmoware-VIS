@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionTypes } from '../types';
 interface Props {
     actions: ActionTypes;
-    children?: any;
+    children?: React.ReactNode;
     i18n?: {
         pauseButtonCaption: string;
     };

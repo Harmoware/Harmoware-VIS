@@ -6,7 +6,7 @@ interface Props {
     mapboxApiAccessToken: string;
     mapStyle?: string;
     actions: ActionTypes;
-    onChangeViewport?(viewport: Viewport): any;
+    onViewportChange?(viewport: Viewport): void;
     layers: Layer[];
 }
 export default class HarmoVisLayers extends React.Component<Props> {
@@ -14,7 +14,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
         mapStyle: string;
     };
     componentDidMount(): void;
-    initialize(gl: any): void;
+    initialize(gl: WebGLRenderingContext): void;
     render(): JSX.Element;
 }
 export {};

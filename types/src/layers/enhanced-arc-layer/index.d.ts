@@ -1,31 +1,31 @@
-import { Layer } from 'deck.gl';
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
+import { Model } from 'luma.gl';
 declare type Data = {
-    sourcePosition: Array<number>;
-    targetPosition: Array<number>;
-    sourceColor: Array<number>;
-    targetColor: Array<number>;
-    color: Array<number>;
+    sourcePosition: number[];
+    targetPosition: number[];
+    sourceColor: number[];
+    targetColor: number[];
+    color: number[];
     strokeWidth: number;
 };
-interface Props {
-    id?: string;
-    data: Array<Data>;
-    visible?: boolean;
-    opacity?: number;
-    getSourcePosition?: (x: any) => Array<number>;
-    getTargetPosition?: (x: any) => Array<number>;
-    getSourceColor?: (x: any) => Array<number>;
-    getTargetColor?: (x: any) => Array<number>;
-    getStrokeWidths?: (x: any) => number;
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
+interface Props extends LayerProps {
+    data: Data[];
+    getSourcePosition?: (x: Data) => number[];
+    getTargetPosition?: (x: Data) => number[];
+    getSourceColor?: (x: Data) => number[];
+    getTargetColor?: (x: Data) => number[];
+    getStrokeWidths?: (x: Data) => number;
 }
 interface State {
-    attributeManager: any;
-    model: any;
+    attributeManager: AttributeManager;
+    model: Model;
+}
+interface Attribute {
+    value: number[];
+    size: number;
 }
 export default class EnhancedArcLayer extends Layer<Props, State> {
-    constructor(props: any);
+    constructor(props: Props);
     static defaultProps: {
         visible: boolean;
         opacity: number;
@@ -41,22 +41,10 @@ export default class EnhancedArcLayer extends Layer<Props, State> {
         fs: string;
     };
     initializeState(): void;
-    getModel(gl: any): any;
-    calculateInstancePositions(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
-    calculateInstanceSourceColors(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
-    calculateInstanceTargetColors(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
-    calculateInstanceStrokeWidths(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
+    getModel(gl: WebGLRenderingContext): Model;
+    calculateInstancePositions(attribute: Attribute): void;
+    calculateInstanceSourceColors(attribute: Attribute): void;
+    calculateInstanceTargetColors(attribute: Attribute): void;
+    calculateInstanceStrokeWidths(attribute: Attribute): void;
 }
 export {};

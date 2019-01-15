@@ -1,33 +1,32 @@
-import { Layer } from 'deck.gl';
-import { LightSettings } from 'harmoware-vis';
-declare type Data = {
-    position: Array<number>;
-    elevation: Array<number>;
-    color: Array<Array<number>>;
-};
-interface Props {
-    id: string;
-    data: Array<Data>;
-    visible?: boolean;
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
+import { Model } from 'luma.gl';
+import { LightSettings } from '../../types';
+interface Data {
+    position: number[];
+    elevation: number[];
+    color: number[][];
+}
+interface Props extends LayerProps {
     cellSize?: number;
     coverage?: number;
     elevationScale?: number;
-    opacity?: number;
     extruded?: boolean;
     fp64?: boolean;
     lightSettings: LightSettings;
-    getPosition?: (x: any) => Array<number>;
-    getElevation?: (x: any) => Array<number>;
-    getColor?: (x: any) => Array<Array<number>>;
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
+    getPosition?: (x: any) => number[];
+    getElevation?: (x: any) => number[];
+    getColor?: (x: any) => (number | number[])[];
 }
 interface State {
-    attributeManager: any;
-    model: any;
+    attributeManager: AttributeManager;
+    model: Model;
+}
+interface Attribute {
+    value: number[];
+    size: number;
 }
 export default class CubeiconLayer extends Layer<Props, State> {
-    constructor(props: any);
+    constructor(props: Props);
     static defaultProps: {
         visible: boolean;
         cellSize: number;
@@ -53,17 +52,11 @@ export default class CubeiconLayer extends Layer<Props, State> {
         oldProps: any;
         changeFlags: any;
     }): void;
-    getModel(gl: any): any;
+    getModel(gl: WebGLRenderingContext): Model;
     updateUniforms(): void;
-    getNumInstances(props: Props): number;
+    getNumInstances(props: Props): any;
     draw(): void;
-    calculateInstancePositions(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
-    calculateInstanceColors(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
+    calculateInstancePositions(attribute: Attribute): void;
+    calculateInstanceColors(attribute: Attribute): void;
 }
 export {};

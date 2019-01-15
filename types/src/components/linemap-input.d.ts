@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent } from '../types';
+import { ActionTypes } from '../types';
 interface Props {
     actions: ActionTypes;
     i18n?: {
@@ -15,7 +15,7 @@ export default class LinemapInput extends React.Component<Props> {
             formatError: string;
         };
     };
-    onSelect(e: InputEvent): void;
+    onSelect(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;
 }
 export {};

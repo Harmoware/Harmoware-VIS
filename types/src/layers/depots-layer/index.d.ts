@@ -1,22 +1,22 @@
-import { CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
-import { DepotsData, LightSettings, Position, Radius, DataOption } from 'harmoware-vis';
-interface Props {
+import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
+interface Props extends LayerProps {
     layerRadiusScale?: number;
     layerOpacity?: number;
-    depotsData: Array<DepotsData>;
+    depotsData: DepotsData[];
     optionVisible?: boolean;
     optionChange?: boolean;
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
     lightSettings: LightSettings;
-    getColor?: (x: any) => Array<number>;
+    getColor?: (x: any) => number[];
     getRadius?: (x: any) => number;
-    getColor1?: (x: any) => Array<number>;
-    getColor2?: (x: any) => Array<number>;
-    getColor3?: (x: any) => Array<number>;
-    getColor4?: (x: any) => Array<number>;
+    getColor1?: (x: any) => number[];
+    getColor2?: (x: any) => number[];
+    getColor3?: (x: any) => number[];
+    getColor4?: (x: any) => number[];
     getElevation1?: (x: any) => number;
     getElevation2?: (x: any) => number;
     getElevation3?: (x: any) => number;
@@ -24,11 +24,9 @@ interface Props {
     i18n?: {
         error: string;
     };
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
 }
 export default class DepotsLayer extends CompositeLayer<Props> {
-    constructor(props: any);
+    constructor(props: Props);
     static layerName: string;
     static defaultProps: {
         layerRadiusScale: number;
@@ -59,7 +57,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getColor: (x: any) => number[];
         getRadius: (x: any) => number;
         opacity: number;
-        pickable: boolean;
+        pickable: true;
         radiusMinPixels: number;
     }, {}> | GridCellLayer<{
         id: string;
@@ -69,7 +67,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getColor: (x: any) => number[];
         getElevation: (x: any) => number;
         opacity: number;
-        pickable: boolean;
+        pickable: true;
         cellSize: number;
         elevationScale: number;
         lightSettings: LightSettings;

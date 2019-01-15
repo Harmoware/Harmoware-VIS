@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent } from '../types';
+import { ActionTypes } from '../types';
 interface Props {
     settime: number;
+    timeBegin: number;
     timeLength: number;
     min?: number;
     step?: number;
@@ -15,7 +16,7 @@ export default class ElapsedTimeRange extends React.Component<Props> {
         step: number;
         className: string;
     };
-    setTime(e: InputEvent): void;
+    setTime(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;
 }
 export {};

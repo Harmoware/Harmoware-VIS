@@ -1,33 +1,36 @@
-import { Layer } from 'deck.gl';
+import { Layer, LayerProps, AttributeManager } from 'deck.gl';
+import { Model } from 'luma.gl';
 declare type Data = {
-    position: Array<number>;
+    position: number[];
     radius: number;
-    color: Array<number>;
+    color: (number | number[])[];
 };
-interface Props {
-    data: Array<Data>;
+interface Props extends LayerProps {
+    data: Data[];
     radiusScale?: number;
     radiusMinPixels?: number;
     radiusMaxPixels?: number;
-    getPosition?: (x: any) => Array<number>;
+    getPosition?: (x: any) => number[];
     getRadius?: (x: any) => number;
-    getColor?: (x: any) => Array<number>;
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
+    getColor?: (x: any) => number[];
 }
 interface State {
-    attributeManager: any;
-    model: any;
+    attributeManager: AttributeManager;
+    model: Model;
+}
+interface Attribute {
+    value: number[];
+    size: number;
 }
 export default class FrontScatterplotLayer extends Layer<Props, State> {
-    constructor(props: any);
+    constructor(props: Props);
     static defaultProps: {
         radiusScale: number;
         radiusMinPixels: number;
         radiusMaxPixels: number;
         getPosition: (x: Data) => number[];
         getRadius: (x: Data) => number;
-        getColor: (x: Data) => number[];
+        getColor: (x: Data) => (number | number[])[];
     };
     static layerName: string;
     getShaders(): {
@@ -36,19 +39,12 @@ export default class FrontScatterplotLayer extends Layer<Props, State> {
         shaderCache: any;
     };
     initializeState(): void;
-    draw({ uniforms }: any): void;
-    getModel(gl: any): any;
-    calculateInstancePositions(attribute: {
-        value: Array<number>;
-        size: number;
+    draw({ uniforms }: {
+        uniforms: any;
     }): void;
-    calculateInstanceRadius(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
-    calculateInstanceColors(attribute: {
-        value: Array<number>;
-        size: number;
-    }): void;
+    getModel(gl: WebGLRenderingContext): Model;
+    calculateInstancePositions(attribute: Attribute): void;
+    calculateInstanceRadius(attribute: Attribute): void;
+    calculateInstanceColors(attribute: Attribute): void;
 }
 export {};

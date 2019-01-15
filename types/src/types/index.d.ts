@@ -1,7 +1,5 @@
+/// <reference types="react" />
 import * as BaseActions from '../actions';
-export declare type InputEvent = {
-    target: HTMLInputElement;
-} & Event;
 export interface Viewport {
     longitude?: number;
     latitude?: number;
@@ -12,7 +10,7 @@ export interface Viewport {
     bearing?: number;
     width?: number;
     height?: number;
-    lookAt?: Array<number>;
+    lookAt?: number[];
     distance?: number;
     minDistance?: number;
     maxDistance?: number;
@@ -21,11 +19,11 @@ export interface Viewport {
     fov?: number;
 }
 export interface LightSettings {
-    lightsPosition?: Array<number>;
+    lightsPosition?: number[];
     ambientRatio?: number;
     diffuseRatio?: number;
     specularRatio?: number;
-    lightsStrength?: Array<number>;
+    lightsStrength?: number[];
     numberOfLights?: number;
 }
 export interface Bounds {
@@ -34,23 +32,24 @@ export interface Bounds {
     southlatitude: number;
     northlatitude: number;
 }
+export interface MovesbaseOperation {
+    elapsedtime: number;
+    longitude?: number;
+    latitude?: number;
+    position?: number[];
+    color?: void | number[];
+    normal?: void | number[];
+}
 export interface Movesbase {
     departuretime: number;
     arrivaltime: number;
-    operation: Array<{
-        elapsedtime: number;
-        longitude?: number;
-        latitude?: number;
-        position: Array<number>;
-        color?: void | Array<number>;
-        normal?: void | Array<number>;
-    }>;
+    operation: MovesbaseOperation[];
 }
 export interface MovesbaseFile {
-    timeBegin: number;
-    timeLength: number;
-    bounds: Bounds;
-    movesbase: Array<Movesbase>;
+    timeBegin?: number;
+    timeLength?: number;
+    bounds?: Bounds;
+    movesbase: Movesbase[];
 }
 export interface AnalyzedBaseData extends MovesbaseFile {
     viewport: Viewport;
@@ -58,7 +57,7 @@ export interface AnalyzedBaseData extends MovesbaseFile {
 export interface Depotsbase {
     longitude?: number;
     latitude?: number;
-    position: Array<number>;
+    position?: number[];
 }
 export interface ClickedObject {
     object: {
@@ -69,48 +68,56 @@ export interface ClickedObject {
     };
 }
 export interface LineData {
-    sourcePosition: Array<number>;
-    targetPosition: Array<number>;
-    color?: Array<number>;
+    sourcePosition: number[];
+    targetPosition: number[];
+    color?: number[];
 }
 export interface RoutePaths {
-    movesbaseidx: number;
-    sourcePosition: Array<number>;
-    targetPosition: Array<number>;
-    color?: Array<number>;
+    movesbaseidx?: number;
+    sourcePosition: number[];
+    targetPosition: number[];
+    color?: number[];
 }
 export interface LineMapData {
-    sourcePosition: Array<number>;
-    targetPosition: Array<number>;
-    color?: Array<number>;
+    sourcePosition: number[];
+    targetPosition: number[];
+    color?: number[];
 }
 export interface MovedData {
     movesbaseidx: number;
-    position: Array<number>;
+    position: number[];
+    sourcePosition: number[];
+    targetPosition: number[];
+    sourceColor: number[];
+    targetColor: number[];
+    radius?: number;
+    color?: (number | number[])[];
 }
 export interface DepotsData {
-    position: Array<number>;
+    position: number[];
+    radius?: number;
+    color?: (number | number[])[];
 }
 export interface BasedState {
     animatePause?: boolean;
     animateReverse?: boolean;
     beforeFrameTimestamp?: number;
     bounds?: Bounds;
-    clickedObject?: null | Array<ClickedObject>;
+    clickedObject?: null | ClickedObject[];
     defaultPitch?: number;
     defaultZoom?: number;
-    depotsBase?: Array<Depotsbase>;
+    depotsBase?: Depotsbase[];
     depotsBaseOriginal?: string;
-    depotsData?: Array<DepotsData>;
-    getDepotsOptionFunc?: null | ((props: any, i: number) => any);
-    getMovesOptionFunc?: null | ((props: any, i: number, j: number) => any);
+    depotsData?: DepotsData[];
+    getDepotsOptionFunc?: null | (<P>(props: P, i: number) => object);
+    getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => object);
     leading?: number;
     lightSettings?: LightSettings;
     loopTime?: number;
-    movedData?: Array<MovedData>;
-    movesbase?: Array<Movesbase>;
+    movedData?: MovedData[];
+    movesbase?: Movesbase[];
     nonmapView?: boolean;
-    routePaths?: Array<RoutePaths>;
+    routePaths?: RoutePaths[];
     secperhour?: number;
     settime?: number;
     starttimestamp?: number;
@@ -118,10 +125,10 @@ export interface BasedState {
     timeLength?: number;
     trailing?: number;
     viewport?: Viewport;
-    linemapData?: Array<LineMapData>;
+    linemapData?: LineMapData[];
     linemapDataOriginal?: string;
     loading?: boolean;
-    inputFileName?: AnyObject;
+    inputFileName?: ComObj<string>;
 }
 export declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {
@@ -129,31 +136,50 @@ export interface ActionsInterface extends ActionTypes {
 export interface BasedProps extends BasedState {
     actions?: ActionTypes;
 }
-export declare type GetDepotsOptionFunc = ((props: BasedProps, i: number) => any);
-export declare type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => any);
+export declare type GetDepotsOptionFunc = ((props: BasedProps, i: number) => object);
+export declare type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => object);
 export interface Position {
-    position: Array<number>;
+    position: number[];
 }
 export interface Radius {
     radius: number;
 }
 export interface DataOption {
-    color?: Array<number>;
-    optColor?: Array<number>;
-    optElevation?: Array<number>;
-    normal?: Array<number>;
+    color?: number[];
+    optColor?: number[];
+    optElevation?: number[];
+    normal?: number[];
 }
 export interface Context {
     shaderCache: any;
-    gl: any;
+    gl: WebGLRenderingContext;
     viewport: {
         distanceScales: {
-            degreesPerPixel: Array<number>;
-            pixelsPerMeter: Array<number>;
+            degreesPerPixel: number[];
+            pixelsPerMeter: number[];
         };
         getDistanceScales: Function;
     };
 }
-export interface AnyObject {
-    [propName: string]: any;
+export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
+    object: {
+        movesbaseidx: number;
+    };
+    layer: {
+        id: string;
+        props: {
+            movesbase: Movesbase[];
+            routePaths: RoutePaths[];
+            actions: ActionTypes;
+            clickedObject: ClickedObject[];
+            onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+            onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+        };
+    };
+    x: number;
+    y: number;
 }
+interface ComObj<T> {
+    [propName: string]: T;
+}
+export {};

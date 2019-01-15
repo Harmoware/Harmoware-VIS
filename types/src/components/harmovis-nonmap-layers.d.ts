@@ -4,13 +4,13 @@ import { Viewport, ActionTypes } from '../types';
 interface Props {
     viewport: Viewport;
     actions: ActionTypes;
-    onChangeViewport?(viewport: Viewport): any;
+    onViewportChange?(viewport: Viewport): void;
     layers: Layer[];
 }
-export default class HarmoVisNonMapLayers extends React.Component<Props, any> {
+export default class HarmoVisNonMapLayers extends React.Component<Props> {
     componentDidMount(): void;
-    initialize(gl: any): void;
-    canvas: any;
+    initialize(gl: WebGLRenderingContext): void;
+    canvas: HTMLCanvasElement;
     render(): JSX.Element;
 }
 export {};
