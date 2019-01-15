@@ -27,16 +27,17 @@ jobs:
         paths:
         - node_modules
     - persist_to_workspace:
-        root: .
-        paths:
-        - .
+        root: ~/repo
+        paths: .
 
   deploy:
     <<: *container_config
     steps:
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish package
           command: npm publish
