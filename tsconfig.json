@@ -26,6 +26,7 @@
     "lib",
     "bower_components",
     "jspm_packages",
+    "examples",
     "<outDir>"
   ]
 }

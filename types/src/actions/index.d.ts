@@ -1,101 +1,183 @@
 import { BasedProps as Props, LightSettings, Viewport, Movesbase, MovesbaseFile, Depotsbase, ClickedObject, RoutePaths, LineMapData } from '../types';
-export declare const addMinutes: (min: number) => {
+export declare const addMinutes: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    min: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const increaseTime: (props: Props) => {
+export declare const increaseTime: {
+    (payload: Props, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Props>;
     type: string;
-    props: Props;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Props>;
 };
-export declare const decreaseTime: (props: Props) => {
+export declare const decreaseTime: {
+    (payload: Props, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Props>;
     type: string;
-    props: Props;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Props>;
 };
-export declare const setFrameTimestamp: (props: Props) => {
+export declare const setFrameTimestamp: {
+    (payload: Props, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Props>;
     type: string;
-    props: Props;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Props>;
 };
-export declare const setTimeStamp: (props: Props) => {
+export declare const setTimeStamp: {
+    (payload: Props, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Props>;
     type: string;
-    props: Props;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Props>;
 };
-export declare const setTime: (time: number) => {
+export declare const setTime: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    time: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setLeading: (leading: number) => {
+export declare const setLeading: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    leading: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setTrailing: (trailing: number) => {
+export declare const setTrailing: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    trailing: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setViewport: (viewport: Viewport) => {
+export declare const setViewport: {
+    (payload: Viewport, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Viewport>;
     type: string;
-    viewport: Viewport;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Viewport>;
 };
-export declare const setLightSettings: (lightSettings: LightSettings) => {
+export declare const setLightSettings: {
+    (payload: LightSettings, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<LightSettings>;
     type: string;
-    lightSettings: LightSettings;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<LightSettings>;
 };
-export declare const setMovesBase: (base: MovesbaseFile | Movesbase[]) => {
+export declare const setMovesBase: {
+    (payload: MovesbaseFile | Movesbase[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<MovesbaseFile | Movesbase[]>;
     type: string;
-    base: MovesbaseFile | Movesbase[];
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<MovesbaseFile | Movesbase[]>;
 };
-export declare const setDepotsBase: (depotsBase: Depotsbase[]) => {
+export declare const setDepotsBase: {
+    (payload: Depotsbase[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Depotsbase[]>;
     type: string;
-    depotsBase: Depotsbase[];
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Depotsbase[]>;
 };
-export declare const setAnimatePause: (pause: boolean) => {
+export declare const setAnimatePause: {
+    (payload: boolean, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<boolean>;
     type: string;
-    pause: boolean;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<boolean>;
 };
-export declare const setAnimateReverse: (reverse: boolean) => {
+export declare const setAnimateReverse: {
+    (payload: boolean, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<boolean>;
     type: string;
-    reverse: boolean;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<boolean>;
 };
-export declare const setSecPerHour: (secperhour: number) => {
+export declare const setSecPerHour: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    secperhour: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setClicked: (clickedObject: ClickedObject[]) => {
+export declare const setClicked: {
+    (payload: ClickedObject[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<ClickedObject[]>;
     type: string;
-    clickedObject: ClickedObject[];
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<ClickedObject[]>;
 };
-export declare const setRoutePaths: (paths: RoutePaths[]) => {
+export declare const setRoutePaths: {
+    (payload: RoutePaths[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<RoutePaths[]>;
     type: string;
-    paths: RoutePaths[];
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<RoutePaths[]>;
 };
-export declare const setDefaultZoom: (defaultZoom: number) => {
+export declare const setDefaultZoom: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    defaultZoom: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setDefaultPitch: (defaultPitch: number) => {
+export declare const setDefaultPitch: {
+    (payload: number, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<number>;
     type: string;
-    defaultPitch: number;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<number>;
 };
-export declare const setMovesOptionFunc: (func: (props: Props, i: number, j: number) => any) => {
+export declare const setMovesOptionFunc: {
+    (payload: (props: Props, i: number, j: number) => object, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<(props: Props, i: number, j: number) => object>;
     type: string;
-    func: (props: Props, i: number, j: number) => any;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<(props: Props, i: number, j: number) => object>;
 };
-export declare const setDepotsOptionFunc: (func: (props: Props, i: number) => any) => {
+export declare const setDepotsOptionFunc: {
+    (payload: (props: Props, i: number) => object, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<(props: Props, i: number) => object>;
     type: string;
-    func: (props: Props, i: number) => any;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<(props: Props, i: number) => object>;
 };
-export declare const setNonmapView: (nonmapView: boolean) => {
+export declare const setNonmapView: {
+    (payload: boolean, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<boolean>;
     type: string;
-    nonmapView: boolean;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<boolean>;
 };
-export declare const setLinemapData: (linemapData: LineMapData[]) => {
+export declare const setLinemapData: {
+    (payload: LineMapData[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<LineMapData[]>;
     type: string;
-    linemapData: LineMapData[];
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<LineMapData[]>;
 };
-export declare const setLoading: (loading: boolean) => {
+export declare const setLoading: {
+    (payload: boolean, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<boolean>;
     type: string;
-    loading: boolean;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<boolean>;
 };
-export declare const setInputFilename: (inputFileName: Object) => {
+export declare const setInputFilename: {
+    (payload: Object, meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<Object>;
     type: string;
-    inputFileName: Object;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Object>;
+};
+export declare const updateMovesBase: {
+    (payload: MovesbaseFile | Movesbase[], meta?: {
+        [key: string]: any;
+    }): import("typescript-fsa").Action<MovesbaseFile | Movesbase[]>;
+    type: string;
+    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<MovesbaseFile | Movesbase[]>;
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionTypes, InputEvent } from '../types';
+import { ActionTypes } from '../types';
 interface Props {
     secperhour: number;
     actions: ActionTypes;
@@ -16,7 +16,7 @@ export default class SpeedRange extends React.Component<Props> {
         step: number;
         className: string;
     };
-    setSecPerHour(e: InputEvent): void;
+    setSecPerHour(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;
 }
 export {};

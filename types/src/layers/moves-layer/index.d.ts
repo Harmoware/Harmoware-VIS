@@ -1,36 +1,35 @@
-import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import EnhancedArcLayer from '../enhanced-arc-layer';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, DataOption, Actions } from 'harmoware-vis';
-interface Props {
-    routePaths: Array<RoutePaths>;
+import { pickParams } from '../../library';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption } from '../../types';
+import * as Actions from '../../actions';
+interface Props extends LayerProps {
+    routePaths: RoutePaths[];
     layerRadiusScale?: number;
     layerOpacity?: number;
-    movedData: Array<MovedData>;
-    movesbase: Array<Movesbase>;
-    clickedObject: null | Array<ClickedObject>;
+    movedData: MovedData[];
+    movesbase: Movesbase[];
+    clickedObject: null | ClickedObject[];
     actions: typeof Actions;
     optionVisible?: boolean;
     optionChange?: boolean;
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
-    visible?: boolean;
     lightSettings: LightSettings;
-    getColor?: (x: any) => Array<number>;
-    getRadius?: (x: any) => number;
-    getColor1?: (x: any) => Array<number>;
-    getColor2?: (x: any) => Array<number>;
-    getColor3?: (x: any) => Array<number>;
-    getColor4?: (x: any) => Array<number>;
-    getElevation1?: (x: any) => number;
-    getElevation2?: (x: any) => number;
-    getElevation3?: (x: any) => number;
-    getElevation4?: (x: any) => number;
-    getCubeColor?: (x: any) => Array<Array<number>>;
-    getCubeElevation?: (x: any) => Array<number>;
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
+    getColor?: (x: DataOption) => number[];
+    getRadius?: (x: Radius) => number;
+    getColor1?: (x: DataOption) => number[];
+    getColor2?: (x: DataOption) => number[];
+    getColor3?: (x: DataOption) => number[];
+    getColor4?: (x: DataOption) => number[];
+    getElevation1?: (x: DataOption) => number;
+    getElevation2?: (x: DataOption) => number;
+    getElevation3?: (x: DataOption) => number;
+    getElevation4?: (x: DataOption) => number;
+    getCubeColor?: (x: DataOption) => number[][];
+    getCubeElevation?: (x: DataOption) => number[];
     i18n?: {
         error: string;
     };
@@ -46,6 +45,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         optionCellSize: number;
         optionElevationScale: number;
         visible: boolean;
+        getRadius: (x: Radius) => number;
         getColor: (x: DataOption) => number[];
         getColor1: (x: DataOption) => number | number[];
         getColor2: (x: DataOption) => number | number[];
@@ -62,17 +62,17 @@ export default class MovesLayer extends CompositeLayer<Props> {
         };
     };
     static layerName: string;
-    getPickingInfo(pickParams: any): void;
+    getPickingInfo(pickParams: pickParams): void;
     renderLayers(): (CubeiconLayer | EnhancedArcLayer | ScatterplotLayer<{
         id: string;
         data: MovedData[];
         radiusScale: number;
         getPosition: (x: Position) => number[];
-        getColor: (x: any) => number[];
-        getRadius: (x: any) => number;
+        getColor: (x: DataOption) => number[];
+        getRadius: (x: Radius) => number;
         visible: boolean;
         opacity: number;
-        pickable: boolean;
+        pickable: true;
         radiusMinPixels: number;
     }, {}> | LineLayer<{
         id: string;
@@ -80,16 +80,16 @@ export default class MovesLayer extends CompositeLayer<Props> {
         strokeWidth: number;
         visible: boolean;
         fp64: boolean;
-        pickable: boolean;
+        pickable: false;
     }, {}> | GridCellLayer<{
         id: string;
         data: MovedData[];
         visible: boolean;
         getPosition: (x: Position) => number[];
-        getColor: (x: any) => number[];
-        getElevation: (x: any) => number;
+        getColor: (x: DataOption) => number[];
+        getElevation: (x: DataOption) => number;
         opacity: number;
-        pickable: boolean;
+        pickable: true;
         cellSize: number;
         elevationScale: number;
         lightSettings: LightSettings;

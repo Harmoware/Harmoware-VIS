@@ -1,10 +1,9 @@
 import * as React from 'react';
 interface Props {
-    timeBegin?: number;
     settime?: number;
     caption?: string;
     locales?: string;
-    options?: any;
+    options?: object;
     className?: string;
 }
 export default class SimulationDateTime extends React.Component<Props> {

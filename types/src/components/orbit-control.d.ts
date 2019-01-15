@@ -5,14 +5,14 @@ interface customViewport extends Viewport {
     isDragging?: boolean;
 }
 interface Props extends customViewport {
-    children?: JSX.Element;
+    children?: React.ReactNode;
     ref?: (canvas: any) => void;
     onViewportChange?: (customViewport: any) => void;
 }
 export default class OrbitController extends React.Component<Props> {
     dragStartPos: null | [number, number];
     static getViewport(viewport: Viewport): PerspectiveViewport;
-    constructor(props: any);
+    constructor(props: Props);
     static defaultProps: {
         lookAt: number[];
         rotationX: number;
@@ -21,10 +21,10 @@ export default class OrbitController extends React.Component<Props> {
         maxDistance: number;
         fov: number;
     };
-    onDragStart(evt: any): void;
-    onDrag(evt: any): void;
-    onDragEnd(): void;
-    onWheel(evt: any): void;
+    onDragStart(evt: React.MouseEvent<HTMLDivElement>): void;
+    onDrag(evt: React.MouseEvent<HTMLDivElement>): void;
+    onDragEnd(evt: React.MouseEvent<HTMLDivElement>): void;
+    onWheel(evt: React.WheelEvent<HTMLDivElement>): void;
     render(): JSX.Element;
 }
 export {};

@@ -1,31 +1,32 @@
-import { CompositeLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, LineLayer } from 'deck.gl';
 import FrontScatterplotLayer from '../front-scatterplot-layer';
-import { MovedData, Movesbase, RoutePaths, ClickedObject, DataOption, Actions } from 'harmoware-vis';
-interface Props {
+import { pickParams } from '../../library';
+import { MovedData, Movesbase, RoutePaths, ClickedObject, DataOption, Radius } from '../../types';
+import * as Actions from '../../actions';
+interface Props extends LayerProps {
     layerOpacity?: number;
-    movedData: Array<MovedData>;
-    movesbase: Array<Movesbase>;
-    getColor?: (x: any) => Array<number>;
+    movedData: MovedData[];
+    movesbase: Movesbase[];
+    getColor?: (x: any) => number[];
     getRadius?: (x: any) => number;
-    routePaths?: Array<RoutePaths>;
+    routePaths?: RoutePaths[];
     actions: typeof Actions;
-    clickedObject?: null | Array<ClickedObject>;
-    onHover?: (el: any) => void;
-    onClick?: (el: any) => void;
+    clickedObject?: null | ClickedObject[];
 }
 export default class MovesNonmapLayer extends CompositeLayer<Props> {
     static defaultProps: {
         layerOpacity: number;
         getColor: (x: DataOption) => number[];
+        getRadius: (x: Radius) => number;
     };
     static layerName: string;
-    getPickingInfo(pickParams: any): void;
+    getPickingInfo(pickParams: pickParams): void;
     renderLayers(): (FrontScatterplotLayer | LineLayer<{
         id: string;
         data: RoutePaths[];
-        projectionMode: any;
+        projectionMode: number;
         strokeWidth: number;
-        pickable: boolean;
+        pickable: false;
     }, {}>)[];
 }
 export {};

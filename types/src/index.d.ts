@@ -1,4 +1,4 @@
-import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, InputEvent, LineData } from './types';
+import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, MovesbaseOperation, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo } from './types';
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
 import LinemapInput from './components/linemap-input';
@@ -26,4 +26,4 @@ import Container from './containers';
 import reducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
 declare const Actions: ActionsInterface;
-export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, HarmoVisNonMapLayers, NavigationButton, settings, Container, MovesLayer, MovesNonmapLayer, DepotsLayer, FixedPointLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, InputEvent, Position, Radius, DataOption, LineData };
+export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, HarmoVisNonMapLayers, NavigationButton, settings, Container, MovesLayer, MovesNonmapLayer, DepotsLayer, FixedPointLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, MovesbaseOperation, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo };

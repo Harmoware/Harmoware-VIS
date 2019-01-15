@@ -4,6 +4,7 @@ import { vec3 } from 'gl-matrix';
 import { number } from 'prop-types';
 
 declare module "deck.gl" {
+
   interface Uniforms {
     extruded: boolean,
     opacity: number,
@@ -40,6 +41,8 @@ declare module "deck.gl" {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
+  export default class DeckGL extends React.Component<{layers: Layer[], onWebGLInitialized: (gl: WebGLRenderingContext) => void, width?: number, height?: number, viewport?: PerspectiveViewport}> {}
+
   class CompositeLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class ScatterplotLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
@@ -53,8 +56,6 @@ declare module "deck.gl" {
   class AttributeManager implements OrgAttributeManager {
     addInstanced(attributes: object, updaters?: object): void;
   }
-
-  class DeckGL<P = {}, S = {}> extends React.Component<P, S> {}
 
   const COORDINATE_SYSTEM: { IDENTITY: number };
   const experimental: {

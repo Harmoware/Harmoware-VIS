@@ -20,9 +20,6 @@ jobs:
         name: Install npm pacakges
         command: npm install
     - run:
-        name: Transpile typescript to es5 & Module bundling
-        command: npm run build
-    - run:
         name: Transpile typescript to es5
         command: 'npm run build:lib'
     - save_cache:
@@ -33,7 +30,7 @@ jobs:
         root: .
         paths:
         - .
-        
+
   deploy:
     <<: *container_config
     steps:
