@@ -10,9 +10,9 @@
     "real-time-sample": "webpack-dev-server --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
-    "patch": "npm run build:lib && npm version patch && git push origin master",
-    "minor": "npm run build:lib && npm version minor && git push origin master",
-    "major": "npm run build:lib && npm version major && git push origin master"
+    "patch": "npm run build:lib && npm version patch && git push",
+    "minor": "npm run build:lib && npm version minor && git push",
+    "major": "npm run build:lib && npm version major && git push"
   },
   "dependencies": {
     "@babel/cli": "^7.1.2",
