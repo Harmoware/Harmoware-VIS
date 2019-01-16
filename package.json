@@ -10,8 +10,9 @@
     "real-time-sample": "webpack-dev-server --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
-    "np": "np --no-cleanup",
-    "deploy": "npm-run-all -s lib np"
+    "patch": "npm run build:lib && npm version patch && git push origin master",
+    "minor": "npm run build:lib && npm version minor && git push origin master",
+    "major": "npm run build:lib && npm version major && git push origin master"
   },
   "dependencies": {
     "@babel/cli": "^7.1.2",
@@ -82,6 +83,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
+    "git-describe": "^4.0.3",
     "node-sass": "^4.9.3",
     "np": "^2.20.1",
     "npm-run-all": "^4.1.3",
