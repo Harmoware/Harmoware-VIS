@@ -22,7 +22,6 @@
       ]
   },
   "exclude": [
-    "examples",
     "node_modules",
     "lib",
     "bower_components",
