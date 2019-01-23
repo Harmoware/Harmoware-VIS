@@ -8,9 +8,8 @@
       // JSXの書式を有効に設定
       "jsx": "react",
       "outDir": "lib",
-      "rootDir": "./",
+      "sourceRoot": "./src",
       "declaration": true,
-      "declarationDir": "./types",
       "moduleResolution": "node",
       "baseUrl": ".",
       "paths": {
