@@ -131,8 +131,8 @@ export interface ArchBaseData {
 export interface Arcdata extends ComObj<any> {
     sourcePosition: number[],
     targetPosition: number[],
-    color: number[],
-    strokeWidth: number,
+    color?: number[],
+    strokeWidth?: number,
 };
 
 export interface Bus3dDepotsData extends DepotsData {
