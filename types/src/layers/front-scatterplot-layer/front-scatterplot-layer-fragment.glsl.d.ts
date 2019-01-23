@@ -1,2 +1,0 @@
-declare const _default: "#define SHADER_NAME front-scatterplot-layer-fragment-shader\n\n#ifdef GL_ES\nprecision highp float;\n#endif\n\nvarying vec4 vColor;\nvarying vec3 unitPosition;\nvarying float innerUnitRadius;\n\nvoid main(void) {\n\n  float distToCenter = length(unitPosition);\n\n  if (distToCenter <= 1.0 && distToCenter >= innerUnitRadius) {\n    gl_FragColor = vColor;\n  } else {\n    discard;\n  }\n}\n";
-export default _default;
