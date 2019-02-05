@@ -48,4 +48,4 @@ Refer to [Harmoware-VIS-Demo](https://github.com/Harmoware/Harmoware-VIS-Demo "H
 Refer to [gitbook](https://harmoware-vis.gitbook.io/ "gitbook").
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://github.com/Harmoware/Harmoware-VIS/blob/master/LICENSE).
