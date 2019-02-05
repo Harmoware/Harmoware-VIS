@@ -261,7 +261,7 @@ function* setupByCSV() {
         tripbase.push({ diagramid: savediagramid, businfo: savebusinfo, busstatus: savebusstatus });
       }
       savediagramid = diagramid;
-      busoptionlist = busmovesoption[savediagramid] || null;
+      busoptionlist = (busmovesoption && busmovesoption[savediagramid]) || null;
       savebusinfo = { routecode, systemcode, direction, systemname, timetable };
       savebusstatus = [];
     }
