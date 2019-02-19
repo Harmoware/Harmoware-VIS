@@ -188,6 +188,8 @@ export const getDepots = (props: Props): DepotsData[] => {
         (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
         bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude)) {
         const itemmap = {
+          longitude: parseFloat(position[0].toString()),
+          latitude: parseFloat(position[1].toString()),
           position: [parseFloat(position[0].toString()), parseFloat(position[1].toString()), parseFloat(position[2].toString())],
           ...getOptionFunction(props, i)
         };
@@ -241,6 +243,8 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           positionprogress[1] = positionspan[1] * (elapsedtimespan / timespan);
           positionprogress[2] = positionspan[2] * (elapsedtimespan / timespan);
           movedData.push({
+            longitude: position[0] - positionprogress[0],
+            latitude: position[1] - positionprogress[1],
             position: [position[0] - positionprogress[0], position[1] - positionprogress[1],
               position[2] - positionprogress[2]],
             sourcePosition: position,

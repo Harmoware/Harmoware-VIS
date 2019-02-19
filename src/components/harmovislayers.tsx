@@ -14,12 +14,14 @@ interface Props {
   mapStyle?: string,
   actions: ActionTypes,
   onViewportChange?(viewport: Viewport): void,
-  layers: Layer[]
+  layers: Layer[],
+  mapGlComponents?: any
 }
 
 export default class HarmoVisLayers extends React.Component<Props> {
   static defaultProps = {
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
+    mapGlComponents: null
   }
 
   componentDidMount() {
@@ -32,7 +34,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
   }
 
   render() {
-    const { viewport, mapStyle, actions, mapboxApiAccessToken, layers } = this.props;
+    const { viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents } = this.props;
     const onViewportChange = this.props.onViewportChange || actions.setViewport;
 
     return (
@@ -41,6 +43,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
+        { mapGlComponents }
         <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />
       </MapGL>
     );

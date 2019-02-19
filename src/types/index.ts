@@ -94,6 +94,8 @@ export interface LineMapData {
 export interface MovedData {
   movesbaseidx: number,
   position: number[],
+  longitude?: number,
+  latitude?: number,
   sourcePosition: number[],
   targetPosition: number[],
   sourceColor: number[],
@@ -104,6 +106,8 @@ export interface MovedData {
 
 export interface DepotsData {
   position: number[],
+  longitude?: number,
+  latitude?: number,
   radius?: number,
   color?: (number | number[])[],
 };
