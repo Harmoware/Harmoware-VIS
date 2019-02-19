@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
+import { Marker, Popup } from 'react-map-gl';
 import { FPSStats } from 'react-stats';
-import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
+import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo } from 'harmoware-vis';
 import Controller from '../components/controller';
+import SvgIcon from '../icondata/SvgIcon';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -13,7 +15,8 @@ interface State {
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
-  popup: [number, number, string]
+  popup: [number, number, string],
+  popupInfo: MovedData
 }
 
 class App extends Container<BasedProps, State> {
@@ -26,7 +29,8 @@ class App extends Container<BasedProps, State> {
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
-      popup: [0, 0, '']
+      popup: [0, 0, ''],
+      popupInfo: null
     };
   }
 
@@ -48,6 +52,65 @@ class App extends Container<BasedProps, State> {
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ heatmapVisible: e.target.checked });
+  }
+
+  geoDirection(sourcePosition: number[], targetPosition: number[]) {
+    const Y = Math.cos(targetPosition[0] * Math.PI / 180) *
+              Math.sin(targetPosition[1] * Math.PI / 180 - sourcePosition[1] * Math.PI / 180);
+    const X = Math.cos(sourcePosition[0] * Math.PI / 180) *
+              Math.sin(targetPosition[0] * Math.PI / 180) - Math.sin(sourcePosition[0] * Math.PI / 180) *
+              Math.cos(targetPosition[0] * Math.PI / 180) *
+              Math.cos(targetPosition[1] * Math.PI / 180 - sourcePosition[1] * Math.PI / 180);
+    let dirE0 = 180 * Math.atan2(Y, X) / Math.PI;
+    if (dirE0 < 0) {
+      dirE0 = dirE0 + 360;
+    }
+    const dirN0 = (dirE0 + 90) % 360;
+    return dirN0;
+  }
+
+  getMarker(data: MovedData, index: number) {
+    const { viewport } = this.props;
+    const { sourcePosition, targetPosition } = data;
+    const direction = this.geoDirection(sourcePosition, targetPosition);
+
+    return (<Marker key={`marker-${index}`}
+      longitude={data.longitude} latitude={data.latitude} >
+      <SvgIcon viewport={viewport} direction={direction}
+      onMouseOver={() => this.setState({popupInfo: data})}
+      onMouseOut={() => this.setState({popupInfo: null})} />
+      </Marker>);
+  }
+
+  getPopup() {
+    const {popupInfo} = this.state;
+
+    if(popupInfo){
+      const objctlist = Object.entries(popupInfo);
+      return (
+        <Popup tipSize={5}
+          anchor="bottom"
+          longitude={popupInfo.longitude}
+          latitude={popupInfo.latitude}
+          closeButton={false} >
+          <div>{objctlist.map((item)=><p>{`${item[0]}: ${item[1].toString()}`}</p>)}</div>
+        </Popup>
+      );
+    }
+    return null;
+  }
+
+  getMapGlComponents(movedData: MovedData[]){
+    const { moveDataVisible } = this.state;
+    if(!moveDataVisible){
+      return (
+        <div>
+          {movedData.map( this.getMarker.bind(this) )}
+          {this.getPopup()}
+        </div>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -126,6 +189,7 @@ class App extends Container<BasedProps, State> {
                 visible: this.state.heatmapVisible
               })
             ]}
+            mapGlComponents={ this.getMapGlComponents(movedData) }
           />
         </div>
         <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">
