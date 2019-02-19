@@ -1,7 +1,7 @@
 {
   "name": "harmoware-vis",
   "description": "This is a minimal standalone version of the TripsLayer example on [deck.gl](http://deck.gl) website.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
@@ -10,9 +10,9 @@
     "real-time-sample": "webpack-dev-server --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-dev-server --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "visualize-sample-nonmap": "webpack-dev-server --progress --hot --port 3131 --open --content-base ./examples/visualize-sample-nonmap --config ./examples/visualize-sample-nonmap/webpack.config.js --mode development",
-    "patch": "npm run build:lib && npm version patch && git push",
-    "minor": "npm run build:lib && npm version minor && git push",
-    "major": "npm run build:lib && npm version major && git push"
+    "patch": "npm run build:lib && npm version patch && git push -u origin HEAD",
+    "minor": "npm run build:lib && npm version minor && git push -u origin HEAD",
+    "major": "npm run build:lib && npm version major && git push -u origin HEAD"
   },
   "peerDependencies": {
     "react": "^15.6.2",
