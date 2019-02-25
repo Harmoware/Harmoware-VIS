@@ -28,7 +28,7 @@ const initialState: BasedState = {
     maxDistance: 500, // nonmap
   },
   lightSettings: {
-    lightsPosition: [137.087638, 34.883046, 8000, 137.399026, 35.13819, 8000],
+    lightsPosition: [0, 0, 8000, 0, 0, 8000],
     ambientRatio: 0.2,
     diffuseRatio: 0.5,
     specularRatio: 0.3,
@@ -213,10 +213,15 @@ reducer.case(setMovesBase, (state, base) => {
     linemapData =
     analyzelinemapData(state.nonmapView, linemapDataOriginal);
   }
+  const lightSettings = Object.assign({}, state.lightSettings,
+    {lightsPosition: [
+      bounds.westlongitiude, bounds.northlatitude, 8000,
+      bounds.eastlongitiude, bounds.southlatitude, 8000]});
   return Object.assign({}, state, {
     timeBegin,
     timeLength,
     bounds,
+    lightSettings,
     movesbase,
     viewport,
     settime,
