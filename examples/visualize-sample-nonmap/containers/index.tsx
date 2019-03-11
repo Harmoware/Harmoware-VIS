@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FPSStats } from 'react-stats';
 import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
   connectToHarmowareVis, LoadingIcon, BasedProps, Viewport, EventInfo } from 'harmoware-vis';
 import { translate } from 'react-i18next';
@@ -60,7 +59,6 @@ class App extends Container<Props, State> implements React.Component {
           rotationX:{viewport.rotationX}&nbsp;
           rotationY:{viewport.rotationY}&nbsp;
           fov:{viewport.fov}
-          <FPSStats isActive />
         </div>
         <div className="harmovis_area">
           <HarmoVisNonMapLayers

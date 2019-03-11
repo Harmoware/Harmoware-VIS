@@ -4,7 +4,7 @@ import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
 import { LightSettings, MovedData, DepotsData } from '../../types';
 
-registerShaderModules([picking]);
+// registerShaderModules([picking]);
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
