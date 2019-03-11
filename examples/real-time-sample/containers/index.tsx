@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FPSStats } from 'react-stats';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation, EventInfo } from 'harmoware-vis';
 import Controller from '../components/controller';
@@ -192,7 +191,6 @@ class App extends Container<BasedProps, State> {
           zoom:{viewport.zoom}&nbsp;
           bearing:{viewport.bearing}&nbsp;
           pitch:{viewport.pitch}
-          <FPSStats isActive />
         </div>
         <div className="harmovis_area">
           <HarmoVisLayers

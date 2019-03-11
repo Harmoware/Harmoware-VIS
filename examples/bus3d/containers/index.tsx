@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FPSStats } from 'react-stats';
 import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
@@ -98,7 +97,6 @@ class App extends Container<Bus3dAppProps, State> {
           zoom:{viewport.zoom}&nbsp;
           bearing:{viewport.bearing}&nbsp;
           pitch:{viewport.pitch}
-          <FPSStats isActive />
         </div>
         <div className="harmovis_area">
           <HarmoVisLayers

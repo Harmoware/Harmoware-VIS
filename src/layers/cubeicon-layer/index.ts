@@ -1,10 +1,8 @@
 import { Layer, LayerProps, AttributeManager } from 'deck.gl';
-import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
+import { GL, Model, CubeGeometry } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings, MovedData, DepotsData } from '../../types';
-
-registerShaderModules([picking]);
+import { LightSettings } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
