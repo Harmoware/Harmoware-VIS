@@ -1,5 +1,6 @@
 import * as React from 'react';
-import DeckGL, { Layer } from 'deck.gl';
+import { Layer } from '@deck.gl/core';
+import DeckGL from '@deck.gl/react';
 import { Viewport, ActionTypes } from '../types';
 import OrbitController from './orbit-control';
 

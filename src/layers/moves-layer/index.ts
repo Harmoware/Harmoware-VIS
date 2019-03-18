@@ -1,6 +1,5 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
-import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
@@ -211,12 +210,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
         elevationScale: optionElevationScale,
         lightSettings
       }),
-      new EnhancedArcLayer({
+      new ArcLayer({
         id: 'moves-opt-arc',
         data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
-        getStrokeWidths: (x) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
+        getSourceColor: (x) => x.sourceColor || x.color || COLOR1,
+        getTargetColor: (x) => x.targetColor || x.color || COLOR1,
+        getStrokeWidth: (x) => Math.max(x.strokeWidth * pixelsPerMeter[0], 1),
         opacity: layerOpacity
       }),
     ];

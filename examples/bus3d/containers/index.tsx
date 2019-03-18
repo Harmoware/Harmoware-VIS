@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { ArcLayer } from 'deck.gl';
 import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
 import { translate } from 'react-i18next';
-import DepotsArcLayer from '../layers/depots-arc-layer';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Header from '../components/header';
 import Controller from '../components/controller';
@@ -131,7 +131,7 @@ class App extends Container<Bus3dAppProps, State> {
                 onHover,
                 onClick: onClickBus
               }),
-              new DepotsArcLayer({
+              new ArcLayer({
                 id: 'arch-layer',
                 data: this.state.arcdata,
                 visible: !this.state.archLayerChange,
@@ -140,7 +140,7 @@ class App extends Container<Bus3dAppProps, State> {
                 getTargetPosition: d => d.targetPosition,
                 getSourceColor: d => d.sourceColor || d.color || COLOR1,
                 getTargetColor: d => d.targetColor || d.color || COLOR1,
-                getStrokeWidths: d => d.strokeWidth || 1,
+                getStrokeWidth: d => d.strokeWidth || 1,
                 onHover
               })
             ]}

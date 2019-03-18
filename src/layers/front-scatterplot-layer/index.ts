@@ -1,10 +1,11 @@
 // Copyright (c) 2015 - 2017 Uber Technologies, Inc.
 
-import { Layer, LayerProps, experimental, AttributeManager } from 'deck.gl';
-import { GL, Model, Geometry } from 'luma.gl';
+import { Layer } from '@deck.gl/core';
+import GL from 'luma.gl/constants';
+import { LayerProps, experimental, AttributeManager } from 'deck.gl';
+import { Model, Geometry } from 'luma.gl';
 import vs from './front-scatterplot-layer-vertex.glsl';
 import fs from './front-scatterplot-layer-fragment.glsl';
-import { EventInfo } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 const { get } = experimental;

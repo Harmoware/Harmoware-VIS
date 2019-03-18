@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Layer as OrgLayer, AttributeManager as OrgAttributeManager } from 'deck.gl';
+import { Layer as OrgLayer } from '@deck.gl/core';
+import { AttributeManager as OrgAttributeManager } from 'deck.gl';
 import { vec3 } from 'gl-matrix';
 import { number } from 'prop-types';
 
@@ -52,6 +53,8 @@ declare module "deck.gl" {
   class LineLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+
+  class ArcLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class AttributeManager implements OrgAttributeManager {
     addInstanced(attributes: object, updaters?: object): void;

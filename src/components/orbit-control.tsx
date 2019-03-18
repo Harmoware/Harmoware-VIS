@@ -1,6 +1,6 @@
 /* global window */
 import * as React from 'react';
-import { PerspectiveViewport } from 'deck.gl';
+import { PerspectiveViewport } from '@deck.gl/core';
 import { vec3 } from 'gl-matrix';
 import { Viewport } from '../types';
 
