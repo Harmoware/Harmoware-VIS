@@ -1,4 +1,5 @@
-import { Layer, LayerProps, AttributeManager } from 'deck.gl';
+import { Layer } from '@deck.gl/core';
+import { LayerProps, AttributeManager } from 'deck.gl';
 import { Model } from 'luma.gl';
 import { LightSettings } from '../../types';
 interface Data {

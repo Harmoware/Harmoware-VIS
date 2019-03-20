@@ -1,6 +1,5 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
-import EnhancedArcLayer from '../enhanced-arc-layer';
 import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
@@ -63,7 +62,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
-    renderLayers(): (CubeiconLayer | EnhancedArcLayer | ScatterplotLayer<{
+    renderLayers(): (CubeiconLayer | ScatterplotLayer<{
         id: string;
         data: MovedData[];
         radiusScale: number;
@@ -93,6 +92,15 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: number;
         elevationScale: number;
         lightSettings: LightSettings;
+    }, {}> | ArcLayer<{
+        id: string;
+        data: any[];
+        visible: boolean;
+        pickable: true;
+        getSourceColor: (x: any) => any;
+        getTargetColor: (x: any) => any;
+        getStrokeWidth: (x: any) => number;
+        opacity: number;
     }, {}>)[];
 }
 export {};

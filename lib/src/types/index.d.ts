@@ -17,6 +17,7 @@ export interface Viewport {
     rotationX?: number;
     rotationY?: number;
     fov?: number;
+    transitionInterpolator?: any;
 }
 export interface LightSettings {
     lightsPosition?: number[];
