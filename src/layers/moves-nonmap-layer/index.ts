@@ -48,7 +48,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
       new FrontScatterplotLayer({
         id: 'moves-nonmap',
         data: movedData as any[],
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         getPosition,
         getColor,
         getRadius,
@@ -59,7 +59,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
       new LineLayer({
         id: 'route-paths',
         data: routePaths,
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         strokeWidth: 20,
         pickable: false
       }),

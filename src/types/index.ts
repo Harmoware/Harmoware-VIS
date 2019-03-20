@@ -16,7 +16,8 @@ export interface Viewport {
   maxDistance?: number,
   rotationX?: number,
   rotationY?: number,
-  fov?: number
+  fov?: number,
+  transitionInterpolator?: any
 };
 
 export interface LightSettings {

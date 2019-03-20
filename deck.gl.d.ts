@@ -19,7 +19,7 @@ declare module "deck.gl" {
     opacity?: number;
     onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    projectionMode?: number;
+    coordinateSystem?: number;
   }
 
   class Layer <P extends LayerProps = LayerProps, S = {}> implements OrgLayer {
@@ -42,7 +42,7 @@ declare module "deck.gl" {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
-  export default class DeckGL extends React.Component<{layers: Layer[], onWebGLInitialized: (gl: WebGLRenderingContext) => void, width?: number, height?: number, viewport?: PerspectiveViewport}> {}
+  export default class DeckGL extends React.Component<any> {}
 
   class CompositeLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
@@ -61,21 +61,12 @@ declare module "deck.gl" {
   }
 
   const COORDINATE_SYSTEM: { IDENTITY: number };
-  const experimental: {
-    get: (container: object, compositeKey: string | any) => any;
-}
-  
-  interface PerspectiveViewportOption {
-    width: number; 
-    height: number; 
-    lookAt: number[]; 
-    far:number; 
-    near: number; 
-    fovy: number; 
-    eye: vec3;
+
+  class OrbitView {
+    constructor(props?: any);
   }
 
-  class PerspectiveViewport {
-    constructor(props: PerspectiveViewportOption);
+  class LinearInterpolator {
+    constructor(props?: any);
   }
 }

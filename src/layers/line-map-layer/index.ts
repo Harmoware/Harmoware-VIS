@@ -13,7 +13,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
     layerOpacity: 1.0,
-    strokeWidth: 20,
+    strokeWidth: 100,
     getColor: (x: LineData) => x.color || COLOR2
   };
 
@@ -33,7 +33,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
       new LineLayer({
         id: 'line-map-layer',
         data: linemapData,
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         getSourcePosition,
         getTargetPosition,
         getColor,

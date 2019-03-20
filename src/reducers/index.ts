@@ -26,6 +26,7 @@ const initialState: BasedState = {
     fov: 50, // nonmap
     minDistance: 0, // nonmap
     maxDistance: 500, // nonmap
+    transitionInterpolator: null
   },
   lightSettings: {
     lightsPosition: [0, 0, 8000, 0, 0, 8000],
