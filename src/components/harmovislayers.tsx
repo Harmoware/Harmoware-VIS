@@ -41,7 +41,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
     return (
       <MapGL
         {...(viewport as thisViewport)} mapStyle={mapStyle}
-        onViewportChange={onViewportChange as any}
+        onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
         { mapGlComponents }

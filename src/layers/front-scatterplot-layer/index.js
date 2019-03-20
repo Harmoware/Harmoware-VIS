@@ -152,7 +152,7 @@ export default class FrontScatterplotLayer extends Layer {
       Object.assign(this.getShaders(), {
         id: this.props.id,
         geometry: new Geometry({
-          drawMode: GL.TRIANGLE_FAN,
+          drawMode: GL.TRIANGLES,
           attributes: {
             positions: new Float32Array(positions)
           }
