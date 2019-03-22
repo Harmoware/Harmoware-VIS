@@ -3,13 +3,13 @@ import { LineMapData, LineData } from '../../types';
 interface Props extends LayerProps {
     layerOpacity?: number;
     linemapData: LineMapData[];
-    strokeWidth?: number;
+    getStrokeWidth?: any;
     getColor?: (x: any) => number[];
 }
 export default class LineMapLayer extends CompositeLayer<Props> {
     static defaultProps: {
         layerOpacity: number;
-        strokeWidth: number;
+        getStrokeWidth: (x: any) => any;
         getColor: (x: LineData) => number[];
     };
     static layerName: string;
@@ -22,7 +22,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getColor: (x: any) => number[];
         opacity: number;
         pickable: true;
-        strokeWidth: number;
+        getStrokeWidth: any;
     }, {}>[];
 }
 export {};

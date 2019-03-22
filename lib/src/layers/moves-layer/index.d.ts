@@ -29,9 +29,7 @@ interface Props extends LayerProps {
     getElevation4?: (x: DataOption) => number;
     getCubeColor?: (x: DataOption) => number[][];
     getCubeElevation?: (x: DataOption) => number[];
-    i18n?: {
-        error: string;
-    };
+    getStrokeWidth?: any;
 }
 export default class MovesLayer extends CompositeLayer<Props> {
     constructor(props: Props);
@@ -56,9 +54,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getElevation4: (x: DataOption) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
-        i18n: {
-            error: string;
-        };
+        getStrokeWidth: (x: any) => any;
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
@@ -76,7 +72,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     }, {}> | LineLayer<{
         id: string;
         data: RoutePaths[];
-        strokeWidth: number;
+        getStrokeWidth: number;
+        getColor: (x: DataOption) => number[];
         visible: boolean;
         fp64: boolean;
         pickable: false;
@@ -97,8 +94,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: any[];
         visible: boolean;
         pickable: true;
-        getSourceColor: (x: any) => any;
-        getTargetColor: (x: any) => any;
+        getSourceColor: (x: MovedData) => (number | number[])[];
+        getTargetColor: (x: MovedData) => (number | number[])[];
         getStrokeWidth: (x: any) => number;
         opacity: number;
     }, {}>)[];
