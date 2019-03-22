@@ -21,9 +21,9 @@ interface Props extends LayerProps {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x) => number[],
-  getElevation?: (x) => number[],
-  getColor?: (x) => (number | number[])[],
+  getPosition?: (x: any) => number[],
+  getElevation?: (x: any) => number[],
+  getColor?: (x: any) => (number | number[])[],
 }
 interface State {
   attributeManager: AttributeManager,

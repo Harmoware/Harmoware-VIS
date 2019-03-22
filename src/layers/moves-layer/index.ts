@@ -32,7 +32,7 @@ interface Props extends LayerProps {
   getElevation4?: (x: DataOption) => number,
   getCubeColor?: (x: DataOption) => number[][],
   getCubeElevation?: (x: DataOption) => number[],
-  i18n?: { error: string }
+  getStrokeWidth?: any
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
@@ -61,9 +61,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
-    i18n: {
-      error: 'MovesLayer: props 指定エラー'
-    }
+    getStrokeWidth: (x: any) => x.strokeWidth || 1,
   };
 
   static layerName = 'MovesLayer';
@@ -78,7 +76,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible, optionChange, lightSettings, getColor, getRadius,
       visible, getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
-      getCubeColor, getCubeElevation, i18n
+      getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
     if (!routePaths || !movesbase || !actions ||
@@ -216,9 +214,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
-        getSourceColor: (x) => x.sourceColor || x.color || COLOR1,
-        getTargetColor: (x) => x.targetColor || x.color || COLOR1,
-        getStrokeWidth: (x) => Math.max(x.strokeWidth * pixelsPerMeter[0], 1),
+        getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
+        getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
+        getStrokeWidth: (x: any) => getStrokeWidth(x) * pixelsPerMeter[0],
         opacity: layerOpacity
       }),
     ];
