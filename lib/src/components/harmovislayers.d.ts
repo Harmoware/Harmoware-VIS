@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Layer } from 'deck.gl';
+import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 interface Props {
     viewport: Viewport;

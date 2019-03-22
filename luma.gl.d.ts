@@ -1,6 +1,5 @@
 declare module "luma.gl" {
   interface Uniforms {}
-  const GL: { UNSIGNED_BYTE: number, TRIANGLE_STRIP: number, TRIANGLES: number }
   class Geometry {
     constructor(opts: { drawMode: number, positions: Float32Array });
   }
@@ -16,4 +15,9 @@ declare module "luma.gl" {
   function registerShaderModules(shaderModuleList: (typeof picking)[], { ignoreMultipleRegistrations }?: {
     ignoreMultipleRegistrations?: boolean;
   }): void
+}
+
+declare module "luma.gl/constants" {
+  const GL: { UNSIGNED_BYTE: number, TRIANGLE_STRIP: number, TRIANGLES: number }
+  export default GL;
 }

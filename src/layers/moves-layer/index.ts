@@ -1,6 +1,5 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
-import EnhancedArcLayer from '../enhanced-arc-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
@@ -33,7 +32,7 @@ interface Props extends LayerProps {
   getElevation4?: (x: DataOption) => number,
   getCubeColor?: (x: DataOption) => number[][],
   getCubeElevation?: (x: DataOption) => number[],
-  i18n?: { error: string }
+  getStrokeWidth?: any
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
@@ -62,9 +61,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
-    i18n: {
-      error: 'MovesLayer: props 指定エラー'
-    }
+    getStrokeWidth: (x: any) => x.strokeWidth || 1,
   };
 
   static layerName = 'MovesLayer';
@@ -79,7 +76,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible, optionChange, lightSettings, getColor, getRadius,
       visible, getColor1, getColor2, getColor3, getColor4,
       getElevation1, getElevation2, getElevation3, getElevation4,
-      getCubeColor, getCubeElevation, i18n
+      getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
     if (!routePaths || !movesbase || !actions ||
@@ -141,7 +138,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
       new LineLayer({
         id: 'route-paths',
         data: routePaths,
-        strokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
+        getStrokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
+        getColor,
         visible,
         fp64: false,
         pickable: false
@@ -211,12 +209,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
         elevationScale: optionElevationScale,
         lightSettings
       }),
-      new EnhancedArcLayer({
+      new ArcLayer({
         id: 'moves-opt-arc',
         data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
-        getStrokeWidths: (x) => Math.max(x.strokeWidth, pixelsPerMeter[0] * 10, 1),
+        getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
+        getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
+        getStrokeWidth: (x: any) => getStrokeWidth(x) * pixelsPerMeter[0],
         opacity: layerOpacity
       }),
     ];

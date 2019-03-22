@@ -5,22 +5,22 @@ import { LineMapData, LineData, EventInfo } from '../../types';
 interface Props extends LayerProps {
   layerOpacity?: number,
   linemapData: LineMapData[],
-  strokeWidth?: number,
-  getColor?: (x) => number[],
+  getStrokeWidth?: any,
+  getColor?: (x: any) => number[],
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
     layerOpacity: 1.0,
-    strokeWidth: 20,
+    getStrokeWidth: (x: any) => x.strokeWidth || 100,
     getColor: (x: LineData) => x.color || COLOR2
   };
 
   static layerName = 'LineMapLayer';
 
   renderLayers() {
-    const { layerOpacity, linemapData, strokeWidth, getColor } = this.props;
+    const { layerOpacity, linemapData, getStrokeWidth, getColor } = this.props;
 
     if (!linemapData) {
       return null;
@@ -33,13 +33,13 @@ export default class LineMapLayer extends CompositeLayer<Props> {
       new LineLayer({
         id: 'line-map-layer',
         data: linemapData,
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         getSourcePosition,
         getTargetPosition,
         getColor,
         opacity: layerOpacity,
         pickable: true,
-        strokeWidth
+        getStrokeWidth
       }),
     ];
   }

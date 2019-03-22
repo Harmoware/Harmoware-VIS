@@ -1,5 +1,4 @@
 import { LayerProps, CompositeLayer } from 'deck.gl';
-import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { DepotsData, DataOption } from '../../types';
 interface Props extends LayerProps {
     layerOpacity?: number;
@@ -13,6 +12,6 @@ export default class FixedPointLayer extends CompositeLayer<Props> {
         getColor: (x: DataOption) => number[];
     };
     static layerName: string;
-    renderLayers(): FrontScatterplotLayer[];
+    renderLayers(): any[];
 }
 export {};

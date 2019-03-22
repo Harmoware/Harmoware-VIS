@@ -1,16 +1,42 @@
 import * as React from 'react';
-import DeckGL, { Layer } from 'deck.gl';
+import { Layer } from '@deck.gl/core';
+import DeckGL, { OrbitView, LinearInterpolator } from 'deck.gl';
+
 import { Viewport, ActionTypes } from '../types';
-import OrbitController from './orbit-control';
 
 interface Props {
   viewport: Viewport,
   actions: ActionTypes,
-  onViewportChange?(viewport: Viewport): void,
   layers: Layer[]
 };
 
+const transitionInterpolator = new LinearInterpolator(['rotationOrbit']);
+
 export default class HarmoVisNonMapLayers extends React.Component<Props> {
+
+  constructor(props: Props) {
+    super(props);
+    this.onLoad = this.onLoad.bind(this);
+    this.onViewStateChange = this.onViewStateChange.bind(this);
+    this.rotateCamera = this.rotateCamera.bind(this);
+  }
+
+  onViewStateChange({viewState}) {
+    const { viewport, actions } = this.props;
+    actions.setViewport({ ...viewport, ...viewState });
+  }
+
+  onLoad() {
+    this.rotateCamera();
+  }
+
+  rotateCamera() {
+    const { viewport, actions } = this.props;
+    actions.setViewport({
+        ...viewport, transitionInterpolator
+    });
+  }
+
   componentDidMount() {
     this.props.actions.setNonmapView(true);
   }
@@ -23,22 +49,19 @@ export default class HarmoVisNonMapLayers extends React.Component<Props> {
   canvas: HTMLCanvasElement;
 
   render() {
-    const { viewport, actions, layers } = this.props;
-    const onViewportChange = this.props.onViewportChange || actions.setViewport;
+    const { viewport, layers } = this.props;
     const { width, height } = viewport;
-    const glViewport = OrbitController.getViewport(viewport);
 
     return (
-      <OrbitController
-        {...viewport}
-        ref={(canvas) => { this.canvas = canvas; }}
-        onViewportChange={onViewportChange}
-      >
-        <DeckGL
-          width={width} height={height} viewport={glViewport}
-          layers={layers} onWebGLInitialized={this.initialize}
-        />
-      </OrbitController>
+      <DeckGL
+        width={width} height={height}
+        views={new OrbitView()}
+        viewState={viewport}
+        controller={true}
+        onLoad={this.onLoad}
+        onViewStateChange={this.onViewStateChange}
+        layers={layers}
+      />
     );
   }
 }

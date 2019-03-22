@@ -16,7 +16,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     renderLayers(): LineLayer<{
         id: string;
         data: LineMapData[];
-        projectionMode: number;
+        coordinateSystem: number;
         getSourcePosition: (x: LineData) => number[];
         getTargetPosition: (x: LineData) => number[];
         getColor: (x: any) => number[];

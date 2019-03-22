@@ -10,8 +10,8 @@ interface Props extends LayerProps {
   layerOpacity?: number,
   movedData: MovedData[],
   movesbase: Movesbase[],
-  getColor?: (x) => number[],
-  getRadius?: (x) => number,
+  getColor?: (x: any) => number[],
+  getRadius?: (x: any) => number,
   routePaths?: RoutePaths[],
   actions: typeof Actions,
   clickedObject?: null | ClickedObject[],
@@ -48,7 +48,7 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
       new FrontScatterplotLayer({
         id: 'moves-nonmap',
         data: movedData as any[],
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         getPosition,
         getColor,
         getRadius,
@@ -59,8 +59,9 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
       new LineLayer({
         id: 'route-paths',
         data: routePaths,
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
-        strokeWidth: 20,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
+        getColor,
+        getStrokeWidth: 500,
         pickable: false
       }),
     ];

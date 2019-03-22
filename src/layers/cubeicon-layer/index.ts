@@ -1,10 +1,10 @@
-import { Layer, LayerProps, AttributeManager } from 'deck.gl';
-import { GL, Model, CubeGeometry, picking, registerShaderModules } from 'luma.gl';
+import { Layer } from '@deck.gl/core';
+import GL from 'luma.gl/constants';
+import { LayerProps, AttributeManager } from 'deck.gl';
+import { Model, CubeGeometry } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';
 import fragment from './cubeicon-layer-fragment.glsl';
-import { LightSettings, MovedData, DepotsData } from '../../types';
-
-registerShaderModules([picking]);
+import { LightSettings } from '../../types';
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
@@ -21,9 +21,9 @@ interface Props extends LayerProps {
   extruded?: boolean,
   fp64?: boolean,
   lightSettings: LightSettings,
-  getPosition?: (x) => number[],
-  getElevation?: (x) => number[],
-  getColor?: (x) => (number | number[])[],
+  getPosition?: (x: any) => number[],
+  getElevation?: (x: any) => number[],
+  getColor?: (x: any) => (number | number[])[],
 }
 interface State {
   attributeManager: AttributeManager,

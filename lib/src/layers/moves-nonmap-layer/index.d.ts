@@ -1,5 +1,4 @@
-import { LayerProps, CompositeLayer, LineLayer } from 'deck.gl';
-import FrontScatterplotLayer from '../front-scatterplot-layer';
+import { LayerProps, CompositeLayer } from 'deck.gl';
 import { pickParams } from '../../library';
 import { MovedData, Movesbase, RoutePaths, ClickedObject, DataOption, Radius } from '../../types';
 import * as Actions from '../../actions';
@@ -21,12 +20,6 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
-    renderLayers(): (FrontScatterplotLayer | LineLayer<{
-        id: string;
-        data: RoutePaths[];
-        projectionMode: number;
-        strokeWidth: number;
-        pickable: false;
-    }, {}>)[];
+    renderLayers(): any[];
 }
 export {};

@@ -34,7 +34,7 @@ export default class FixedPointLayer extends CompositeLayer<Props> {
       new FrontScatterplotLayer({
         id: 'fixed-point',
         data: depotsData as any[],
-        projectionMode: COORDINATE_SYSTEM.IDENTITY,
+        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
         getPosition,
         getColor,
         getRadius,
