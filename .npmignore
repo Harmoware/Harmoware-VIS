@@ -2,3 +2,4 @@
 examples/*
 node_modules/*
 lib/examples/*
+tools/*
