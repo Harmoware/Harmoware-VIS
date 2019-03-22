@@ -10,8 +10,8 @@ interface Props extends LayerProps {
   layerOpacity?: number,
   movedData: MovedData[],
   movesbase: Movesbase[],
-  getColor?: (x) => number[],
-  getRadius?: (x) => number,
+  getColor?: (x: any) => number[],
+  getRadius?: (x: any) => number,
   routePaths?: RoutePaths[],
   actions: typeof Actions,
   clickedObject?: null | ClickedObject[],
@@ -60,7 +60,8 @@ export default class MovesNonmapLayer extends CompositeLayer<Props> {
         id: 'route-paths',
         data: routePaths,
         coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
-        strokeWidth: 20,
+        getColor,
+        getStrokeWidth: 500,
         pickable: false
       }),
     ];

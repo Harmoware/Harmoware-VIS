@@ -57,11 +57,11 @@ declare module "@deck.gl/core" {
 
   class Layer <P extends LayerProps = LayerProps, S = {}> {
     constructor(props: P);
-    context;
+    context: any;
     props: P;
     state: S;
-    setUniforms(uniforms: Uniforms);
-    draw({uniforms}:{uniforms: Uniforms});
+    setUniforms(uniforms: Uniforms): any;
+    draw({uniforms}:{uniforms: Uniforms}): any;
     setState<K extends keyof S>(
       state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
       callback?: () => void
@@ -69,9 +69,7 @@ declare module "@deck.gl/core" {
     updateState(state: {
       props: P,
       oldProps: P,
-      changeFlags,
+      changeFlags: any,
     }): void;
-    onHover: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   }
 }
