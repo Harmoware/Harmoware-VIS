@@ -1,41 +1,57 @@
-body {
-    margin: 0px;
-    padding: 0;
-    overflow: hidden;
-    color: white;
-    background-color: black;
+@import '../../../scss/harmoware.scss';
+
+select {
+  background-color: #808080;
+  border-radius: 2px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  line-height: 14px;
+  padding: 3px 12px;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  border-width: 0px;
+  box-shadow: 1px 1px 1px #555;
+}
+
+.harmovis_header { 
+  left: 10px;
+  font-size: 12pt; 
+  z-index: 110; 
+  position: fixed; 
+  top: 10px; 
+  left: 20px; 
+  &__input {
+    font-size: 10pt;
   }
-  
-  a {
-    color: white;
-    text-decoration: none;
+  &__spacer {
+    padding: 10px;
   }
-  
-  select {
-    background-color: #808080;
-    border-radius: 2px;
-    color: #FFFFFF;
-    cursor: pointer;
-    font-size: 12px;
-    letter-spacing: 0.3px;
-    line-height: 14px;
-    padding: 3px 12px;
-    text-align: center;
-    vertical-align: middle;
-    width: 100%;
-    border-width: 0px;
-    box-shadow: 1px 1px 1px #555;
-  }
-  
-  #header_area {
-    left: 10px;
-  }
-  
-  #controller_area {
-    right: 10px;
-    width: 260px;
-  }
-  
-  .harmovis_controller__list__item {
-    display: flex;
-  }
+}
+
+.harmovis_controller {
+  @extend .harmovis_controller;
+  width: 260px;
+}
+
+.harmovis_input_range_header {
+  @extend .harmovis_input_range;
+  width: 100px;
+}
+.harmovis_input_range_controller {
+  @extend .harmovis_input_range;
+  width: 100%;
+}
+
+.harmovis_controller__list__item {
+  display: flex;
+}
+
+.nowrapstyle {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-Overflow: ellipsis;
+}

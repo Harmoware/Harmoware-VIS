@@ -1,4 +1,15 @@
+body {
+  margin: 0px;
+  padding: 0;
+  overflow: hidden;
+  color: white;
+  background-color: black;
+}
 
+a {
+  color: white;
+  text-decoration: none;
+}
 
 .harmovis_controller {
   font-size: 10pt; 
@@ -18,25 +29,8 @@
     padding: 5px; 
     display: flex;
   }
-  &__input {
-    font-size: 10pt; 
-  }
   &__select {
     font-size: 10pt; 
-  }
-}
-
-.harmovis_header { 
-  font-size: 12pt; 
-  z-index: 110; 
-  position: fixed; 
-  top: 10px; 
-  left: 20px; 
-  &__input {
-    font-size: 10pt;
-  }
-  &__spacer {
-    padding: 10px;
   }
 }
 
@@ -77,7 +71,6 @@
   appearance: none;
   background-color: rgba(255, 255, 255, 0.7);
   height: 2px;
-  width: 100%;
   margin: 8px 0px;
   border-radius: 2px;
   &::-webkit-slider-thumb {
@@ -119,4 +112,15 @@
   &__spacer {
     padding: 5px;
   }
+}
+
+.button_block {
+  display: flex;
+  white-space: nowrap;
+}
+.non_display {
+  display: none;
+}
+.white_space_nowrap {
+  white-space: nowrap;
 }

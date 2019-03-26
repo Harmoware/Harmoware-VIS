@@ -175,10 +175,8 @@ export default class Controller extends React.Component<Props, State> {
     const optionsTrip = answers.map(
       ans => <option value={ans} key={ans}>{ans}</option>);
 
-    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
-
     return (
-      <div className="harmovis_controller container" id="controller_area">
+      <div className="harmovis_controller container">
         <ul className="list-group harmovis_controller__list">
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
@@ -218,9 +216,9 @@ export default class Controller extends React.Component<Props, State> {
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
               <label htmlFor="MovesInput" className="harmovis_button">{t('trip_select')}
-                <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} id="MovesInput" style={{ display: 'none' }} />
+                <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} id="MovesInput" className="non_display" />
               </label>
-              <div style={nowrapstyle}>{this.state.filename}</div>
+              <div className="nowrapstyle">{this.state.filename}</div>
             </div>
           </li>
           <li className="harmovis_controller__list__item">
@@ -246,22 +244,22 @@ export default class Controller extends React.Component<Props, State> {
             <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} />&nbsp;
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
-          <li>
+            <li>
             <label htmlFor="ElapsedTimeRange">{t('elapsedTime')}<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />{t('sec')}</label>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" className="harmovis_input_range_controller" />
           </li>
           <li>
             <label htmlFor="SpeedRange">{t('speed')}<SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</label>
-            <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
+            <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="harmovis_input_range_controller" />
           </li>
           <li>
             <label htmlFor="delayrange">{t('delayrange')}LV&nbsp;0～{delayrange}&nbsp;{t('minute')}</label>
-            <input type="range" value={delayrange} min="1" max="120" step="1" onChange={this.setDelayRange.bind(this)} id="delayrange" className="harmovis_input_range" />
+            <input type="range" value={delayrange} min="1" max="120" step="1" onChange={this.setDelayRange.bind(this)} id="delayrange" className="harmovis_input_range_controller" />
           </li>
           <li className="harmovis_controller__list__item">
             <div className="input-group input-group-sm">
               <button onClick={this.setCellSize.bind(this)} className="harmovis_button">{xBandViewLabel}</button>
-              <div style={nowrapstyle}>{xbandCellSize ? xbandFname : ''}</div>
+              <div className="nowrapstyle">{xbandCellSize ? xbandFname : ''}</div>
             </div>
           </li>
           <li className="harmovis_controller__list__item">

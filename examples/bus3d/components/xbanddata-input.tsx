@@ -55,13 +55,12 @@ export default class XbandDataInput extends React.Component<Props, State> {
 
   render() {
     const { t } = this.props;
-    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
     return (
       <div className="input-group input-group-sm">
         <label htmlFor="XbandDataInput" className="harmovis_button">{t('XbandDataInput')}
-          <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id="XbandDataInput" style={{ display: 'none' }} />
+          <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id="XbandDataInput" className="non_display" />
         </label>
-        <div style={nowrapstyle}>{this.state.filename}</div>
+        <div className="nowrapstyle">{this.state.filename}</div>
       </div>
     );
   }
