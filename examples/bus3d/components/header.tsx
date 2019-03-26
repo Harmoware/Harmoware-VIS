@@ -57,7 +57,7 @@ export default class Header extends React.Component<Props> {
       return false;
     });
     return (
-      <div className="harmovis_header container" id="header_area">
+      <div className="harmovis_header container">
         <SimulationDateTime settime={settime} locales={t('locales')} className="harmovis_header__spacer" />
         <span id="bus_count" className="harmovis_header__spacer">{movedData.length}&nbsp;{t('Operating')}</span>
         {Object.keys(busoption).length <= 0 ?
@@ -67,7 +67,7 @@ export default class Header extends React.Component<Props> {
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
-            className="harmovis_header__input"
+            className="harmovis_input_range_header"
             type="range" value={elevationScale} min="1" max="20" step="1"
             onChange={this.setScaleElevation.bind(this)}
           />}
@@ -79,7 +79,7 @@ export default class Header extends React.Component<Props> {
         {flg && clickedObject &&
           <span className="harmovis_header__spacer">
             <input
-              className="harmovis_header__input"
+              className="harmovis_input_range_header"
               type="range" value={delayheight} min="0" max="10" step="1"
               onChange={this.setDelayHeight.bind(this)}
             />

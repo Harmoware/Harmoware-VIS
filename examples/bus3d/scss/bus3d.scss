@@ -1,3 +1,5 @@
+@import '../../../scss/harmoware.scss';
+
 select {
   background-color: #808080;
   border-radius: 2px;
@@ -14,15 +16,42 @@ select {
   box-shadow: 1px 1px 1px #555;
 }
 
-#header_area {
+.harmovis_header { 
   left: 10px;
+  font-size: 12pt; 
+  z-index: 110; 
+  position: fixed; 
+  top: 10px; 
+  left: 20px; 
+  &__input {
+    font-size: 10pt;
+  }
+  &__spacer {
+    padding: 10px;
+  }
 }
 
-#controller_area {
-  right: 10px;
+.harmovis_controller {
+  @extend .harmovis_controller;
   width: 260px;
+}
+
+.harmovis_input_range_header {
+  @extend .harmovis_input_range;
+  width: 100px;
+}
+.harmovis_input_range_controller {
+  @extend .harmovis_input_range;
+  width: 100%;
 }
 
 .harmovis_controller__list__item {
   display: flex;
+}
+
+.nowrapstyle {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-Overflow: ellipsis;
 }

@@ -108,17 +108,16 @@ export default class Controller extends React.Component<Props, State> {
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
     const { depotsFileName } = inputFileName;
-    const nowrapstyle = { textAlign: 'center' as 'center', whiteSpace: 'nowrap' as 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 
     return (
-      <div className="harmovis_controller" id="controller_area">
+      <div className="harmovis_controller">
         <div className="container">
           <ul className="list-group harmovis_controller__list">
             <li className="harmovis_controller__list__item">
               <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
-                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" style={{ display: 'none' }} />
+                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" className="non_display" />
               </label>
-              <div style={nowrapstyle}>{depotsFileName || '選択されていません'}</div>
+              <div className="nowrapstyle">{depotsFileName || '選択されていません'}</div>
             </li>
             <li className="harmovis_controller__list__item">
               <div className="form-check">

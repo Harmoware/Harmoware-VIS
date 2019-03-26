@@ -1,3 +1,5 @@
+@import '../../../scss/harmoware.scss';
+
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -15,7 +17,9 @@ input[type="range"] {
   display: flex;
 }
 
-#controller_area {
+.harmovis_controller {
+  @extend .harmovis_controller;
+  width: 260px;
   input.caInput {
     flex-grow: 1;
     > span {
