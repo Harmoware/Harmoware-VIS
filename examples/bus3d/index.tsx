@@ -5,7 +5,6 @@ import * as React from 'react';
 import createSagaMiddleware from 'redux-saga';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './locales/I18n';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import rootSaga from './sagas';
 import App from './containers';
 import reducer from './reducers';
