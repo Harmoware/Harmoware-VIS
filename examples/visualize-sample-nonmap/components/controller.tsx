@@ -25,7 +25,7 @@ export default class Controller extends React.Component<Props> {
       secperhour, animatePause, animateReverse, t, viewport } = this.props;
 
     return (
-      <div className="harmovis_controller">
+      <div className="vis_sample_controller">
         <ul>
           <li>
             <select

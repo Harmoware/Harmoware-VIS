@@ -12,6 +12,11 @@
     li {
       margin: 0px 0px 8px 0px;
     }
+    div.form-check {
+      input[type="checkbox"],label {
+        cursor: pointer;
+      }
+    }
   }
   div.vis_sample_input_button_column {
     width: 100%;
@@ -31,5 +36,8 @@
   }
   input[type="number"] {
     @extend .harmovis_input_number;
+  }
+  input[type="range"] {
+    cursor: pointer;
   }
 }

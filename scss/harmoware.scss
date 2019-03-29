@@ -4,12 +4,15 @@ body {
   overflow: hidden;
   color: white;
   background-color: black;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: white;
+  }
 }
 
-a {
-  color: white;
-  text-decoration: none;
-}
 
 .harmovis_controller {
   font-size: 10pt; 

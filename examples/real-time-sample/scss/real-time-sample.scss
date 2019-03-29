@@ -1,13 +1,43 @@
 @import '../../../scss/harmoware.scss';
 
-.harmovis_controller {
-  @extend .harmovis_controller;
+.real_sample_controller {
+  font-size: 10pt; 
+  z-index: 100; 
+  position: fixed; 
+  top: 10px; 
+  right: 20px;
   width: 260px;
-}
-
-.nowrapstyle {
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-Overflow: ellipsis;
+  ul {
+    list-style-type: none;
+    li {
+      margin: 0px 0px 8px 0px;
+    }
+    div.form-check {
+      input[type="checkbox"],label {
+        cursor: pointer;
+      }
+    }
+  }
+  div.real_sample_input_button_column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    label {
+      input[type="file"] {
+        display: none;
+      }
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-Overflow: ellipsis;
+      margin: -6px 0px 0px 0px;
+    }
+  }
+  input[type="number"] {
+    @extend .harmovis_input_number;
+  }
+  input[type="range"] {
+    cursor: pointer;
+  }
 }
