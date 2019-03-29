@@ -106,59 +106,63 @@ export default class Controller extends React.Component<Props, State> {
     const { movesFileName, depotsFileName } = inputFileName;
 
     return (
-      <div className="harmovis_controller">
+      <div className="vis_sample_controller">
         <div className="container">
-          <ul className="list-group harmovis_controller__list">
-            <li className="harmovis_controller__list__item">
-              <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
-                運行データ選択<MovesInput actions={actions} id="MovesInput" className="non_display" />
-              </label>
-              <div className="nowrapstyle">{movesFileName || '選択されていません'}</div>
+          <ul className="list-group">
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
+                  運行データ選択<MovesInput actions={actions} id="MovesInput" />
+                </label>
+                <div>{movesFileName || '選択されていません'}</div>
+              </div>
             </li>
-            <li className="harmovis_controller__list__item">
-              <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
-                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" className="non_display" />
-              </label>
-              <div className="nowrapstyle">{depotsFileName || '選択されていません'}</div>
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
+                  停留所データ選択<DepotsInput actions={actions} id="DepotsInput" />
+                </label>
+                <div>{depotsFileName || '選択されていません'}</div>
+              </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <div className="form-check">
                 <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <div className="form-check">
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
                 <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <div className="form-check">
                 <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
                 <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <div className="form-check">
                 <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <div className="form-check">
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
                 <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
               </div>
             </li>
-            <li className="harmovis_controller__list__item"><span>ナビゲーションパネル</span>
+            <li><span>ナビゲーションパネル</span>
               <div className="btn-group d-flex" role="group">
                 <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
-            <li className="harmovis_controller__list__item"><span>コントロールパネル</span>
+            <li><span>コントロールパネル</span>
               <div className="btn-group d-flex" role="group">
                 {animatePause ?
                   <PlayButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
@@ -178,18 +182,18 @@ export default class Controller extends React.Component<Props, State> {
                 <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
               </div>
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               再現中日時&nbsp;<SimulationDateTime settime={settime} />
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
               <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
             </li>
-            <li className="harmovis_controller__list__item">
+            <li>
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
               <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
             </li>
-            <li className="harmovis_controller__list__item"><div>経路操作</div>
+            <li><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
                   <span><Icon icon={icSave} />&nbsp;SAVE&nbsp;
