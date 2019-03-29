@@ -7,9 +7,6 @@ interface Props {
     className?: string;
 }
 export default class NavigationButton extends React.Component<Props> {
-    static defaultProps: {
-        className: string;
-    };
     setViewport(argument: Viewport): void;
     render(): JSX.Element;
 }
