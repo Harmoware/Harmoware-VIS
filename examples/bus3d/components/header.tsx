@@ -57,29 +57,27 @@ export default class Header extends React.Component<Props> {
       return false;
     });
     return (
-      <div className="harmovis_header container">
-        <SimulationDateTime settime={settime} locales={t('locales')} className="harmovis_header__spacer" />
-        <span id="bus_count" className="harmovis_header__spacer">{movedData.length}&nbsp;{t('Operating')}</span>
+      <div className="bus3d_header">
+        <SimulationDateTime settime={settime} locales={t('locales')} />
+        <span id="bus_count">{movedData.length}&nbsp;{t('Operating')}</span>
         {Object.keys(busoption).length <= 0 ?
-          <span className="harmovis_header__spacer">{t('busoption')}{t('non')}</span> :
-          <span className="harmovis_header__spacer">{t('busoption')}{`：${bsoptFname}`}</span>
+          <span>{t('busoption')}{t('non')}</span> :
+          <span>{t('busoption')}{`：${bsoptFname}`}</span>
         }
         {Object.keys(busoption).length > 0 &&
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
-            className="harmovis_input_range_header"
             type="range" value={elevationScale} min="1" max="20" step="1"
             onChange={this.setScaleElevation.bind(this)}
           />}
         <br />
-        <span className="harmovis_header__spacer">{t('delayrange')} 0{t('minute')}</span>
+        <span>{t('delayrange')} 0{t('minute')}</span>
         <CanvasComponent {...canvasProps} />
-        <span className="harmovis_header__spacer">～{delayrange}{t('minute')}</span>
-        {flg && clickedObject && <span className="harmovis_header__spacer">{t('TD_display')}</span>}
+        <span>～{delayrange}{t('minute')}</span>
+        {flg && clickedObject && <span>{t('TD_display')}</span>}
         {flg && clickedObject &&
-          <span className="harmovis_header__spacer">
+          <span>
             <input
-              className="harmovis_input_range_header"
               type="range" value={delayheight} min="0" max="10" step="1"
               onChange={this.setDelayHeight.bind(this)}
             />
@@ -87,13 +85,11 @@ export default class Header extends React.Component<Props> {
         }
         {getClickedInfo &&
           <div>
-            <span className="harmovis_header__spacer">
+            <span>
             {t('busInformation')}&nbsp;
-              <button onClick={this.onBusReleaseClick.bind(this)} className="harmovis_button" style={{ width: '80px' }}>{t('release')}</button>
+              <button onClick={this.onBusReleaseClick.bind(this)}>{t('release')}</button>
             </span>
-            <span className="harmovis_header__spacer">
-              {getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}
-            </span>
+            <span>{getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}</span>
           </div>
         }
       </div>

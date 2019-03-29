@@ -19,7 +19,6 @@ export default class SimulationDateTime extends React.Component<Props> {
       minute: '2-digit',
       second: '2-digit',
       weekday: 'short' },
-    className: ''
   }
 
   render() {

@@ -16,7 +16,6 @@ export default class ElapsedTimeRange extends React.Component<Props> {
   static defaultProps = {
     min: -100,
     step: 1,
-    className: 'harmovis_input_range'
   }
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {

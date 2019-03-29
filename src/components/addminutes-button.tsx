@@ -17,7 +17,6 @@ export default class AddMinutesButton extends React.Component<Props> {
     i18n: {
       minutesCaption: 'min'
     },
-    className: 'harmovis_button'
   }
 
   addMinutes(minutes: number) {
