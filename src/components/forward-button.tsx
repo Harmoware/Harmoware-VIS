@@ -15,6 +15,7 @@ export default class ForwardButton extends React.Component<Props> {
     i18n: {
       forwardButtonCaption: 'FORWARD'
     },
+    className: 'harmovis_button'
   }
 
   setAnimateReverse() {

@@ -14,6 +14,7 @@ interface Props {
 export default class ElapsedTimeValue extends React.Component<Props> {
   static defaultProps = {
     min: -100,
+    className: 'harmovis_input_number'
   }
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {

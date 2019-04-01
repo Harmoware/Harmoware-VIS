@@ -10,9 +10,9 @@ body {
   }
   a:hover {
     color: white;
+    text-decoration: underline;
   }
 }
-
 
 .harmovis_controller {
   font-size: 10pt; 
@@ -20,20 +20,22 @@ body {
   position: fixed; 
   top: 10px; 
   right: 20px;
-  div {
-    width: 100%;
-  }
-  ul {
+  ul.flex_list {
     list-style-type: none; 
     padding: 0px; 
     margin: 0px; 
-    li {
-      padding: 5px; 
+    li.flex_row {
+      padding: 5px 0px; 
       display: flex;
+      flex-direction: row;
     }
     li.flex_column {
+      @extend .flex_row;
       flex-direction: column;
     }
+  }
+  div.container {
+    width: 100%;
   }
   div.harmovis_input_button_column {
     width: 100%;
@@ -60,16 +62,6 @@ body {
     div {
       margin: 0px;
     }
-  }
-  button {
-    width: 100%;  
-    @extend .harmovis_button;
-  }
-  input[type="range"] {
-    @extend .harmovis_input_range;
-  }
-  input[type="number"] {
-    @extend .harmovis_input_number;
   }
 }
 

@@ -15,6 +15,7 @@ export default class PauseButton extends React.Component<Props> {
     i18n: {
       pauseButtonCaption: 'PAUSE'
     },
+    className: 'harmovis_button'
   }
 
   setAnimatePause() {

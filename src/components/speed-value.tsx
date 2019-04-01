@@ -14,6 +14,7 @@ export default class SpeedValue extends React.Component<Props> {
   static defaultProps = {
     maxsecperhour: 3600,
     min: 1,
+    className: 'harmovis_input_number'
   }
 
   setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {

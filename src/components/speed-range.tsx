@@ -16,6 +16,7 @@ export default class SpeedRange extends React.Component<Props> {
     maxsecperhour: 3600,
     min: 1,
     step: 1,
+    className: 'harmovis_input_range'
   }
 
   setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
