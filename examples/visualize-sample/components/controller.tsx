@@ -196,22 +196,22 @@ export default class Controller extends React.Component<Props, State> {
             <li><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icSave} />&nbsp;SAVE&nbsp;
+                  <span className="button_span"><Icon icon={icSave} />&nbsp;SAVE&nbsp;
                     <span className="badge badge-light">{saveRouteGroup.length}</span>
                   </span>
                 </button>
                 <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
+                  <span className="button_span"><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
                     <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
                   </span>
                 </button>
               </div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
+                  <span className="button_span"><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
                 </button>
                 <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;DELETE</span>
+                  <span className="button_span"><Icon icon={icDelete} />&nbsp;DELETE</span>
                 </button>
               </div>
             </li>

@@ -34,10 +34,11 @@
       margin: -6px 0px 0px 0px;
     }
   }
-  input[type="number"] {
-    @extend .harmovis_input_number;
-  }
-  input[type="range"] {
+  input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
+  }
+  .button_span {
+    display: flex;
+    justify-content: center;
   }
 }

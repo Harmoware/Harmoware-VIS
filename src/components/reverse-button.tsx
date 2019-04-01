@@ -10,6 +10,8 @@ interface Props {
   className?: string
 }
 
+const default_style = { 'display': 'flex', 'justifyContent': 'center' };
+
 export default class ReverseButton extends React.Component<Props> {
   static defaultProps = {
     i18n: {
@@ -28,7 +30,8 @@ export default class ReverseButton extends React.Component<Props> {
     return (
       <button onClick={this.setAnimateReverse.bind(this)} className={className}>
         {children === undefined ?
-          <span><Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
+          <span style={default_style}>
+          <Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
           <span>{children}</span>
         }
       </button>

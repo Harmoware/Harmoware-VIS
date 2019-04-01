@@ -186,29 +186,29 @@ export default class Controller extends React.Component<Props, State> {
             <li><div>移動データ操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.deleteMovebase.bind(this,60)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;1分以上前の移動データ削除</span>
+                  <span className="button_span"><Icon icon={icDelete} />&nbsp;1分以上前の移動データ削除</span>
                 </button>
               </div>
             </li>
             <li><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icSave} />&nbsp;保存&nbsp;
+                  <span className="button_span"><Icon icon={icSave} />&nbsp;保存&nbsp;
                     <span className="badge badge-light">{saveRouteGroup.length}</span>
                   </span>
                 </button>
                 <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icLayers} />&nbsp;表示&nbsp;
+                  <span className="button_span"><Icon icon={icLayers} />&nbsp;表示&nbsp;
                     <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
                   </span>
                 </button>
               </div>
               <div className="btn-group d-flex" role="group">
                 <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDeleteForever} />&nbsp;非表示</span>
+                  <span className="button_span"><Icon icon={icDeleteForever} />&nbsp;非表示</span>
                 </button>
                 <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span><Icon icon={icDelete} />&nbsp;保存分削除</span>
+                  <span className="button_span"><Icon icon={icDelete} />&nbsp;保存分削除</span>
                 </button>
               </div>
             </li>

@@ -11,6 +11,8 @@ interface Props {
   className?: string
 }
 
+const default_style = { 'display': 'flex', 'justifyContent': 'center' };
+
 export default class AddMinutesButton extends React.Component<Props> {
   static defaultProps = {
     addMinutes: 10,
@@ -30,7 +32,7 @@ export default class AddMinutesButton extends React.Component<Props> {
     return (
       <button onClick={this.addMinutes.bind(this, addMinutes)} className={className}>
         {children === undefined ?
-          <span>{addMinutes > 0 ?
+          <span style={default_style}>{addMinutes > 0 ?
             <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
           }&nbsp;{addMinutes}&nbsp;{i18n.minutesCaption}</span> :
           <span>{children}</span>
