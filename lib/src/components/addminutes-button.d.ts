@@ -15,6 +15,7 @@ export default class AddMinutesButton extends React.Component<Props> {
         i18n: {
             minutesCaption: string;
         };
+        className: string;
     };
     addMinutes(minutes: number): void;
     render(): JSX.Element;

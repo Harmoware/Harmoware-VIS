@@ -13,6 +13,7 @@ export default class ReverseButton extends React.Component<Props> {
         i18n: {
             reverseButtonCaption: string;
         };
+        className: string;
     };
     setAnimateReverse(): void;
     render(): JSX.Element;

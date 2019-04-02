@@ -13,6 +13,7 @@ export default class PauseButton extends React.Component<Props> {
         i18n: {
             pauseButtonCaption: string;
         };
+        className: string;
     };
     setAnimatePause(): void;
     render(): JSX.Element;

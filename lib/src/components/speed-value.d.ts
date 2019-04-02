@@ -12,6 +12,7 @@ export default class SpeedValue extends React.Component<Props> {
     static defaultProps: {
         maxsecperhour: number;
         min: number;
+        className: string;
     };
     setSecPerHour(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;
