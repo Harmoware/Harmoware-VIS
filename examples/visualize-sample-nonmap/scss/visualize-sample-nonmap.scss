@@ -3,7 +3,13 @@
 .vis_sample_controller {
   @extend .harmovis_controller;
   width: 260px;
-  ul li select {
+  ul {
+    @extend ul.flex_list;
+  }
+  li select {
     width: 100%;
+  }
+  button.harmovis_button {
+    width: 100%;  
   }
 }

@@ -27,7 +27,7 @@ export default class Controller extends React.Component<Props> {
     return (
       <div className="vis_sample_controller">
         <ul>
-          <li>
+          <li className="flex_row">
             <select
               id="language_select" value={t('langId')}
               onChange={this.onLanguageSelect.bind(this)}
@@ -50,7 +50,7 @@ export default class Controller extends React.Component<Props> {
             <LinemapInput actions={actions} />
           </li>
           <hr />
-          <li>
+          <li className="flex_row">
             {animatePause ?
               <PlayButton actions={actions}>
                 <span><Icon icon={icPlayArrow} />&nbsp;{t('play')}</span></PlayButton> :
@@ -64,7 +64,7 @@ export default class Controller extends React.Component<Props> {
                 <span><Icon icon={icReplay} />&nbsp;{t('reverse')}</span></ReverseButton>
             }
           </li>
-          <li>
+          <li className="flex_row">
             <AddMinutesButton addMinutes={-10} actions={actions}>
               <span><Icon icon={icFastRewind} />&nbsp;-10{t('minute')}</span></AddMinutesButton>
             <AddMinutesButton addMinutes={-5} actions={actions}>
@@ -74,13 +74,13 @@ export default class Controller extends React.Component<Props> {
             <AddMinutesButton addMinutes={10} actions={actions}>
               <span><Icon icon={icFastForward} />&nbsp;10{t('minute')}</span></AddMinutesButton>
           </li>
-          <li>
+          <li className="flex_row">
             <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} />
             <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} />
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <hr />
-          <li>
+          <li className="flex_row">
             <SimulationDateTime settime={settime} locales={t('locales')} />
           </li>
           <hr />
