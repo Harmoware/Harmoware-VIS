@@ -25,11 +25,10 @@ export default class Controller extends React.Component<Props> {
       secperhour, animatePause, animateReverse, t, viewport } = this.props;
 
     return (
-      <div className="harmovis_controller">
-        <ul className="harmovis_controller__list">
-          <li className="harmovis_controller__list__item">
+      <div className="vis_sample_controller">
+        <ul>
+          <li className="flex_row">
             <select
-              className="harmovis_controller__select"
               id="language_select" value={t('langId')}
               onChange={this.onLanguageSelect.bind(this)}
             >
@@ -38,63 +37,60 @@ export default class Controller extends React.Component<Props> {
             </select>
           </li>
           <hr />
-          <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('movedData')}</span>
-            <MovesInput actions={actions} className="caInput" />
+          <li className="flex_column">
+            <span>{t('movedData')}</span>
+            <MovesInput actions={actions} />
           </li>
-          <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('depotsData')}</span>
-            <DepotsInput actions={actions} className="caInput" />
+          <li className="flex_column">
+            <span>{t('depotsData')}</span>
+            <DepotsInput actions={actions} />
           </li>
-          <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('mapData')}</span>
-            <LinemapInput actions={actions} className="caInput" />
+          <li className="flex_column">
+            <span>{t('mapData')}</span>
+            <LinemapInput actions={actions} />
           </li>
           <hr />
-          <li className="harmovis_controller__list__button">
+          <li className="flex_row">
             {animatePause ?
-              <PlayButton actions={actions} className="caButton">
+              <PlayButton actions={actions}>
                 <span><Icon icon={icPlayArrow} />&nbsp;{t('play')}</span></PlayButton> :
-              <PauseButton actions={actions} className="caButton">
+              <PauseButton actions={actions}>
                 <span><Icon icon={icPause} />&nbsp;{t('pause')}</span></PauseButton>
             }
             {animateReverse ?
-              <ForwardButton actions={actions} className="caButton">
+              <ForwardButton actions={actions}>
                 <span><Icon icon={icForward} />&nbsp;{t('forward')}</span></ForwardButton> :
-              <ReverseButton actions={actions} className="caButton">
+              <ReverseButton actions={actions}>
                 <span><Icon icon={icReplay} />&nbsp;{t('reverse')}</span></ReverseButton>
             }
           </li>
-          <li className="harmovis_controller__list__button">
-            <AddMinutesButton addMinutes={-10} actions={actions} className="caButton">
+          <li className="flex_row">
+            <AddMinutesButton addMinutes={-10} actions={actions}>
               <span><Icon icon={icFastRewind} />&nbsp;-10{t('minute')}</span></AddMinutesButton>
-            <AddMinutesButton addMinutes={-5} actions={actions} className="caButton">
+            <AddMinutesButton addMinutes={-5} actions={actions}>
               <span><Icon icon={icFastRewind} />&nbsp;-5{t('minute')}</span></AddMinutesButton>
-            <AddMinutesButton addMinutes={5} actions={actions} className="caButton">
+            <AddMinutesButton addMinutes={5} actions={actions}>
               <span><Icon icon={icFastForward} />&nbsp;5{t('minute')}</span></AddMinutesButton>
-            <AddMinutesButton addMinutes={10} actions={actions} className="caButton">
+            <AddMinutesButton addMinutes={10} actions={actions}>
               <span><Icon icon={icFastForward} />&nbsp;10{t('minute')}</span></AddMinutesButton>
           </li>
-          <li className="harmovis_controller__list__button">
-            <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="caButton" />
-            <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="caButton" />
-            <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="caButton" />
+          <li className="flex_row">
+            <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} />
+            <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} />
+            <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <hr />
-          <li className="harmovis_controller__list__item">
-            <SimulationDateTime settime={settime} locales={t('locales')} className="caSpan" />
+          <li className="flex_row">
+            <SimulationDateTime settime={settime} locales={t('locales')} />
           </li>
           <hr />
-          <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('elapsedTime')}
-              <ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />{t('sec')}</span>
-            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} className="caRange" />
+          <li className="flex_column">
+            <label htmlFor="ElapsedTimeRange">{t('elapsedTime')}<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />{t('sec')}</label>
+            <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
           </li>
-          <hr />
-          <li className="harmovis_controller__list__item">
-            <span className="harmovis_controller__spacer">{t('speed')}
-              <SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</span>
-            <SpeedRange secperhour={secperhour} actions={actions} className="caRange" />
+          <li className="flex_column">
+            <label htmlFor="SpeedRange">{t('speed')}<SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</label>
+            <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
           </li>
         </ul>
       </div>

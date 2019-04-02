@@ -1,57 +1,61 @@
 @import '../../../scss/harmoware.scss';
 
-select {
-  background-color: #808080;
-  border-radius: 2px;
-  color: #FFFFFF;
-  cursor: pointer;
-  font-size: 12px;
-  letter-spacing: 0.3px;
-  line-height: 14px;
-  padding: 3px 12px;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
-  border-width: 0px;
-  box-shadow: 1px 1px 1px #555;
-}
-
-.harmovis_header { 
+.bus3d_header { 
   left: 10px;
   font-size: 12pt; 
   z-index: 110; 
   position: fixed; 
   top: 10px; 
-  left: 20px; 
-  &__input {
-    font-size: 10pt;
-  }
-  &__spacer {
+  left: 20px;
+  span {
     padding: 10px;
+  }
+  input[type="range"] {
+    @extend .harmovis_input_range;
+    width: 100px;
+  }
+  button {
+    @extend .harmovis_button;
+    width: 80px;
   }
 }
 
 .harmovis_controller {
   @extend .harmovis_controller;
   width: 260px;
-}
-
-.harmovis_input_range_header {
-  @extend .harmovis_input_range;
-  width: 100px;
-}
-.harmovis_input_range_controller {
-  @extend .harmovis_input_range;
-  width: 100%;
-}
-
-.harmovis_controller__list__item {
-  display: flex;
-}
-
-.nowrapstyle {
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-Overflow: ellipsis;
+  ul {
+    @extend ul.flex_list;
+  }
+  li.bus3d_input_button_column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    button {
+      @extend .harmovis_button;
+    }
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-Overflow: ellipsis;
+    }
+  }
+  button.harmovis_button {
+    width: 100%;  
+  }
+  select.bus3d_select {
+    background-color: #808080;
+    border-radius: 2px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 14px;
+    padding: 3px 12px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    border-width: 0px;
+    box-shadow: 1px 1px 1px #555;
+  }
 }

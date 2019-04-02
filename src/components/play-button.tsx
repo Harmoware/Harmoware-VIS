@@ -10,6 +10,8 @@ interface Props {
   className?: string
 }
 
+const default_style = { 'display': 'flex', 'justifyContent': 'center' };
+
 export default class PlayButton extends React.Component<Props> {
   static defaultProps = {
     i18n: {
@@ -28,7 +30,8 @@ export default class PlayButton extends React.Component<Props> {
     return (
       <button onClick={this.setAnimatePause.bind(this)} className={className}>
         {children === undefined ?
-          <span><Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
+          <span style={default_style}>
+          <Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
           <span>{children}</span>
         }
       </button>

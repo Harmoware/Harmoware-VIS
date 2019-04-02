@@ -19,7 +19,6 @@ export default class SimulationDateTime extends React.Component<Props> {
             second: string;
             weekday: string;
         };
-        className: string;
     };
     render(): JSX.Element;
 }

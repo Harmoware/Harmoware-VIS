@@ -12,7 +12,6 @@ interface Props {
 export default class ElapsedTimeValue extends React.Component<Props> {
     static defaultProps: {
         min: number;
-        className: string;
     };
     setTime(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;

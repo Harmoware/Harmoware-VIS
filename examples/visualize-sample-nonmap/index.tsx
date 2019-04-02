@@ -4,7 +4,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import * as React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './containers';
 import i18n from './locales/I18n';
 import '../../scss/harmoware.scss';

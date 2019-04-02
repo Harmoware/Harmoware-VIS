@@ -13,7 +13,6 @@ export default class ForwardButton extends React.Component<Props> {
         i18n: {
             forwardButtonCaption: string;
         };
-        className: string;
     };
     setAnimateReverse(): void;
     render(): JSX.Element;

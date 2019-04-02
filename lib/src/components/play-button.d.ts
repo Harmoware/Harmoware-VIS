@@ -13,7 +13,6 @@ export default class PlayButton extends React.Component<Props> {
         i18n: {
             playButtonCaption: string;
         };
-        className: string;
     };
     setAnimatePause(): void;
     render(): JSX.Element;
