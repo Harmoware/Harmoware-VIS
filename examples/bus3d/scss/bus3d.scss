@@ -43,13 +43,12 @@
     width: 100%;  
   }
   select.bus3d_select {
-    background-color: #808080;
+    background: #808080;
     border-radius: 2px;
     color: #FFFFFF;
     cursor: pointer;
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    letter-spacing: .026em;
     line-height: 14px;
     padding: 3px 12px;
     text-align: center;
@@ -57,5 +56,9 @@
     width: 100%;
     border-width: 0px;
     box-shadow: 1px 1px 1px #555;
+    transition: all .2s ease;
+    &:hover {
+      background: #A0A0A0;
+    }
   }
 }
