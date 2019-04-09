@@ -66,6 +66,7 @@ import SpeedValue from './components/speed-value';
 import HarmoVisLayers from './components/harmovislayers';
 import HarmoVisNonMapLayers from './components/harmovis-nonmap-layers';
 import NavigationButton from './components/navigation-button';
+import FpsDisplay from './components/fps-display';
 import MovesLayer from './layers/moves-layer';
 import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
@@ -126,6 +127,7 @@ export {
   HarmoVisLayers,
   HarmoVisNonMapLayers,
   NavigationButton,
+  FpsDisplay,
   // constants
   settings,
   // container
