@@ -145,3 +145,15 @@ body {
   bottom: 8px; 
   left: 10px;
 }
+
+.harmovis_fpsRate {
+  font-size: 8pt; 
+  z-index: 105; 
+  position: fixed; 
+  bottom: 10px; 
+  right: 20px;
+  display: block;
+  span {
+    margin: 0px 2px;
+  }
+}

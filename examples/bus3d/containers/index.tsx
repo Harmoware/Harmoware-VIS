@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
-  connectToHarmowareVis, settings, LoadingIcon } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, FpsDisplay } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Bus3dArcLayer from '../layers/bus3d-arc-layer';
@@ -12,7 +12,6 @@ import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
-const { COLOR1 } = settings;
 
 interface Bus3dAppProps extends Bus3dProps {
   t: (key: string) => string,
@@ -140,6 +139,7 @@ class App extends Container<Bus3dAppProps, State> {
           />
           <InteractionLayer viewport={viewport} hovered={hovered} />
           <LoadingIcon loading={loading} />
+          <FpsDisplay />
         </div>
       </div>
     );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, MovedData,
-  connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
 
@@ -202,6 +202,7 @@ class App extends Container<BasedProps, State> {
           </g>
         </svg>
         <LoadingIcon loading={loading} />
+        <FpsDisplay />
       </div>
     );
   }

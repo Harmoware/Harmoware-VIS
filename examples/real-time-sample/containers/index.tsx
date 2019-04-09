@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
+import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, FpsDisplay,
   connectToHarmowareVis, LoadingIcon, BasedProps, Movesbase, MovesbaseOperation, EventInfo } from 'harmoware-vis';
 import Controller from '../components/controller';
 import * as io from 'socket.io-client';
@@ -232,6 +232,7 @@ class App extends Container<BasedProps, State> {
           </g>
         </svg>
         <LoadingIcon loading={loading} />
+        <FpsDisplay />
       </div>
     );
   }
