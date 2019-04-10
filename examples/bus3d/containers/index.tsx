@@ -46,10 +46,10 @@ class App extends Container<Bus3dAppProps, State> {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  componentWillReceiveProps(nextProps: Bus3dAppProps) {
+  static getDerivedStateFromProps(nextProps: Bus3dAppProps, prevState: State) {
     const { actions, settime, xbandCellSize, answer, xbandFname } = nextProps;
     actions.updateRainfall(settime, xbandCellSize, answer, xbandFname);
-    this.setState({ arcdata: updateArcLayerData(nextProps) });
+    return { arcdata: updateArcLayerData(nextProps) };
   }
 
   render() {
