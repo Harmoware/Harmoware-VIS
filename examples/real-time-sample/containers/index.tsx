@@ -39,6 +39,10 @@ class App extends Container<BasedProps, State> {
 
   constructor(props: BasedProps) {
     super(props);
+    const { setSecPerHour, setLeading, setTrailing } = props.actions;
+    setSecPerHour(3600);
+    setLeading(3);
+    setTrailing(3);
     const socket = io();
     this.state = {
       moveDataVisible: true,
@@ -51,13 +55,6 @@ class App extends Container<BasedProps, State> {
     socket.on('connect', () => { console.log("Socket.IO Connected!") });
     socket.on('event', this.getEvent.bind(this));
     socket.on('disconnect', () => { console.log("Socket.IO Disconnected!") });
-  }
-
-  componentWillMount() {
-    const { setSecPerHour, setLeading, setTrailing } = this.props.actions;
-    setSecPerHour(3600);
-    setLeading(3);
-    setTrailing(3);
   }
 
   getEvent(socketData: string){
