@@ -9,6 +9,8 @@ interface Props {
 }
 
 interface State {
+  saveTime: number,
+  frameCounterArray: number[],
   fpsRate: number,
 }
 
@@ -16,20 +18,16 @@ export default class FpsDisplay extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.saveTime = Date.now();
-    this.frameCounter = 0;
-    this.frameCounterArray = [];
-    this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
     this.state = {
+      saveTime: Date.now(),
+      frameCounterArray: [],
       fpsRate: 0,
     };
+    FpsDisplay.frameCounter = 0;
   }
 
-  animationFrame: number;
-  saveTime: number;
-  frameCounter: number;
-  frameCounterArray: number[];
   canvas: HTMLCanvasElement;
+  static frameCounter: number;
 
   static defaultProps = {
       width: 60,
@@ -39,39 +37,39 @@ export default class FpsDisplay extends React.Component<Props, State> {
       UnitCaption: 'fps'
   }
 
-  componentWillUnmount() {
-    if (this.animationFrame) {
-      window.cancelAnimationFrame(this.animationFrame);
+  static getDerivedStateFromProps(nextProps: Props, prevState: State){
+    const { width } = nextProps;
+    const { saveTime, frameCounterArray } = prevState;
+    if((Date.now() - saveTime) >= 1000){
+      frameCounterArray.push(FpsDisplay.frameCounter);
+      if(frameCounterArray.length > (width / 2)){
+        frameCounterArray.shift();
+      }
+      const retuenObject = {
+        saveTime: Date.now(),
+        frameCounterArray: frameCounterArray,
+        fpsRate: FpsDisplay.frameCounter,
+      }
+      FpsDisplay.frameCounter = 1;
+      return retuenObject;
     }
+    FpsDisplay.frameCounter += 1;
+    return null;
   }
 
-  updateCanvas(frameCounter: number) {
-    const { width, height, colorCode } = this.props;
-    const { frameCounterArray, canvas } = this;
-    frameCounterArray.push(frameCounter);
-    if(frameCounterArray.length > (width / 2)){
-      frameCounterArray.shift();
+  componentDidUpdate(prevProps: Props, prevState: State){
+    if(this.state !== prevState){
+      const { width, height, colorCode } = prevProps;
+      const { frameCounterArray } = prevState;
+      const context = this.canvas.getContext('2d');
+      const maxValue = Math.max.apply(null, frameCounterArray);
+      context.clearRect(0,0,width,height);
+      frameCounterArray.forEach((frameCounter, idx)=>{
+        const value = (frameCounter / maxValue) * height;
+        context.fillStyle = colorCode;
+        context.fillRect((idx*2), (height-value), 1, value);
+      });
     }
-    const maxValue = Math.max.apply(null, frameCounterArray);
-    const context = canvas.getContext('2d');
-    context.clearRect(0,0,width,height);
-    frameCounterArray.forEach((frameCounter, idx)=>{
-      const value = (frameCounter / maxValue) * height;
-      context.fillStyle = colorCode;
-      context.fillRect((idx*2), (height-value), 1, value);
-    });
-  }
-
-  animate() {
-    if((Date.now() - this.saveTime) >= 1000){
-      this.setState({ fpsRate: this.frameCounter });
-      this.saveTime = Date.now();
-      this.updateCanvas(this.frameCounter);
-      this.frameCounter = 0;
-    }
-    this.frameCounter += 1;
-
-    this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
   }
 
   render() {
