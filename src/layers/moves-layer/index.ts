@@ -216,7 +216,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: true,
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
-        getStrokeWidth: (x: any) => getStrokeWidth(x) * pixelsPerMeter[0],
+        getStrokeWidth: (x: any) => Math.max(getStrokeWidth(x) * pixelsPerMeter[0], 1),
         opacity: layerOpacity
       }),
     ];
