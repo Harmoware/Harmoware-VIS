@@ -18,6 +18,9 @@ interface State {
   popupInfo: MovedData
 }
 
+const radians = (degree: number) => degree * Math.PI / 180;
+const degrees = (radian: number) => radian * 180 / Math.PI;
+
 class App extends Container<BasedProps, State> {
 
   constructor(props: BasedProps) {
@@ -54,18 +57,14 @@ class App extends Container<BasedProps, State> {
   }
 
   geoDirection(sourcePosition: number[], targetPosition: number[]) {
-    const Y = Math.cos(targetPosition[0] * Math.PI / 180) *
-              Math.sin(targetPosition[1] * Math.PI / 180 - sourcePosition[1] * Math.PI / 180);
-    const X = Math.cos(sourcePosition[0] * Math.PI / 180) *
-              Math.sin(targetPosition[0] * Math.PI / 180) - Math.sin(sourcePosition[0] * Math.PI / 180) *
-              Math.cos(targetPosition[0] * Math.PI / 180) *
-              Math.cos(targetPosition[1] * Math.PI / 180 - sourcePosition[1] * Math.PI / 180);
-    let dirE0 = 180 * Math.atan2(Y, X) / Math.PI;
-    if (dirE0 < 0) {
-      dirE0 = dirE0 + 360;
-    }
-    const dirN0 = (dirE0 + 90) % 360;
-    return dirN0;
+    const x1 = radians(sourcePosition[0]);
+    const y1 = radians(sourcePosition[1]);
+    const x2 = radians(targetPosition[0]);
+    const y2 = radians(targetPosition[1]);
+    const deltax = x2 - x1;
+    const direction = degrees(Math.atan2(Math.sin(deltax), 
+        Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(deltax))) % 360;
+    return direction;
   }
 
   getMarker(data: MovedData, index: number) {
