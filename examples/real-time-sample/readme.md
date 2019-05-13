@@ -18,4 +18,4 @@ npm run real-time-sample
 socket.io で位置情報を見るためのデモサーバプログラム → loc-update.exe
 
 ダウンロード
-https://bitbucket.org/uclabnu/loc-update/src/master/
+https://bitbucket.org/uclabnu/loc-update
