@@ -14,7 +14,7 @@ body {
   }
 }
 
-.harmovis_controller {
+div.harmovis_controller {
   font-size: 10pt; 
   z-index: 100; 
   position: fixed; 
@@ -53,7 +53,7 @@ body {
       text-Overflow: ellipsis;
     }
   }
-  div.harmovis_input_button_row {
+  .harmovis_input_button_row {
     @extend .harmovis_input_button_column;
     flex-direction: row;
     label {
@@ -65,21 +65,22 @@ body {
   }
 }
 
-.harmovis_area { 
+div.harmovis_area { 
   position: fixed; 
   padding-top: 0px; 
   width: 100%; 
   height: 100vh; 
 }
 
-.harmovis_overlay {
+svg.harmovis_overlay {
   position: absolute;
   top: 0;
   left: 0;
   pointer-events: none;
 }
 
-.harmovis_button {
+label.harmovis_button,
+button.harmovis_button {
   background: #808080;
   border-radius: 2px;
   color: #FFFFFF;
@@ -100,7 +101,7 @@ body {
   }
 }
 
-.harmovis_input_range[type="range"] {
+input.harmovis_input_range[type="range"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   background: rgba(255, 255, 255, 0.7);
@@ -125,9 +126,9 @@ body {
   }
 }
 
-.harmovis_input_number[type="number"],
-.harmovis_input_number[type="number"]::-webkit-outer-spin-button,
-.harmovis_input_number[type="number"]::-webkit-inner-spin-button {
+input.harmovis_input_number[type="number"],
+input.harmovis_input_number[type="number"]::-webkit-outer-spin-button,
+input.harmovis_input_number[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   background: rgba( 0, 0, 0, 0 );
   color: #FFFFFF;
@@ -138,7 +139,7 @@ body {
   padding: 0px;
 }
 
-.harmovis_footer {
+div.harmovis_footer {
   font-size: 8pt; 
   z-index: 105; 
   position: fixed; 
@@ -146,7 +147,7 @@ body {
   left: 10px;
 }
 
-.harmovis_fpsRate {
+div.harmovis_fpsRate {
   font-size: 8pt; 
   z-index: 105; 
   position: fixed; 

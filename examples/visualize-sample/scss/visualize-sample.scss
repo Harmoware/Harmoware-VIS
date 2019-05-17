@@ -1,6 +1,6 @@
 @import '../../../scss/harmoware.scss';
 
-.vis_sample_controller {
+div.vis_sample_controller {
   font-size: 10pt; 
   z-index: 100; 
   position: fixed; 
@@ -37,7 +37,7 @@
   input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
   }
-  .button_span {
+  span.button_span {
     display: flex;
     justify-content: center;
   }

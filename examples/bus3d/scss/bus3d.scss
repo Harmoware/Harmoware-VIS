@@ -1,6 +1,6 @@
 @import '../../../scss/harmoware.scss';
 
-.bus3d_header { 
+div.bus3d_header { 
   left: 10px;
   font-size: 12pt; 
   z-index: 110; 
@@ -20,7 +20,7 @@
   }
 }
 
-.harmovis_controller {
+div.harmovis_controller {
   @extend .harmovis_controller;
   width: 260px;
   ul {
