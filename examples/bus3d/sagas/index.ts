@@ -1,5 +1,5 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
-import Axios from 'axios';
+import Axios, {AxiosRequestConfig} from 'axios';
 import * as csvtojson from 'csvtojson';
 import * as iconv from 'iconv-lite';
 import { settings, Actions as baseActions, getContainerProp, RoutePaths } from 'harmoware-vis';
@@ -37,7 +37,7 @@ function fetchJSON(path: string, option = {}) {
 
 function fetchCSV(path: string, useShiftJis = false) {
   return new Promise((resolve/* , reject */) => {
-    const option: {responseType?: string} = {};
+    const option: AxiosRequestConfig = {};
     if (useShiftJis) {
       option.responseType = 'arraybuffer';
     }
