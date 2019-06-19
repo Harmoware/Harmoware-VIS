@@ -87,6 +87,7 @@ export const analyzeMovesBase =
   const latiArray: number[] = [];
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
     const { departuretime, arrivaltime, operation } = movesbase[i];
+    movesbase[i].movesbaseidx = i;
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
       timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
       timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
@@ -165,11 +166,13 @@ export const analyzeDepotsBase =
 const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
   const retValue: DataOption = {};
   const basedata = props.depotsBase[idx];
-  Object.keys(basedata).forEach((key) => {
+  const basekeys = Object.keys(basedata);
+  for (let i=0, keycount = basekeys.length; i<keycount; i+=1) {
+    const key = basekeys[i];
     if (!(key === 'position' || key === 'longitude' || key === 'latitude')) {
       retValue[key] = basedata[key];
     }
-  });
+  }
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
@@ -177,24 +180,20 @@ export const getDepots = (props: Props): DepotsData[] => {
   const depotsData: DepotsData[] = [];
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
-  if (nonmapView || (depotsBase.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {
-    for (let i = 0, lengthi = depotsBase.length; i < lengthi; i += 1) {
-      const { longitude, latitude } = depotsBase[i];
-      let { position } = depotsBase[i];
-      if (typeof position === 'undefined') {
-        position = [longitude, latitude, 1];
-      }
-      if (nonmapView ||
-        (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
-        bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude)) {
-        const itemmap = {
-          longitude: parseFloat(position[0].toString()),
-          latitude: parseFloat(position[1].toString()),
-          position: [parseFloat(position[0].toString()), parseFloat(position[1].toString()), parseFloat(position[2].toString())],
-          ...getOptionFunction(props, i)
-        };
-        depotsData.push(itemmap);
-      }
+  const areadepots = depotsBase.filter((data)=>{
+    const { longitude, latitude, position=[longitude, latitude, 1] } = data;
+    return (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
+      bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
+  });
+  if (nonmapView || (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {
+    for (let i = 0, lengthi = areadepots.length; i < lengthi; i += 1) {
+      const { longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
+      depotsData.push({
+        longitude: position[0],
+        latitude: position[1],
+        position,
+        ...getOptionFunction(props, i)
+      });
     }
   }
   return depotsData;
@@ -203,17 +202,21 @@ export const getDepots = (props: Props): DepotsData[] => {
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOption => {
   const retValue = {};
   const basedata = props.movesbase[idx1];
-  Object.keys(basedata).forEach((key1) => {
+  const basekeys = Object.keys(basedata);
+  for (let i=0, keycount = basekeys.length; i<keycount; i+=1) {
+    const key1 = basekeys[i];
     if (!(key1 === 'departuretime' || key1 === 'arrivaltime' || key1 === 'operation')) {
       retValue[key1] = basedata[key1];
     }
-  });
+  }
   const operationdata = basedata.operation[idx2];
-  Object.keys(operationdata).forEach((key2) => {
+  const operationkeys = Object.keys(operationdata);
+  for (let i=0, keycount = operationkeys.length; i<keycount; i+=1) {
+    const key2 = operationkeys[i];
     if (!(key2 === 'elapsedtime' || key2 === 'position' || key2 === 'longitude' || key2 === 'latitude')) {
       retValue[key2] = operationdata[key2];
     }
-  });
+  }
   return retValue;
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
@@ -221,40 +224,34 @@ export const getMoveObjects = (props : Props): MovedData[] => {
   const movedData: MovedData[] = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
-  for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
-    const { departuretime, arrivaltime, operation } = movesbase[i];
-    if (typeof departuretime !== 'number' || typeof arrivaltime !== 'number') {
-      // console.log(`バス運行実績データなし=>${i}`);
-    } else
-    if (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime) {
-      for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
-        const { elapsedtime, position, color } = operation[j];
-        const { elapsedtime: nextelapsedtime, position: nextposition,
-          color: nextcolor } = operation[j + 1];
-        if (elapsedtime <= settime && settime < nextelapsedtime) {
-          const elapsedtimespan = settime - elapsedtime;
-          const timespan = nextelapsedtime - elapsedtime;
-          const positionspan = [];
-          positionspan[0] = position[0] - nextposition[0];
-          positionspan[1] = position[1] - nextposition[1];
-          positionspan[2] = position[2] - nextposition[2];
-          const positionprogress = [];
-          positionprogress[0] = positionspan[0] * (elapsedtimespan / timespan);
-          positionprogress[1] = positionspan[1] * (elapsedtimespan / timespan);
-          positionprogress[2] = positionspan[2] * (elapsedtimespan / timespan);
-          movedData.push({
-            longitude: position[0] - positionprogress[0],
-            latitude: position[1] - positionprogress[1],
-            position: [position[0] - positionprogress[0], position[1] - positionprogress[1],
-              position[2] - positionprogress[2]],
-            sourcePosition: position,
-            targetPosition: nextposition,
-            sourceColor: color || COLOR1,
-            targetColor: nextcolor || COLOR1,
-            ...getOptionFunction(props, i, j),
-            movesbaseidx: i,
-          });
-        }
+  const selectmovesbase = movesbase.filter((data)=>{
+    const { departuretime, arrivaltime } = data;
+    return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
+  });
+  for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i += 1) {
+    const { operation, movesbaseidx } = selectmovesbase[i];
+    for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
+      const { elapsedtime, position, color=COLOR1 } = operation[j];
+      const { elapsedtime: nextelapsedtime, position: nextposition,
+        color: nextcolor=COLOR1 } = operation[j + 1];
+      if (elapsedtime <= settime && settime < nextelapsedtime) {
+        const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
+        const pos_rate = [
+          position[0] - ((position[0] - nextposition[0]) * rate),
+          position[1] - ((position[1] - nextposition[1]) * rate),
+          position[2] - ((position[2] - nextposition[2]) * rate)
+        ];
+        movedData.push({
+          longitude: pos_rate[0],
+          latitude: pos_rate[1],
+          position: pos_rate,
+          sourcePosition: position,
+          targetPosition: nextposition,
+          sourceColor: color,
+          targetColor: nextcolor,
+          ...getOptionFunction(props, movesbaseidx, j),
+          movesbaseidx,
+        });
       }
     }
   }

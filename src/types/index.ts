@@ -48,7 +48,8 @@ export interface MovesbaseOperation {
 export interface Movesbase {
   departuretime: number,
   arrivaltime: number,
-  operation: MovesbaseOperation[]
+  operation: MovesbaseOperation[],
+  movesbaseidx: number
 };
 
 export interface MovesbaseFile {
