@@ -163,16 +163,8 @@ export const analyzeDepotsBase =
   return depotsBase;
 };
 
-const defDepotsOptionFunc = (props: Props, idx: number) : DataOption => {
-  const retValue: DataOption = {};
-  const basedata = props.depotsBase[idx];
-  const basekeys = Object.keys(basedata);
-  for (let i=0, keycount = basekeys.length; i<keycount; i+=1) {
-    const key = basekeys[i];
-    if (!(key === 'position' || key === 'longitude' || key === 'latitude')) {
-      retValue[key] = basedata[key];
-    }
-  }
+const defDepotsOptionFunc = (props: Props, idx: number) : object => {
+  const {position, longitude, latitude, ...retValue} = props.depotsBase[idx];
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
@@ -199,35 +191,20 @@ export const getDepots = (props: Props): DepotsData[] => {
   return depotsData;
 };
 
-const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : DataOption => {
-  const retValue = {};
-  const basedata = props.movesbase[idx1];
-  const basekeys = Object.keys(basedata);
-  for (let i=0, keycount = basekeys.length; i<keycount; i+=1) {
-    const key1 = basekeys[i];
-    if (!(key1 === 'departuretime' || key1 === 'arrivaltime' || key1 === 'operation')) {
-      retValue[key1] = basedata[key1];
-    }
-  }
-  const operationdata = basedata.operation[idx2];
-  const operationkeys = Object.keys(operationdata);
-  for (let i=0, keycount = operationkeys.length; i<keycount; i+=1) {
-    const key2 = operationkeys[i];
-    if (!(key2 === 'elapsedtime' || key2 === 'position' || key2 === 'longitude' || key2 === 'latitude')) {
-      retValue[key2] = operationdata[key2];
-    }
-  }
-  return retValue;
+const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : object => {
+  const {departuretime, arrivaltime, operation, ...retValue1} = props.movesbase[idx1];
+  const {elapsedtime, position, longitude, latitude, ...retValue2} = operation[idx2];
+  return Object.assign(retValue1,retValue2);
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
   const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
-  const movedData: MovedData[] = [];
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
   const selectmovesbase = movesbase.filter((data)=>{
     const { departuretime, arrivaltime } = data;
     return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
+  const movedData: MovedData[] = Array(selectmovesbase.length);
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i += 1) {
     const { operation, movesbaseidx } = selectmovesbase[i];
     for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
@@ -241,7 +218,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           position[1] - ((position[1] - nextposition[1]) * rate),
           position[2] - ((position[2] - nextposition[2]) * rate)
         ];
-        movedData.push({
+        movedData[i] = {
           longitude: pos_rate[0],
           latitude: pos_rate[1],
           position: pos_rate,
@@ -251,7 +228,8 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           targetColor: nextcolor,
           ...getOptionFunction(props, movesbaseidx, j),
           movesbaseidx,
-        });
+        };
+        break;
       }
     }
   }

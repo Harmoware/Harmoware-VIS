@@ -99,12 +99,9 @@ reducer.case(setLightSettings, (state, light) => {
 });
 
 reducer.case(setTimeStamp, (state, props) => {
-  const latestProps = props;
   const starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour));
-  const setProps = { ...latestProps, starttimestamp };
-  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    starttimestamp, depotsData
+    starttimestamp
   });
 });
 
@@ -125,9 +122,8 @@ reducer.case(increaseTime, (state, props) => {
     const starttimestamp = now - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
     const setProps = { ...latestProps, settime, starttimestamp };
     const movedData = getMoveObjects(setProps);
-    const depotsData = getDepots(setProps);
     return Object.assign({}, state, {
-      settime, starttimestamp, movedData, depotsData
+      settime, starttimestamp, movedData
     });
   }
   const beforeSettime = state.settime;
@@ -139,9 +135,8 @@ reducer.case(increaseTime, (state, props) => {
   const beforeFrameTimestamp = now;
   const setProps = { ...latestProps, settime, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
-  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    settime, beforeFrameTimestamp, movedData, depotsData
+    settime, beforeFrameTimestamp, movedData
   });
 });
 
@@ -159,9 +154,8 @@ reducer.case(decreaseTime, (state, props) => {
   const beforeFrameTimestamp = now;
   const setProps = { ...latestProps, settime, starttimestamp, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
-  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    settime, starttimestamp, beforeFrameTimestamp, movedData, depotsData
+    settime, starttimestamp, beforeFrameTimestamp, movedData
   });
 });
 
@@ -182,9 +176,8 @@ reducer.case(setFrameTimestamp, (state, props) => {
   const beforeFrameTimestamp = Date.now();
   const setProps = { ...latestProps, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
-  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    beforeFrameTimestamp, movedData, depotsData
+    beforeFrameTimestamp, movedData
   });
 });
 
@@ -208,6 +201,8 @@ reducer.case(setMovesBase, (state, base) => {
     depotsBase =
       analyzeDepotsBase(state.nonmapView, depotsBaseOriginal);
   }
+  const setState = { ...state, bounds };
+  const depotsData = getDepots(setState);
   let linemapData = state.linemapData;
   if (state.nonmapView && state.linemapDataOriginal.length > 0) {
     const linemapDataOriginal = JSON.parse(state.linemapDataOriginal);
@@ -229,6 +224,7 @@ reducer.case(setMovesBase, (state, base) => {
     loopTime,
     starttimestamp,
     depotsBase,
+    depotsData,
     linemapData
   });
 });
@@ -236,8 +232,10 @@ reducer.case(setMovesBase, (state, base) => {
 reducer.case(setDepotsBase, (state, depots) => {
   const depotsBaseOriginal = JSON.stringify(depots);
   const depotsBase = analyzeDepotsBase(state.nonmapView, depots);
+  const setState = { ...state, depotsBase };
+  const depotsData = getDepots(setState);
   return Object.assign({}, state, {
-    depotsBase, depotsBaseOriginal
+    depotsBase, depotsData, depotsBaseOriginal
   });
 });
 
@@ -341,11 +339,13 @@ reducer.case(updateMovesBase, (state, base) => {
       { zoom: state.defaultZoom, pitch: state.defaultPitch });
     let depotsBase = state.depotsBase;
     let linemapData = state.linemapData;
+    const setState = { ...state, bounds };
+    const depotsData = getDepots(setState);
     return Object.assign({}, state, {
       timeBegin, timeLength, bounds,
       movesbase, viewport, settime,
       loopTime, starttimestamp,
-      depotsBase, linemapData
+      depotsBase, depotsData, linemapData
     });
   }
   let startState = {};
