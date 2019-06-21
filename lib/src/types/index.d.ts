@@ -45,6 +45,7 @@ export interface Movesbase {
     departuretime: number;
     arrivaltime: number;
     operation: MovesbaseOperation[];
+    movesbaseidx?: number;
 }
 export interface MovesbaseFile {
     timeBegin?: number;
@@ -95,6 +96,7 @@ export interface MovedData {
     targetColor: number[];
     radius?: number;
     color?: (number | number[])[];
+    settime?: number;
 }
 export interface DepotsData {
     position: number[];
