@@ -65,7 +65,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getPosition: (x: Position) => number[];
         getColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
-        visible: boolean;
+        visible: true;
         opacity: number;
         pickable: true;
         radiusMinPixels: number;
@@ -74,7 +74,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: RoutePaths[];
         getStrokeWidth: number;
         getColor: (x: DataOption) => number[];
-        visible: boolean;
+        visible: true;
         fp64: boolean;
         pickable: false;
     }, {}> | GridCellLayer<{
