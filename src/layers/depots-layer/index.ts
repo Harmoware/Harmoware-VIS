@@ -149,6 +149,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         pickable: true,
         radiusMinPixels: 1
       }),
+      optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'depots-opt1',
         data: depotsData,
@@ -161,7 +162,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'depots-opt2',
         data: depotsData,
@@ -174,7 +176,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'depots-opt3',
         data: depotsData,
@@ -187,7 +190,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'depots-opt4',
         data: depotsData,
@@ -200,7 +204,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      optionVisible && optionChange ?
       new CubeiconLayer({
         id: 'depots-opt-cube1',
         data: depotsData as any[],
@@ -213,7 +218,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      optionVisible && optionChange ?
       new CubeiconLayer({
         id: 'depots-opt-cube2',
         data: depotsData as any[],
@@ -226,7 +232,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
     ];
   }
 }

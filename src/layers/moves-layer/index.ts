@@ -123,7 +123,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
     return [
-      new ScatterplotLayer({
+      visible ? new ScatterplotLayer({
         id: 'moves',
         data: movedData,
         radiusScale: layerRadiusScale,
@@ -134,8 +134,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         opacity: layerOpacity,
         pickable: true,
         radiusMinPixels: 1
-      }),
-      new LineLayer({
+      }) : null,
+      visible ? new LineLayer({
         id: 'route-paths',
         data: routePaths,
         getStrokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
@@ -143,7 +143,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         visible,
         fp64: false,
         pickable: false
-      }),
+      }) : null,
+      visible && optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'moves-opt1',
         data: movedData,
@@ -156,7 +157,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      visible && optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'moves-opt2',
         data: movedData,
@@ -169,7 +171,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      visible && optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'moves-opt3',
         data: movedData,
@@ -182,7 +185,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      visible && optionVisible && !optionChange ?
       new GridCellLayer({
         id: 'moves-opt4',
         data: movedData,
@@ -195,7 +199,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      visible && optionVisible && optionChange ?
       new CubeiconLayer({
         id: 'moves-opt-cube',
         data: movedData as any[],
@@ -208,7 +213,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }),
+      }) : null,
+      visible && optionVisible ?
       new ArcLayer({
         id: 'moves-opt-arc',
         data: movedData as any[],
@@ -218,7 +224,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
         getStrokeWidth: (x: any) => Math.max(getStrokeWidth(x) * pixelsPerMeter[0], 1),
         opacity: layerOpacity
-      }),
+      }) : null,
     ];
   }
 }
