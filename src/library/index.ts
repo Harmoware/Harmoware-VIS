@@ -4,7 +4,7 @@ import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
-  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, DataOption, LineMapData, EventInfo } from '../types';
+  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, LineMapData, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
 const scaleInfo = { scaleZ: 0, xMid: 0, yMid: 0 };
@@ -163,7 +163,7 @@ export const analyzeDepotsBase =
   return depotsBase;
 };
 
-const defDepotsOptionFunc = (props: Props, idx: number) : object => {
+const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
   const {position, longitude, latitude, ...retValue} = props.depotsBase[idx];
   return retValue;
 };
@@ -191,44 +191,50 @@ export const getDepots = (props: Props): DepotsData[] => {
   return depotsData;
 };
 
-const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : object => {
+const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {
   const {departuretime, arrivaltime, operation, ...retValue1} = props.movesbase[idx1];
   const {elapsedtime, position, longitude, latitude, ...retValue2} = operation[idx2];
   return Object.assign(retValue1,retValue2);
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
-  const { movesbase, settime, timeBegin, timeLength, getMovesOptionFunc } = props;
+  const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength, getMovesOptionFunc } = props;
+  if(prevMovedData.length > 0){
+    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120) ) return prevMovedData;
+  }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
   const selectmovesbase = movesbase.filter((data)=>{
     const { departuretime, arrivaltime } = data;
     return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
-  const movedData: MovedData[] = Array(selectmovesbase.length);
+  const movedData: MovedData[] = new Array(selectmovesbase.length);
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i += 1) {
     const { operation, movesbaseidx } = selectmovesbase[i];
     for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
-      const { elapsedtime, position, color=COLOR1 } = operation[j];
-      const { elapsedtime: nextelapsedtime, position: nextposition,
-        color: nextcolor=COLOR1 } = operation[j + 1];
+      const { elapsedtime } = operation[j];
+      const { elapsedtime: nextelapsedtime } = operation[j + 1];
       if (elapsedtime <= settime && settime < nextelapsedtime) {
+        const { position:[longitude, latitude, elevation], color=COLOR1 } = operation[j];
+        const { position:[nextlongitude, nextlatitude, nextelevation],
+          color: nextcolor=COLOR1 } = operation[j + 1];
         const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
         const pos_rate = [
-          position[0] - ((position[0] - nextposition[0]) * rate),
-          position[1] - ((position[1] - nextposition[1]) * rate),
-          position[2] - ((position[2] - nextposition[2]) * rate)
+          longitude - ((longitude - nextlongitude) * rate),
+          latitude - ((latitude - nextlatitude) * rate),
+          elevation - ((elevation - nextelevation) * rate)
         ];
-        movedData[i] = {
+        movedData[i] = Object.assign(new Object(),{
+          settime,
           longitude: pos_rate[0],
           latitude: pos_rate[1],
           position: pos_rate,
-          sourcePosition: position,
-          targetPosition: nextposition,
+          sourcePosition: [longitude, latitude, elevation],
+          targetPosition: [nextlongitude, nextlatitude, nextelevation],
           sourceColor: color,
           targetColor: nextcolor,
-          ...getOptionFunction(props, movesbaseidx, j),
-          movesbaseidx,
-        };
+          movesbaseidx},
+          getOptionFunction(props, movesbaseidx, j)
+        );
         break;
       }
     }

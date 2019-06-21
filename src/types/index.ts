@@ -104,6 +104,7 @@ export interface MovedData {
   targetColor: number[],
   radius?: number,
   color?: (number | number[])[],
+  settime?: number,
 };
 
 export interface DepotsData {
