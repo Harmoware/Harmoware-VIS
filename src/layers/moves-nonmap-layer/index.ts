@@ -3,7 +3,7 @@ import FrontScatterplotLayer from '../front-scatterplot-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { MovedData, Movesbase, RoutePaths, ClickedObject, Position,
-  DataOption, Radius, EventInfo } from '../../types';
+  DataOption, Radius } from '../../types';
 import * as Actions from '../../actions';
 
 interface Props extends LayerProps {

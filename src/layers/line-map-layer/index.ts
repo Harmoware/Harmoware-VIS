@@ -1,6 +1,6 @@
 import { LayerProps, CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
 import { COLOR2 } from '../../constants/settings';
-import { LineMapData, LineData, EventInfo } from '../../types';
+import { LineMapData, LineData } from '../../types';
 
 interface Props extends LayerProps {
   layerOpacity?: number,

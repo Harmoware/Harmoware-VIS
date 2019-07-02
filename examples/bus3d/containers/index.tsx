@@ -57,7 +57,7 @@ class App extends Container<Bus3dAppProps, State> {
     const {
       actions, settime, elevationScale, selectedBusstop, rainfall, t,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
-      busoption, movesbase, movedData, depotsData, loading } = props;
+      busoption, movedData, depotsData, loading } = props;
 
     const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
     const onClickBus = (el: Bus3dEventInfo) => {
@@ -103,11 +103,13 @@ class App extends Container<Bus3dAppProps, State> {
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
+              rainfall.length > 0 ?
               new XbandmeshLayer({
                 lightSettings,
                 rainfall,
                 layerCellSize: xbandCellSize
-              }),
+              }):null,
+              depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
                 lightSettings,
@@ -116,10 +118,11 @@ class App extends Container<Bus3dAppProps, State> {
                 optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBusstop
-              }),
+              }):null,
+              movedData.length > 0 ? 
               new MovesLayer({
+                viewport,
                 routePaths,
-                movesbase,
                 movedData,
                 clickedObject,
                 actions,
@@ -129,12 +132,13 @@ class App extends Container<Bus3dAppProps, State> {
                 optionChange: this.state.optionChange,
                 onHover,
                 onClick: onClickBus
-              }),
+              }):null,
+              !this.state.archLayerChange ?
               new Bus3dArcLayer({
                 data: this.state.arcdata,
                 visible: !this.state.archLayerChange,
                 onHover
-              })
+              }):null
             ]}
           />
           <InteractionLayer viewport={viewport} hovered={hovered} />

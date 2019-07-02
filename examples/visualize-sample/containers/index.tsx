@@ -115,7 +115,7 @@ class App extends Container<BasedProps, State> {
     const props = this.props;
     const {
       actions, lightSettings, routePaths, viewport, loading,
-      clickedObject, movesbase, movedData, depotsData } = props;
+      clickedObject, movedData, depotsData } = props;
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -157,16 +157,18 @@ class App extends Container<BasedProps, State> {
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             layers={[
+              depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
                 lightSettings,
                 optionVisible: this.state.depotOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
-              }),
+              }):null,
+              this.state.moveDataVisible && movedData.length > 0 ?
               new MovesLayer({
+                viewport,
                 routePaths,
-                movesbase,
                 movedData,
                 clickedObject,
                 actions,
@@ -175,7 +177,8 @@ class App extends Container<BasedProps, State> {
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
-              }),
+              }):null,
+              this.state.heatmapVisible && movedData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
                 data: movedData,
@@ -184,7 +187,7 @@ class App extends Container<BasedProps, State> {
                 extruded: true,
                 lightSettings,
                 visible: this.state.heatmapVisible
-              })
+              }):null
             ]}
             mapGlComponents={ this.getMapGlComponents(movedData) }
           />

@@ -217,12 +217,11 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         const { position:[longitude, latitude, elevation], color=COLOR1 } = operation[j];
         const { position:[nextlongitude, nextlatitude, nextelevation],
           color: nextcolor=COLOR1 } = operation[j + 1];
+        const pos_rate = [longitude, latitude, elevation];
         const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-        const pos_rate = [
-          longitude - ((longitude - nextlongitude) * rate),
-          latitude - ((latitude - nextlatitude) * rate),
-          elevation - ((elevation - nextelevation) * rate)
-        ];
+        pos_rate[0] -= (longitude - nextlongitude) * rate;
+        pos_rate[1] -= (latitude - nextlatitude) * rate;
+        pos_rate[2] -= (elevation - nextelevation) * rate;
         movedData[i] = Object.assign(new Object(),{
           settime,
           longitude: pos_rate[0],

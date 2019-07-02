@@ -1,7 +1,7 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, LightSettings, Position, Radius, DataOption, EventInfo } from '../../types';
+import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
 
 interface Props extends LayerProps {
   layerRadiusScale?: number,
@@ -23,7 +23,6 @@ interface Props extends LayerProps {
   getElevation2?: (x: any) => number,
   getElevation3?: (x: any) => number,
   getElevation4?: (x: any) => number,
-  i18n?: { error: string },
 }
 
 export default class DepotsLayer extends CompositeLayer<Props> {
@@ -49,10 +48,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     getElevation1: (x: DataOption) => (x.optElevation && x.optElevation[0]) || 0,
     getElevation2: (x: DataOption) => (x.optElevation && x.optElevation[1]) || 0,
     getElevation3: (x: DataOption) => (x.optElevation && x.optElevation[2]) || 0,
-    getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0,
-    i18n: {
-      error: 'DepotsLayer: props 指定エラー'
-    }
+    getElevation4: (x: DataOption) => (x.optElevation && x.optElevation[3]) || 0
   };
 
   renderLayers() {
@@ -60,7 +56,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       getRadius: propGetRadius, optionElevationScale, optionVisible, optionChange,
       optionOpacity, optionCellSize, lightSettings,
       getColor1, getColor2, getColor3, getColor4,
-      getElevation1, getElevation2, getElevation3, getElevation4, i18n
+      getElevation1, getElevation2, getElevation3, getElevation4
     } = this.props;
 
     if (optionVisible && !lightSettings) {
@@ -76,7 +72,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const degreesMeterLat = degreesPerPixel[1] * pixelsPerMeter[1];
     const optionMedianLng = (degreesMeterLng * optionCellSize) / 2;
     const optionMedianLat = (degreesMeterLat * optionCellSize) / 2;
-    const optionShiftLng = rad => degreesMeterLng * ((rad + (optionCellSize / 2)) + 2);
+    const optionShiftLng = (rad:number) => degreesMeterLng * ((rad + (optionCellSize / 2)) + 2);
     const optionShiftLat = degreesMeterLat * ((optionCellSize / 2) + 2);
 
     const getPosition = (x: Position) => x.position;

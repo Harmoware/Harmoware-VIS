@@ -38,7 +38,7 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
 
     const { distanceScales: { pixelsPerMeter } } = this.context.viewport;
 
-    return [
+    return [visible && data.length > 0 ?
       new ArcLayer({
         id: 'arch-layer',
         data,
@@ -49,7 +49,7 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
         getSourceColor,
         getTargetColor,
         getStrokeWidth: (x: any) => getStrokeWidth(x) * pixelsPerMeter[0]
-      })
+      }): null
     ];
   }
 }

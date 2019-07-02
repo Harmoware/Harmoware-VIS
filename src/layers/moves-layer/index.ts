@@ -2,16 +2,16 @@ import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer,
 import CubeiconLayer from '../cubeicon-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
-  Position, Radius, DataOption, EventInfo } from '../../types';
+import { RoutePaths, MovedData, ClickedObject, LightSettings,
+  Position, Radius, DataOption, Viewport } from '../../types';
 import * as Actions from '../../actions';
 
 interface Props extends LayerProps {
+  viewport: Viewport,
   routePaths: RoutePaths[],
   layerRadiusScale?: number,
   layerOpacity?: number,
   movedData: MovedData[],
-  movesbase: Movesbase[],
   clickedObject: null | ClickedObject[],
   actions: typeof Actions,
   optionVisible?: boolean,
@@ -71,7 +71,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   }
 
   renderLayers() {
-    const { routePaths, layerRadiusScale, layerOpacity, movedData, movesbase,
+    const { routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionVisible, optionChange, lightSettings, getColor, getRadius,
       visible, getColor1, getColor2, getColor3, getColor4,
@@ -79,11 +79,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
-    if (!routePaths || !movesbase || !actions ||
-      typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
-      return null;
-    }
-    if (!movedData) {
+    if (typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
       return null;
     }
 
