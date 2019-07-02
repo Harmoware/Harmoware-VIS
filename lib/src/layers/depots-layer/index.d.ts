@@ -21,9 +21,6 @@ interface Props extends LayerProps {
     getElevation2?: (x: any) => number;
     getElevation3?: (x: any) => number;
     getElevation4?: (x: any) => number;
-    i18n?: {
-        error: string;
-    };
 }
 export default class DepotsLayer extends CompositeLayer<Props> {
     constructor(props: Props);
@@ -45,9 +42,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getElevation2: (x: DataOption) => number;
         getElevation3: (x: DataOption) => number;
         getElevation4: (x: DataOption) => number;
-        i18n: {
-            error: string;
-        };
     };
     renderLayers(): (CubeiconLayer | ScatterplotLayer<{
         id: string;

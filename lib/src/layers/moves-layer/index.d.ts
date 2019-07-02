@@ -1,14 +1,14 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import { pickParams } from '../../library';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption } from '../../types';
+import { RoutePaths, MovedData, ClickedObject, LightSettings, Position, Radius, DataOption, Viewport } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
+    viewport: Viewport;
     routePaths: RoutePaths[];
     layerRadiusScale?: number;
     layerOpacity?: number;
     movedData: MovedData[];
-    movesbase: Movesbase[];
     clickedObject: null | ClickedObject[];
     actions: typeof Actions;
     optionVisible?: boolean;
