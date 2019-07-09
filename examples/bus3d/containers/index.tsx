@@ -57,7 +57,7 @@ class App extends Container<Bus3dAppProps, State> {
     const {
       actions, settime, elevationScale, selectedBusstop, rainfall, t,
       lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
-      busoption, movedData, depotsData, loading } = props;
+      busoption, movedData, movesbase, depotsData, loading } = props;
 
     const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
     const onClickBus = (el: Bus3dEventInfo) => {
@@ -124,6 +124,7 @@ class App extends Container<Bus3dAppProps, State> {
                 viewport,
                 routePaths,
                 movedData,
+                movesbase,
                 clickedObject,
                 actions,
                 lightSettings,

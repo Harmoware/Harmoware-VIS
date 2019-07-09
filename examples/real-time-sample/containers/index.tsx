@@ -153,7 +153,7 @@ class App extends Container<BasedProps, State> {
     const props = this.props;
     const {
       actions, lightSettings, routePaths, viewport, loading,
-      clickedObject, movedData, depotsData } = props;
+      clickedObject, movedData, movesbase, depotsData } = props;
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -208,6 +208,7 @@ class App extends Container<BasedProps, State> {
                 viewport,
                 routePaths,
                 movedData,
+                movesbase,
                 clickedObject,
                 actions,
                 lightSettings,

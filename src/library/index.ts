@@ -94,22 +94,18 @@ export const analyzeMovesBase =
     }
 
     for (let j = 0, lengthj = operation.length; j < lengthj; j += 1) {
-      const { position } = operation[j];
-      let { longitude, latitude } = operation[j];
-      if (typeof position !== 'undefined') {
-        longitude = position[0];
-        latitude = position[1];
-      } else {
-        operation[j].position = [longitude, latitude, 3];
+      const { longitude, latitude, position=[longitude, latitude, 3] } = operation[j];
+      if (typeof operation[j].position === 'undefined') {
+        operation[j].position = position;
       }
-      longArray.push(+longitude);
-      latiArray.push(+latitude);
-      if (!baseBounds && longitude && latitude && !nonmapView) {
+      longArray.push(+position[0]);
+      latiArray.push(+position[1]);
+      if (!baseBounds && position[0] && position[1] && !nonmapView) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
-        eastlongitiude = !eastlongitiude ? longitude : Math.max(eastlongitiude, longitude);
-        westlongitiude = !westlongitiude ? longitude : Math.min(westlongitiude, longitude);
-        southlatitude = !southlatitude ? latitude : Math.min(southlatitude, latitude);
-        northlatitude = !northlatitude ? latitude : Math.max(northlatitude, latitude);
+        eastlongitiude = !eastlongitiude ? position[0] : Math.max(eastlongitiude, position[0]);
+        westlongitiude = !westlongitiude ? position[0] : Math.min(westlongitiude, position[0]);
+        southlatitude = !southlatitude ? position[1] : Math.min(southlatitude, position[1]);
+        northlatitude = !northlatitude ? position[1] : Math.max(northlatitude, position[1]);
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
@@ -142,7 +138,10 @@ export const analyzeDepotsBase =
   let xMax = -Infinity;
   let yMax = -Infinity;
   for (let i = 0, lengthi = depotsBase.length; i < lengthi; i += 1) {
-    const { position } = depotsBase[i];
+    const { longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
+    if(typeof depotsBase[i].position === 'undefined'){
+      depotsBase[i].position = position;
+    }
     xMin = Math.min(xMin, position[0]);
     yMin = Math.min(yMin, position[1]);
     xMax = Math.max(xMax, position[0]);
@@ -174,7 +173,7 @@ export const getDepots = (props: Props): DepotsData[] => {
 
   const areadepots = depotsBase.filter((data)=>{
     const { longitude, latitude, position=[longitude, latitude, 1] } = data;
-    return (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
+    return nonmapView || (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
       bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
   });
   if (nonmapView || (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {

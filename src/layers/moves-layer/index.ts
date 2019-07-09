@@ -2,7 +2,7 @@ import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer,
 import CubeiconLayer from '../cubeicon-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, ClickedObject, LightSettings,
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
   Position, Radius, DataOption, Viewport } from '../../types';
 import * as Actions from '../../actions';
 
@@ -12,6 +12,7 @@ interface Props extends LayerProps {
   layerRadiusScale?: number,
   layerOpacity?: number,
   movedData: MovedData[],
+  movesbase: Movesbase[],
   clickedObject: null | ClickedObject[],
   actions: typeof Actions,
   optionVisible?: boolean,

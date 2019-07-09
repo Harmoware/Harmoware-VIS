@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Layer } from '@deck.gl/core';
-import DeckGL, { OrbitView, LinearInterpolator } from 'deck.gl';
+import DeckGL, { OrbitView } from 'deck.gl';
 
 import { Viewport, ActionTypes } from '../types';
 
@@ -9,8 +9,6 @@ interface Props {
   actions: ActionTypes,
   layers: Layer[]
 };
-
-const transitionInterpolator = new LinearInterpolator(['rotationOrbit']);
 
 export default class HarmoVisNonMapLayers extends React.Component<Props> {
 
@@ -33,17 +31,12 @@ export default class HarmoVisNonMapLayers extends React.Component<Props> {
   rotateCamera() {
     const { viewport, actions } = this.props;
     actions.setViewport({
-        ...viewport, transitionInterpolator
+        ...viewport
     });
   }
 
   componentDidMount() {
     this.props.actions.setNonmapView(true);
-  }
-
-  initialize(gl: WebGLRenderingContext) {
-    gl.enable(gl.DEPTH_TEST);
-    gl.depthFunc(gl.LEQUAL);
   }
 
   canvas: HTMLCanvasElement;

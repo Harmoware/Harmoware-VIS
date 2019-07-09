@@ -14,10 +14,9 @@ export default class LoadingIcon extends React.Component<Props> {
 
   render() {
     const { loading, color } = this.props;
-    const devStyle = { position: 'fixed' as 'fixed', zIndex: 200, top: 0, left: 0, width: '100%', height: '100%', display: 'flex' };
-    const iconStyle = { margin: 'auto', display: 'flex' };
-
     if (loading) {
+      const devStyle = { position: 'fixed' as 'fixed', zIndex: 200, top: 0, left: 0, width: '100%', height: '100%', display: 'flex' };
+      const iconStyle = { margin: 'auto', display: 'flex' };
       return (
         <div style={devStyle}>
           <div style={iconStyle}>
