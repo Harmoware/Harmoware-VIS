@@ -2,12 +2,13 @@ import { Layer } from '@deck.gl/core';
 import { LayerProps, AttributeManager } from 'deck.gl';
 import { Model } from 'luma.gl';
 import { LightSettings } from '../../types';
-interface Data {
-    position: number[];
-    elevation: number[];
-    color: number[][];
-}
 interface Props extends LayerProps {
+    stacking1?: boolean;
+    stacking2?: boolean;
+    optionShiftLng?: number;
+    optionShiftLat?: number;
+    degreesMeterLng?: number;
+    degreesMeterLat?: number;
     cellSize?: number;
     coverage?: number;
     elevationScale?: number;
@@ -17,6 +18,7 @@ interface Props extends LayerProps {
     getPosition?: (x: any) => number[];
     getElevation?: (x: any) => number[];
     getColor?: (x: any) => (number | number[])[];
+    getRadius?: (x: any) => number;
 }
 interface State {
     attributeManager: AttributeManager;
@@ -28,18 +30,7 @@ interface Attribute {
 }
 export default class CubeiconLayer extends Layer<Props, State> {
     constructor(props: Props);
-    static defaultProps: {
-        visible: boolean;
-        cellSize: number;
-        coverage: number;
-        elevationScale: number;
-        opacity: number;
-        extruded: boolean;
-        fp64: boolean;
-        getPosition: (x: Data) => number[];
-        getElevation: (x: Data) => number[];
-        getColor: (x: Data) => number[][];
-    };
+    static defaultProps: Props;
     static layerName: string;
     getShaders(): {
         vs: string;

@@ -14,7 +14,6 @@ export default class HarmoVisNonMapLayers extends React.Component<Props> {
     onLoad(): void;
     rotateCamera(): void;
     componentDidMount(): void;
-    initialize(gl: WebGLRenderingContext): void;
     canvas: HTMLCanvasElement;
     render(): JSX.Element;
 }
