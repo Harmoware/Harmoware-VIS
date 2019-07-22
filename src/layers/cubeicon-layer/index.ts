@@ -12,9 +12,16 @@ interface Data {
   position: number[],
   elevation:number[],
   color: number[][],
+  radius: number,
 }
 
 interface Props extends LayerProps {
+  stacking1?: boolean,
+  stacking2?: boolean,
+  optionShiftLng?: number,
+  optionShiftLat?: number,
+  degreesMeterLng?: number,
+  degreesMeterLat?: number,
   cellSize?: number,
   coverage?: number,
   elevationScale?: number,
@@ -24,6 +31,7 @@ interface Props extends LayerProps {
   getPosition?: (x: any) => number[],
   getElevation?: (x: any) => number[],
   getColor?: (x: any) => (number | number[])[],
+  getRadius?: (x: any) => number,
 }
 interface State {
   attributeManager: AttributeManager,
@@ -40,17 +48,25 @@ export default class CubeiconLayer extends Layer<Props, State> {
     super(props);
   }
 
-  static defaultProps = {
+  static defaultProps: Props = {
     visible: true,
+    stacking1: false,
+    stacking2: false,
+    optionShiftLng: 0,
+    optionShiftLat: 0,
+    degreesMeterLng: 0,
+    degreesMeterLat: 0,
     cellSize: 12,
     coverage: 1,
     elevationScale: 1,
     opacity: 0.25,
     extruded: true,
     fp64: false,
+    lightSettings: {},
     getPosition: (x: Data) => x.position, // position:[longitude,latitude]
     getElevation: (x: Data) => x.elevation, // elevation:[値-1,値-2,,,値-n]
     getColor: (x: Data) => x.color, // color:[[rgba-1],[rgba-2],,,[rgba-n]]
+    getRadius: (x: Data) => x.radius || 30,
   };
 
   static layerName = 'CubeiconLayer';
@@ -111,20 +127,53 @@ export default class CubeiconLayer extends Layer<Props, State> {
   }
 
   calculateInstancePositions(attribute: Attribute) {
-    const { data, getPosition, getElevation, elevationScale } = this.props;
+    const { data, getPosition, getElevation, getRadius, elevationScale,
+      stacking1, stacking2, optionShiftLng, optionShiftLat,
+      degreesMeterLng, degreesMeterLat } = this.props;
     const { value, size } = attribute;
+    const pm = [[1,1],[1,-1],[-1,1],[-1,-1]];
     let i = 0;
     for (let j = 0; j < data.length; j += 1) {
       const position = getPosition(data[j]);
-      let height = 0;
+      if(typeof position === 'undefined') continue;
+      let height = position[2] && 0;
       const elevation = getElevation(data[j]) || [0];
-      for (let k = 0; k < elevation.length; k += 1) {
-        value[i + 0] = position[0];
-        value[i + 1] = position[1];
-        value[i + 2] = height;
-        value[i + 3] = elevation[k] * elevationScale;
-        i += size;
-        height += elevation[k] * elevationScale;
+      const elevationlength = elevation.length;
+      const radius = degreesMeterLng || degreesMeterLat ? getRadius(data[j]) : 0;
+      for (let k = 0; k < elevationlength; k += 1) {
+        if(stacking1){
+          value[i + 0] = position[0];
+          value[i + 1] = position[1];
+          value[i + 2] = height;
+          value[i + 3] = elevation[k] * elevationScale;
+          i += size;
+          height += elevation[k] * elevationScale;
+        }else
+        if(stacking2){
+          const shiftLng = (degreesMeterLng * radius) + optionShiftLng;
+          if(k<2){
+            value[i + 0] = position[0] + shiftLng;
+            value[i + 1] = position[1] + optionShiftLat;
+            value[i + 2] = height;
+            value[i + 3] = elevation[k] * elevationScale;
+          }else{
+            if(k === 2) height = position[2] && 0;
+            value[i + 0] = position[0] - shiftLng;
+            value[i + 1] = position[1] - optionShiftLat;
+            value[i + 2] = height;
+            value[i + 3] = elevation[k] * elevationScale;
+          }
+          i += size;
+          height += elevation[k] * elevationScale;
+        }else{
+          const shiftLng = (degreesMeterLng * radius) + optionShiftLng;
+          const shiftLat = (degreesMeterLat * radius) + optionShiftLat;
+          value[i + 0] = position[0] + (pm[k][0] * shiftLng);
+          value[i + 1] = position[1] + (pm[k][1] * shiftLat);
+          value[i + 2] = position[2];
+          value[i + 3] = elevation[k] * elevationScale;
+          i += size;
+        }
       }
     }
   }

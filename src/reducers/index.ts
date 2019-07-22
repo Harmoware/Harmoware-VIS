@@ -122,8 +122,9 @@ reducer.case(increaseTime, (state, props) => {
     const starttimestamp = now - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
     const setProps = { ...latestProps, settime, starttimestamp };
     const movedData = getMoveObjects(setProps);
+    const depotsData = getDepots(setProps);
     return Object.assign({}, state, {
-      settime, starttimestamp, movedData
+      settime, starttimestamp, movedData, depotsData
     });
   }
   const beforeSettime = state.settime;
@@ -135,8 +136,9 @@ reducer.case(increaseTime, (state, props) => {
   const beforeFrameTimestamp = now;
   const setProps = { ...latestProps, settime, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
+  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    settime, beforeFrameTimestamp, movedData
+    settime, beforeFrameTimestamp, movedData, depotsData
   });
 });
 
@@ -154,8 +156,9 @@ reducer.case(decreaseTime, (state, props) => {
   const beforeFrameTimestamp = now;
   const setProps = { ...latestProps, settime, starttimestamp, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
+  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    settime, starttimestamp, beforeFrameTimestamp, movedData
+    settime, starttimestamp, beforeFrameTimestamp, movedData, depotsData
   });
 });
 
@@ -176,8 +179,9 @@ reducer.case(setFrameTimestamp, (state, props) => {
   const beforeFrameTimestamp = Date.now();
   const setProps = { ...latestProps, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
+  const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
-    beforeFrameTimestamp, movedData
+    beforeFrameTimestamp, movedData, depotsData
   });
 });
 
