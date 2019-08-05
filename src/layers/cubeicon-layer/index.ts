@@ -140,38 +140,38 @@ export default class CubeiconLayer extends Layer<Props, State> {
       const elevation = getElevation(data[j]) || [0];
       const elevationlength = elevation.length;
       const radius = degreesMeterLng || degreesMeterLat ? getRadius(data[j]) : 0;
+      const shiftLng = stacking1 ? 0 : (degreesMeterLng * radius) + optionShiftLng;
+      const shiftLat = stacking1 || stacking2 ? 0 : (degreesMeterLat * radius) + optionShiftLat;
       for (let k = 0; k < elevationlength; k += 1) {
+        const elevationValue = elevation[k] * elevationScale;
         if(stacking1){
           value[i + 0] = position[0];
           value[i + 1] = position[1];
           value[i + 2] = height;
-          value[i + 3] = elevation[k] * elevationScale;
+          value[i + 3] = elevationValue;
           i += size;
-          height += elevation[k] * elevationScale;
+          height += elevationValue;
         }else
         if(stacking2){
-          const shiftLng = (degreesMeterLng * radius) + optionShiftLng;
           if(k<2){
             value[i + 0] = position[0] + shiftLng;
             value[i + 1] = position[1] + optionShiftLat;
             value[i + 2] = height;
-            value[i + 3] = elevation[k] * elevationScale;
+            value[i + 3] = elevationValue;
           }else{
             if(k === 2) height = position[2] && 0;
             value[i + 0] = position[0] - shiftLng;
             value[i + 1] = position[1] - optionShiftLat;
             value[i + 2] = height;
-            value[i + 3] = elevation[k] * elevationScale;
+            value[i + 3] = elevationValue;
           }
           i += size;
-          height += elevation[k] * elevationScale;
+          height += elevationValue;
         }else{
-          const shiftLng = (degreesMeterLng * radius) + optionShiftLng;
-          const shiftLat = (degreesMeterLat * radius) + optionShiftLat;
           value[i + 0] = position[0] + (pm[k][0] * shiftLng);
           value[i + 1] = position[1] + (pm[k][1] * shiftLat);
           value[i + 2] = position[2];
-          value[i + 3] = elevation[k] * elevationScale;
+          value[i + 3] = elevationValue;
           i += size;
         }
       }

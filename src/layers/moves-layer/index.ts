@@ -112,7 +112,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getColor: getCubeColor,
         getElevation: getCubeElevation,
         opacity: optionOpacity,
-        pickable: true,
+        pickable: false,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
