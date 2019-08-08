@@ -11,41 +11,11 @@ This library is for visualizing moving objects and the additional info of them u
 
 ## Getting Started
 
-### Preparation
-- Install node, npm. The version of node.js has been confirmed in v9.11.1.
-- Acquire Mapbox accesstoken
-
-### Install
-```
-npm install harmoware-vis
-```
-
-## Sample program
-
-### Run Internal sample
-```
-git clone https://github.com/Harmoware/Harmoware-VIS
-cd Harmoware-VIS
-npm install
-
-# example bus3d
-npm run bus3d
-
-# example real-time-sample
-npm run real-time-sample
-
-# example visualize-sample
-npm run visualize-sample
-
-# example visualize-sample-nonmap
-npm run visualize-sample-nonmap
-```
+## Document
+Refer to [gitbook](https://harmoware-vis.gitbook.io/ "gitbook").
 
 ### Run External sample
 Refer to [Harmoware-VIS-Demo](https://github.com/Harmoware/Harmoware-VIS-Demo "Harmoware-VIS-Demo").
-
-## Document
-Refer to [gitbook](https://harmoware-vis.gitbook.io/ "gitbook").
 
 ## License
 This project is licensed under the [Apache License 2.0](https://github.com/Harmoware/Harmoware-VIS/blob/master/LICENSE).
