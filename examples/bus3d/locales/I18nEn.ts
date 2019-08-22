@@ -4,6 +4,7 @@ export const general = {
   locales: 'en-US',
   title: 'Display language selection',
   trip_select: 'Operation data selection',
+  IconChangeChecked: 'Icon display pattern switching',
   OptionChangeChecked: 'Option display pattern switching',
   ArchLayerChangeChecked: 'Switch arch layer display',
   play: '　Play',

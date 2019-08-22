@@ -30,6 +30,7 @@ const getNextCellSize = (xbandCellSize: number): number => {
 
 interface Props extends Bus3dProps {
   date: number,
+  getIconChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getArchLayerChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   t: (key: string) => string,
@@ -166,7 +167,7 @@ export default class Controller extends React.Component<Props, State> {
       answer, settime, timeBegin, timeLength, secperhour, xbandCellSize,
       selectedBusstop, selectedBus, answers, date, actions, t,
       animatePause, animateReverse, xbandFname, getOptionChangeChecked,
-      getArchLayerChangeChecked, viewport,
+      getIconChangeChecked, getArchLayerChangeChecked, viewport,
       delayrange, depotsData, movedData, busmovesbasedic
     } = this.props;
 
@@ -198,6 +199,10 @@ export default class Controller extends React.Component<Props, State> {
                 onChange={this.onTripSelect.bind(this)}
               >{optionsTrip}</select>
             </div>
+          </li>
+          <li className="flex_row">
+            <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} />
+            <label htmlFor="IconChangeChecked">{t('IconChangeChecked')}</label>
           </li>
           <li className="flex_row">
             <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} />

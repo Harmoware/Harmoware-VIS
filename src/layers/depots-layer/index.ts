@@ -1,5 +1,5 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer } from 'deck.gl';
-import CubeiconLayer from '../cubeicon-layer';
+import CubeGraphLayer from '../cubegraph-layer';
 import { COLOR4 } from '../../constants/settings';
 import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
 
@@ -75,7 +75,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         radiusMinPixels: 1
       }),
       optionVisible ?
-      new CubeiconLayer({
+      new CubeGraphLayer({
         id: 'depots-opt-cube',
         data: optionDepotsData.concat([{}]),
         visible: optionVisible,

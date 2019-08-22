@@ -4,6 +4,7 @@ export const general = {
   locales: 'ja-JP',
   title: '表示言語選択',
   trip_select: '運行データ選択',
+  IconChangeChecked: 'アイコン表示パターン切替',
   OptionChangeChecked: 'オプション表示パターン切替',
   ArchLayerChangeChecked: 'アーチレイヤ表示切替',
   play: '　開始',

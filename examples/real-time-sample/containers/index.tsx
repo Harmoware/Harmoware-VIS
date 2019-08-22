@@ -12,6 +12,7 @@ interface State {
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
+  iconChange: boolean,
   popup: [number, number, string]
 }
 
@@ -21,18 +22,13 @@ interface SocketData {
   time: number,
   lat: number,
   lon: number,
-  angle: number,
-  speed: number
+  position?: number[]
 }
 
-interface FixOperation extends MovesbaseOperation {
-  angle?: number,
-  speed?: number,
-}
 interface FixMovesbase extends Movesbase {
   mtype?: number,
   id?: number,
-  operation: FixOperation[]
+  operation: MovesbaseOperation[]
 }
 
 class App extends Container<BasedProps, State> {
@@ -50,6 +46,7 @@ class App extends Container<BasedProps, State> {
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
+      iconChange: false,
       popup: [0, 0, '']
     };
     socket.on('connect', () => { console.log("Socket.IO Connected!") });
@@ -60,7 +57,8 @@ class App extends Container<BasedProps, State> {
   getEvent(socketData: string){
     // console.log('data:'+socketData);
     const { actions, movesbase } = this.props
-    const { mtype, id, time, lat, lon, angle, speed }: SocketData = JSON.parse(socketData);
+    const { mtype, id, time: elapsedtime, lat, lon,
+      position=[lon, lat, 0], ...otherkey }: SocketData = JSON.parse(socketData);
     let hit = false;
     const movesbasedata: FixMovesbase[] = [...movesbase];
     const setMovesbase: FixMovesbase[] = [];
@@ -69,11 +67,9 @@ class App extends Container<BasedProps, State> {
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
-        const arrivaltime = time;
+        const arrivaltime = elapsedtime;
         operation.push({
-          elapsedtime: time,
-          position: [lon, lat, 0],
-          angle, speed
+          elapsedtime, position, ...otherkey
         });
         setMovedata = Object.assign({}, setMovedata, { arrivaltime, operation });
       }
@@ -82,12 +78,10 @@ class App extends Container<BasedProps, State> {
     if(!hit){
       setMovesbase.push({
           mtype, id,
-          departuretime: time,
-          arrivaltime: time,
+          departuretime: elapsedtime,
+          arrivaltime: elapsedtime,
           operation: [{
-            elapsedtime: time,
-            position: [lon, lat, 0],
-            angle, speed
+            elapsedtime, position, ...otherkey
           }]
       });
     }
@@ -149,6 +143,10 @@ class App extends Container<BasedProps, State> {
     this.setState({ optionChange: e.target.checked });
   }
 
+  getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ iconChange: e.target.checked });
+  }
+
   render() {
     const props = this.props;
     const {
@@ -179,6 +177,7 @@ class App extends Container<BasedProps, State> {
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
+          getIconChangeChecked={this.getIconChangeChecked.bind(this)}
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
@@ -215,6 +214,7 @@ class App extends Container<BasedProps, State> {
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover
               }):null
             ]}

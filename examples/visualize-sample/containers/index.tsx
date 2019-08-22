@@ -14,6 +14,7 @@ interface State {
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
+  iconChange: boolean,
   popup: [number, number, string],
   popupInfo: MovedData
 }
@@ -31,6 +32,7 @@ class App extends Container<BasedProps, State> {
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
+      iconChange: false,
       popup: [0, 0, ''],
       popupInfo: null
     };
@@ -50,6 +52,10 @@ class App extends Container<BasedProps, State> {
 
   getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ optionChange: e.target.checked });
+  }
+
+  getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ iconChange: e.target.checked });
   }
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
@@ -141,6 +147,7 @@ class App extends Container<BasedProps, State> {
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
+          getIconChangeChecked={this.getIconChangeChecked.bind(this)}
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
@@ -177,6 +184,7 @@ class App extends Container<BasedProps, State> {
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover
               }):null,
               this.state.heatmapVisible && movedData.length > 0 ?

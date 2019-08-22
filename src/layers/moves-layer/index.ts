@@ -1,5 +1,6 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
+import CubeGraphLayer from '../cubegraph-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
@@ -20,6 +21,8 @@ interface Props extends LayerProps {
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
+  iconChange?: boolean,
+  iconSize?: number,
   lightSettings: LightSettings,
   getColor?: (x: DataOption) => number[],
   getRadius?: (x: Radius) => number,
@@ -42,6 +45,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionCellSize: 12,
     optionElevationScale: 1,
     visible: true,
+    iconChange: false,
+    iconSize: 40,
     getColor: (x: DataOption) => x.color || COLOR1,
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
@@ -59,7 +64,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const { routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionVisible, optionChange, lightSettings, getColor, getRadius,
-      visible, getCubeColor, getCubeElevation, getStrokeWidth
+      iconChange, iconSize, visible, getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
     if (typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
@@ -79,8 +84,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
     return [
-      visible ? new ScatterplotLayer({
-        id: 'moves',
+      visible && !iconChange ? new ScatterplotLayer({
+        id: 'moves1',
         data: movedData,
         radiusScale: layerRadiusScale,
         getPosition,
@@ -90,6 +95,17 @@ export default class MovesLayer extends CompositeLayer<Props> {
         opacity: layerOpacity,
         pickable: true,
         radiusMinPixels: 1
+      }) : null,
+      visible && iconChange ? new CubeiconLayer({
+        id: 'moves2',
+        data: movedData,
+        getPosition,
+        getColor,
+        getHeight: (x: any) => x.height || 40,
+        opacity: layerOpacity,
+        pickable: true,
+        cellSize: iconSize,
+        lightSettings
       }) : null,
       visible ? new LineLayer({
         id: 'route-paths',
@@ -101,7 +117,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: false
       }) : null,
       visible && optionVisible ?
-      new CubeiconLayer({
+      new CubeGraphLayer({
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
         visible: visible && optionVisible,

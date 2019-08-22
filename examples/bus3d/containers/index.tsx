@@ -18,6 +18,7 @@ interface Bus3dAppProps extends Bus3dProps {
 }
 
 interface State {
+  iconChange: boolean,
   optionChange: boolean,
   archLayerChange: boolean,
   arcdata: Arcdata[]
@@ -32,10 +33,15 @@ class App extends Container<Bus3dAppProps, State> {
     actions.setMovesOptionFunc(getBusOptionValue);
     actions.setDepotsOptionFunc(getBusstopOptionValue);
     this.state = {
+      iconChange: false,
       optionChange: false,
       archLayerChange: false,
       arcdata: []
     };
+  }
+
+  getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ iconChange: e.target.checked });
   }
 
   getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -85,6 +91,7 @@ class App extends Container<Bus3dAppProps, State> {
         <Header {...props} />
         <Controller
           {...props} date={date}
+          getIconChangeChecked={this.getIconChangeChecked.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getArchLayerChangeChecked={this.getArchLayerChangeChecked.bind(this)}
         />
@@ -131,6 +138,7 @@ class App extends Container<Bus3dAppProps, State> {
                 optionElevationScale: elevationScale,
                 optionVisible: 'busmovesoption' in busoption,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover,
                 onClick: onClickBus
               }):null,
