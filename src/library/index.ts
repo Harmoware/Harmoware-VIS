@@ -15,6 +15,8 @@ const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) 
 
 const getAverage = (array: number[]) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
+const radians = (degree: number) => degree * Math.PI / 180;
+const degrees = (radian: number) => radian * 180 / Math.PI;
 
 export const getContainerProp = <P>(state: P)  => {
   let prop = {};
@@ -108,6 +110,23 @@ export const analyzeMovesBase =
         northlatitude = !northlatitude ? position[1] : Math.max(northlatitude, position[1]);
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
+    }
+    let direction = 0;
+    for (let j = 0, lengthj = operation.length; j < (lengthj-1); j += 1) {
+      const { position: sourcePosition } = operation[j];
+      const { position: targetPosition } = operation[j+1];
+      if(sourcePosition[0] === targetPosition[0] && sourcePosition[1] === targetPosition[1]){
+        operation[j].direction = direction;
+        continue;
+      }
+      const x1 = radians(sourcePosition[0]);
+      const y1 = radians(sourcePosition[1]);
+      const x2 = radians(targetPosition[0]);
+      const y2 = radians(targetPosition[1]);
+      const deltax = x2 - x1;
+      direction = degrees(Math.atan2(Math.sin(deltax), 
+          Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(deltax))) % 360;
+      operation[j].direction = direction;
     }
   }
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {

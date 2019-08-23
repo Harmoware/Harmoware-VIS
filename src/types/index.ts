@@ -41,6 +41,7 @@ export interface MovesbaseOperation {
   longitude?: number,
   latitude?: number,
   position?: number[],
+  direction?: number,
   color?: void | number[],
   normal?: void | number[],
 };
@@ -100,6 +101,7 @@ export interface MovedData {
   latitude?: number,
   sourcePosition: number[],
   targetPosition: number[],
+  direction?: number,
   sourceColor: number[],
   targetColor: number[],
   radius?: number,
