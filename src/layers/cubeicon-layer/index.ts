@@ -16,10 +16,6 @@ interface Data {
 }
 
 interface Props extends LayerProps {
-  optionShiftLng?: number,
-  optionShiftLat?: number,
-  degreesMeterLng?: number,
-  degreesMeterLat?: number,
   cellSize?: number,
   coverage?: number,
   heightScale?: number,
@@ -47,10 +43,6 @@ export default class CubeiconLayer extends Layer<Props, State> {
 
   static defaultProps: Props = {
     visible: true,
-    optionShiftLng: 0,
-    optionShiftLat: 0,
-    degreesMeterLng: 0,
-    degreesMeterLat: 0,
     cellSize: 12,
     coverage: 1,
     heightScale: 1,
