@@ -232,7 +232,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
       const { elapsedtime } = operation[j];
       const { elapsedtime: nextelapsedtime } = operation[j + 1];
       if (elapsedtime <= settime && settime < nextelapsedtime) {
-        const { position:[longitude, latitude, elevation], color=COLOR1 } = operation[j];
+        const { position:[longitude, latitude, elevation], color=COLOR1, direction=0 } = operation[j];
         const { position:[nextlongitude, nextlatitude, nextelevation],
           color: nextcolor=COLOR1 } = operation[j + 1];
         const pos_rate = [longitude, latitude, elevation];
@@ -247,6 +247,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           position: pos_rate,
           sourcePosition: [longitude, latitude, elevation],
           targetPosition: [nextlongitude, nextlatitude, nextelevation],
+          direction,
           sourceColor: color,
           targetColor: nextcolor,
           movesbaseidx},
