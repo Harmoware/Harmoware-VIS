@@ -19,9 +19,6 @@ interface State {
   popupInfo: MovedData
 }
 
-const radians = (degree: number) => degree * Math.PI / 180;
-const degrees = (radian: number) => radian * 180 / Math.PI;
-
 class App extends Container<BasedProps, State> {
 
   constructor(props: BasedProps) {
@@ -62,21 +59,9 @@ class App extends Container<BasedProps, State> {
     this.setState({ heatmapVisible: e.target.checked });
   }
 
-  geoDirection(sourcePosition: number[], targetPosition: number[]) {
-    const x1 = radians(sourcePosition[0]);
-    const y1 = radians(sourcePosition[1]);
-    const x2 = radians(targetPosition[0]);
-    const y2 = radians(targetPosition[1]);
-    const deltax = x2 - x1;
-    const direction = degrees(Math.atan2(Math.sin(deltax), 
-        Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(deltax))) % 360;
-    return direction;
-  }
-
   getMarker(data: MovedData, index: number) {
     const { viewport } = this.props;
-    const { sourcePosition, targetPosition } = data;
-    const direction = this.geoDirection(sourcePosition, targetPosition);
+    const { direction } = data;
 
     return (<Marker key={`marker-${index}`}
       longitude={data.longitude} latitude={data.latitude} >
