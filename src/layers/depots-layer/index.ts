@@ -68,7 +68,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         data: depotsData,
         radiusScale: layerRadiusScale,
         getPosition,
-        getColor,
+        getFillColor:getColor,
         getRadius,
         opacity: layerOpacity,
         pickable: true,

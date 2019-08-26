@@ -89,7 +89,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: movedData,
         radiusScale: layerRadiusScale,
         getPosition,
-        getColor,
+        getFillColor:getColor,
         getRadius,
         visible,
         opacity: layerOpacity,
