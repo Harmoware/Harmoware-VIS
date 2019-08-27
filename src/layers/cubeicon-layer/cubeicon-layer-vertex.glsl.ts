@@ -51,7 +51,7 @@ void main(void) {
   float lightWeight = 1.0;
 
   if (extruded > 0.5) {
-    lightWeight = getLightWeight(
+    lightWeight = lighting_getLightWeight(
       position_worldspace.xyz, // the w component is always 1.0
       normals
     );
