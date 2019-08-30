@@ -1,6 +1,7 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
+import PolygonIconLayer from '../polygon-icon-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
@@ -22,7 +23,8 @@ interface Props extends LayerProps {
   optionCellSize?: number,
   optionElevationScale?: number,
   iconChange?: boolean,
-  iconSize?: number,
+  iconCubeType?: number,
+  iconCubeSize?: number,
   lightSettings: LightSettings,
   getColor?: (x: DataOption) => number[],
   getRadius?: (x: Radius) => number,
@@ -45,8 +47,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionCellSize: 12,
     optionElevationScale: 1,
     visible: true,
-    iconChange: false,
-    iconSize: 40,
+    iconChange: true,
+    iconCubeType: 0,
+    iconCubeSize: 50,
     getColor: (x: DataOption) => x.color || COLOR1,
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
@@ -64,7 +67,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const { routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionVisible, optionChange, lightSettings, getColor, getRadius,
-      iconChange, iconSize, visible, getCubeColor, getCubeElevation, getStrokeWidth
+      iconChange, iconCubeType, iconCubeSize, visible,
+      getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
     if (typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
@@ -80,6 +84,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     const getPosition = (x: Position) => x.position;
     const optionMovedData: any[] = movedData;
+    const stacking1 = visible && optionVisible && optionChange;
+    const optPlacement = visible && !iconChange ? ()=>0 :
+      visible && iconChange && iconCubeType === 0 ? ()=>iconCubeSize/4 : ()=>iconCubeSize/2;
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
 
@@ -96,15 +103,26 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: true,
         radiusMinPixels: 1
       }) : null,
-      visible && iconChange ? new CubeiconLayer({
+      visible && iconChange && iconCubeType === 0 ? new PolygonIconLayer({
         id: 'moves2',
+        data: movedData,
+        getPosition,
+        getColor,
+        visible,
+        opacity: layerOpacity,
+        pickable: true,
+        cellSize: iconCubeSize,
+        lightSettings
+      }) : null,
+      visible && iconChange && iconCubeType === 1 ? new CubeiconLayer({
+        id: 'moves3',
         data: movedData,
         getPosition,
         getColor,
         getHeight: (x: any) => x.height || 40,
         opacity: layerOpacity,
         pickable: true,
-        cellSize: iconSize,
+        cellSize: iconCubeSize,
         lightSettings
       }) : null,
       visible ? new LineLayer({
@@ -121,12 +139,15 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
         visible: visible && optionVisible,
-        stacking1: visible && optionVisible && optionChange,
+        stacking1,
         optionShiftLng,
         optionShiftLat,
+        degreesMeterLng,
+        degreesMeterLat,
         getPosition,
         getColor: getCubeColor,
         getElevation: getCubeElevation,
+        getRadius: optPlacement,
         opacity: optionOpacity,
         pickable: false,
         cellSize: optionCellSize,

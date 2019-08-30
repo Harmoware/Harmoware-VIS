@@ -14,6 +14,7 @@ interface Props extends BasedProps{
   getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getIconChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getIconCubeTypeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 interface State {
@@ -100,7 +101,8 @@ export default class Controller extends React.Component<Props, State> {
     const { settime, timeBegin, timeLength, actions,
       secperhour, animatePause, animateReverse,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
-      getOptionChangeChecked, getIconChangeChecked, inputFileName, viewport } = this.props;
+      getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeChecked,
+      inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -134,8 +136,14 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <div className="form-check">
-                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" />
+                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="IconChangeChecked" className="form-check-label">アイコン表示パターン切替</label>
+              </div>
+            </li>
+            <li>
+              <div className="form-check">
+                <input type="checkbox" id="IconCubeTypeChecked" onChange={getIconCubeTypeChecked} className="form-check-input" />
+                <label htmlFor="IconCubeTypeChecked" className="form-check-label">３Ｄアイコン表示タイプ切替</label>
               </div>
             </li>
             <li>

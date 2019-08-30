@@ -21,7 +21,8 @@
     "redux": "^3.7.2"
   },
   "dependencies": {
-    "deck.gl": "^6.4.5",
+    "@luma.gl/core": "^7.2.0",
+    "deck.gl": "^6.4.10",
     "gl-matrix": "^2.6.1",
     "luma.gl": "^6.4.3",
     "react-icons-kit": "^1.1.5",

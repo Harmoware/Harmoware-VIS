@@ -130,7 +130,7 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <div className="form-check">
-                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" />
+                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="IconChangeChecked" className="form-check-label">アイコン表示パターン切替</label>
               </div>
             </li>

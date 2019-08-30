@@ -30,15 +30,21 @@ interface FixMovesbase extends Movesbase {
   id?: number,
   operation: MovesbaseOperation[]
 }
+const movesOptionFunc = (props: any, idx1: number, idx2: number) : Object => {
+  const {departuretime, arrivaltime, operation, ...retValue1} = props.movesbase[idx1];
+  const {elapsedtime, position, longitude, latitude, angle, ...retValue2} = operation[idx2];
+  return Object.assign(retValue1,retValue2,{direction:angle});
+};
 
 class App extends Container<BasedProps, State> {
 
   constructor(props: BasedProps) {
     super(props);
-    const { setSecPerHour, setLeading, setTrailing } = props.actions;
+    const { setSecPerHour, setLeading, setTrailing, setMovesOptionFunc } = props.actions;
     setSecPerHour(3600);
     setLeading(3);
     setTrailing(3);
+    setMovesOptionFunc(movesOptionFunc);
     const socket = io();
     this.state = {
       moveDataVisible: true,
@@ -46,7 +52,7 @@ class App extends Container<BasedProps, State> {
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
-      iconChange: false,
+      iconChange: true,
       popup: [0, 0, '']
     };
     socket.on('connect', () => { console.log("Socket.IO Connected!") });

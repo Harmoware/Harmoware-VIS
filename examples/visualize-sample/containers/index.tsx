@@ -15,6 +15,7 @@ interface State {
   heatmapVisible: boolean,
   optionChange: boolean,
   iconChange: boolean,
+  iconCubeType?: number,
   popup: [number, number, string],
   popupInfo: MovedData
 }
@@ -29,7 +30,8 @@ class App extends Container<BasedProps, State> {
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
-      iconChange: false,
+      iconChange: true,
+      iconCubeType: 0,
       popup: [0, 0, ''],
       popupInfo: null
     };
@@ -53,6 +55,10 @@ class App extends Container<BasedProps, State> {
 
   getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ iconChange: e.target.checked });
+  }
+
+  getIconCubeTypeChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ iconCubeType: e.target.checked ? 1 : 0 });
   }
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
@@ -133,6 +139,7 @@ class App extends Container<BasedProps, State> {
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getIconChangeChecked={this.getIconChangeChecked.bind(this)}
+          getIconCubeTypeChecked={this.getIconCubeTypeChecked.bind(this)}
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
@@ -170,6 +177,7 @@ class App extends Container<BasedProps, State> {
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
+                iconCubeType: this.state.iconCubeType,
                 onHover
               }):null,
               this.state.heatmapVisible && movedData.length > 0 ?
