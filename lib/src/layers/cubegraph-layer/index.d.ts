@@ -3,15 +3,22 @@ import { LayerProps, AttributeManager } from 'deck.gl';
 import { Model } from 'luma.gl';
 import { LightSettings } from '../../types';
 interface Props extends LayerProps {
+    stacking1?: boolean;
+    stacking2?: boolean;
+    optionShiftLng?: number;
+    optionShiftLat?: number;
+    degreesMeterLng?: number;
+    degreesMeterLat?: number;
     cellSize?: number;
     coverage?: number;
-    heightScale?: number;
+    elevationScale?: number;
     extruded?: boolean;
     fp64?: boolean;
     lightSettings: LightSettings;
     getPosition?: (x: any) => number[];
-    getHeight?: (x: any) => number;
-    getColor?: (x: any) => number[];
+    getElevation?: (x: any) => number[];
+    getColor?: (x: any) => (number | number[])[];
+    getRadius?: (x: any) => number;
 }
 interface State {
     attributeManager: AttributeManager;
@@ -21,7 +28,7 @@ interface Attribute {
     value: number[];
     size: number;
 }
-export default class CubeiconLayer extends Layer<Props, State> {
+export default class CubeGraphLayer extends Layer<Props, State> {
     constructor(props: Props);
     static defaultProps: Props;
     static layerName: string;
@@ -39,7 +46,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
     }): void;
     getModel(gl: WebGLRenderingContext): Model;
     updateUniforms(): void;
-    getNumInstances(props: Props): number;
+    getNumInstances(props: Props): any;
     draw(): void;
     calculateInstancePositions(attribute: Attribute): void;
     calculateInstanceColors(attribute: Attribute): void;

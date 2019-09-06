@@ -1,5 +1,5 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer } from 'deck.gl';
-import CubeiconLayer from '../cubeicon-layer';
+import CubeGraphLayer from '../cubegraph-layer';
 import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
 interface Props extends LayerProps {
     layerRadiusScale?: number;
@@ -32,12 +32,12 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
     };
-    renderLayers(): (CubeiconLayer | ScatterplotLayer<{
+    renderLayers(): (CubeGraphLayer | ScatterplotLayer<{
         id: string;
         data: DepotsData[];
         radiusScale: number;
         getPosition: (x: Position) => number[];
-        getColor: (x: any) => number[];
+        getFillColor: (x: any) => number[];
         getRadius: (x: any) => number;
         opacity: number;
         pickable: true;

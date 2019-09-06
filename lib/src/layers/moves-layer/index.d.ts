@@ -1,5 +1,7 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
+import CubeGraphLayer from '../cubegraph-layer';
+import PolygonIconLayer from '../polygon-icon-layer';
 import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Viewport } from '../../types';
 import * as Actions from '../../actions';
@@ -17,6 +19,9 @@ interface Props extends LayerProps {
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
+    iconChange?: boolean;
+    iconCubeType?: number;
+    iconCubeSize?: number;
     lightSettings: LightSettings;
     getColor?: (x: DataOption) => number[];
     getRadius?: (x: Radius) => number;
@@ -35,6 +40,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
         optionCellSize: number;
         optionElevationScale: number;
         visible: boolean;
+        iconChange: boolean;
+        iconCubeType: number;
+        iconCubeSize: number;
         getColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
@@ -43,12 +51,12 @@ export default class MovesLayer extends CompositeLayer<Props> {
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
-    renderLayers(): (CubeiconLayer | ScatterplotLayer<{
+    renderLayers(): (CubeiconLayer | CubeGraphLayer | PolygonIconLayer | ScatterplotLayer<{
         id: string;
         data: MovedData[];
         radiusScale: number;
         getPosition: (x: Position) => number[];
-        getColor: (x: DataOption) => number[];
+        getFillColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
         visible: true;
         opacity: number;
