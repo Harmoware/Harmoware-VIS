@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MapGL from 'react-map-gl';
+import { InteractiveMap, InteractiveMapProps } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import { ActionTypes, Viewport } from '../types';
@@ -9,7 +9,7 @@ interface thisViewport extends Viewport {
   height: number,
 }
 
-interface Props {
+interface Props extends addlProps {
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
@@ -19,10 +19,49 @@ interface Props {
   mapGlComponents?: any
 }
 
+interface addlProps {
+  mapboxAddLayerValue?: mapboxgl.Layer,
+}
+
+class MapGl extends InteractiveMap {
+  static mapboxAddLayerValue: mapboxgl.Layer;
+
+  componentDidMount() {
+    super.componentDidMount();
+    if(!MapGl.mapboxAddLayerValue) return;
+    const map = super.getMap();
+    const LayerValuemap = MapGl.mapboxAddLayerValue;
+    map.on('load', function() {
+      map.addLayer(LayerValuemap);
+    });
+  }
+}
+
 export default class HarmoVisLayers extends React.Component<Props> {
   static defaultProps = {
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
-    mapGlComponents: null
+    mapGlComponents: null,
+    mapboxAddLayerValue: {
+      "id": '3d-buildings',
+      "source": 'composite',
+      "source-layer": 'building',
+      "filter": ['==', 'extrude', 'true'],
+      "type": 'fill-extrusion',
+      "paint": {
+          "fill-extrusion-color": '#888',
+          "fill-extrusion-height": [
+              "interpolate", ["linear"], ["zoom"],
+              5, 0, 5.05, ["get", "height"] ],
+          "fill-extrusion-base": [
+              "interpolate", ["linear"], ["zoom"],
+              5, 0, 5.05, ["get", "min_height"] ],
+          "fill-extrusion-opacity": .6
+      }
+    }
+  }
+  constructor(props: Props){
+    super(props);
+    MapGl.mapboxAddLayerValue = props.mapboxAddLayerValue;
   }
 
   componentDidMount() {
@@ -35,18 +74,19 @@ export default class HarmoVisLayers extends React.Component<Props> {
   }
 
   render() {
-    const { viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents } = this.props;
+    const { viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents,
+      mapboxAddLayerValue } = this.props;
     const onViewportChange = this.props.onViewportChange || actions.setViewport;
 
     return (
-      <MapGL
+      <MapGl
         {...(viewport as thisViewport)} mapStyle={mapStyle}
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
       >
         { mapGlComponents }
         <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />
-      </MapGL>
+      </MapGl>
     );
   }
 }

@@ -199,6 +199,7 @@ class App extends Container<BasedProps, State> {
             viewport={viewport}
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
+            mapboxAddLayerValue={null}
             layers={[
               depotsData.length > 0 ?
               new DepotsLayer({
