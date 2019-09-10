@@ -39,6 +39,10 @@ class App extends Container<BasedProps, State> {
     };
   }
 
+  getMapboxChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ mapboxVisible: e.target.checked });
+  }
+
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveDataVisible: e.target.checked });
   }
@@ -135,6 +139,7 @@ class App extends Container<BasedProps, State> {
       <div>
         <Controller
           {...props}
+          getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
@@ -158,6 +163,7 @@ class App extends Container<BasedProps, State> {
             actions={actions}
             mapboxApiAccessToken={this.state.mapboxVisible ? MAPBOX_TOKEN : ''}
             mapStyle={this.state.mapboxVisible ? undefined : ''}
+            visible={this.state.mapboxVisible}
             layers={[
               depotsData.length > 0 ?
               new DepotsLayer({

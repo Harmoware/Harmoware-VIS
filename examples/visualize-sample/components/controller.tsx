@@ -8,6 +8,7 @@ import { ic_delete_forever as icDeleteForever, ic_save as icSave,
   ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 
 interface Props extends BasedProps{
+  getMapboxChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -99,7 +100,7 @@ export default class Controller extends React.Component<Props, State> {
 
   render() {
     const { settime, timeBegin, timeLength, actions,
-      secperhour, animatePause, animateReverse,
+      secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeChecked,
       inputFileName, viewport } = this.props;
@@ -134,6 +135,12 @@ export default class Controller extends React.Component<Props, State> {
                   ラインマップデータ選択<LinemapInput actions={actions} id="LinemapInput" />
                 </label>
                 <div>{linemapFileName || '選択されていません'}</div>
+              </div>
+            </li>
+            <li>
+              <div className="form-check">
+                <input type="checkbox" id="MapboxChecked" onChange={getMapboxChecked} className="form-check-input" defaultChecked={true} />
+                <label htmlFor="MapboxChecked" className="form-check-label">Mapboxマップ表示</label>
               </div>
             </li>
             <li>

@@ -10,6 +10,7 @@ interface thisViewport extends Viewport {
 }
 
 interface Props {
+  visible: boolean,
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
@@ -38,6 +39,7 @@ class MapGl extends InteractiveMap {
 
 export default class HarmoVisLayers extends React.Component<Props> {
   static defaultProps = {
+    visible: true,
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
     mapGlComponents: null,
     mapboxAddLayerValue: [{
@@ -73,7 +75,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
   }
 
   render() {
-    const { viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents } = this.props;
+    const { visible, viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents } = this.props;
     const onViewportChange = this.props.onViewportChange || actions.setViewport;
 
     return (
@@ -81,6 +83,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
         {...(viewport as thisViewport)} mapStyle={mapStyle}
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
+        visible={visible}
       >
         { mapGlComponents }
         <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />
