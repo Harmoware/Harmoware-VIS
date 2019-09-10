@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer, HarmoVisNonMapLayers,
+import { Container, MovesNonmapLayer, FixedPointLayer, LineMapLayer2, HarmoVisNonMapLayers,
   connectToHarmowareVis, LoadingIcon, BasedProps, Viewport, EventInfo, FpsDisplay } from 'harmoware-vis';
 import { translate } from 'react-i18next';
 import Controller from '../components/controller';
@@ -77,7 +77,7 @@ class App extends Container<Props, State> implements React.Component {
                 clickedObject,
                 onHover,
               }),
-              new LineMapLayer({
+              new LineMapLayer2({
                 linemapData,
                 onHover,
               })

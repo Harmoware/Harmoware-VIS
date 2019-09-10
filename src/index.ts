@@ -72,6 +72,7 @@ import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
 import FixedPointLayer from './layers/fixed-point-layer';
 import LineMapLayer from './layers/line-map-layer';
+import LineMapLayer2 from './layers/line-map-layer2';
 import * as settings from './constants/settings';
 import Container from './containers';
 import reducer from './reducers';
@@ -138,6 +139,7 @@ export {
   DepotsLayer,
   FixedPointLayer,
   LineMapLayer,
+  LineMapLayer2,
   // library
   getContainerProp,
   connectToHarmowareVis,

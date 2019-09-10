@@ -77,8 +77,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     const { distanceScales } = this.context.viewport;
     const { degreesPerPixel, pixelsPerMeter } = distanceScales;
-    const degreesMeterLng = degreesPerPixel[0] * pixelsPerMeter[0];
-    const degreesMeterLat = degreesPerPixel[1] * pixelsPerMeter[1];
+    const degreesMeterLng = Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]);
+    const degreesMeterLat = Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1]);
     const optionShiftLng = (degreesMeterLng * optionCellSize) / 2;
     const optionShiftLat = (degreesMeterLat * optionCellSize) / 2;
 
@@ -160,6 +160,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
+        getSourcePosition: (x: MovedData) => x.sourcePosition || getPosition(x),
+        getTargetPosition: (x: MovedData) => x.targetPosition || getPosition(x),
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
         getStrokeWidth: (x: any) => Math.max(getStrokeWidth(x) * pixelsPerMeter[0], 1),

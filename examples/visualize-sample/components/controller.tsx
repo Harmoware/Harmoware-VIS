@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MovesInput, DepotsInput,
+import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime,
   NavigationButton, BasedProps, ClickedObject, RoutePaths } from 'harmoware-vis';
@@ -106,7 +106,7 @@ export default class Controller extends React.Component<Props, State> {
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
-    const { movesFileName, depotsFileName } = inputFileName;
+    const { movesFileName, depotsFileName, linemapFileName } = inputFileName;
 
     return (
       <div className="vis_sample_controller">
@@ -126,6 +126,14 @@ export default class Controller extends React.Component<Props, State> {
                   停留所データ選択<DepotsInput actions={actions} id="DepotsInput" />
                 </label>
                 <div>{depotsFileName || '選択されていません'}</div>
+              </div>
+            </li>
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="LinemapInput" className="btn btn-outline-light btn-sm w-100">
+                  ラインマップデータ選択<LinemapInput actions={actions} id="LinemapInput" />
+                </label>
+                <div>{linemapFileName || '選択されていません'}</div>
               </div>
             </li>
             <li>

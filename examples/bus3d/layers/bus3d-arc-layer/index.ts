@@ -25,7 +25,7 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
     onClick: () => {}
   };
 
-  static layerName = 'MovesLayer';
+  static layerName = 'Bus3dArcLayer';
 
   getPickingInfo(pickParams: any) {
     this.props.onClick(pickParams);
@@ -48,7 +48,7 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
         getTargetPosition,
         getSourceColor,
         getTargetColor,
-        getStrokeWidth: (x: any) => getStrokeWidth(x) * pixelsPerMeter[0]
+        getStrokeWidth: (x: any) => getStrokeWidth(x) * Math.abs(pixelsPerMeter[0])
       }): null
     ];
   }

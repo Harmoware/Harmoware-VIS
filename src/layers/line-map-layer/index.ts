@@ -1,45 +1,55 @@
-import { LayerProps, CompositeLayer, LineLayer, COORDINATE_SYSTEM } from 'deck.gl';
-import { COLOR2 } from '../../constants/settings';
-import { LineMapData, LineData } from '../../types';
+import { LayerProps, CompositeLayer, LineLayer } from 'deck.gl';
+import { LineMapData, LineData, Viewport } from '../../types';
 
 interface Props extends LayerProps {
-  layerOpacity?: number,
+  viewport: Viewport,
   linemapData: LineMapData[],
-  getStrokeWidth?: any,
+  visible?: boolean,
+  opacity?: number,
+  pickable?: boolean,
+  getSourcePosition?: (x: any) => number[],
+  getTargetPosition?: (x: any) => number[],
   getColor?: (x: any) => number[],
+  getStrokeWidth?: (x: any) => number,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
-    layerOpacity: 1.0,
-    getStrokeWidth: (x: any) => x.strokeWidth || 100,
-    getColor: (x: LineData) => x.color || COLOR2
+    opacity: 1.0,
+    pickable: true,
+    getSourcePosition: (x: LineData) => x.sourcePosition,
+    getTargetPosition: (x: LineData) => x.targetPosition,
+    getStrokeWidth: (x: any) => x.strokeWidth || 1,
+    getColor: (x: LineData) => x.color || [255,255,255,255], // white
   };
 
   static layerName = 'LineMapLayer';
 
   renderLayers() {
-    const { layerOpacity, linemapData, getStrokeWidth, getColor } = this.props;
+    const { linemapData, visible, opacity, pickable,
+      getSourcePosition, getTargetPosition, getStrokeWidth, getColor } = this.props;
 
     if (!linemapData) {
       return null;
     }
 
-    const getSourcePosition = (x: LineData) => x.sourcePosition;
-    const getTargetPosition = (x: LineData) => x.targetPosition;
+    const { distanceScales: { pixelsPerMeter } } = this.context.viewport;
+    const average = (Math.abs(pixelsPerMeter[0]) + Math.abs(pixelsPerMeter[1])) / 2.0;
+    const setStrokeWidth = (x:any) => average * getStrokeWidth(x);
 
     return [
       new LineLayer({
         id: 'line-map-layer',
         data: linemapData,
-        coordinateSystem: COORDINATE_SYSTEM.IDENTITY,
+        visible,
+        opacity,
+        pickable,
         getSourcePosition,
         getTargetPosition,
         getColor,
-        opacity: layerOpacity,
-        pickable: true,
-        getStrokeWidth
+        getStrokeWidth: setStrokeWidth,
+        updateTriggers: { getStrokeWidth: average }
       }),
     ];
   }

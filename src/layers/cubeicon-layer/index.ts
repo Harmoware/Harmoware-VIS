@@ -81,7 +81,7 @@ export default class CubeiconLayer extends Layer<Props, State> {
 
   getModel(gl: WebGLRenderingContext): Model {
     return new Model(gl, Object.assign({}, this.getShaders(), {
-      //      id: this.props.id,
+      id: this.props.id,
       geometry: new CubeGeometry(),
       isInstanced: true,
       shaderCache: this.context.shaderCache

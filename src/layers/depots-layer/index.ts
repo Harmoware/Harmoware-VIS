@@ -33,6 +33,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     optionOpacity: 0.25,
     optionCellSize: 20,
     optionElevationScale: 1,
+    pickable: true,
     getColor: (x: DataOption) => x.color || COLOR4,
     getRadius: (x: Radius) => x.radius || 30,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR4],
@@ -41,7 +42,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
   renderLayers() {
     const { layerRadiusScale, layerOpacity, depotsData, getColor,
-      getRadius, optionElevationScale, optionVisible, optionChange,
+      getRadius, optionElevationScale, optionVisible, optionChange, pickable,
       optionOpacity, optionCellSize, lightSettings, getCubeColor, getCubeElevation
     } = this.props;
 
@@ -54,13 +55,12 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     const stacking2 = optionVisible && optionChange;
     const { distanceScales: { degreesPerPixel, pixelsPerMeter } } = this.context.viewport;
-    const degreesMeterLng = degreesPerPixel[0] * pixelsPerMeter[0];
-    const degreesMeterLat = degreesPerPixel[1] * pixelsPerMeter[1];
+    const degreesMeterLng = Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]);
+    const degreesMeterLat = Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1]);
     const optionShiftLng = degreesMeterLng * ((optionCellSize / 2) + 2);
     const optionShiftLat = stacking2 ? 0 : degreesMeterLat * ((optionCellSize / 2) + 2);
 
     const getPosition = (x: Position) => x.position;
-    const optionDepotsData: any[] = depotsData;
 
     return [
       new ScatterplotLayer({
@@ -71,13 +71,13 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getFillColor:getColor,
         getRadius,
         opacity: layerOpacity,
-        pickable: true,
+        pickable,
         radiusMinPixels: 1
       }),
       optionVisible ?
       new CubeGraphLayer({
         id: 'depots-opt-cube',
-        data: optionDepotsData.concat([{}]),
+        data: depotsData,
         visible: optionVisible,
         stacking2,
         optionShiftLng,
@@ -88,7 +88,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getColor: getCubeColor,
         getElevation: getCubeElevation,
         opacity: optionOpacity,
-        pickable: false,
+        pickable,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings

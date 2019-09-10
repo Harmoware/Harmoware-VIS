@@ -44,7 +44,7 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
   static layerName = 'PolygonIconLayer';
 
   renderLayers() {
-    const { id, data, pickable, stroked, extruded, filled, wireframe, opacity, lineWidthMinPixels, cellSize,
+    const { data, pickable, stroked, extruded, filled, wireframe, opacity, lineWidthMinPixels, cellSize,
       getPosition, getElevation, getColor, getLineWidth, getVertexAngle,
       lightSettings } = this.props;
 
@@ -53,7 +53,8 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     }
 
     const { distanceScales: { degreesPerPixel, pixelsPerMeter } } = this.context.viewport;
-    const degreesMeter = [degreesPerPixel[0] * pixelsPerMeter[0], degreesPerPixel[1] * pixelsPerMeter[1]];
+    const degreesMeter = [Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]),
+      Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1])];
     const radius = degreesMeter[0] * (cellSize / 2);
     const radMulti = Math.PI / 180;
 
@@ -89,7 +90,7 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
 
     return [
       new PolygonLayer({
-        id,
+        id: 'polygon-layer',
         data: polygonData,
         pickable,
         stroked,

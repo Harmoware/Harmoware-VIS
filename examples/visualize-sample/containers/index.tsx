@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { HexagonLayer } from 'deck.gl';
 import { Marker, Popup } from 'react-map-gl';
-import { Container, MovesLayer, DepotsLayer, HarmoVisLayers, MovedData,
+import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
@@ -9,6 +9,7 @@ import SvgIcon from '../icondata/SvgIcon';
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface State {
+  mapboxVisible: boolean,
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
   depotOptionVisible: boolean,
@@ -25,6 +26,7 @@ class App extends Container<BasedProps, State> {
   constructor(props: BasedProps) {
     super(props);
     this.state = {
+      mapboxVisible: true,
       moveDataVisible: true,
       moveOptionVisible: false,
       depotOptionVisible: false,
@@ -112,7 +114,7 @@ class App extends Container<BasedProps, State> {
     const props = this.props;
     const {
       actions, lightSettings, routePaths, viewport, loading,
-      clickedObject, movedData, movesbase, depotsData } = props;
+      clickedObject, movedData, movesbase, depotsData, linemapData } = props;
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -154,7 +156,8 @@ class App extends Container<BasedProps, State> {
           <HarmoVisLayers
             viewport={viewport}
             actions={actions}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
+            mapboxApiAccessToken={this.state.mapboxVisible ? MAPBOX_TOKEN : ''}
+            mapStyle={this.state.mapboxVisible ? undefined : ''}
             layers={[
               depotsData.length > 0 ?
               new DepotsLayer({
@@ -178,6 +181,12 @@ class App extends Container<BasedProps, State> {
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
                 iconCubeType: this.state.iconCubeType,
+                onHover
+              }):null,
+              linemapData.length > 0 ?
+              new LineMapLayer({
+                viewport,
+                linemapData,
                 onHover
               }):null,
               this.state.heatmapVisible && movedData.length > 0 ?

@@ -142,8 +142,8 @@ export const getBusOptionValue = (props: Bus3dProps, movesbaseidx: number, opera
     color,
     radius,
     ...optionValue,
-    sourcePosition: undefined,
-    targetPosition: undefined };
+    sourcePosition: null,
+    targetPosition: null };
 };
 
 export const updateArcLayerData = (props: Bus3dProps) => {
