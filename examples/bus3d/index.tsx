@@ -2,6 +2,7 @@ import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import * as React from 'react';
+import 'mapbox-gl/src/css/mapbox-gl.css';
 import createSagaMiddleware from 'redux-saga';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './locales/I18n';

@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mapbox-gl/src/css/mapbox-gl.css';
 import App from './containers';
 import '../../scss/harmoware.scss';
 import './scss/visualize-sample.scss';
