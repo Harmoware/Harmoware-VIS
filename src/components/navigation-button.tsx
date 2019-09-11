@@ -25,20 +25,18 @@ export default class NavigationButton extends React.Component<Props> {
     switch (buttonType) {
       case 'zoom-in': {
         const zoom = Math.min(viewport.zoom + 0.5, viewport.maxZoom);
-        const distance = Math.max(viewport.distance - 4, viewport.minDistance);
         return (
           <button
-            onClick={this.setViewport.bind(this, { zoom, distance })}
+            onClick={this.setViewport.bind(this, { zoom })}
             className={className}
           >＋</button>
         );
       }
       case 'zoom-out': {
         const zoom = Math.max(viewport.zoom - 0.5, viewport.minZoom);
-        const distance = Math.min(viewport.distance + 4, viewport.maxDistance);
         return (
           <button
-            onClick={this.setViewport.bind(this, { zoom, distance })}
+            onClick={this.setViewport.bind(this, { zoom })}
             className={className}
           >－</button>
         );
@@ -48,7 +46,7 @@ export default class NavigationButton extends React.Component<Props> {
         return (
           <button
             onClick={this.setViewport.bind(this,
-              { bearing: 0, pitch: 30, rotationX: 60, rotationY: 0, lookAt: [0, 0, 0] })}
+              { bearing: 0, pitch: 30 })}
             className={className}
           >
             <div style={iconStyle}><Icon icon={icNavigation} /></div>

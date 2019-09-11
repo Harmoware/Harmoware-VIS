@@ -65,10 +65,6 @@ export default class HarmoVisLayers extends React.Component<Props> {
     MapGl.mapboxAddLayerValue = props.mapboxAddLayerValue;
   }
 
-  componentDidMount() {
-    this.props.actions.setNonmapView(false);
-  }
-
   initialize(gl: WebGLRenderingContext) {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);

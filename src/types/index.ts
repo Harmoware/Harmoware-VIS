@@ -10,14 +10,6 @@ export interface Viewport {
   bearing?: number,
   width?: number,
   height?: number,
-  lookAt?: number[],
-  distance?: number,
-  minDistance?: number,
-  maxDistance?: number,
-  rotationX?: number,
-  rotationY?: number,
-  fov?: number,
-  transitionInterpolator?: any
 };
 
 export interface LightSettings {
@@ -126,7 +118,6 @@ export interface BasedState {
   defaultPitch?: number,
   defaultZoom?: number,
   depotsBase?: Depotsbase[],
-  depotsBaseOriginal?: string,
   depotsData?: DepotsData[],
   getDepotsOptionFunc?: null | (<P>(props: P, i: number) => object),
   getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => object),
@@ -135,7 +126,6 @@ export interface BasedState {
   loopTime?: number,
   movedData?: MovedData[],
   movesbase?: Movesbase[],
-  nonmapView?: boolean,
   routePaths?: RoutePaths[],
   secperhour?: number,
   settime?: number,
@@ -145,7 +135,6 @@ export interface BasedState {
   trailing?: number,
   viewport?: Viewport,
   linemapData?: LineMapData[],
-  linemapDataOriginal?: string,
   loading?: boolean,
   inputFileName?: ComObj<string>,
 };

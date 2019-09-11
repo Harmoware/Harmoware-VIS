@@ -21,7 +21,6 @@ import {
   decreaseTime,
   setFrameTimestamp,
   setTimeStamp,
-  setNonmapView,
   setLinemapData,
   setInputFilename,
   updateMovesBase
@@ -64,15 +63,11 @@ import SimulationDateTime from './components/simulation-date-time';
 import SpeedRange from './components/speed-range';
 import SpeedValue from './components/speed-value';
 import HarmoVisLayers from './components/harmovislayers';
-import HarmoVisNonMapLayers from './components/harmovis-nonmap-layers';
 import NavigationButton from './components/navigation-button';
 import FpsDisplay from './components/fps-display';
 import MovesLayer from './layers/moves-layer';
-import MovesNonmapLayer from './layers/moves-nonmap-layer';
 import DepotsLayer from './layers/depots-layer';
-import FixedPointLayer from './layers/fixed-point-layer';
 import LineMapLayer from './layers/line-map-layer';
-import LineMapLayer2 from './layers/line-map-layer2';
 import * as settings from './constants/settings';
 import Container from './containers';
 import reducer from './reducers';
@@ -101,7 +96,6 @@ const Actions: ActionsInterface = {
   decreaseTime,
   setFrameTimestamp,
   setTimeStamp,
-  setNonmapView,
   setLinemapData,
   setInputFilename,
   updateMovesBase
@@ -126,7 +120,6 @@ export {
   SpeedValue,
   SimulationDateTime,
   HarmoVisLayers,
-  HarmoVisNonMapLayers,
   NavigationButton,
   FpsDisplay,
   // constants
@@ -135,11 +128,8 @@ export {
   Container,
   // layers
   MovesLayer,
-  MovesNonmapLayer,
   DepotsLayer,
-  FixedPointLayer,
   LineMapLayer,
-  LineMapLayer2,
   // library
   getContainerProp,
   connectToHarmowareVis,

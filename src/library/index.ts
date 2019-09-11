@@ -30,39 +30,8 @@ export const getContainerProp = <P>(state: P)  => {
 export const calcLoopTime =
 (timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
 
-function normalize(nonmapView: boolean, movesbase: Movesbase[]): Movesbase[] {
-  if (!nonmapView) return movesbase;
-  let xMin = Infinity;
-  let yMin = Infinity;
-  let xMax = -Infinity;
-  let yMax = -Infinity;
-  for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
-    const { operation } = movesbase[i];
-    for (let j = 0, lengthj = operation.length; j < lengthj; j += 1) {
-      const { position } = operation[j];
-      xMin = Math.min(xMin, position[0]);
-      yMin = Math.min(yMin, position[1]);
-      xMax = Math.max(xMax, position[0]);
-      yMax = Math.max(yMax, position[1]);
-    }
-  }
-  scaleInfo.xMid = (xMin + xMax) / 2;
-  scaleInfo.yMid = (yMin + yMax) / 2;
-  scaleInfo.scaleZ = getLongitiudeDegree(scaleInfo.yMid);
-  for (let k = 0, lengthk = movesbase.length; k < lengthk; k += 1) {
-    const { operation } = movesbase[k];
-    for (let l = 0, lengthl = operation.length; l < lengthl; l += 1) {
-      const { position } = operation[l];
-      position[0] = (position[0] - scaleInfo.xMid) / scaleInfo.scaleZ;
-      position[1] = (position[1] - scaleInfo.yMid) / scaleInfo.scaleZ;
-      position[2] /= DEGREE_SCALE;
-    }
-  }
-  return movesbase;
-}
-
 export const analyzeMovesBase =
-(nonmapView: boolean, inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
+(inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
   let baseTimeBegin: void | number;
   let baseTimeLength: void | number;
   let baseBounds: void | Bounds;
@@ -102,7 +71,7 @@ export const analyzeMovesBase =
       }
       longArray.push(+position[0]);
       latiArray.push(+position[1]);
-      if (!baseBounds && position[0] && position[1] && !nonmapView) {
+      if (!baseBounds && position[0] && position[1]) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
         eastlongitiude = !eastlongitiude ? position[0] : Math.max(eastlongitiude, position[0]);
         westlongitiude = !westlongitiude ? position[0] : Math.min(westlongitiude, position[0]);
@@ -141,44 +110,10 @@ export const analyzeMovesBase =
       }
     }
   }
-  const viewport: Viewport = nonmapView ? {
-    lookAt: [0, 0, 0], distance: 200, rotationX: 60, rotationY: 0, fov: 50,
-  } : {
+  const viewport: Viewport = {
     longitude: getAverage(longArray), latitude: getAverage(latiArray),
   };
-  return { timeBegin, timeLength, bounds, movesbase: normalize(nonmapView, movesbase), viewport };
-};
-
-export const analyzeDepotsBase =
-(nonmapView: boolean, depotsBase: Depotsbase[]) : Depotsbase[] => {
-  if (!nonmapView) return depotsBase;
-  let xMin = Infinity;
-  let yMin = Infinity;
-  let xMax = -Infinity;
-  let yMax = -Infinity;
-  for (let i = 0, lengthi = depotsBase.length; i < lengthi; i += 1) {
-    const { longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
-    if(typeof depotsBase[i].position === 'undefined'){
-      depotsBase[i].position = position;
-    }
-    xMin = Math.min(xMin, position[0]);
-    yMin = Math.min(yMin, position[1]);
-    xMax = Math.max(xMax, position[0]);
-    yMax = Math.max(yMax, position[1]);
-  }
-  const xMid = scaleInfo.xMid || (xMin + xMax) / 2;
-  const yMid = scaleInfo.yMid || (yMin + yMax) / 2;
-  const scaleZ = scaleInfo.scaleZ || getLongitiudeDegree(yMid);
-  for (let j = 0, lengthj = depotsBase.length; j < lengthj; j += 1) {
-    const { position } = depotsBase[j];
-    position[0] = (position[0] - xMid) / scaleZ;
-    position[1] = (position[1] - yMid) / scaleZ;
-    position[2] /= DEGREE_SCALE;
-  }
-  if (!scaleInfo.xMid) scaleInfo.xMid = xMid;
-  if (!scaleInfo.yMid) scaleInfo.yMid = yMid;
-  if (!scaleInfo.scaleZ) scaleInfo.scaleZ = scaleZ;
-  return depotsBase;
+  return { timeBegin, timeLength, bounds, movesbase, viewport };
 };
 
 const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
@@ -186,16 +121,16 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
-  const { nonmapView, depotsBase, bounds, getDepotsOptionFunc } = props;
+  const { depotsBase, bounds, getDepotsOptionFunc } = props;
   const depotsData: DepotsData[] = [];
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   const areadepots = depotsBase.filter((data)=>{
     const { longitude, latitude, position=[longitude, latitude, 1] } = data;
-    return nonmapView || (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
+    return (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
       bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
   });
-  if (nonmapView || (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0)) {
+  if (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0) {
     for (let i = 0, lengthi = areadepots.length; i < lengthi; i += 1) {
       const { longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
       depotsData.push({
@@ -346,38 +281,6 @@ export const checkClickedObjectToBeRemoved = (
     }
   }
 };
-
-export const analyzelinemapData =
-  (nonmapView: boolean, linemapData: LineMapData[]) : LineMapData[] => {
-    if (!nonmapView) return linemapData;
-    let xMin = Infinity;
-    let yMin = Infinity;
-    let xMax = -Infinity;
-    let yMax = -Infinity;
-    for (let i = 0, lengthi = linemapData.length; i < lengthi; i += 1) {
-      const { sourcePosition, targetPosition } = linemapData[i];
-      xMin = Math.min(xMin, sourcePosition[0], targetPosition[0]);
-      yMin = Math.min(yMin, sourcePosition[1], targetPosition[1]);
-      xMax = Math.max(xMax, sourcePosition[0], targetPosition[0]);
-      yMax = Math.max(yMax, sourcePosition[1], targetPosition[1]);
-    }
-    const xMid = scaleInfo.xMid || (xMin + xMax) / 2;
-    const yMid = scaleInfo.yMid || (yMin + yMax) / 2;
-    const scaleZ = scaleInfo.scaleZ || getLongitiudeDegree(yMid);
-    for (let j = 0, lengthj = linemapData.length; j < lengthj; j += 1) {
-      const { sourcePosition, targetPosition } = linemapData[j];
-      sourcePosition[0] = (sourcePosition[0] - xMid) / scaleZ;
-      sourcePosition[1] = (sourcePosition[1] - yMid) / scaleZ;
-      sourcePosition[2] /= DEGREE_SCALE;
-      targetPosition[0] = (targetPosition[0] - xMid) / scaleZ;
-      targetPosition[1] = (targetPosition[1] - yMid) / scaleZ;
-      targetPosition[2] /= DEGREE_SCALE;
-    }
-    if (!scaleInfo.xMid) scaleInfo.xMid = xMid;
-    if (!scaleInfo.yMid) scaleInfo.yMid = yMid;
-    if (!scaleInfo.scaleZ) scaleInfo.scaleZ = scaleZ;
-    return linemapData;
-  };
 
 export const defaultMapStateToProps = <P>(state: P)  => getContainerProp<P>(state);
 

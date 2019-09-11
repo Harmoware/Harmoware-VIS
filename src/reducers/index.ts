@@ -1,12 +1,11 @@
-import { analyzeMovesBase, analyzeDepotsBase, analyzelinemapData,
-  getMoveObjects, getDepots, calcLoopTime } from '../library';
+import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { BasedState } from '../types';
 import { addMinutes, setViewport, setLightSettings, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
-  setNonmapView, setLinemapData, setLoading, setInputFilename, updateMovesBase } from '../actions';
+  setLinemapData, setLoading, setInputFilename, updateMovesBase } from '../actions';
 
 const initialState: BasedState = {
   viewport: {
@@ -19,14 +18,6 @@ const initialState: BasedState = {
     bearing: 0,
     width: 500, // 共通
     height: 500, // 共通
-    lookAt: [0, 0, 0], // nonmap
-    distance: 200, // nonmap
-    rotationX: 60, // nonmap
-    rotationY: 0, // nonmap
-    fov: 50, // nonmap
-    minDistance: 0, // nonmap
-    maxDistance: 500, // nonmap
-    transitionInterpolator: null
   },
   lightSettings: {
     lightsPosition: [0, 0, 8000, 0, 0, 8000],
@@ -46,7 +37,6 @@ const initialState: BasedState = {
   beforeFrameTimestamp: 0,
   movesbase: [],
   depotsBase: [],
-  depotsBaseOriginal: '',
   bounds: {
     westlongitiude: 0,
     eastlongitiude: 0,
@@ -64,9 +54,7 @@ const initialState: BasedState = {
   getDepotsOptionFunc: null,
   movedData: [],
   depotsData: [],
-  nonmapView: false,
   linemapData: [],
-  linemapDataOriginal: '',
   loading: false,
   inputFileName: {}
 };
@@ -186,7 +174,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
 });
 
 reducer.case(setMovesBase, (state, base) => {
-  const analyzeData = analyzeMovesBase(state.nonmapView, base);
+  const analyzeData = analyzeMovesBase(base);
   const { timeBegin, bounds, movesbase } = analyzeData;
   const settime = timeBegin - state.leading;
   let { timeLength } = analyzeData;
@@ -200,19 +188,9 @@ reducer.case(setMovesBase, (state, base) => {
     analyzeData.viewport,
     { zoom: state.defaultZoom, pitch: state.defaultPitch });
   let depotsBase = state.depotsBase;
-  if (state.nonmapView && state.depotsBaseOriginal.length > 0) {
-    const depotsBaseOriginal = JSON.parse(state.depotsBaseOriginal);
-    depotsBase =
-      analyzeDepotsBase(state.nonmapView, depotsBaseOriginal);
-  }
   const setState = { ...state, bounds };
   const depotsData = getDepots(setState);
   let linemapData = state.linemapData;
-  if (state.nonmapView && state.linemapDataOriginal.length > 0) {
-    const linemapDataOriginal = JSON.parse(state.linemapDataOriginal);
-    linemapData =
-    analyzelinemapData(state.nonmapView, linemapDataOriginal);
-  }
   const lightSettings = Object.assign({}, state.lightSettings,
     {lightsPosition: [
       bounds.westlongitiude, bounds.northlatitude, 8000,
@@ -234,12 +212,11 @@ reducer.case(setMovesBase, (state, base) => {
 });
 
 reducer.case(setDepotsBase, (state, depots) => {
-  const depotsBaseOriginal = JSON.stringify(depots);
-  const depotsBase = analyzeDepotsBase(state.nonmapView, depots);
+  const depotsBase = depots;
   const setState = { ...state, depotsBase };
   const depotsData = getDepots(setState);
   return Object.assign({}, state, {
-    depotsBase, depotsData, depotsBaseOriginal
+    depotsBase, depotsData
   });
 });
 
@@ -298,18 +275,10 @@ reducer.case(setDepotsOptionFunc, (state, getDepotsOptionFunc) => {
   });
 });
 
-reducer.case(setNonmapView, (state, nonmapView) => {
-  return Object.assign({}, state, {
-    nonmapView
-  });
-});
-
 reducer.case(setLinemapData, (state, mapData) => {
-  const linemapDataOriginal = JSON.stringify(mapData);
-  const linemapData = 
-  analyzelinemapData(state.nonmapView, mapData);
+  const linemapData = mapData;
   return Object.assign({}, state, {
-    linemapData, linemapDataOriginal
+    linemapData
   });
 });
 
@@ -327,7 +296,7 @@ reducer.case(setInputFilename, (state, fileName) => {
 });
 
 reducer.case(updateMovesBase, (state, base) => {
-  const analyzeData = analyzeMovesBase(false, base);
+  const analyzeData = analyzeMovesBase(base);
   const { timeBegin, bounds, movesbase } = analyzeData;
   let { timeLength } = analyzeData;
   if(state.movesbase.length === 0 || timeLength === 0){ //初回？
