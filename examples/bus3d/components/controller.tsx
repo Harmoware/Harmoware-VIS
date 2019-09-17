@@ -147,6 +147,7 @@ export default class Controller extends React.Component<Props, State> {
       actions.setBusTripsCsv([]);
       actions.setBusTripIndex({});
       actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase: busmovesbase });
+      actions.setDefaultViewport();
       actions.setBusMovesBaseDic(busmovesbasedic);
       actions.setRoutePaths([]);
       actions.setBusOption({});

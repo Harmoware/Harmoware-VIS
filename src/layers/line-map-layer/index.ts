@@ -27,7 +27,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
   static layerName = 'LineMapLayer';
 
   renderLayers() {
-    const { linemapData, visible, opacity, pickable,
+    const { viewport, linemapData, visible, opacity, pickable,
       getSourcePosition, getTargetPosition, getStrokeWidth, getColor } = this.props;
 
     if (!linemapData) {
@@ -39,7 +39,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     const setStrokeWidth = (x:any) => average * getStrokeWidth(x);
 
     return [
-      new LineLayer({
+      visible ? new LineLayer({
         id: 'line-map-layer',
         data: linemapData,
         visible,
@@ -49,8 +49,8 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getTargetPosition,
         getColor,
         getStrokeWidth: setStrokeWidth,
-        updateTriggers: { getStrokeWidth: average }
-      }),
+        updateTriggers: { getStrokeWidth: [viewport.zoom, Date.now()] }
+      }) : null,
     ];
   }
 }

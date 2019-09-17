@@ -128,7 +128,6 @@ class App extends Container<Bus3dAppProps, State> {
               }):null,
               movedData.length > 0 ? 
               new MovesLayer({
-                viewport,
                 routePaths,
                 movedData,
                 movesbase,

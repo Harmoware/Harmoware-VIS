@@ -46,16 +46,28 @@ export default class DepotsInput extends React.Component<Props> {
         }
         window.alert(i18n.formatError);
       }
+      actions.setInputFilename({ depotsFileName: null });
       actions.setDepotsBase([]);
       actions.setLoading(false);
     };
+  }
+
+  onClick(e: React.ChangeEvent<HTMLInputElement>) {
+    const { actions } = this.props;
+    actions.setInputFilename({ depotsFileName: null });
+    actions.setDepotsBase([]);
+    e.target.value = '';
   }
 
   render() {
     const { id, className, style } = this.props;
 
     return (
-      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id={id} className={className} style={style} />
+      <input type="file" accept=".json" 
+      id={id} className={className} style={style}
+      onClick={this.onClick.bind(this)}
+      onChange={this.onSelect.bind(this)}
+      />
     );
   }
 }

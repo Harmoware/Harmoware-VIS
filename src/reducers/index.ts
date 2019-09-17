@@ -1,7 +1,7 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { BasedState } from '../types';
-import { addMinutes, setViewport, setLightSettings, setTimeStamp, 
+import { addMinutes, setViewport, setDefaultViewport, setLightSettings, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
@@ -11,8 +11,8 @@ const initialState: BasedState = {
   viewport: {
     longitude: 136.906428,
     latitude: 35.181453,
-    zoom: 11.1,
-    maxZoom: 16,
+    zoom: 10,
+    maxZoom: 18,
     minZoom: 5,
     pitch: 30,
     bearing: 0,
@@ -74,6 +74,14 @@ reducer.case(addMinutes, (state, min) => {
 
 reducer.case(setViewport, (state, view) => {
   const viewport = Object.assign({}, state.viewport, view);
+  return Object.assign({}, state, {
+    viewport
+  });
+});
+
+reducer.case(setDefaultViewport, (state) => {
+  const viewport = Object.assign({}, state.viewport, {
+    bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch });
   return Object.assign({}, state, {
     viewport
   });
@@ -175,8 +183,9 @@ reducer.case(setFrameTimestamp, (state, props) => {
 
 reducer.case(setMovesBase, (state, base) => {
   const analyzeData = analyzeMovesBase(base);
-  const { timeBegin, bounds, movesbase } = analyzeData;
-  const settime = timeBegin - state.leading;
+  const { timeBegin, bounds, movesbase, viewport:view } = analyzeData;
+  const viewport = Object.assign({}, state.viewport, view);
+  const settime = timeBegin - (movesbase.length === 0 ? 0 : state.leading);
   let { timeLength } = analyzeData;
   if (timeLength > 0) {
     timeLength += state.trailing;
@@ -184,9 +193,6 @@ reducer.case(setMovesBase, (state, base) => {
   const loopTime = calcLoopTime(timeLength, state.secperhour);
   // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
   const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-  const viewport = Object.assign({}, state.viewport,
-    analyzeData.viewport,
-    { zoom: state.defaultZoom, pitch: state.defaultPitch });
   let depotsBase = state.depotsBase;
   const setState = { ...state, bounds };
   const depotsData = getDepots(setState);
@@ -201,13 +207,14 @@ reducer.case(setMovesBase, (state, base) => {
     bounds,
     lightSettings,
     movesbase,
-    viewport,
+    movedData: [],
     settime,
     loopTime,
     starttimestamp,
     depotsBase,
     depotsData,
-    linemapData
+    linemapData,
+    viewport
   });
 });
 
@@ -297,7 +304,8 @@ reducer.case(setInputFilename, (state, fileName) => {
 
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData = analyzeMovesBase(base);
-  const { timeBegin, bounds, movesbase } = analyzeData;
+  const { timeBegin, bounds, movesbase, viewport:view } = analyzeData;
+  const viewport = Object.assign({}, state.viewport, view);
   let { timeLength } = analyzeData;
   if(state.movesbase.length === 0 || timeLength === 0){ //初回？
     const settime = timeBegin - state.leading;
@@ -307,18 +315,15 @@ reducer.case(updateMovesBase, (state, base) => {
     const loopTime = calcLoopTime(timeLength, state.secperhour);
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     const starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-    const viewport = Object.assign({}, state.viewport,
-      analyzeData.viewport,
-      { zoom: state.defaultZoom, pitch: state.defaultPitch });
     let depotsBase = state.depotsBase;
     let linemapData = state.linemapData;
     const setState = { ...state, bounds };
     const depotsData = getDepots(setState);
     return Object.assign({}, state, {
       timeBegin, timeLength, bounds,
-      movesbase, viewport, settime,
+      movesbase, movedData:[], settime,
       loopTime, starttimestamp,
-      depotsBase, depotsData, linemapData
+      depotsBase, depotsData, linemapData, viewport
     });
   }
   let startState = {};
@@ -332,7 +337,7 @@ reducer.case(updateMovesBase, (state, base) => {
       timeBegin, timeLength, loopTime, starttimestamp
     });
   }
-  return Object.assign({}, state, startState, { movesbase });
+  return Object.assign({}, state, startState, { movesbase, movedData:[] });
 });
 
 reducer.default((state) => state);

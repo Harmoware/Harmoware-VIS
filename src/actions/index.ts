@@ -14,6 +14,7 @@ export const setTime = actionCreator<number>(types.SETTIME);
 export const setLeading = actionCreator<number>(types.SETLEADING);
 export const setTrailing = actionCreator<number>(types.SETTRAILING);
 export const setViewport = actionCreator<Viewport>(types.SETVIEWPORT);
+export const setDefaultViewport = actionCreator<void>(types.SETDEFAULTVIEWPORT);
 export const setLightSettings = actionCreator<LightSettings>(types.SETLIGHTSETTINGS);
 export const setMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.SETMOVESBASE);
 export const setDepotsBase = actionCreator<Depotsbase[]>(types.SETDEPOTSBASE);

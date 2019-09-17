@@ -9,7 +9,6 @@ import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
 import * as Actions from '../../actions';
 
 interface Props extends LayerProps {
-  viewport: Viewport,
   routePaths: RoutePaths[],
   layerRadiusScale?: number,
   layerOpacity?: number,

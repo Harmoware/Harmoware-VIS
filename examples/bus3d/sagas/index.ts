@@ -93,6 +93,7 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
       yield put(Actions.setBusTripsCsv([]));
       yield put(Actions.setBusTripIndex({}));
       yield put(Actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase }));
+      yield put(Actions.setDefaultViewport());
       yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
       yield put(Actions.setLoading(false));
       return;
@@ -128,6 +129,7 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     yield put(Actions.setBusTripsCsv([]));
     yield put(Actions.setBusTripIndex({}));
     yield put(Actions.setMovesBase({ timeBegin, timeLength, movesbase }));
+    yield put(Actions.setDefaultViewport());
     yield put(Actions.setBusMovesBaseDic({}));
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
@@ -390,6 +392,7 @@ function* setupByCSV() {
     }
   });
   yield put(Actions.setMovesBase({ movesbase: busmovesbase }));
+  yield put(Actions.setDefaultViewport());
   yield put(Actions.setBusMovesBaseDic(busmovesbasedic));
 }
 

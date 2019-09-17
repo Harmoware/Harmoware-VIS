@@ -19,6 +19,10 @@ export default class NavigationButton extends React.Component<Props> {
   setViewport(argument: Viewport) {
     this.props.actions.setViewport(argument);
   }
+  setDefaultViewport(){
+    this.props.actions.setDefaultViewport();
+    this.props.actions.setDefaultViewport();
+  }
 
   render() {
     const { buttonType, viewport, className } = this.props;
@@ -45,8 +49,7 @@ export default class NavigationButton extends React.Component<Props> {
         const iconStyle = { transform: `rotate(${viewport.bearing * -1}deg)` };
         return (
           <button
-            onClick={this.setViewport.bind(this,
-              { bearing: 0, pitch: 30 })}
+            onClick={this.setDefaultViewport.bind(this)}
             className={className}
           >
             <div style={iconStyle}><Icon icon={icNavigation} /></div>

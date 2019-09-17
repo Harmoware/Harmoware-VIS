@@ -175,7 +175,6 @@ class App extends Container<BasedProps, State> {
               }):null,
               this.state.moveDataVisible && movedData.length > 0 ?
               new MovesLayer({
-                viewport,
                 routePaths,
                 movedData,
                 movesbase,

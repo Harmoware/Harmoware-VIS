@@ -46,6 +46,7 @@ export default class MovesInput extends React.Component<Props> {
       }
       actions.setInputFilename({ movesFileName: file_name });
       actions.setMovesBase(readdata);
+      actions.setDefaultViewport();
       actions.setRoutePaths([]);
       actions.setClicked(null);
       actions.setAnimatePause(false);
@@ -54,11 +55,22 @@ export default class MovesInput extends React.Component<Props> {
     };
   }
 
+  onClick(e: React.ChangeEvent<HTMLInputElement>) {
+    const { actions } = this.props;
+    actions.setInputFilename({ movesFileName: null });
+    actions.setMovesBase([]);
+    e.target.value = '';
+  }
+
   render() {
     const { id, className, style } = this.props;
 
     return (
-      <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id={id} className={className} style={style} />
+      <input type="file" accept=".json"
+      id={id} className={className} style={style}
+      onClick={this.onClick.bind(this)}
+      onChange={this.onSelect.bind(this)}
+      />
     );
   }
 }

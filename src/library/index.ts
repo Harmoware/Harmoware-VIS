@@ -51,8 +51,12 @@ export const analyzeMovesBase =
   let bounds: Bounds = typeof baseBounds !== 'undefined' ? baseBounds : {
     westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
   };
-
   const movesbase: Movesbase[] = basemovesbase;
+
+  if(movesbase.length <= 0){
+    return { timeBegin, timeLength, bounds, movesbase, viewport:{} };
+  }
+
   let timeEnd: number = 0;
   const longArray: number[] = [];
   const latiArray: number[] = [];
@@ -126,6 +130,10 @@ export const getDepots = (props: Props): DepotsData[] => {
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   const areadepots = depotsBase.filter((data)=>{
+    if(bounds.westlongitiude === 0 && bounds.eastlongitiude === 0 &&
+      bounds.southlatitude === 0 && bounds.northlatitude === 0){
+      return true;
+    }
     const { longitude, latitude, position=[longitude, latitude, 1] } = data;
     return (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
       bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
