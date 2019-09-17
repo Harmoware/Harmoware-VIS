@@ -101,8 +101,7 @@ reducer.case(setTimeStamp, (state, props) => {
   });
 });
 
-reducer.case(setTime, (state, time) => {
-  const settime = time;
+reducer.case(setTime, (state, settime) => {
   const starttimestamp = Date.now() - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
   return Object.assign({}, state, {
     settime, starttimestamp
@@ -110,13 +109,12 @@ reducer.case(setTime, (state, time) => {
 });
 
 reducer.case(increaseTime, (state, props) => {
-  const latestProps = props;
   const now = Date.now();
   if ((now - state.starttimestamp) > state.loopTime) {
     console.log('settime overlap.');
     const settime = (state.timeBegin - state.leading);
     const starttimestamp = now - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
-    const setProps = { ...latestProps, settime, starttimestamp };
+    const setProps = { ...props, settime, starttimestamp };
     const movedData = getMoveObjects(setProps);
     const depotsData = getDepots(setProps);
     return Object.assign({}, state, {
@@ -130,7 +128,7 @@ reducer.case(increaseTime, (state, props) => {
     console.log(`${beforeSettime} ${settime}`);
   }
   const beforeFrameTimestamp = now;
-  const setProps = { ...latestProps, settime, beforeFrameTimestamp };
+  const setProps = { ...props, settime, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
   const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
@@ -139,7 +137,6 @@ reducer.case(increaseTime, (state, props) => {
 });
 
 reducer.case(decreaseTime, (state, props) => {
-  const latestProps = props;
   const now = Date.now();
   const beforeFrameElapsed = now - state.beforeFrameTimestamp;
   let starttimestamp = state.starttimestamp + (beforeFrameElapsed * 2);
@@ -150,7 +147,7 @@ reducer.case(decreaseTime, (state, props) => {
     starttimestamp = now - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
   }
   const beforeFrameTimestamp = now;
-  const setProps = { ...latestProps, settime, starttimestamp, beforeFrameTimestamp };
+  const setProps = { ...props, settime, starttimestamp, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
   const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
@@ -171,9 +168,8 @@ reducer.case(setTrailing, (state, trailing) => {
 });
 
 reducer.case(setFrameTimestamp, (state, props) => {
-  const latestProps = props;
   const beforeFrameTimestamp = Date.now();
-  const setProps = { ...latestProps, beforeFrameTimestamp };
+  const setProps = { ...props, beforeFrameTimestamp };
   const movedData = getMoveObjects(setProps);
   const depotsData = getDepots(setProps);
   return Object.assign({}, state, {
@@ -218,8 +214,7 @@ reducer.case(setMovesBase, (state, base) => {
   });
 });
 
-reducer.case(setDepotsBase, (state, depots) => {
-  const depotsBase = depots;
+reducer.case(setDepotsBase, (state, depotsBase) => {
   const setState = { ...state, depotsBase };
   const depotsData = getDepots(setState);
   return Object.assign({}, state, {
@@ -227,17 +222,16 @@ reducer.case(setDepotsBase, (state, depots) => {
   });
 });
 
-reducer.case(setAnimatePause, (state, pause) => {
-  const animatePause = pause;
+reducer.case(setAnimatePause, (state, animatePause) => {
   const starttimestamp = (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime));
   return Object.assign({}, state, {
     animatePause, starttimestamp
   });
 });
 
-reducer.case(setAnimateReverse, (state, reverse) => {
+reducer.case(setAnimateReverse, (state, animateReverse) => {
   return Object.assign({}, state, {
-    animateReverse: reverse
+    animateReverse
   });
 });
 
@@ -282,8 +276,7 @@ reducer.case(setDepotsOptionFunc, (state, getDepotsOptionFunc) => {
   });
 });
 
-reducer.case(setLinemapData, (state, mapData) => {
-  const linemapData = mapData;
+reducer.case(setLinemapData, (state, linemapData) => {
   return Object.assign({}, state, {
     linemapData
   });
