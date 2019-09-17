@@ -298,7 +298,6 @@ reducer.case(setInputFilename, (state, fileName) => {
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData = analyzeMovesBase(base);
   const { timeBegin, bounds, movesbase, viewport:view } = analyzeData;
-  const viewport = Object.assign({}, state.viewport, view);
   let { timeLength } = analyzeData;
   if(state.movesbase.length === 0 || timeLength === 0){ //初回？
     const settime = timeBegin - state.leading;
@@ -312,6 +311,8 @@ reducer.case(updateMovesBase, (state, base) => {
     let linemapData = state.linemapData;
     const setState = { ...state, bounds };
     const depotsData = getDepots(setState);
+    const viewport = Object.assign({}, state.viewport,
+      {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, view);
     return Object.assign({}, state, {
       timeBegin, timeLength, bounds,
       movesbase, movedData:[], settime,
