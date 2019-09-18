@@ -14,7 +14,6 @@ interface Props extends LayerProps {
   lineJointRounded?: boolean,
   lineMiterLimit?: number,
   lineDashJustified?: boolean,
-  fp64?: boolean,
   lightSettings: LightSettings,
   getPolygon?: (x: any) => number[],
   getFillColor?: (x: any) => number[] | number[],
@@ -49,7 +48,6 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     lineJointRounded: false,
     lineMiterLimit: 4,
     lineDashJustified: false,
-    fp64: false,
     lightSettings: {},
     getLineWidth: 1,
     getElevation: 20,
@@ -65,7 +63,7 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     const { data, visible, opacity, pickable,
       filled, stroked, extruded, wireframe, elevationScale,
       lineWidthScale, lineWidthMinPixels, lineWidthMaxPixels,
-      lineJointRounded, lineMiterLimit, lineDashJustified, fp64, lightSettings,
+      lineJointRounded, lineMiterLimit, lineDashJustified, lightSettings,
       getPolygon: propGetPolygon, getFillColor, getLineColor, getLineWidth,
       getElevation, cellSize, getPosition, getColor, getVertexAngle } = this.props;
 
@@ -127,7 +125,6 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
         lineJointRounded,
         lineMiterLimit,
         lineDashJustified,
-        fp64,
         lightSettings,
         getPolygon: propGetPolygon || getPolygon,
         getFillColor: getFillColor || getColor,
