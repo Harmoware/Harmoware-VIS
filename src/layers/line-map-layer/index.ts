@@ -26,6 +26,10 @@ export default class LineMapLayer extends CompositeLayer<Props> {
 
   static layerName = 'LineMapLayer';
 
+  shouldUpdateState({changeFlags:{viewportChanged}}) {
+    return viewportChanged;
+  }
+
   renderLayers() {
     const { viewport, linemapData, visible, opacity, pickable,
       getSourcePosition, getTargetPosition, getStrokeWidth, getColor } = this.props;
@@ -49,7 +53,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getTargetPosition,
         getColor,
         getStrokeWidth: setStrokeWidth,
-        updateTriggers: { getStrokeWidth: [viewport.zoom, Date.now()] }
+        updateTriggers: { getStrokeWidth: viewport }
       }) : null,
     ];
   }
