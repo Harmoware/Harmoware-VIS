@@ -21,7 +21,6 @@ export default class NavigationButton extends React.Component<Props> {
   }
   setDefaultViewport(){
     this.props.actions.setDefaultViewport();
-    this.props.actions.setDefaultViewport();
   }
 
   render() {
