@@ -35,6 +35,18 @@ class MapGl extends InteractiveMap {
       }
     });
   }
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>) {
+    if(prevProps.mapStyle !== this.props.mapStyle && prevProps.mapStyle === '') {
+      if(!MapGl.mapboxAddLayerValue) return;
+      const map = super.getMap();
+      const LayerValuemap = MapGl.mapboxAddLayerValue;
+      map.on('styledata', function() {
+        for(let i=0; LayerValuemap.length > i; i+=1){
+          map.addLayer(LayerValuemap[i]);
+        }
+      });
+    }
+  }
 }
 
 export default class HarmoVisLayers extends React.Component<Props> {
