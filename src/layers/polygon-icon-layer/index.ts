@@ -8,14 +8,23 @@ interface Props extends LayerProps {
   extruded?: boolean,
   wireframe?: boolean,
   elevationScale?: number,
+  lineWidthScale?: boolean,
   lineWidthMinPixels?: number,
+  lineWidthMaxPixels?: number,
+  lineJointRounded?: boolean,
+  lineMiterLimit?: number,
+  lineDashJustified?: boolean,
+  fp64?: boolean,
+  lightSettings: LightSettings,
+  getPolygon?: (x: any) => number[],
+  getFillColor?: (x: any) => number[] | number[],
+  getLineColor?: (x: any) => number[] | number[],
+  getLineWidth?: (x: any) => number | number,
+  getElevation?: (x: any) => number | number,
   cellSize?: number,
   getPosition?: (x: any) => number[],
-  getElevation?: (x: any) => number | number,
   getColor?: (x: any) => number[] | number[],
-  getLineWidth?: (x: any) => number | number,
-  getVertexAngle?: (x: any) => number,
-  lightSettings: LightSettings,
+  getVertexAngle?: (x: any) => number, //オブジェクトの正面から角への角度
 }
 const rightAngleRange = (v:number) => v < 0 ? 0 : v >= 90 ? 89 : v;
 
@@ -26,27 +35,39 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
   }
 
   static defaultProps = {
+    visible: true,
+    opacity: 1.0,
+    pickable: false,
     filled: true,
     stroked: false,
-    pickable: false,
     extruded: true,
     wireframe: true,
+    elevationScale: 1,
+    lineWidthScale: 1,
     lineWidthMinPixels: 1,
+    lineWidthMaxPixels: Number.MAX_SAFE_INTEGER,
+    lineJointRounded: false,
+    lineMiterLimit: 4,
+    lineDashJustified: false,
+    fp64: false,
+    lightSettings: {},
+    getLineWidth: 1,
+    getElevation: 20,
     cellSize: 50,
     getPosition: (x: any) => x.position,
-    getElevation: 20,
     getColor: COLOR1,
-    getLineWidth: 1,
     getVertexAngle: () => 25,
-    lightSettings: {}
   };
 
   static layerName = 'PolygonIconLayer';
 
   renderLayers() {
-    const { data, pickable, stroked, extruded, filled, wireframe, opacity, lineWidthMinPixels, cellSize,
-      getPosition, getElevation, getColor, getLineWidth, getVertexAngle,
-      lightSettings } = this.props;
+    const { data, visible, opacity, pickable,
+      filled, stroked, extruded, wireframe, elevationScale,
+      lineWidthScale, lineWidthMinPixels, lineWidthMaxPixels,
+      lineJointRounded, lineMiterLimit, lineDashJustified, fp64, lightSettings,
+      getPolygon: propGetPolygon, getFillColor, getLineColor, getLineWidth,
+      getElevation, cellSize, getPosition, getColor, getVertexAngle } = this.props;
 
     if (!data || data.length === 0) {
       return null;
@@ -58,7 +79,7 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     const radius = degreesMeter[0] * (cellSize / 2);
     const radMulti = Math.PI / 180;
 
-    const polygonData = data.map((item)=>{
+    const polygonData = propGetPolygon ? data : data.map((item)=>{
       const position = getPosition(item);
       const vertexAngle = rightAngleRange(getVertexAngle(item));
       const direction = item.direction >= 0 ? item.direction : (item.direction + 360);
@@ -92,19 +113,27 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
       new PolygonLayer({
         id: 'polygon-layer',
         data: polygonData,
+        visible,
+        opacity,
         pickable,
+        filled,
         stroked,
         extruded,
-        filled,
         wireframe,
-        opacity,
+        elevationScale,
+        lineWidthScale,
         lineWidthMinPixels,
-        getPolygon,
-        getElevation,
-        getFillColor: getColor,
-        getLineColor: getColor,
-        getLineWidth,
+        lineWidthMaxPixels,
+        lineJointRounded,
+        lineMiterLimit,
+        lineDashJustified,
+        fp64,
         lightSettings,
+        getPolygon: propGetPolygon || getPolygon,
+        getFillColor: getFillColor || getColor,
+        getLineColor: getLineColor || getColor,
+        getLineWidth,
+        getElevation,
       }),
     ];
   }
