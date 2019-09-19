@@ -40,16 +40,6 @@ declare module "deck.gl" {
   class AttributeManager {
     addInstanced(attributes: object, updaters?: object): void;
   }
-
-  const COORDINATE_SYSTEM: { IDENTITY: number };
-
-  class OrbitView {
-    constructor(props?: any);
-  }
-
-  class LinearInterpolator {
-    constructor(props?: any);
-  }
 }
 
 declare module "@deck.gl/core" {
