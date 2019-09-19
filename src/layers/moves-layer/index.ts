@@ -130,7 +130,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getStrokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
         getColor,
         visible,
-        fp64: false,
         pickable: false
       }) : null,
       visible && optionVisible ?

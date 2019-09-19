@@ -20,7 +20,6 @@ interface Props extends LayerProps {
   coverage?: number,
   heightScale?: number,
   extruded?: boolean,
-  fp64?: boolean,
   lightSettings: LightSettings,
   getPosition?: (x: any) => number[],
   getHeight?: (x: any) => number,
@@ -48,7 +47,6 @@ export default class CubeiconLayer extends Layer<Props, State> {
     heightScale: 1,
     opacity: 0.25,
     extruded: true,
-    fp64: false,
     lightSettings: {},
     getPosition: (x: Data) => x.position, // position:[longitude,latitude,[elevation]]
     getHeight: (x: Data) => x.height, // height:height

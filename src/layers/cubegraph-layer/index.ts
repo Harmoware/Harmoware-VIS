@@ -26,7 +26,6 @@ interface Props extends LayerProps {
   coverage?: number,
   elevationScale?: number,
   extruded?: boolean,
-  fp64?: boolean,
   lightSettings: LightSettings,
   getPosition?: (x: any) => number[],
   getElevation?: (x: any) => number[],
@@ -61,7 +60,6 @@ export default class CubeGraphLayer extends Layer<Props, State> {
     elevationScale: 1,
     opacity: 0.25,
     extruded: true,
-    fp64: false,
     lightSettings: {},
     getPosition: (x: Data) => x.position, // position:[longitude,latitude,[elevation]]
     getElevation: (x: Data) => x.elevation, // elevation:[値-1,値-2,,,値-n]
