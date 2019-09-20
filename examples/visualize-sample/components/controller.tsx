@@ -99,7 +99,7 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   render() {
-    const { settime, timeBegin, timeLength, actions,
+    const { settime, timeBegin, timeLength, actions, movedData, movesbase,
       secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeChecked,
@@ -214,6 +214,9 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               再現中日時&nbsp;<SimulationDateTime settime={settime} />
+            </li>
+            <li>
+              移動体（表示数/総数）&nbsp;{movedData.length}&nbsp;/&nbsp;{movesbase.length}
             </li>
             <li>
               <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
