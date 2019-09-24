@@ -11,6 +11,7 @@ interface Props extends BasedProps{
   getMapboxChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveSvgChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -103,7 +104,7 @@ export default class Controller extends React.Component<Props, State> {
       secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeChecked,
-      inputFileName, viewport } = this.props;
+      getMoveSvgChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -159,6 +160,12 @@ export default class Controller extends React.Component<Props, State> {
               <div className="form-check">
                 <input type="checkbox" id="IconCubeTypeChecked" onChange={getIconCubeTypeChecked} className="form-check-input" />
                 <label htmlFor="IconCubeTypeChecked" className="form-check-label">３Ｄアイコン表示タイプ切替</label>
+              </div>
+            </li>
+            <li>
+              <div className="form-check">
+                <input type="checkbox" id="MoveSvgChecked" onChange={getMoveSvgChecked} className="form-check-input" />
+                <label htmlFor="MoveSvgChecked" className="form-check-label">運行データSVG表示</label>
               </div>
             </li>
             <li>

@@ -12,6 +12,7 @@ interface State {
   mapboxVisible: boolean,
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
+  moveSvgVisible: boolean,
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
   optionChange: boolean,
@@ -29,6 +30,7 @@ class App extends Container<BasedProps, State> {
       mapboxVisible: true,
       moveDataVisible: true,
       moveOptionVisible: false,
+      moveSvgVisible: false,
       depotOptionVisible: false,
       heatmapVisible: false,
       optionChange: false,
@@ -49,6 +51,10 @@ class App extends Container<BasedProps, State> {
 
   getMoveOptionChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveOptionVisible: e.target.checked });
+  }
+
+  getMoveSvgChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ moveSvgVisible: e.target.checked });
   }
 
   getDepotOptionChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -102,8 +108,8 @@ class App extends Container<BasedProps, State> {
   }
 
   getMapGlComponents(movedData: MovedData[]){
-    const { moveDataVisible } = this.state;
-    if(!moveDataVisible){
+    const { moveSvgVisible } = this.state;
+    if(moveSvgVisible){
       return (
         <div>
           {movedData.map( this.getMarker.bind(this) )}
@@ -142,6 +148,7 @@ class App extends Container<BasedProps, State> {
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
+          getMoveSvgChecked={this.getMoveSvgChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
