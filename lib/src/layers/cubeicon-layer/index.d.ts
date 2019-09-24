@@ -7,7 +7,6 @@ interface Props extends LayerProps {
     coverage?: number;
     heightScale?: number;
     extruded?: boolean;
-    fp64?: boolean;
     lightSettings: LightSettings;
     getPosition?: (x: any) => number[];
     getHeight?: (x: any) => number;

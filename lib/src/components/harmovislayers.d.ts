@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
-interface Props extends addlProps {
+interface Props {
+    visible: boolean;
     viewport: Viewport;
     mapboxApiAccessToken: string;
     mapStyle?: string;
@@ -10,12 +11,11 @@ interface Props extends addlProps {
     onViewportChange?(viewport: Viewport): void;
     layers: Layer[];
     mapGlComponents?: any;
-}
-interface addlProps {
-    mapboxAddLayerValue?: mapboxgl.Layer;
+    mapboxAddLayerValue?: mapboxgl.Layer[];
 }
 export default class HarmoVisLayers extends React.Component<Props> {
     static defaultProps: {
+        visible: boolean;
         mapStyle: string;
         mapGlComponents: any;
         mapboxAddLayerValue: {
@@ -30,10 +30,9 @@ export default class HarmoVisLayers extends React.Component<Props> {
                 "fill-extrusion-base": (string | number | string[])[];
                 "fill-extrusion-opacity": number;
             };
-        };
+        }[];
     };
     constructor(props: Props);
-    componentDidMount(): void;
     initialize(gl: WebGLRenderingContext): void;
     render(): JSX.Element;
 }

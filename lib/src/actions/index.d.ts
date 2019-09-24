@@ -62,6 +62,7 @@ export declare const setViewport: {
     type: string;
     match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<Viewport>;
 };
+export declare const setDefaultViewport: import("typescript-fsa").ActionCreator<void>;
 export declare const setLightSettings: {
     (payload: LightSettings, meta?: {
         [key: string]: any;
@@ -145,13 +146,6 @@ export declare const setDepotsOptionFunc: {
     }): import("typescript-fsa").Action<(props: Props, i: number) => object>;
     type: string;
     match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<(props: Props, i: number) => object>;
-};
-export declare const setNonmapView: {
-    (payload: boolean, meta?: {
-        [key: string]: any;
-    }): import("typescript-fsa").Action<boolean>;
-    type: string;
-    match: (action: import("typescript-fsa").AnyAction) => action is import("typescript-fsa").Action<boolean>;
 };
 export declare const setLinemapData: {
     (payload: LineMapData[], meta?: {

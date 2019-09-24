@@ -1,28 +1,44 @@
 import { LayerProps, CompositeLayer, LineLayer } from 'deck.gl';
-import { LineMapData, LineData } from '../../types';
+import { LineMapData, LineData, Viewport } from '../../types';
 interface Props extends LayerProps {
-    layerOpacity?: number;
+    viewport: Viewport;
     linemapData: LineMapData[];
-    getStrokeWidth?: any;
+    visible?: boolean;
+    opacity?: number;
+    pickable?: boolean;
+    getSourcePosition?: (x: any) => number[];
+    getTargetPosition?: (x: any) => number[];
     getColor?: (x: any) => number[];
+    getStrokeWidth?: (x: any) => number;
 }
 export default class LineMapLayer extends CompositeLayer<Props> {
     static defaultProps: {
-        layerOpacity: number;
+        opacity: number;
+        pickable: boolean;
+        getSourcePosition: (x: LineData) => number[];
+        getTargetPosition: (x: LineData) => number[];
         getStrokeWidth: (x: any) => any;
         getColor: (x: LineData) => number[];
     };
     static layerName: string;
+    shouldUpdateState({ changeFlags: { viewportChanged } }: {
+        changeFlags: {
+            viewportChanged: any;
+        };
+    }): any;
     renderLayers(): LineLayer<{
         id: string;
         data: LineMapData[];
-        coordinateSystem: number;
-        getSourcePosition: (x: LineData) => number[];
-        getTargetPosition: (x: LineData) => number[];
-        getColor: (x: any) => number[];
+        visible: true;
         opacity: number;
-        pickable: true;
-        getStrokeWidth: any;
+        pickable: boolean;
+        getSourcePosition: (x: any) => number[];
+        getTargetPosition: (x: any) => number[];
+        getColor: (x: any) => number[];
+        getStrokeWidth: (x: any) => number;
+        updateTriggers: {
+            getStrokeWidth: Viewport;
+        };
     }, {}>[];
 }
 export {};

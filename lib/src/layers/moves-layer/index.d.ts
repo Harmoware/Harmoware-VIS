@@ -3,10 +3,9 @@ import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
 import { pickParams } from '../../library';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption, Viewport } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
-    viewport: Viewport;
     routePaths: RoutePaths[];
     layerRadiusScale?: number;
     layerOpacity?: number;
@@ -68,13 +67,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getStrokeWidth: number;
         getColor: (x: DataOption) => number[];
         visible: true;
-        fp64: boolean;
         pickable: false;
     }, {}> | ArcLayer<{
         id: string;
         data: any[];
         visible: boolean;
         pickable: true;
+        getSourcePosition: (x: MovedData) => number[];
+        getTargetPosition: (x: MovedData) => number[];
         getSourceColor: (x: MovedData) => (number | number[])[];
         getTargetColor: (x: MovedData) => (number | number[])[];
         getStrokeWidth: (x: any) => number;

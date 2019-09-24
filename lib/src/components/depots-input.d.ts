@@ -16,6 +16,7 @@ export default class DepotsInput extends React.Component<Props> {
         };
     };
     onSelect(e: React.ChangeEvent<HTMLInputElement>): void;
+    onClick(e: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;
 }
 export {};

@@ -27,6 +27,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         optionOpacity: number;
         optionCellSize: number;
         optionElevationScale: number;
+        pickable: boolean;
         getColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
@@ -40,7 +41,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getFillColor: (x: any) => number[];
         getRadius: (x: any) => number;
         opacity: number;
-        pickable: true;
+        pickable: boolean;
         radiusMinPixels: number;
     }, {}>)[];
 }
