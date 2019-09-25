@@ -10,7 +10,7 @@ interface thisViewport extends Viewport {
 }
 
 interface Props {
-  visible: boolean,
+  visible?: boolean,
   viewport : Viewport,
   mapboxApiAccessToken: string,
   mapStyle?: string,
