@@ -3,15 +3,9 @@ import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
-  Bounds, MovesbaseFile, Movesbase, MovedData, Depotsbase, DepotsData, Viewport,
-  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, LineMapData, EventInfo } from '../types';
+  Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport,
+  GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
-
-const scaleInfo = { scaleZ: 0, xMid: 0, yMid: 0 };
-const EQUATOR_RADIUS = 6378136.6;
-const DEGREE_SCALE = 100;
-const getLongitiudeDegree = (latitude: number): number => ((360 * DEGREE_SCALE) /
-  (2 * Math.PI * (EQUATOR_RADIUS * Math.cos((latitude * Math.PI) / 180.0))));
 
 const getAverage = (array: number[]) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
