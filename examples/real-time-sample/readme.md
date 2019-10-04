@@ -13,7 +13,6 @@ Harmoware-VIS を実行する基本的なアプリケーションのサンプル
 #!shell
 npm run real-time-sample
 ```
-シュミレーション用データを`ファイル選択`ボタンで選択すると、シュミレーションが開始します。
 
 socket.io で位置情報を見るためのデモサーバプログラム → loc-update.exe
 
