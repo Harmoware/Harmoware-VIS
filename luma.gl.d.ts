@@ -17,7 +17,7 @@ declare module "luma.gl" {
   }): void
 }
 
-declare module "luma.gl/constants" {
+declare module "@luma.gl/constants" {
   const GL: { UNSIGNED_BYTE: number, TRIANGLE_STRIP: number, TRIANGLES: number }
   export default GL;
 }

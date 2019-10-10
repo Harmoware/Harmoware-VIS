@@ -10,7 +10,7 @@ interface Props extends LayerProps {
   getSourcePosition?: (x: any) => number[],
   getTargetPosition?: (x: any) => number[],
   getColor?: (x: any) => number[],
-  getStrokeWidth?: (x: any) => number,
+  getWidth?: (x: any) => number,
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
@@ -20,7 +20,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     pickable: true,
     getSourcePosition: (x: LineData) => x.sourcePosition,
     getTargetPosition: (x: LineData) => x.targetPosition,
-    getStrokeWidth: (x: any) => x.strokeWidth || 1,
+    getWidth: (x: any) => x.strokeWidth || 1,
     getColor: (x: LineData) => x.color || [255,255,255,255], // white
   };
 
@@ -32,7 +32,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
 
   renderLayers() {
     const { viewport, linemapData, visible, opacity, pickable,
-      getSourcePosition, getTargetPosition, getStrokeWidth, getColor } = this.props;
+      getSourcePosition, getTargetPosition, getWidth, getColor } = this.props;
 
     if (!linemapData) {
       return null;
@@ -40,7 +40,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
 
     const { distanceScales: { pixelsPerMeter } } = this.context.viewport;
     const average = (Math.abs(pixelsPerMeter[0]) + Math.abs(pixelsPerMeter[1])) / 2.0;
-    const setStrokeWidth = (x:any) => average * getStrokeWidth(x);
+    const setWidth = (x:any) => average * getWidth(x);
 
     return [
       visible ? new LineLayer({
@@ -52,8 +52,8 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getSourcePosition,
         getTargetPosition,
         getColor,
-        getStrokeWidth: setStrokeWidth,
-        updateTriggers: { getStrokeWidth: viewport }
+        getWidth: setWidth,
+        updateTriggers: { getWidth: viewport }
       }) : null,
     ];
   }

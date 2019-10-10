@@ -127,7 +127,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       visible ? new LineLayer({
         id: 'route-paths',
         data: routePaths,
-        getStrokeWidth: Math.max(pixelsPerMeter[0] * 10, 1),
+        getWidth: Math.max(pixelsPerMeter[0] * 10, 1),
         getColor,
         visible,
         pickable: false

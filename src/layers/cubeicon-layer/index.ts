@@ -1,5 +1,5 @@
 import { Layer } from '@deck.gl/core';
-import GL from 'luma.gl/constants';
+import GL from '@luma.gl/constants';
 import { LayerProps, AttributeManager } from 'deck.gl';
 import { Model, CubeGeometry } from 'luma.gl';
 import vertex from './cubeicon-layer-vertex.glsl';

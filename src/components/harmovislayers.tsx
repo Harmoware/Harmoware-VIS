@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { InteractiveMap } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import DeckGL from '@deck.gl/react';
+import DeckGL from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 
 interface thisViewport extends Viewport {
