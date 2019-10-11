@@ -46,7 +46,8 @@ function fetchCSV(path: string, useShiftJis = false) {
       if (useShiftJis) {
         data = iconv.decode(new Buffer(data), 'shift_jis').toString();
       }
-      csvtojson().fromString(data).on('end_parsed', (result: object[]) => {
+
+      csvtojson().fromString(data).then((result: object[]) => {
         resolve(Object.assign({}, res, {
           data: result
         }));
