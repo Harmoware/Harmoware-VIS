@@ -27,7 +27,7 @@ class MapGl extends InteractiveMap {
   componentDidMount() {
     super.componentDidMount();
     if(!MapGl.mapboxAddLayerValue) return;
-    const map = super.getMap();
+    const map = this.getMap();
     const LayerValuemap = MapGl.mapboxAddLayerValue;
     map.on('load', function() {
       for(let i=0; LayerValuemap.length > i; i+=1){
@@ -38,7 +38,7 @@ class MapGl extends InteractiveMap {
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>) {
     if(prevProps.mapStyle !== this.props.mapStyle && prevProps.mapStyle === '') {
       if(!MapGl.mapboxAddLayerValue) return;
-      const map = super.getMap();
+      const map = this.getMap();
       const LayerValuemap = MapGl.mapboxAddLayerValue;
       map.on('styledata', function() {
         for(let i=0; LayerValuemap.length > i; i+=1){
@@ -94,7 +94,7 @@ export default class HarmoVisLayers extends React.Component<Props> {
         visible={visible}
       >
         { mapGlComponents }
-        <DeckGL {...viewport} layers={layers} onWebGLInitialized={this.initialize} />
+        <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
       </MapGl>
     );
   }

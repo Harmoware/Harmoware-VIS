@@ -6,7 +6,7 @@ import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, Moved
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
 
-const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
+const MAPBOX_TOKEN = 'pk.eyJ1IjoidG1rbnltIiwiYSI6ImNrMTd0N3hzcDFmcjkzaHAzNng3dGsxb3kifQ.EBD9eRBGp5zJWcu1Yk4wgQ';
 
 interface State {
   mapboxVisible: boolean,
