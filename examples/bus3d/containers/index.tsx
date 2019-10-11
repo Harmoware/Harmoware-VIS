@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon, FpsDisplay } from 'harmoware-vis';
-import { translate } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Bus3dArcLayer from '../layers/bus3d-arc-layer';
 import Header from '../components/header';
@@ -24,9 +24,9 @@ interface State {
   arcdata: Arcdata[]
 }
 
-class App extends Container<Bus3dAppProps, State> {
+class App extends Container<Bus3dAppProps & WithTranslation, State> {
 
-  constructor(props: Bus3dAppProps) {
+  constructor(props: Bus3dAppProps & WithTranslation) {
     super(props);
     const { actions } = props;
     actions.initializeFetch('datalist.json');
@@ -158,4 +158,4 @@ class App extends Container<Bus3dAppProps, State> {
   }
 }
 
-export default connectToHarmowareVis(translate()(App), translate()(moreActions));
+export default connectToHarmowareVis(withTranslation()(App), moreActions);

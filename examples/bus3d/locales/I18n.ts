@@ -1,9 +1,12 @@
-import * as i18next from 'i18next';
+import i18next from 'i18next';
 import * as ja from './I18nJa';
 import * as en from './I18nEn';
+import { initReactI18next } from "react-i18next";
 
-const i18n = i18next
-  .init({
+const i18n = i18next.use(initReactI18next);
+
+i18n.init({
+    lng: "ja",
     resources: {
       ja: {
         general: ja.general,
@@ -12,7 +15,7 @@ const i18n = i18next
         general: en.general,
       }
     },
-
+    initImmediate: false,
     fallbackLng: 'ja',
 
     // string or array of namespaces to load

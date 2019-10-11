@@ -134,7 +134,8 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
     yield put(Actions.setLoading(true));
-    const { data } = (yield fetchCSV(`${DATAPATH}${answer}`, true)) as {
+    const result = yield fetchCSV(`${DATAPATH}${answer}`, true)
+    const { data } = result as {
       data: ComObj<string>[] };
     if (!data) {
       yield put(Actions.setLoading(false));

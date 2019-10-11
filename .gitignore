@@ -4,3 +4,7 @@ npm-debug.log
 .DS_Store
 types/*
 lib/examples/*
+
+.devcontainer
+Dockerfile
+docker-compose.yml
