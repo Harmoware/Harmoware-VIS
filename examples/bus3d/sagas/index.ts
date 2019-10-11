@@ -27,7 +27,6 @@ interface Tripbase { diagramid: string, businfo: Savebusinfo, busstatus: Savebus
 
 function fetchJSON(path: string, option = {}) {
   return new Promise((resolve/* , reject */) => {
-    debugger
     Axios.get<object>(path, option).then((data) => {
       resolve(data);
     }).catch((error) => {
@@ -38,7 +37,6 @@ function fetchJSON(path: string, option = {}) {
 
 function fetchCSV(path: string, useShiftJis = false) {
   return new Promise((resolve/* , reject */) => {
-    debugger
     const option: AxiosRequestConfig = {};
     if (useShiftJis) {
       option.responseType = 'arraybuffer';
@@ -60,7 +58,6 @@ function fetchCSV(path: string, useShiftJis = false) {
 }
 
 function* fetchDataList({ path }:{ path: string }) {
-  debugger
   yield put(Actions.setLoading(true));
   const { data } = (yield fetchJSON(path)) as { data:{ children: {file: string}[], leading: number }};
   if (!data) {
@@ -84,7 +81,6 @@ function* fetchDataList({ path }:{ path: string }) {
 function* fetchDataByAnswer({ answer }: { answer: string }) {
   const fileextension: string[] = answer.split('.');
   if (fileextension[1] === 'json') {
-    debugger
     yield put(Actions.setLoading(true));
     const { data } = yield fetchJSON(`${DATAPATH}${answer}`);
     if (!data) {
@@ -137,10 +133,8 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
     yield put(Actions.setBusMovesBaseDic({}));
     yield put(Actions.setLoading(false));
   } else if (fileextension[1] === 'csv') {
-    debugger
     yield put(Actions.setLoading(true));
     const result = yield fetchCSV(`${DATAPATH}${answer}`, true)
-    debugger
     const { data } = result as {
       data: ComObj<string>[] };
     if (!data) {
@@ -168,7 +162,6 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
 function* fetchBusstopCSV() {
   const { busstopscsv } = getContainerProp<Bus3dState>(yield select());
   if (busstopscsv.length === 0) {
-    debugger
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchCSV(`${BUSSTOPSPATH}busstops.csv`)) as {
       data: ComObj<string>[] };
@@ -190,7 +183,6 @@ function* fetchBusstopCSV() {
 function* fetchBusstopRoutesJSON() {
   const { busroutes } = getContainerProp<Bus3dState>(yield select());
   if (Object.keys(busroutes).length === 0) {
-    debugger
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchJSON(`${ROUTESPATH}busroutes.json`)) as { data: Busroutes };
     if (data) {
@@ -203,7 +195,6 @@ function* fetchBusstopRoutesJSON() {
 function* fetchRoutesJSON() {
   const { routesdata } = getContainerProp<Bus3dState>(yield select());
   if (Object.keys(routesdata).length === 0) {
-    debugger
     yield put(Actions.setLoading(true));
     const { data } = (yield fetchJSON(`${ROUTESPATH}routes.json`)) as
       { data:{ dep_station_code: string[], des_station_code: string[], route: string[] }};
@@ -224,7 +215,6 @@ function* fetchRoutesJSON() {
 function* fetchBusstopsOption() {
   const { answer } = getContainerProp<Bus3dState>(yield select());
   const bsoptFname = `${answer.split('.')[0]}-option`;
-  debugger
   yield put(Actions.setLoading(true));
   const { data } = (yield fetchJSON(`${BUSSTOPSPATH}${bsoptFname}.json`)) as { data: BusOptionData };
   if (data) {
@@ -538,7 +528,6 @@ function* updateRainfall({ settime, xbandCellSize, answer, xbandFname }:
     return;
   }
   yield put(Actions.setXbandFname(nextXbandFname));
-  debugger
   yield put(Actions.setLoading(true));
   const { data } = (yield fetchJSON(`${GRIDDATAPATH}${nextXbandFname}.json`)) as { data: RainfallData[] };
 

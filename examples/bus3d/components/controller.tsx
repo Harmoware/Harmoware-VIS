@@ -126,7 +126,6 @@ export default class Controller extends React.Component<Props, State> {
     const { actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
-    debugger
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = (ev: ProgressEvent) => {
