@@ -25,6 +25,7 @@ export default class XbandDataInput extends React.Component<Props, State> {
       return;
     }
     const { actions } = this.props;
+    debugger
     actions.setLoading(true);
     reader.readAsText(file);
     reader.onload = () => {
