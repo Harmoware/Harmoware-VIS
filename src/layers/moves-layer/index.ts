@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
@@ -111,18 +111,16 @@ export default class MovesLayer extends CompositeLayer<Props> {
         opacity: layerOpacity,
         pickable: true,
         cellSize: iconCubeSize,
-        lightSettings
       }) : null,
       visible && iconChange && iconCubeType === 1 ? new CubeiconLayer({
         id: 'moves3',
         data: movedData,
         getPosition,
         getColor,
-        getHeight: (x: any) => x.height || 40,
+        getHeight: (x: any) => x.height || iconCubeSize,
         opacity: layerOpacity,
         pickable: true,
-        cellSize: iconCubeSize,
-        lightSettings
+        cellSize: iconCubeSize
       }) : null,
       visible ? new LineLayer({
         id: 'route-paths',
@@ -132,7 +130,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         visible,
         pickable: false
       }) : null,
-      visible && optionVisible ?
+/*      visible && optionVisible ?
       new CubeGraphLayer({
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
@@ -151,7 +149,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
         lightSettings
-      }) : null,
+      }) : null,  */
       visible && optionVisible ?
       new ArcLayer({
         id: 'moves-opt-arc',
