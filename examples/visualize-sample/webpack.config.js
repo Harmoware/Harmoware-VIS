@@ -72,12 +72,6 @@ module.exports = {
     }
   },
 
-  devServer: {
-    host: '0.0.0.0',
-    disableHostCheck: true
-  },
-
-
   // Optional: Enables reading mapbox token from environment variable
   plugins: [
     new webpack.EnvironmentPlugin(['MAPBOX_ACCESS_TOKEN'])
