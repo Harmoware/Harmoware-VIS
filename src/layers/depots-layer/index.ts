@@ -54,11 +54,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     }
 
     const stacking2 = optionVisible && optionChange;
-    const { distanceScales: { degreesPerPixel, pixelsPerMeter } } = this.context.viewport;
-    const degreesMeterLng = Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]);
-    const degreesMeterLat = Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1]);
-    const optionShiftLng = degreesMeterLng * ((optionCellSize / 2) + 2);
-    const optionShiftLat = stacking2 ? 0 : degreesMeterLat * ((optionCellSize / 2) + 2);
 
     const getPosition = (x: Position) => x.position;
 
@@ -80,9 +75,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         data: depotsData,
         visible: optionVisible,
         stacking2,
-        optionShiftLng,
-        optionShiftLat,
-        degreesMeterLng,
         getPosition,
         getRadius,
         getColor: getCubeColor,
@@ -91,7 +83,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         pickable,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
-        lightSettings
       }) : null,
     ];
   }

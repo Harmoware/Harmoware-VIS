@@ -10,6 +10,8 @@ interface Props extends LayerProps {
   material?: object,
   getPosition?: (x: any) => number[],
   getColor?: (x: any) => number[],
+  getFillColor?: (x: any) => number[],
+  getLineColor?: (x: any) => number[],
   getHeight?: (x: any) => number,
 }
 export default class CubeiconLayer extends GridCellLayer<Props> {
@@ -20,7 +22,9 @@ export default class CubeiconLayer extends GridCellLayer<Props> {
 
   static defaultProps = {
     getHeight: (x: any) => x.height, // height:height
-    getColor: (x: any) => x.color || DEFAULT_COLOR,
+    getFillColor: (x: any) => x.color || DEFAULT_COLOR,
+    getLineColor: (x: any) => x.color || DEFAULT_COLOR,
+    getColor: {deprecatedFor: ['getFillColor', 'getLineColor']}
   };
 
   static layerName = 'CubeiconLayer';

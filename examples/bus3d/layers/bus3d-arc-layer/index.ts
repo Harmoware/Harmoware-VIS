@@ -6,6 +6,9 @@ const { COLOR1 } = settings;
 interface Props extends LayerProps {
     data: Arcdata[],
     visible?: boolean,
+    widthUnits?: string,
+    widthScale?: number,
+    widthMinPixels?: number,
     getSourcePosition?: (x: Arcdata) => number[],
     getTargetPosition?: (x: Arcdata) => number[],
     getSourceColor?: (x: Arcdata) => number[],
@@ -17,6 +20,9 @@ interface Props extends LayerProps {
 export default class Bus3dArcLayer extends CompositeLayer<Props> {
   static defaultProps = {
     visible: true,
+    widthUnits: 'meters',
+    widthScale: 1,
+    widthMinPixels: 0.1,
     getSourcePosition: (x: Arcdata) => x.sourcePosition,
     getTargetPosition: (x: Arcdata) => x.targetPosition,
     getSourceColor: (x: Arcdata) => x.sourceColor || x.color || COLOR1,
@@ -32,24 +38,26 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
   }
 
   renderLayers() {
-    const { data, visible,
+    const { data, visible, widthUnits, widthMinPixels,
         getSourcePosition, getTargetPosition, getSourceColor, getTargetColor, getStrokeWidth
     } = this.props;
 
-    const { distanceScales: { pixelsPerMeter } } = this.context.viewport;
+    if (!data || data.length === 0 || !visible) {
+      return null;
+    }
 
-    return [visible && data.length > 0 ?
-      new ArcLayer({
+    return new ArcLayer({
         id: 'arch-layer',
         data,
         visible,
+        widthUnits,
+        widthMinPixels,
         pickable: true,
         getSourcePosition,
         getTargetPosition,
         getSourceColor,
         getTargetColor,
-        getStrokeWidth: (x: any) => getStrokeWidth(x) * Math.abs(pixelsPerMeter[0])
-      }): null
-    ];
+        getWidth: (x: any) => getStrokeWidth(x)
+      });
   }
 }

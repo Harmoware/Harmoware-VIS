@@ -1,8 +1,7 @@
 import { LayerProps, CompositeLayer, LineLayer } from 'deck.gl';
-import { LineMapData, LineData, Viewport } from '../../types';
+import { LineMapData, LineData } from '../../types';
 
 interface Props extends LayerProps {
-  viewport: Viewport,
   linemapData: LineMapData[],
   visible?: boolean,
   opacity?: number,
@@ -26,25 +25,16 @@ export default class LineMapLayer extends CompositeLayer<Props> {
 
   static layerName = 'LineMapLayer';
 
-  shouldUpdateState({changeFlags:{viewportChanged}}) {
-    return viewportChanged;
-  }
-
   renderLayers() {
-    const { viewport, linemapData, visible, opacity, pickable,
+    const { id, linemapData, visible, opacity, pickable,
       getSourcePosition, getTargetPosition, getWidth, getColor } = this.props;
 
-    if (!linemapData) {
+    if (!linemapData || !visible) {
       return null;
     }
 
-    const { distanceScales: { pixelsPerMeter } } = this.context.viewport;
-    const average = (Math.abs(pixelsPerMeter[0]) + Math.abs(pixelsPerMeter[1])) / 2.0;
-    const setWidth = (x:any) => average * getWidth(x);
-
-    return [
-      visible ? new LineLayer({
-        id: 'line-map-layer',
+    return new LineLayer({
+        id: id + '-LineMapLayer',
         data: linemapData,
         visible,
         opacity,
@@ -52,9 +42,9 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getSourcePosition,
         getTargetPosition,
         getColor,
-        getWidth: setWidth,
-        updateTriggers: { getWidth: viewport }
-      }) : null,
-    ];
+        getWidth,
+        widthUnits: 'meters',
+        widthMinPixels: 0.1,
+      });
   }
 }

@@ -65,18 +65,16 @@ export default class XbandmeshLayer extends CompositeLayer<Props> {
     const getCellColor =
       (x: RainfallData) => getColor(x) || getRainfallColor(getElevation(x)) || defaultColor;
 
-    return [
-      new GridCellLayer({
+    return new GridCellLayer({
         id: 'xband-mesh-layer',
         data: rainfall,
         getElevation,
-        getColor: getCellColor,
+        getFillColor: getCellColor,
         opacity: layerOpacity,
         cellSize: layerCellSize,
         elevationScale: layerElevationScale,
         lightSettings,
         pickable: true
-      })
-    ];
+      });
   }
 }

@@ -1,6 +1,5 @@
 import { LayerProps, CompositeLayer, PolygonLayer } from 'deck.gl';
 import { COLOR1 } from '../../constants/settings';
-import { LightSettings } from '../../types';
 
 interface Props extends LayerProps {
   filled?: boolean,
@@ -8,13 +7,14 @@ interface Props extends LayerProps {
   extruded?: boolean,
   wireframe?: boolean,
   elevationScale?: number,
+  lineWidthUnits?: string,
   lineWidthScale?: boolean,
   lineWidthMinPixels?: number,
   lineWidthMaxPixels?: number,
   lineJointRounded?: boolean,
   lineMiterLimit?: number,
   lineDashJustified?: boolean,
-  lightSettings: LightSettings,
+  material?: object,
   getPolygon?: (x: any) => number[],
   getFillColor?: (x: any) => number[] | number[],
   getLineColor?: (x: any) => number[] | number[],
@@ -42,13 +42,13 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     extruded: true,
     wireframe: true,
     elevationScale: 1,
+    lineWidthUnits: 'meters',
     lineWidthScale: 1,
     lineWidthMinPixels: 1,
     lineWidthMaxPixels: Number.MAX_SAFE_INTEGER,
     lineJointRounded: false,
     lineMiterLimit: 4,
     lineDashJustified: false,
-    lightSettings: {},
     getLineWidth: 1,
     getElevation: 20,
     cellSize: 50,
@@ -60,14 +60,14 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
   static layerName = 'PolygonIconLayer';
 
   renderLayers() {
-    const { data, visible, opacity, pickable,
-      filled, stroked, extruded, wireframe, elevationScale,
+    const { id, data, visible, opacity, pickable,
+      filled, stroked, extruded, wireframe, elevationScale, lineWidthUnits,
       lineWidthScale, lineWidthMinPixels, lineWidthMaxPixels,
-      lineJointRounded, lineMiterLimit, lineDashJustified, lightSettings,
+      lineJointRounded, lineMiterLimit, lineDashJustified,
       getPolygon: propGetPolygon, getFillColor, getLineColor, getLineWidth,
       getElevation, cellSize, getPosition, getColor, getVertexAngle } = this.props;
 
-    if (!data || data.length === 0) {
+    if (!data || data.length === 0 || !visible) {
       return null;
     }
 
@@ -107,31 +107,28 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
 
     const getPolygon = (x: any) => x.polygon;
 
-    return [
-      new PolygonLayer({
-        id: 'polygon-layer',
-        data: polygonData,
-        visible,
-        opacity,
-        pickable,
-        filled,
-        stroked,
-        extruded,
-        wireframe,
-        elevationScale,
-        lineWidthScale,
-        lineWidthMinPixels,
-        lineWidthMaxPixels,
-        lineJointRounded,
-        lineMiterLimit,
-        lineDashJustified,
-        lightSettings,
-        getPolygon: propGetPolygon || getPolygon,
-        getFillColor: getFillColor || getColor,
-        getLineColor: getLineColor || getColor,
-        getLineWidth,
-        getElevation,
-      }),
-    ];
+    return new PolygonLayer({
+      id: id + '-PolygonIconLayer',
+      data: polygonData,
+      opacity,
+      pickable,
+      filled,
+      stroked,
+      extruded,
+      wireframe,
+      elevationScale,
+      lineWidthUnits,
+      lineWidthScale,
+      lineWidthMinPixels,
+      lineWidthMaxPixels,
+      lineJointRounded,
+      lineMiterLimit,
+      lineDashJustified,
+      getPolygon: propGetPolygon || getPolygon,
+      getFillColor: getFillColor || getColor,
+      getLineColor: getLineColor || getColor,
+      getLineWidth,
+      getElevation,
+    });
   }
 }

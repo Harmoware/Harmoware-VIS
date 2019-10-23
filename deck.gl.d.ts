@@ -1,7 +1,10 @@
 declare module "deck.gl" {
 
   import * as React from 'react';
+  import DeckGL from '@deck.gl/react';
   import { Layer } from '@deck.gl/core';
+  import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer,
+    HexagonLayer, ArcLayer, PolygonLayer, AttributeManager } from '@deck.gl/layers';
   import { vec3 } from 'gl-matrix';
   import { number } from 'prop-types';
 

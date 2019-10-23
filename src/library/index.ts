@@ -222,10 +222,11 @@ export const onHoverClick = (pickParams: pickParams): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
+  console.log(pickParams);
   if (mode === 'hover' && props.onHover) {
     props.onHover(info);
   }
-  if (mode === 'click') {
+  if (mode === 'click' || mode === 'query') {
     if (props.onClick) {
       props.onClick(info);
     } else

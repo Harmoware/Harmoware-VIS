@@ -197,7 +197,7 @@ class App extends Container<BasedProps, State> {
               }):null,
               linemapData.length > 0 ?
               new LineMapLayer({
-                viewport,
+                id: 'line-map',
                 linemapData,
                 onHover
               }):null,

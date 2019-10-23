@@ -1,11 +1,11 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer, ArcLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
-  Position, Radius, DataOption, Viewport } from '../../types';
+  Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
 
 interface Props extends LayerProps {
@@ -53,7 +53,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
-    getStrokeWidth: (x: any) => x.strokeWidth || 1,
+    getStrokeWidth: (x: any) => x.strokeWidth || 10,
   };
 
   static layerName = 'MovesLayer';
@@ -70,16 +70,10 @@ export default class MovesLayer extends CompositeLayer<Props> {
       getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;
 
-    if (typeof clickedObject === 'undefined' || (optionVisible && !lightSettings)) {
+    if (typeof clickedObject === 'undefined' ||
+      !optionVisible || !movedData || movedData.length === 0) {
       return null;
     }
-
-    const { distanceScales } = this.context.viewport;
-    const { degreesPerPixel, pixelsPerMeter } = distanceScales;
-    const degreesMeterLng = Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]);
-    const degreesMeterLat = Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1]);
-    const optionShiftLng = (degreesMeterLng * optionCellSize) / 2;
-    const optionShiftLat = (degreesMeterLat * optionCellSize) / 2;
 
     const getPosition = (x: Position) => x.position;
     const optionMovedData: any[] = movedData;
@@ -125,21 +119,19 @@ export default class MovesLayer extends CompositeLayer<Props> {
       visible ? new LineLayer({
         id: 'route-paths',
         data: routePaths,
-        getWidth: Math.max(pixelsPerMeter[0] * 10, 1),
+        widthUnits: 'meters',
+        getWidth: (x: any) => x.strokeWidth || 10,
+        widthMinPixels: 0.1,
         getColor,
         visible,
         pickable: false
       }) : null,
-/*      visible && optionVisible ?
+      visible && optionVisible ?
       new CubeGraphLayer({
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
         visible: visible && optionVisible,
         stacking1,
-        optionShiftLng,
-        optionShiftLat,
-        degreesMeterLng,
-        degreesMeterLat,
         getPosition,
         getColor: getCubeColor,
         getElevation: getCubeElevation,
@@ -148,19 +140,20 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: false,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
-        lightSettings
-      }) : null,  */
+      }) : null,
       visible && optionVisible ?
       new ArcLayer({
         id: 'moves-opt-arc',
         data: movedData as any[],
         visible: visible && optionVisible,
         pickable: true,
+        widthUnits: 'meters',
+        widthMinPixels: 0.1,
         getSourcePosition: (x: MovedData) => x.sourcePosition || getPosition(x),
         getTargetPosition: (x: MovedData) => x.targetPosition || getPosition(x),
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
-        getStrokeWidth: (x: any) => Math.max(getStrokeWidth(x) * pixelsPerMeter[0], 1),
+        getWidth: (x: any) => getStrokeWidth(x),
         opacity: layerOpacity
       }) : null,
     ];

@@ -15,7 +15,7 @@ const initialState: {
 } = {
   delayheight: 0,
   delayrange: 10,
-  elevationScale: 1,
+  elevationScale: 2,
   xbandCellSize: 0,
   bsoptFname: '',
   xbandFname: '',
