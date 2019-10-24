@@ -71,7 +71,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
-      !optionVisible || !movedData || movedData.length === 0) {
+      !movedData || movedData.length === 0) {
       return null;
     }
 
@@ -111,6 +111,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         data: movedData,
         getPosition,
         getColor,
+        visible,
         getHeight: (x: any) => x.height || iconCubeSize,
         opacity: layerOpacity,
         pickable: true,
@@ -126,11 +127,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
         visible,
         pickable: false
       }) : null,
-      visible && optionVisible ?
+      optionVisible ?
       new CubeGraphLayer({
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
-        visible: visible && optionVisible,
+        visible: optionVisible,
         stacking1,
         getPosition,
         getColor: getCubeColor,
@@ -141,11 +142,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
       }) : null,
-      visible && optionVisible ?
+      optionVisible ?
       new ArcLayer({
         id: 'moves-opt-arc',
         data: movedData as any[],
-        visible: visible && optionVisible,
+        visible: optionVisible,
         pickable: true,
         widthUnits: 'meters',
         widthMinPixels: 0.1,
