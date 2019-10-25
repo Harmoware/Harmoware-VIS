@@ -1,18 +1,18 @@
 import { LayerProps, CompositeLayer, PolygonLayer } from 'deck.gl';
-import { LightSettings } from '../../types';
 interface Props extends LayerProps {
     filled?: boolean;
     stroked?: boolean;
     extruded?: boolean;
     wireframe?: boolean;
     elevationScale?: number;
+    lineWidthUnits?: string;
     lineWidthScale?: boolean;
     lineWidthMinPixels?: number;
     lineWidthMaxPixels?: number;
     lineJointRounded?: boolean;
     lineMiterLimit?: number;
     lineDashJustified?: boolean;
-    lightSettings: LightSettings;
+    material?: object;
     getPolygon?: (x: any) => number[];
     getFillColor?: (x: any) => number[] | number[];
     getLineColor?: (x: any) => number[] | number[];
@@ -34,13 +34,13 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
         extruded: boolean;
         wireframe: boolean;
         elevationScale: number;
+        lineWidthUnits: string;
         lineWidthScale: number;
         lineWidthMinPixels: number;
         lineWidthMaxPixels: number;
         lineJointRounded: boolean;
         lineMiterLimit: number;
         lineDashJustified: boolean;
-        lightSettings: {};
         getLineWidth: number;
         getElevation: number;
         cellSize: number;
@@ -52,7 +52,6 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
     renderLayers(): PolygonLayer<{
         id: string;
         data: any[];
-        visible: boolean;
         opacity: number;
         pickable: boolean;
         filled: boolean;
@@ -60,18 +59,18 @@ export default class PolygonIconLayer extends CompositeLayer<Props> {
         extruded: boolean;
         wireframe: boolean;
         elevationScale: number;
+        lineWidthUnits: string;
         lineWidthScale: boolean;
         lineWidthMinPixels: number;
         lineWidthMaxPixels: number;
         lineJointRounded: boolean;
         lineMiterLimit: number;
         lineDashJustified: boolean;
-        lightSettings: LightSettings;
         getPolygon: (x: any) => any;
         getFillColor: (x: any) => number[];
         getLineColor: (x: any) => number[];
         getLineWidth: (x: any) => number;
         getElevation: (x: any) => number;
-    }, {}>[];
+    }, {}>;
 }
 export {};

@@ -12,5 +12,7 @@ export interface pickParams {
 export declare const onHoverClick: (pickParams: pickParams) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: ClickedObject[], routePaths: RoutePaths[], actions: typeof Actions) => void;
 export declare const defaultMapStateToProps: <P>(state: P) => P;
-export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => import("react-redux").ConnectedComponentClass<any, Pick<{}, never>>;
-export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<{}>;
+export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => any;
+export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<{
+    base: import("../types").BasedState;
+}, import("redux").AnyAction>;

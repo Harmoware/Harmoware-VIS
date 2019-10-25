@@ -64,20 +64,24 @@ export default class MovesLayer extends CompositeLayer<Props> {
     }, {}> | LineLayer<{
         id: string;
         data: RoutePaths[];
-        getStrokeWidth: number;
+        widthUnits: string;
+        getWidth: (x: any) => any;
+        widthMinPixels: number;
         getColor: (x: DataOption) => number[];
         visible: true;
         pickable: false;
     }, {}> | ArcLayer<{
         id: string;
         data: any[];
-        visible: boolean;
+        visible: true;
         pickable: true;
+        widthUnits: string;
+        widthMinPixels: number;
         getSourcePosition: (x: MovedData) => number[];
         getTargetPosition: (x: MovedData) => number[];
         getSourceColor: (x: MovedData) => (number | number[])[];
         getTargetColor: (x: MovedData) => (number | number[])[];
-        getStrokeWidth: (x: any) => number;
+        getWidth: (x: any) => any;
         opacity: number;
     }, {}>)[];
 }

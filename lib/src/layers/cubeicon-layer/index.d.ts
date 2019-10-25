@@ -1,46 +1,26 @@
-import { Layer } from '@deck.gl/core';
-import { LayerProps, AttributeManager } from 'deck.gl';
-import { Model } from 'luma.gl';
-import { LightSettings } from '../../types';
+import { LayerProps, GridCellLayer } from 'deck.gl';
 interface Props extends LayerProps {
     cellSize?: number;
     coverage?: number;
-    heightScale?: number;
+    elevationScale?: number;
     extruded?: boolean;
-    lightSettings: LightSettings;
+    material?: object;
     getPosition?: (x: any) => number[];
-    getHeight?: (x: any) => number;
     getColor?: (x: any) => number[];
+    getFillColor?: (x: any) => number[];
+    getLineColor?: (x: any) => number[];
+    getHeight?: (x: any) => number;
 }
-interface State {
-    attributeManager: AttributeManager;
-    model: Model;
-}
-interface Attribute {
-    value: number[];
-    size: number;
-}
-export default class CubeiconLayer extends Layer<Props, State> {
+export default class CubeiconLayer extends GridCellLayer<Props> {
     constructor(props: Props);
-    static defaultProps: Props;
-    static layerName: string;
-    getShaders(): {
-        vs: string;
-        fs: string;
-        modules: string[];
-        shaderCache: any;
+    static defaultProps: {
+        getHeight: (x: any) => any;
+        getFillColor: (x: any) => any;
+        getLineColor: (x: any) => any;
+        getColor: {
+            deprecatedFor: string[];
+        };
     };
-    initializeState(): void;
-    updateState({ props, oldProps, changeFlags }: {
-        props: any;
-        oldProps: any;
-        changeFlags: any;
-    }): void;
-    getModel(gl: WebGLRenderingContext): Model;
-    updateUniforms(): void;
-    getNumInstances(props: Props): number;
-    draw(): void;
-    calculateInstancePositions(attribute: Attribute): void;
-    calculateInstanceColors(attribute: Attribute): void;
+    static layerName: string;
 }
 export {};

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 interface Props {
-    visible: boolean;
+    visible?: boolean;
     viewport: Viewport;
     mapboxApiAccessToken: string;
     mapStyle?: string;
