@@ -1,7 +1,7 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { BasedState } from '../types';
-import { addMinutes, setViewport, setDefaultViewport, setLightSettings, setTimeStamp, 
+import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
@@ -18,14 +18,6 @@ const initialState: BasedState = {
     bearing: 0,
     width: 500, // 共通
     height: 500, // 共通
-  },
-  lightSettings: {
-    lightsPosition: [0, 0, 8000, 0, 0, 8000],
-    ambientRatio: 0.2,
-    diffuseRatio: 0.5,
-    specularRatio: 0.3,
-    lightsStrength: [1.0, 0.0, 2.0, 0.0],
-    numberOfLights: 2,
   },
   settime: 0,
   starttimestamp: 0,
@@ -84,13 +76,6 @@ reducer.case(setDefaultViewport, (state) => {
     bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch });
   return Object.assign({}, state, {
     viewport
-  });
-});
-
-reducer.case(setLightSettings, (state, light) => {
-  const lightSettings = Object.assign({}, state.lightSettings, light);
-  return Object.assign({}, state, {
-    lightSettings
   });
 });
 
@@ -193,15 +178,10 @@ reducer.case(setMovesBase, (state, base) => {
   const setState = { ...state, bounds };
   const depotsData = getDepots(setState);
   let linemapData = state.linemapData;
-  const lightSettings = Object.assign({}, state.lightSettings,
-    {lightsPosition: [
-      bounds.westlongitiude, bounds.northlatitude, 8000,
-      bounds.eastlongitiude, bounds.southlatitude, 8000]});
   return Object.assign({}, state, {
     timeBegin,
     timeLength,
     bounds,
-    lightSettings,
     movesbase,
     movedData: [],
     settime,

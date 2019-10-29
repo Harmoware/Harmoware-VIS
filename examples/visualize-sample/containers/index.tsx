@@ -123,7 +123,7 @@ class App extends Container<BasedProps, State> {
   render() {
     const props = this.props;
     const {
-      actions, lightSettings, routePaths, viewport, loading,
+      actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
 
     const onHover = (el: EventInfo) => {
@@ -175,7 +175,6 @@ class App extends Container<BasedProps, State> {
               depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
-                lightSettings,
                 optionVisible: this.state.depotOptionVisible,
                 optionChange: this.state.optionChange,
                 onHover
@@ -187,7 +186,6 @@ class App extends Container<BasedProps, State> {
                 movesbase,
                 clickedObject,
                 actions,
-                lightSettings,
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
@@ -208,7 +206,6 @@ class App extends Container<BasedProps, State> {
                 radius: 100,
                 opacity: 0.5,
                 extruded: true,
-                lightSettings,
                 visible: this.state.heatmapVisible
               }):null
             ]}

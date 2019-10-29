@@ -4,7 +4,7 @@ import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings,
+import { RoutePaths, MovedData, Movesbase, ClickedObject,
   Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
 
@@ -24,7 +24,6 @@ interface Props extends LayerProps {
   iconChange?: boolean,
   iconCubeType?: number,
   iconCubeSize?: number,
-  lightSettings: LightSettings,
   getColor?: (x: DataOption) => number[],
   getRadius?: (x: Radius) => number,
   getCubeColor?: (x: DataOption) => number[][],
@@ -65,7 +64,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   renderLayers() {
     const { routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionVisible, optionChange, lightSettings, getColor, getRadius,
+      optionVisible, optionChange, getColor, getRadius,
       iconChange, iconCubeType, iconCubeSize, visible,
       getCubeColor, getCubeElevation, getStrokeWidth
     } = this.props;

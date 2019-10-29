@@ -62,7 +62,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
     const props = this.props;
     const {
       actions, settime, elevationScale, selectedBusstop, rainfall, t,
-      lightSettings, routePaths, xbandCellSize, viewport, hovered, clickedObject,
+      routePaths, xbandCellSize, viewport, hovered, clickedObject,
       busoption, movedData, movesbase, depotsData, loading } = props;
 
     const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
@@ -112,14 +112,12 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
             layers={[
               rainfall.length > 0 ?
               new XbandmeshLayer({
-                lightSettings,
                 rainfall,
                 layerCellSize: xbandCellSize
               }):null,
               depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
-                lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busstopsoption' in busoption,
                 optionChange: this.state.optionChange,
@@ -133,7 +131,6 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 movesbase,
                 clickedObject,
                 actions,
-                lightSettings,
                 optionElevationScale: elevationScale,
                 optionVisible: 'busmovesoption' in busoption,
                 optionChange: this.state.optionChange,
