@@ -1,4 +1,4 @@
-import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, Movesbase, MovesbaseOperation, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo } from './types';
+import { BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, MovedData, Movesbase, MovesbaseOperation, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo } from './types';
 import MovesInput from './components/moves-input';
 import DepotsInput from './components/depots-input';
 import LinemapInput from './components/linemap-input';
@@ -24,4 +24,4 @@ import Container from './containers';
 import reducer from './reducers';
 import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
 declare const Actions: ActionsInterface;
-export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, NavigationButton, FpsDisplay, settings, Container, MovesLayer, DepotsLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, LightSettings, MovedData, MovesbaseOperation, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo };
+export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, NavigationButton, FpsDisplay, settings, Container, MovesLayer, DepotsLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, MovedData, MovesbaseOperation, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, Position, Radius, DataOption, LineData, EventInfo };

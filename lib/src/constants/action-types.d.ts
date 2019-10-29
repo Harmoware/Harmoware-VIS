@@ -8,7 +8,6 @@ export declare const SETLEADING = "SETLEADING";
 export declare const SETTRAILING = "SETTRAILING";
 export declare const SETVIEWPORT = "SETVIEWPORT";
 export declare const SETDEFAULTVIEWPORT = "SETDEFAULTVIEWPORT";
-export declare const SETLIGHTSETTINGS = "SETLIGHTSETTINGS";
 export declare const SETMOVESBASE = "SETMOVESBASE";
 export declare const SETDEPOTSBASE = "SETDEPOTSBASE";
 export declare const SETANIMATEPAUSE = "SETANIMATEPAUSE";

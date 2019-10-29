@@ -1,4 +1,4 @@
-import { BasedProps as Props, LightSettings, Viewport, Movesbase, MovesbaseFile, Depotsbase, ClickedObject, RoutePaths, LineMapData } from '../types';
+import { BasedProps as Props, Viewport, Movesbase, MovesbaseFile, Depotsbase, ClickedObject, RoutePaths, LineMapData } from '../types';
 export declare const addMinutes: import("typescript-fsa").ActionCreator<number>;
 export declare const increaseTime: import("typescript-fsa").ActionCreator<Props>;
 export declare const decreaseTime: import("typescript-fsa").ActionCreator<Props>;
@@ -9,7 +9,6 @@ export declare const setLeading: import("typescript-fsa").ActionCreator<number>;
 export declare const setTrailing: import("typescript-fsa").ActionCreator<number>;
 export declare const setViewport: import("typescript-fsa").ActionCreator<Viewport>;
 export declare const setDefaultViewport: import("typescript-fsa").ActionCreator<void>;
-export declare const setLightSettings: import("typescript-fsa").ActionCreator<LightSettings>;
 export declare const setMovesBase: import("typescript-fsa").ActionCreator<MovesbaseFile | Movesbase[]>;
 export declare const setDepotsBase: import("typescript-fsa").ActionCreator<Depotsbase[]>;
 export declare const setAnimatePause: import("typescript-fsa").ActionCreator<boolean>;

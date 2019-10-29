@@ -11,14 +11,6 @@ export interface Viewport {
     width?: number;
     height?: number;
 }
-export interface LightSettings {
-    lightsPosition?: number[];
-    ambientRatio?: number;
-    diffuseRatio?: number;
-    specularRatio?: number;
-    lightsStrength?: number[];
-    numberOfLights?: number;
-}
 export interface Bounds {
     westlongitiude: number;
     eastlongitiude: number;
@@ -112,7 +104,6 @@ export interface BasedState {
     getDepotsOptionFunc?: null | (<P>(props: P, i: number) => object);
     getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => object);
     leading?: number;
-    lightSettings?: LightSettings;
     loopTime?: number;
     movedData?: MovedData[];
     movesbase?: Movesbase[];

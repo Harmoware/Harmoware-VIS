@@ -3,7 +3,7 @@ import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
 import { pickParams } from '../../library';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LightSettings, Position, Radius, DataOption } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
     routePaths: RoutePaths[];
@@ -21,7 +21,6 @@ interface Props extends LayerProps {
     iconChange?: boolean;
     iconCubeType?: number;
     iconCubeSize?: number;
-    lightSettings: LightSettings;
     getColor?: (x: DataOption) => number[];
     getRadius?: (x: Radius) => number;
     getCubeColor?: (x: DataOption) => number[][];

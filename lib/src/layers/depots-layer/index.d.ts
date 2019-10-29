@@ -1,6 +1,6 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer } from 'deck.gl';
 import CubeGraphLayer from '../cubegraph-layer';
-import { DepotsData, LightSettings, Position, Radius, DataOption } from '../../types';
+import { DepotsData, Position, Radius, DataOption } from '../../types';
 interface Props extends LayerProps {
     layerRadiusScale?: number;
     layerOpacity?: number;
@@ -10,7 +10,6 @@ interface Props extends LayerProps {
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
-    lightSettings: LightSettings;
     getColor?: (x: any) => number[];
     getRadius?: (x: any) => number;
     getCubeColor?: (x: DataOption) => number[][];
