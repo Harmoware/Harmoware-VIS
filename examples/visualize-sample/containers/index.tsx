@@ -69,8 +69,8 @@ class App extends Container<BasedProps, State> {
     this.setState({ iconChange: e.target.checked });
   }
 
-  getIconCubeTypeChecked(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ iconCubeType: e.target.checked ? 1 : 0 });
+  getIconCubeTypeSelected(e: React.ChangeEvent<HTMLSelectElement>) {
+    this.setState({ iconCubeType: Number(e.target.value) });
   }
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
@@ -145,6 +145,7 @@ class App extends Container<BasedProps, State> {
       <div>
         <Controller
           {...props}
+          iconCubeType={this.state.iconCubeType}
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
@@ -153,7 +154,7 @@ class App extends Container<BasedProps, State> {
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getIconChangeChecked={this.getIconChangeChecked.bind(this)}
-          getIconCubeTypeChecked={this.getIconCubeTypeChecked.bind(this)}
+          getIconCubeTypeSelected={this.getIconCubeTypeSelected.bind(this)}
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">

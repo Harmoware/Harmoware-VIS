@@ -38,6 +38,8 @@ declare module "deck.gl" {
 
   class ArcLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
+  class ScenegraphLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+
   class PolygonLayer<P extends LayerProps = LayerProps, S = {}> extends CompositeLayer<P, S> {}
 
   class AttributeManager {

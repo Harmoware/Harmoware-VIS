@@ -17,6 +17,30 @@ div.vis_sample_controller {
         cursor: pointer;
       }
     }
+    div.form-select {
+      label {
+        margin-bottom: 2px;
+      }
+      select {
+        color: #f8f9fa;
+        border-radius: 2px;
+        cursor: pointer;
+        line-height: 14px;
+        padding: 4px 8px;
+        text-align: center;
+        vertical-align: middle;
+        width: 100%;
+        border-width: 1px;
+        border-color: #f8f9fa;
+        transition: all .2s ease;
+        background: none;
+        &:hover {
+          color: #212529;
+          background-color: #f8f9fa;
+          background: #f8f9fa;
+        }
+      }
+    }
   }
   div.vis_sample_input_button_column {
     width: 100%;

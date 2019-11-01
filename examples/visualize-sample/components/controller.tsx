@@ -16,7 +16,8 @@ interface Props extends BasedProps{
   getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getIconChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getIconCubeTypeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getIconCubeTypeSelected?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  iconCubeType: number
 }
 
 interface State {
@@ -103,7 +104,7 @@ export default class Controller extends React.Component<Props, State> {
     const { settime, timeBegin, timeLength, actions, movedData, movesbase,
       secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
-      getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeChecked,
+      getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, iconCubeType,
       getMoveSvgChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
@@ -157,9 +158,13 @@ export default class Controller extends React.Component<Props, State> {
               </div>
             </li>
             <li>
-              <div className="form-check">
-                <input type="checkbox" id="IconCubeTypeChecked" onChange={getIconCubeTypeChecked} className="form-check-input" />
-                <label htmlFor="IconCubeTypeChecked" className="form-check-label">３Ｄアイコン表示タイプ切替</label>
+              <div className="form-select">
+                <label htmlFor="IconCubeTypeSelect" className="form-select-label">３Ｄアイコン表示タイプ切替</label>
+                <select id="IconCubeTypeSelect" value={iconCubeType} onChange={getIconCubeTypeSelected} >
+                <option value="0">PolygonIconLayer</option>
+                <option value="1">CubeiconLayer</option>
+                <option value="2">ScenegraphLayer</option>
+                </select>
               </div>
             </li>
             <li>

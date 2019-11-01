@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, ScenegraphLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
@@ -7,6 +7,12 @@ import { COLOR1 } from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject,
   Position, Radius, DataOption } from '../../types';
 import * as Actions from '../../actions';
+import {registerLoaders} from '@loaders.gl/core';
+import {GLTFScenegraphLoader} from '@luma.gl/addons';
+
+registerLoaders([GLTFScenegraphLoader]);
+
+const defaultScenegraph = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/scenegraph-layer/airplane.glb';
 
 interface Props extends LayerProps {
   routePaths: RoutePaths[],
@@ -28,7 +34,11 @@ interface Props extends LayerProps {
   getRadius?: (x: Radius) => number,
   getCubeColor?: (x: DataOption) => number[][],
   getCubeElevation?: (x: DataOption) => number[],
-  getStrokeWidth?: any
+  getStrokeWidth?: any,
+  scenegraph?: any,
+  getOrientation?: (x: DataOption) => number[],
+  getScale?: (x: DataOption) => number[],
+  getTranslation?: (x: DataOption) => number[],
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
@@ -53,7 +63,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
     getStrokeWidth: (x: any) => x.strokeWidth || 10,
-  };
+    scenegraph: defaultScenegraph,
+    getOrientation: (x: any) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
+    getScale: [1,1,1],
+    getTranslation: [0,0,0],
+    };
 
   static layerName = 'MovesLayer';
 
@@ -66,7 +80,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionVisible, optionChange, getColor, getRadius,
       iconChange, iconCubeType, iconCubeSize, visible,
-      getCubeColor, getCubeElevation, getStrokeWidth
+      getCubeColor, getCubeElevation, getStrokeWidth,
+      scenegraph, getOrientation, getScale, getTranslation
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
@@ -115,6 +130,19 @@ export default class MovesLayer extends CompositeLayer<Props> {
         opacity: layerOpacity,
         pickable: true,
         cellSize: iconCubeSize
+      }) : null,
+      visible && iconChange && iconCubeType === 2 ? new ScenegraphLayer({
+        id: 'moves4',
+        data: movedData,
+        scenegraph,
+        getPosition,
+        getColor,
+        getOrientation,
+        getScale,
+        getTranslation,
+        visible,
+        opacity: layerOpacity,
+        pickable: true,
       }) : null,
       visible ? new LineLayer({
         id: 'route-paths',
