@@ -65,7 +65,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getStrokeWidth: (x: any) => x.strokeWidth || 10,
     scenegraph: defaultScenegraph,
     getOrientation: (x: any) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
-    getScale: [1,1,1],
+    getScale: [2,2,2],
     getTranslation: [0,0,0],
     };
 
