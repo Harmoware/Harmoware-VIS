@@ -200,12 +200,13 @@ class App extends Container<BasedProps, State> {
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             mapboxAddLayerValue={null}
-            layers={[
+            layers={[].concat(
               depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
                 optionVisible: this.state.depotOptionVisible,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover
               }):null,
               this.state.moveDataVisible && movedData.length > 0 ?
@@ -221,7 +222,7 @@ class App extends Container<BasedProps, State> {
                 iconChange: this.state.iconChange,
                 onHover
               }):null
-            ]}
+            )}
           />
         </div>
         <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">

@@ -177,12 +177,13 @@ class App extends Container<BasedProps, State> {
             mapboxApiAccessToken={this.state.mapboxVisible ? MAPBOX_TOKEN : ''}
             mapStyle={this.state.mapboxVisible ? undefined : ''}
             visible={this.state.mapboxVisible}
-            layers={[
+            layers={[].concat(
               depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
                 optionVisible: this.state.depotOptionVisible,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover
               }):null,
               this.state.moveDataVisible && movedData.length > 0 ?
@@ -214,7 +215,7 @@ class App extends Container<BasedProps, State> {
                 extruded: true,
                 visible: this.state.heatmapVisible
               }):null
-            ]}
+            )}
             mapGlComponents={ this.getMapGlComponents(movedData) }
           />
         </div>

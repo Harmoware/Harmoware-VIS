@@ -109,7 +109,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
             viewport={viewport}
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
-            layers={[
+            layers={[].concat(
               rainfall.length > 0 ?
               new XbandmeshLayer({
                 rainfall,
@@ -121,6 +121,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 optionElevationScale: elevationScale,
                 optionVisible: 'busstopsoption' in busoption,
                 optionChange: this.state.optionChange,
+                iconChange: this.state.iconChange,
                 onHover,
                 onClick: onClickBusstop
               }):null,
@@ -144,7 +145,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 visible: !this.state.archLayerChange,
                 onHover
               }):null
-            ]}
+            )}
           />
           <InteractionLayer viewport={viewport} hovered={hovered} />
           <LoadingIcon loading={loading} />
