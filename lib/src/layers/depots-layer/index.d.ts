@@ -1,7 +1,9 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'deck.gl';
+import { IcoSphereGeometry } from 'luma.gl';
 import CubeGraphLayer from '../cubegraph-layer';
 import { DepotsData, Position, Radius, DataOption } from '../../types';
 interface Props extends LayerProps {
+    iconChange?: boolean;
     layerRadiusScale?: number;
     layerOpacity?: number;
     depotsData: DepotsData[];
@@ -14,11 +16,17 @@ interface Props extends LayerProps {
     getRadius?: (x: any) => number;
     getCubeColor?: (x: DataOption) => number[][];
     getCubeElevation?: (x: DataOption) => number[];
+    mesh?: any;
+    meshSizeScale?: number;
+    getOrientation?: (x: DataOption) => number[];
+    getScale?: (x: DataOption) => number[];
+    getTranslation?: (x: DataOption) => number[];
 }
 export default class DepotsLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static layerName: string;
     static defaultProps: {
+        iconChange: boolean;
         layerRadiusScale: number;
         layerOpacity: number;
         optionVisible: boolean;
@@ -31,6 +39,11 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getRadius: (x: Radius) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
+        mesh: IcoSphereGeometry;
+        meshSizeScale: number;
+        getOrientation: number[];
+        getScale: number[];
+        getTranslation: number[];
     };
     renderLayers(): (CubeGraphLayer | ScatterplotLayer<{
         id: string;
@@ -42,6 +55,18 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         opacity: number;
         pickable: boolean;
         radiusMinPixels: number;
+    }, {}> | SimpleMeshLayer<{
+        id: string;
+        data: DepotsData[];
+        mesh: any;
+        sizeScale: number;
+        getPosition: (x: Position) => number[];
+        getColor: (x: any) => number[];
+        getOrientation: (x: DataOption) => number[];
+        getScale: (x: DataOption) => number[];
+        getTranslation: (x: DataOption) => number[];
+        opacity: number;
+        pickable: boolean;
     }, {}>)[];
 }
 export {};

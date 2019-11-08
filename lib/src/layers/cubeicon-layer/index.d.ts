@@ -1,4 +1,5 @@
 import { LayerProps, GridCellLayer } from 'deck.gl';
+import { PhongMaterial } from '@luma.gl/core';
 interface Props extends LayerProps {
     cellSize?: number;
     coverage?: number;
@@ -15,11 +16,8 @@ export default class CubeiconLayer extends GridCellLayer<Props> {
     constructor(props: Props);
     static defaultProps: {
         getHeight: (x: any) => any;
-        getFillColor: (x: any) => any;
-        getLineColor: (x: any) => any;
-        getColor: {
-            deprecatedFor: string[];
-        };
+        getColor: (x: any) => any;
+        material: PhongMaterial;
     };
     static layerName: string;
 }

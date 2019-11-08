@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, LineLayer, ArcLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer, ScatterplotLayer, ScenegraphLayer, LineLayer, ArcLayer } from 'deck.gl';
 import CubeiconLayer from '../cubeicon-layer';
 import CubeGraphLayer from '../cubegraph-layer';
 import PolygonIconLayer from '../polygon-icon-layer';
@@ -26,6 +26,10 @@ interface Props extends LayerProps {
     getCubeColor?: (x: DataOption) => number[][];
     getCubeElevation?: (x: DataOption) => number[];
     getStrokeWidth?: any;
+    scenegraph?: any;
+    getOrientation?: (x: DataOption) => number[];
+    getScale?: (x: DataOption) => number[];
+    getTranslation?: (x: DataOption) => number[];
 }
 export default class MovesLayer extends CompositeLayer<Props> {
     constructor(props: Props);
@@ -46,6 +50,10 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
         getStrokeWidth: (x: any) => any;
+        scenegraph: string;
+        getOrientation: (x: any) => number[];
+        getScale: number[];
+        getTranslation: number[];
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
@@ -60,6 +68,18 @@ export default class MovesLayer extends CompositeLayer<Props> {
         opacity: number;
         pickable: true;
         radiusMinPixels: number;
+    }, {}> | ScenegraphLayer<{
+        id: string;
+        data: MovedData[];
+        scenegraph: any;
+        getPosition: (x: Position) => number[];
+        getColor: (x: DataOption) => number[];
+        getOrientation: (x: DataOption) => number[];
+        getScale: (x: DataOption) => number[];
+        getTranslation: (x: DataOption) => number[];
+        visible: true;
+        opacity: number;
+        pickable: true;
     }, {}> | LineLayer<{
         id: string;
         data: RoutePaths[];
