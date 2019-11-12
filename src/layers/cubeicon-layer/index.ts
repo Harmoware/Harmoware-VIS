@@ -18,17 +18,20 @@ interface Props extends LayerProps {
 export default class CubeiconLayer extends GridCellLayer<Props> {
 
   constructor(props: Props) {
-    const { getColor, getFillColor, getLineColor, ...otherProps } = props;
+    const setProps = Object.assign({}, CubeiconLayer.defaultProps ,props);
+    const { id, getColor, getFillColor, getLineColor, ...otherProps } = setProps;
     super(Object.assign({}, otherProps ,{
+      id: id + '-CubeiconLayer',
       getFillColor: getFillColor || getColor,
       getLineColor: getLineColor || getColor,
-      getElevation: props.getHeight,
-      offset: [0,0]}) );
+      getElevation: props.getHeight}) );
   }
 
   static defaultProps = {
+    id: 'Cubeicon',
     getHeight: (x: any) => x.height, // height:height
     getColor: (x: any) => x.color || DEFAULT_COLOR,
+    offset: [0,0],
     material: new PhongMaterial({
       ambient: 0.4,
       diffuse: 0.6,
