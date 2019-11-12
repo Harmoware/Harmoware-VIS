@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer, ArcLayer } from 'deck.gl';
+import { LayerProps, ArcLayer } from 'deck.gl';
 import { Arcdata } from '../../types';
 import { settings } from 'harmoware-vis';
 const { COLOR1 } = settings;
@@ -14,10 +14,17 @@ interface Props extends LayerProps {
     getSourceColor?: (x: Arcdata) => number[],
     getTargetColor?: (x: Arcdata) => number[],
     getStrokeWidth?: (x: Arcdata) => number,
-    onClick?: (x: any) => void,
+    getWidth?: (x: Arcdata) => number,
 }
 
-export default class Bus3dArcLayer extends CompositeLayer<Props> {
+export default class Bus3dArcLayer extends ArcLayer<Props> {
+
+  constructor(props: Props) {
+    const setProps = Object.assign({}, Bus3dArcLayer.defaultProps, props);
+    const { getWidth, getStrokeWidth, ...otherProps } = setProps;
+    super(Object.assign({}, otherProps, { getWidth: getWidth || getStrokeWidth }));
+  }
+
   static defaultProps = {
     visible: true,
     widthUnits: 'meters',
@@ -28,36 +35,7 @@ export default class Bus3dArcLayer extends CompositeLayer<Props> {
     getSourceColor: (x: Arcdata) => x.sourceColor || x.color || COLOR1,
     getTargetColor: (x: Arcdata) => x.targetColor || x.color || COLOR1,
     getStrokeWidth: (x: Arcdata) => x.strokeWidth || 1,
-    onClick: () => {}
   };
 
   static layerName = 'Bus3dArcLayer';
-
-  getPickingInfo(pickParams: any) {
-    this.props.onClick(pickParams);
-  }
-
-  renderLayers() {
-    const { data, visible, widthUnits, widthMinPixels,
-        getSourcePosition, getTargetPosition, getSourceColor, getTargetColor, getStrokeWidth
-    } = this.props;
-
-    if (!data || data.length === 0 || !visible) {
-      return null;
-    }
-
-    return new ArcLayer({
-        id: 'arch-layer',
-        data,
-        visible,
-        widthUnits,
-        widthMinPixels,
-        pickable: true,
-        getSourcePosition,
-        getTargetPosition,
-        getSourceColor,
-        getTargetColor,
-        getWidth: (x: any) => getStrokeWidth(x)
-      });
-  }
 }

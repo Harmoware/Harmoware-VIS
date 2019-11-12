@@ -143,7 +143,6 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
               new Bus3dArcLayer({
                 data: this.state.arcdata,
                 visible: !this.state.archLayerChange,
-                onHover
               }):null
             )}
           />
