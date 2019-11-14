@@ -24,7 +24,7 @@ export default class CubeiconLayer extends GridCellLayer<Props> {
       id: id + '-CubeiconLayer',
       getFillColor: getFillColor || getColor,
       getLineColor: getLineColor || getColor,
-      getElevation: props.getHeight}) );
+      getElevation: setProps.getHeight}) );
   }
 
   static defaultProps = {
