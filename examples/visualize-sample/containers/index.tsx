@@ -203,7 +203,7 @@ class App extends Container<BasedProps, State> {
               linemapData.length > 0 ?
               new LineMapLayer({
                 id: 'line-map',
-                linemapData,
+                data: linemapData,
                 onHover
               }):null,
               this.state.heatmapVisible && movedData.length > 0 ?
