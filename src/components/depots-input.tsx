@@ -12,7 +12,7 @@ interface Props {
 export default class DepotsInput extends React.Component<Props> {
   static defaultProps = {
     i18n: {
-      formatError: 'バス停データ形式不正'
+      formatError: 'データ形式不正'
     }
   }
 

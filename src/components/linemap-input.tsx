@@ -12,7 +12,7 @@ interface Props {
 export default class LinemapInput extends React.Component<Props> {
   static defaultProps = {
     i18n: {
-      formatError: 'ラインマップデータ形式不正'
+      formatError: 'データ形式不正'
     }
   }
 
