@@ -161,9 +161,8 @@ export default class Controller extends React.Component<Props, State> {
               <div className="form-select">
                 <label htmlFor="IconCubeTypeSelect" className="form-select-label">３Ｄアイコン表示タイプ切替</label>
                 <select id="IconCubeTypeSelect" value={iconCubeType} onChange={getIconCubeTypeSelected} >
-                <option value="0">PolygonIconLayer</option>
-                <option value="1">CubeiconLayer</option>
-                <option value="2">ScenegraphLayer</option>
+                <option value="0">SimpleMeshLayer</option>
+                <option value="1">ScenegraphLayer</option>
                 </select>
               </div>
             </li>

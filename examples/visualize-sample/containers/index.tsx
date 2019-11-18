@@ -198,6 +198,7 @@ class App extends Container<BasedProps, State> {
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
                 iconCubeType: this.state.iconCubeType,
+                sizeScale: this.state.iconCubeType === 0 ? 20 : 2,
                 onHover
               }):null,
               linemapData.length > 0 ?
