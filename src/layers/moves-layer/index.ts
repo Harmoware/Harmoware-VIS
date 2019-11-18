@@ -142,7 +142,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: true,
       }) : null,
       visible && iconChange && iconCubeType === 1 ? new ScenegraphLayer({
-        id: 'moves4',
+        id: 'moves3',
         data: movedData,
         scenegraph,
         sizeScale,
