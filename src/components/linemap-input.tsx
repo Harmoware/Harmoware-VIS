@@ -17,7 +17,7 @@ export default class LinemapInput extends React.Component<Props> {
   }
 
   onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const { i18n, actions } = this.props;
+    const { actions } = this.props;
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -37,14 +37,10 @@ export default class LinemapInput extends React.Component<Props> {
         return;
       }
       if (readdata.length > 0) {
-        const { sourcePosition, targetPosition } = readdata[0];
-        if (sourcePosition && targetPosition) {
-          actions.setInputFilename({ linemapFileName: file_name });
-          actions.setLoading(false);
-          actions.setLinemapData(readdata);
-          return;
-        }
-        window.alert(i18n.formatError);
+        actions.setInputFilename({ linemapFileName: file_name });
+        actions.setLoading(false);
+        actions.setLinemapData(readdata);
+        return;
       }
       actions.setInputFilename({ linemapFileName: null });
       actions.setLinemapData([]);

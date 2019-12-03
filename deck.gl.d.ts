@@ -42,6 +42,8 @@ declare module "deck.gl" {
 
   class SimpleMeshLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
+  class PathLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+
   class PolygonLayer<P extends LayerProps = LayerProps, S = {}> extends CompositeLayer<P, S> {}
 
   class AttributeManager {
