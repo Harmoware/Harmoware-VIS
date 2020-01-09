@@ -19,7 +19,7 @@
     "gl-matrix": "^3.1.0",
     "luma.gl": "^7.3.2",
     "react-icons-kit": "^1.3.1",
-    "react-map-gl": "^5.0.12",
+    "react-map-gl": "5.0.12",
     "react-spinners": "^0.6.1",
     "typescript-fsa": "^3.0.0",
     "typescript-fsa-reducers": "^1.2.1"
