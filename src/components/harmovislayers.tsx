@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InteractiveMap } from 'react-map-gl';
+import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
@@ -36,6 +36,7 @@ class MapGl extends InteractiveMap {
     });
   }
   componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>) {
+    super.componentDidUpdate(prevProps, prevState);
     if(prevProps.mapStyle !== this.props.mapStyle && prevProps.mapStyle === '') {
       if(!MapGl.mapboxAddLayerValue) return;
       const map = this.getMap();
