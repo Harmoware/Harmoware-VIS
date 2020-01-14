@@ -1,4 +1,4 @@
-import { BasedProps as Props, Viewport, Movesbase, MovesbaseFile, Depotsbase, ClickedObject, RoutePaths, LineMapData } from '../types';
+import { BasedProps as Props, Viewport, Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc, ClickedObject, RoutePaths, LineMapData } from '../types';
 export declare const addMinutes: import("typescript-fsa").ActionCreator<number>;
 export declare const increaseTime: import("typescript-fsa").ActionCreator<Props>;
 export declare const decreaseTime: import("typescript-fsa").ActionCreator<Props>;
@@ -18,8 +18,8 @@ export declare const setClicked: import("typescript-fsa").ActionCreator<ClickedO
 export declare const setRoutePaths: import("typescript-fsa").ActionCreator<RoutePaths[]>;
 export declare const setDefaultZoom: import("typescript-fsa").ActionCreator<number>;
 export declare const setDefaultPitch: import("typescript-fsa").ActionCreator<number>;
-export declare const setMovesOptionFunc: import("typescript-fsa").ActionCreator<(props: Props, i: number, j: number) => object>;
-export declare const setDepotsOptionFunc: import("typescript-fsa").ActionCreator<(props: Props, i: number) => object>;
+export declare const setMovesOptionFunc: import("typescript-fsa").ActionCreator<GetMovesOptionFunc>;
+export declare const setDepotsOptionFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
 export declare const setLinemapData: import("typescript-fsa").ActionCreator<LineMapData[]>;
 export declare const setLoading: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInputFilename: import("typescript-fsa").ActionCreator<Object>;

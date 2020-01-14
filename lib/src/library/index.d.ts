@@ -13,6 +13,6 @@ export declare const onHoverClick: (pickParams: pickParams) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: ClickedObject[], routePaths: RoutePaths[], actions: typeof Actions) => void;
 export declare const defaultMapStateToProps: <P>(state: P) => P;
 export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => any;
-export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<{
+export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<import("redux").CombinedState<{
     base: import("../types").BasedState;
-}, import("redux").AnyAction>;
+}>, import("redux").AnyAction>;
