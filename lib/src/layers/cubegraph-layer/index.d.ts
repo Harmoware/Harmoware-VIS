@@ -11,6 +11,7 @@ interface Props extends LayerProps {
     getRadius?: (x: any) => number;
     stacking1?: boolean;
     stacking2?: boolean;
+    optionCentering?: boolean;
 }
 export default class CubeGraphLayer extends CompositeLayer<Props> {
     static defaultProps: Props;

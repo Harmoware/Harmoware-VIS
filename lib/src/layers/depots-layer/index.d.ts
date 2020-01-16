@@ -12,6 +12,7 @@ interface Props extends LayerProps {
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
+    optionCentering?: boolean;
     getColor?: (x: any) => number[];
     getRadius?: (x: any) => number;
     getCubeColor?: (x: DataOption) => number[][];
@@ -34,6 +35,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         optionOpacity: number;
         optionCellSize: number;
         optionElevationScale: number;
+        optionCentering: boolean;
         pickable: boolean;
         getColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
