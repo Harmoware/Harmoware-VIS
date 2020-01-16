@@ -134,6 +134,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 clickedObject,
                 actions,
                 optionElevationScale: elevationScale,
+                optionCentering: !this.state.iconChange,
                 optionVisible: 'busmovesoption' in busoption,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,

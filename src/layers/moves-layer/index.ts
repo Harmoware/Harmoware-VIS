@@ -42,6 +42,7 @@ interface Props extends LayerProps {
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
+  optionCentering?: boolean,
   optionDisplayPosition?: number,
   iconChange?: boolean,
   iconCubeType?: number,
@@ -71,6 +72,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     optionOpacity: 0.25,
     optionCellSize: 12,
     optionElevationScale: 1,
+    optionCentering: false,
     optionDisplayPosition: 30,
     visible: true,
     iconChange: true,
@@ -99,7 +101,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionDisplayPosition, optionVisible, optionChange, getColor, getRadius,
       iconChange, iconCubeType, visible, getCubeColor, getCubeElevation, getStrokeWidth,
-      scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation
+      scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation, optionCentering
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
@@ -170,6 +172,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: 'moves-opt-cube',
         data: optionMovedData.concat([{}]),
         visible: optionVisible,
+        optionCentering,
         stacking1,
         getPosition,
         getColor: getCubeColor,
