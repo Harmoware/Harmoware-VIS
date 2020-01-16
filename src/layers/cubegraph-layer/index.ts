@@ -14,6 +14,7 @@ interface Props extends LayerProps {
   getRadius?: (x: any) => number,
   stacking1?: boolean,
   stacking2?: boolean,
+  optionCentering?: boolean,
 }
 const pm = [[1,1],[1,-1],[-1,1],[-1,-1]];
 
@@ -32,6 +33,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     getRadius: (x: any) => x.radius,
     stacking1: false,
     stacking2: false,
+    optionCentering: false,
   };
 
   static layerName = 'CubeGraphLayer';
@@ -39,7 +41,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
   renderLayers() {
     const { id, data, visible, pickable, opacity, cellSize, elevationScale,
       getPosition, getElevation, getColor, getRadius,
-      stacking1, stacking2 } = this.props;
+      stacking1, stacking2, optionCentering } = this.props;
 
     if (!data || data.length === 0 || !visible) {
       return null;
@@ -58,7 +60,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
       let height = position[2] || 0;
       const elevation = getElevation(item) || [0];
       const color = getColor(item) || [DEFAULT_COLOR];
-      const radius = getRadius(item) || cellSize;
+      const radius = optionCentering ? 0 : getRadius(item) || cellSize;
       const shiftLng = degreesMeterLng * (radius + halfcellSize);
       const shiftLat = degreesMeterLat * (radius + halfcellSize);
       for (let j = 0; j < elevation.length; j += 1) {

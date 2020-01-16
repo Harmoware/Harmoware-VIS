@@ -119,6 +119,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
               new DepotsLayer({
                 depotsData,
                 optionElevationScale: elevationScale,
+                optionCentering: false,
                 optionVisible: 'busstopsoption' in busoption,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,

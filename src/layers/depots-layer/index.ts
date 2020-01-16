@@ -14,6 +14,7 @@ interface Props extends LayerProps {
   optionOpacity?: number,
   optionCellSize?: number,
   optionElevationScale?: number,
+  optionCentering?: boolean,
   getColor?: (x: any) => number[],
   getRadius?: (x: any) => number,
   getCubeColor?: (x: DataOption) => number[][],
@@ -42,6 +43,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     optionOpacity: 0.25,
     optionCellSize: 20,
     optionElevationScale: 1,
+    optionCentering: false,
     pickable: true,
     getColor: (x: DataOption) => x.color || COLOR4,
     getRadius: (x: Radius) => x.radius || 30,
@@ -58,7 +60,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const { iconChange, layerRadiusScale, layerOpacity, depotsData, getColor,
       getRadius, optionElevationScale, optionVisible, optionChange, pickable,
       optionOpacity, optionCellSize, getCubeColor, getCubeElevation,
-      mesh, meshSizeScale, getOrientation, getScale, getTranslation
+      mesh, meshSizeScale, getOrientation, getScale, getTranslation,
+      optionCentering
     } = this.props;
 
     if (!depotsData) {
@@ -99,6 +102,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         id: 'depots-opt-cube',
         data: depotsData,
         visible: optionVisible,
+        optionCentering,
         stacking2,
         getPosition,
         getRadius,
