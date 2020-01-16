@@ -17,6 +17,7 @@ interface Props extends LayerProps {
     optionOpacity?: number;
     optionCellSize?: number;
     optionElevationScale?: number;
+    optionCentering?: boolean;
     optionDisplayPosition?: number;
     iconChange?: boolean;
     iconCubeType?: number;
@@ -42,6 +43,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         optionOpacity: number;
         optionCellSize: number;
         optionElevationScale: number;
+        optionCentering: boolean;
         optionDisplayPosition: number;
         visible: boolean;
         iconChange: boolean;
