@@ -79,7 +79,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     iconChange: true,
     iconCubeType: 0,
     getColor: (x: DataOption) => x.color || COLOR1,
-    getRouteColor: (x: DataOption) => x.color || COLOR1,
+    getRouteColor: (x: DataOption) => x.routeColor || x.color || COLOR1,
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
