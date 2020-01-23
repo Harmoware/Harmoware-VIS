@@ -47,6 +47,7 @@ interface Props extends LayerProps {
   iconChange?: boolean,
   iconCubeType?: number,
   getColor?: (x: DataOption) => number[],
+  getRouteColor?: (x: DataOption) => number[],
   getRadius?: (x: Radius) => number,
   getCubeColor?: (x: DataOption) => number[][],
   getCubeElevation?: (x: DataOption) => number[],
@@ -78,6 +79,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     iconChange: true,
     iconCubeType: 0,
     getColor: (x: DataOption) => x.color || COLOR1,
+    getRouteColor: (x: DataOption) => x.color || COLOR1,
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
@@ -93,7 +95,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
   static layerName = 'MovesLayer';
 
   getPickingInfo(pickParams: pickParams) {
-    onHoverClick(pickParams);
+    const { getRouteColor } = this.props;
+    onHoverClick(pickParams, getRouteColor);
   }
 
   renderLayers() {

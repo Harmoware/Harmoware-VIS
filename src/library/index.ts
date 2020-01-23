@@ -218,7 +218,7 @@ export interface pickParams {
   mode: string,
   info: EventInfo,
 }
-export const onHoverClick = (pickParams: pickParams): void => {
+export const onHoverClick = (pickParams: pickParams, getColor:any): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
@@ -249,7 +249,8 @@ export const onHoverClick = (pickParams: pickParams): void => {
         const setRoutePaths = [];
         const { operation } = movesbase[movesbaseidx];
         for (let j = 0; j < (operation.length - 1); j += 1) {
-          const { position, color } = operation[j];
+          const { position } = operation[j];
+          const color = getColor(operation[j]);
           const { position: nextposition } = operation[j + 1];
           setRoutePaths.push({
             movesbaseidx,
