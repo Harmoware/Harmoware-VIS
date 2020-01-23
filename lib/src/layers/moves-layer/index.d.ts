@@ -22,6 +22,7 @@ interface Props extends LayerProps {
     iconChange?: boolean;
     iconCubeType?: number;
     getColor?: (x: DataOption) => number[];
+    getRouteColor?: (x: DataOption) => number[];
     getRadius?: (x: Radius) => number;
     getCubeColor?: (x: DataOption) => number[][];
     getCubeElevation?: (x: DataOption) => number[];
@@ -49,6 +50,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         iconChange: boolean;
         iconCubeType: number;
         getColor: (x: DataOption) => number[];
+        getRouteColor: (x: DataOption) => number[];
         getRadius: (x: Radius) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
