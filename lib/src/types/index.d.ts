@@ -135,6 +135,7 @@ export interface Radius {
 }
 export interface DataOption {
     color?: number[];
+    routeColor?: number[];
     optColor?: number[];
     optElevation?: number[];
     normal?: number[];
