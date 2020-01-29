@@ -37,6 +37,7 @@ interface Props extends LayerProps {
 export default class MovesLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static defaultProps: {
+        id: string;
         layerRadiusScale: number;
         layerOpacity: number;
         optionVisible: boolean;

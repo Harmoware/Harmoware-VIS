@@ -27,6 +27,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static layerName: string;
     static defaultProps: {
+        id: string;
         iconChange: boolean;
         layerRadiusScale: number;
         layerOpacity: number;
