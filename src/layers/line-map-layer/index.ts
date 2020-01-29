@@ -21,7 +21,7 @@ interface Props extends LayerProps {
 export default class LineMapLayer extends CompositeLayer<Props> {
 
   static defaultProps = {
-    id: 'LineLayer',
+    id: 'LineMapLayer',
     pickable: true,
     getSourcePosition: (x: LineData) => x.sourcePosition,
     getTargetPosition: (x: LineData) => x.targetPosition,

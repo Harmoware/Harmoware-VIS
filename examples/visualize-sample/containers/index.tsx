@@ -6,7 +6,7 @@ import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, Moved
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
 
-// MovesLayer で iconCubeType=3(ScenegraphLayer) を使用する場合に登録要
+// MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 import {registerLoaders} from '@loaders.gl/core';
 import {GLTFScenegraphLoader} from '@luma.gl/addons';
 registerLoaders([GLTFScenegraphLoader]);

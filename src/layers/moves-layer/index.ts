@@ -66,6 +66,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   };
 
   static defaultProps = {
+    id: 'MovesLayer',
     layerRadiusScale: 1,
     layerOpacity: 0.75,
     optionVisible: true,
@@ -100,7 +101,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   }
 
   renderLayers() {
-    const { routePaths, layerRadiusScale, layerOpacity, movedData,
+    const { id, routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionDisplayPosition, optionVisible, optionChange, getColor, getRadius,
       iconChange, iconCubeType, visible, getCubeColor, getCubeElevation, getStrokeWidth,
@@ -121,7 +122,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     return [
       visible && !iconChange ? new ScatterplotLayer({
-        id: 'moves1',
+        id: id + '-moves1',
         data: movedData,
         radiusScale: layerRadiusScale,
         getPosition,
@@ -133,7 +134,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         radiusMinPixels: 1
       }) : null,
       visible && iconChange && iconCubeType === 0 ? new SimpleMeshLayer({
-        id: 'moves2',
+        id: id + '-moves2',
         data: movedData,
         mesh,
         sizeScale,
@@ -147,7 +148,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: true,
       }) : null,
       visible && iconChange && iconCubeType === 1 ? new ScenegraphLayer({
-        id: 'moves3',
+        id: id + '-moves3',
         data: movedData,
         scenegraph,
         sizeScale,
@@ -161,7 +162,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: true,
       }) : null,
       visible ? new LineLayer({
-        id: 'route-paths',
+        id: id + '-route-paths',
         data: routePaths,
         widthUnits: 'meters',
         getWidth: (x: any) => x.strokeWidth || 10,
@@ -172,7 +173,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       }) : null,
       optionVisible ?
       new CubeGraphLayer({
-        id: 'moves-opt-cube',
+        id: id + '-moves-opt-cube',
         data: optionMovedData.concat([{}]),
         visible: optionVisible,
         optionCentering,
@@ -188,7 +189,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       }) : null,
       optionVisible ?
       new ArcLayer({
-        id: 'moves-opt-arc',
+        id: id + '-moves-opt-arc',
         data: movedData as any[],
         visible: optionVisible,
         pickable: true,

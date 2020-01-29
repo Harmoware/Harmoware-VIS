@@ -35,6 +35,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
   static layerName = 'DepotsLayer';
   static defaultProps = {
+    id: 'DepotsLayer',
     iconChange: true,
     layerRadiusScale: 1,
     layerOpacity: 0.5,
@@ -57,7 +58,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
   };
 
   renderLayers() {
-    const { iconChange, layerRadiusScale, layerOpacity, depotsData, getColor,
+    const { id, iconChange, layerRadiusScale, layerOpacity, depotsData, getColor,
       getRadius, optionElevationScale, optionVisible, optionChange, pickable,
       optionOpacity, optionCellSize, getCubeColor, getCubeElevation,
       mesh, meshSizeScale, getOrientation, getScale, getTranslation,
@@ -74,7 +75,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     return [
       !iconChange ? new ScatterplotLayer({
-        id: 'depots1',
+        id: id + '-depots1',
         data: depotsData,
         radiusScale: layerRadiusScale,
         getPosition,
@@ -85,7 +86,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         radiusMinPixels: 1
       }) : 
       new SimpleMeshLayer({
-        id: 'depots2',
+        id: id + '-depots2',
         data: depotsData,
         mesh,
         sizeScale: meshSizeScale,
@@ -99,7 +100,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       }),
       optionVisible ?
       new CubeGraphLayer({
-        id: 'depots-opt-cube',
+        id: id + '-depots-opt-cube',
         data: depotsData,
         visible: optionVisible,
         optionCentering,

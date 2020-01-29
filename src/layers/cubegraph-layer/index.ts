@@ -21,6 +21,7 @@ const pm = [[1,1],[1,-1],[-1,1],[-1,-1]];
 export default class CubeGraphLayer extends CompositeLayer<Props> {
 
   static defaultProps: Props = {
+    id: 'CubeGraphLayer',
     visible: true,
     cellSize: 12,
     coverage: 1,
@@ -96,7 +97,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     }
 
     return setdata.length > 0 ? new GridCellLayer({
-      id: id + '-CubeGraphLayer',
+      id: id + '-GridCellLayer',
       data: setdata,
       pickable,
       opacity,
