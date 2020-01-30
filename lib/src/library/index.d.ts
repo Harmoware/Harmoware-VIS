@@ -9,7 +9,7 @@ export interface pickParams {
     mode: string;
     info: EventInfo;
 }
-export declare const onHoverClick: (pickParams: pickParams, getColor: any) => void;
+export declare const onHoverClick: (pickParams: pickParams, getRouteColor: Function, getRouteWidth: Function) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: ClickedObject[], routePaths: RoutePaths[], actions: typeof Actions) => void;
 export declare const defaultMapStateToProps: <P>(state: P) => P;
 export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => any;

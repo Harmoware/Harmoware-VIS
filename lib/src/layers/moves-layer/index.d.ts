@@ -23,10 +23,11 @@ interface Props extends LayerProps {
     iconCubeType?: number;
     getColor?: (x: DataOption) => number[];
     getRouteColor?: (x: DataOption) => number[];
+    getRouteWidth?: (x: any) => number;
     getRadius?: (x: Radius) => number;
     getCubeColor?: (x: DataOption) => number[][];
     getCubeElevation?: (x: DataOption) => number[];
-    getStrokeWidth?: any;
+    getArchWidth?: (x: any) => number;
     scenegraph?: any;
     mesh?: any;
     sizeScale?: number;
@@ -52,10 +53,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
         iconCubeType: number;
         getColor: (x: DataOption) => number[];
         getRouteColor: (x: DataOption) => number[];
+        getRouteWidth: (x: any) => any;
         getRadius: (x: Radius) => number;
         getCubeColor: (x: DataOption) => number[] | number[][];
         getCubeElevation: (x: DataOption) => number[];
-        getStrokeWidth: (x: any) => any;
+        getArchWidth: (x: any) => any;
         scenegraph: string;
         mesh: CubeGeometry;
         sizeScale: number;
@@ -122,7 +124,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getTargetPosition: (x: MovedData) => number[];
         getSourceColor: (x: MovedData) => (number | number[])[];
         getTargetColor: (x: MovedData) => (number | number[])[];
-        getWidth: (x: any) => any;
+        getWidth: (x: any) => number;
         opacity: number;
     }, {}>)[];
 }
