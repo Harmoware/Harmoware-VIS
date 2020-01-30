@@ -48,10 +48,11 @@ interface Props extends LayerProps {
   iconCubeType?: number,
   getColor?: (x: DataOption) => number[],
   getRouteColor?: (x: DataOption) => number[],
+  getRouteWidth?: (x: any) => number,
   getRadius?: (x: Radius) => number,
   getCubeColor?: (x: DataOption) => number[][],
   getCubeElevation?: (x: DataOption) => number[],
-  getStrokeWidth?: any,
+  getArchWidth?: (x: any) => number,
   scenegraph?: any,
   mesh?: any,
   sizeScale?: number,
@@ -81,10 +82,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
     iconCubeType: 0,
     getColor: (x: DataOption) => x.color || COLOR1,
     getRouteColor: (x: DataOption) => x.routeColor || x.color || COLOR1,
+    getRouteWidth: (x: any) => x.routeWidth || 10,
     getRadius: (x: Radius) => x.radius || 20,
     getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: DataOption) => x.optElevation || [0],
-    getStrokeWidth: (x: any) => x.strokeWidth || 10,
+    getArchWidth: (x: any) => x.archWidth || 10,
     scenegraph: defaultScenegraph,
     mesh: defaultmesh,
     sizeScale: 20,
@@ -96,15 +98,15 @@ export default class MovesLayer extends CompositeLayer<Props> {
   static layerName = 'MovesLayer';
 
   getPickingInfo(pickParams: pickParams) {
-    const { getRouteColor } = this.props;
-    onHoverClick(pickParams, getRouteColor);
+    const { getRouteColor, getRouteWidth } = this.props;
+    onHoverClick(pickParams, getRouteColor, getRouteWidth);
   }
 
   renderLayers() {
     const { id, routePaths, layerRadiusScale, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionDisplayPosition, optionVisible, optionChange, getColor, getRadius,
-      iconChange, iconCubeType, visible, getCubeColor, getCubeElevation, getStrokeWidth,
+      iconChange, iconCubeType, visible, getCubeColor, getCubeElevation, getArchWidth,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation, optionCentering
     } = this.props;
 
@@ -165,9 +167,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: id + '-route-paths',
         data: routePaths,
         widthUnits: 'meters',
-        getWidth: (x: any) => x.strokeWidth || 10,
+        getWidth: (x: any) => x.routeWidth,
         widthMinPixels: 0.1,
-        getColor,
+        getColor: (x: DataOption) => x.routeColor,
         visible,
         pickable: false
       }) : null,
@@ -199,7 +201,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getTargetPosition: (x: MovedData) => x.targetPosition || getPosition(x),
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
-        getWidth: (x: any) => getStrokeWidth(x),
+        getWidth: getArchWidth,
         opacity: layerOpacity
       }) : null,
     ];
