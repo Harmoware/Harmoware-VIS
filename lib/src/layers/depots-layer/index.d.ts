@@ -1,7 +1,7 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'deck.gl';
 import { IcoSphereGeometry } from 'luma.gl';
 import CubeGraphLayer from '../cubegraph-layer';
-import { DepotsData, Position, Radius, DataOption } from '../../types';
+import { DepotsData } from '../../types';
 interface Props extends LayerProps {
     iconChange?: boolean;
     layerRadiusScale?: number;
@@ -13,15 +13,15 @@ interface Props extends LayerProps {
     optionCellSize?: number;
     optionElevationScale?: number;
     optionCentering?: boolean;
-    getColor?: (x: any) => number[];
-    getRadius?: (x: any) => number;
-    getCubeColor?: (x: DataOption) => number[][];
-    getCubeElevation?: (x: DataOption) => number[];
+    getColor?: (x: DepotsData) => number[];
+    getRadius?: (x: DepotsData) => number;
+    getCubeColor?: (x: DepotsData) => number[][];
+    getCubeElevation?: (x: DepotsData) => number[];
     mesh?: any;
     meshSizeScale?: number;
-    getOrientation?: (x: DataOption) => number[];
-    getScale?: (x: DataOption) => number[];
-    getTranslation?: (x: DataOption) => number[];
+    getOrientation?: (x: DepotsData) => number[];
+    getScale?: (x: DepotsData) => number[];
+    getTranslation?: (x: DepotsData) => number[];
 }
 export default class DepotsLayer extends CompositeLayer<Props> {
     constructor(props: Props);
@@ -38,10 +38,10 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         optionElevationScale: number;
         optionCentering: boolean;
         pickable: boolean;
-        getColor: (x: DataOption) => number[];
-        getRadius: (x: Radius) => number;
-        getCubeColor: (x: DataOption) => number[] | number[][];
-        getCubeElevation: (x: DataOption) => number[];
+        getColor: (x: DepotsData) => (number | number[])[];
+        getRadius: (x: DepotsData) => number;
+        getCubeColor: (x: DepotsData) => number[] | (number | number[])[][];
+        getCubeElevation: (x: DepotsData) => number[];
         mesh: IcoSphereGeometry;
         meshSizeScale: number;
         getOrientation: number[];
@@ -52,9 +52,9 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         id: string;
         data: DepotsData[];
         radiusScale: number;
-        getPosition: (x: Position) => number[];
-        getFillColor: (x: any) => number[];
-        getRadius: (x: any) => number;
+        getPosition: (x: DepotsData) => number[];
+        getFillColor: (x: DepotsData) => number[];
+        getRadius: (x: DepotsData) => number;
         opacity: number;
         pickable: boolean;
         radiusMinPixels: number;
@@ -63,11 +63,11 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         data: DepotsData[];
         mesh: any;
         sizeScale: number;
-        getPosition: (x: Position) => number[];
-        getColor: (x: any) => number[];
-        getOrientation: (x: DataOption) => number[];
-        getScale: (x: DataOption) => number[];
-        getTranslation: (x: DataOption) => number[];
+        getPosition: (x: DepotsData) => number[];
+        getColor: (x: DepotsData) => number[];
+        getOrientation: (x: DepotsData) => number[];
+        getScale: (x: DepotsData) => number[];
+        getTranslation: (x: DepotsData) => number[];
         opacity: number;
         pickable: boolean;
     }, {}>)[];
