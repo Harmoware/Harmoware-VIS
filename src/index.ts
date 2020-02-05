@@ -33,6 +33,7 @@ import {
   ClickedObject,
   Depotsbase,
   DepotsData,
+  IconDesignation,
   MovedData,
   Movesbase,
   MovesbaseOperation,
@@ -40,10 +41,6 @@ import {
   Viewport,
   LineMapData,
   ActionsInterface,
-  Position,
-  Radius,
-  DataOption,
-  LineData,
   EventInfo
 } from './types';
 
@@ -142,6 +139,7 @@ export {
   ClickedObject,
   Depotsbase,
   DepotsData,
+  IconDesignation,
   MovedData,
   MovesbaseOperation,
   Movesbase,
@@ -149,9 +147,5 @@ export {
   Viewport,
   LineMapData,
   ActionsInterface,
-  Position,
-  Radius,
-  DataOption,
-  LineData,
   EventInfo
 };

@@ -1,17 +1,17 @@
 import { LayerProps, CompositeLayer, LineLayer, PathLayer, PolygonLayer } from 'deck.gl';
-import { LineData } from '../../types';
+import { LineMapData } from '../../types';
 import { COLOR2 } from '../../constants/settings';
 
 interface Props extends LayerProps {
-  getSourcePosition?: (x: any) => number[],
-  getTargetPosition?: (x: any) => number[],
-  getPath?: (x: any) => number[],
-  getPolygon?: (x: any) => number[],
-  getCoordinates?: (x: any) => number[],
-  getElevation?: (x: any) => number[],
-  getColor?: (x: any) => number[],
-  getWidth?: (x: any) => number,
-  getDashArray?: (x: any) => number[],
+  getSourcePosition?: (x: LineMapData) => number[],
+  getTargetPosition?: (x: LineMapData) => number[],
+  getPath?: (x: LineMapData) => number[],
+  getPolygon?: (x: LineMapData) => number[],
+  getCoordinates?: (x: LineMapData) => number[],
+  getElevation?: (x: LineMapData) => number[],
+  getColor?: (x: LineMapData) => number[],
+  getWidth?: (x: LineMapData) => number,
+  getDashArray?: (x: LineMapData) => number[],
   widthUnits?: string,
   widthMinPixels?: number,
   polygonOpacity?: number,
@@ -23,15 +23,15 @@ export default class LineMapLayer extends CompositeLayer<Props> {
   static defaultProps = {
     id: 'LineMapLayer',
     pickable: true,
-    getSourcePosition: (x: LineData) => x.sourcePosition,
-    getTargetPosition: (x: LineData) => x.targetPosition,
-    getPath: (x: any) => x.path || [],
-    getPolygon: (x: any) => x.polygon || [],
-    getCoordinates: (x: any) => x.coordinates || [],
-    getElevation: (x: any) => x.elevation || 3,
-    getWidth: (x: any) => x.strokeWidth || 1,
-    getColor: (x: LineData) => x.color || COLOR2, // white
-    getDashArray: (x: any) => x.dash || [0,0],
+    getSourcePosition: (x: LineMapData) => x.sourcePosition,
+    getTargetPosition: (x: LineMapData) => x.targetPosition,
+    getPath: (x: LineMapData) => x.path || [],
+    getPolygon: (x: LineMapData) => x.polygon || [],
+    getCoordinates: (x: LineMapData) => x.coordinates || [],
+    getElevation: (x: LineMapData) => x.elevation || 3,
+    getWidth: (x: LineMapData) => x.strokeWidth || 1,
+    getColor: (x: LineMapData) => x.color || COLOR2, // white
+    getDashArray: (x: LineMapData) => x.dash || [0,0],
     widthUnits: 'meters',
     widthMinPixels: 0.1,
     polygonOpacity: 0.5,

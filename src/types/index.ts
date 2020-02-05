@@ -26,10 +26,10 @@ export interface MovesbaseOperation {
   position?: number[],
   direction?: number,
   color?: void | number[],
-  normal?: void | number[],
 };
 
 export interface Movesbase {
+  type?: string,
   departuretime: number,
   arrivaltime: number,
   operation: MovesbaseOperation[],
@@ -58,12 +58,6 @@ export interface ClickedObject {
   layer: {id: string}
 };
 
-export interface LineData {
-  sourcePosition: number[],
-  targetPosition: number[],
-  color?: number[]
-};
-
 export interface RoutePaths {
   movesbaseidx?: number,
   sourcePosition: number[],
@@ -72,13 +66,20 @@ export interface RoutePaths {
 };
 
 export interface LineMapData {
-  sourcePosition: number[],
-  targetPosition: number[],
-  color?: number[]
+  sourcePosition?: number[],
+  targetPosition?: number[],
+  color?: number[],
+  path?: number[],
+  polygon?: number[],
+  coordinates?: number[],
+  elevation?: number[],
+  strokeWidth?: number,
+  dash?: number[],
 };
 
 export interface MovedData {
   movesbaseidx: number,
+  type?: string,
   position: number[],
   longitude?: number,
   latitude?: number,
@@ -90,6 +91,11 @@ export interface MovedData {
   radius?: number,
   color?: (number | number[])[],
   settime?: number,
+  routeColor?: number[],
+  routeWidth?: number,
+  optColor?: number[],
+  optElevation?: number[],
+  archWidth?: number,
 };
 
 export interface DepotsData {
@@ -98,6 +104,22 @@ export interface DepotsData {
   latitude?: number,
   radius?: number,
   color?: (number | number[])[],
+  optColor?: number[],
+  optElevation?: number[],
+};
+
+export interface IconDesignation {
+  type: string,
+  layer: string,
+  radiusScale?: number,
+  getColor?: (x: MovedData) => number[],
+  getOrientation?: (x: MovedData) => number[],
+  getScale?: (x: MovedData) => number[],
+  getTranslation?: (x: MovedData) => number[],
+  getRadius?: (x: MovedData) => number,
+  sizeScale?: number,
+  mesh?: any,
+  scenegraph?: any,
 };
 
 export interface BasedState {
@@ -140,34 +162,6 @@ export interface BasedProps extends BasedState {
 export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => object);
 
 export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => object);
-
-export interface Position {
-  position: number[]
-};
-
-export interface Radius {
-  radius: number
-};
-
-export interface DataOption {
-  color?: number[],
-  routeColor?: number[],
-  optColor?: number[],
-  optElevation?: number[],
-  normal?: number[],
-}
-
-export interface Context {
-  shaderCache,
-  gl: WebGLRenderingContext,
-  viewport: {
-    distanceScales: {
-      degreesPerPixel: number[],
-      pixelsPerMeter: number[]
-    },
-    getDistanceScales: Function
-  }
-}
 
 export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
   object: {

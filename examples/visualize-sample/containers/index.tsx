@@ -191,13 +191,18 @@ class App extends Container<BasedProps, State> {
                 routePaths,
                 movedData,
                 movesbase,
+                /* iconDesignations Setting Example
+                iconDesignations:[{type:'car', layer:'SimpleMesh', getColor:()=>[255,0,0,255]},
+                {type:'bus', layer:'Scenegraph', getScale:()=>[0.2,0.2,0.2], getOrientation:()=>[0,0,90]},
+                {type:'walker', layer:'Scatterplot'},],
+                */
                 clickedObject,
                 actions,
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionChange: this.state.optionChange,
-                iconChange: this.state.iconChange,
-                iconCubeType: this.state.iconCubeType,
+                iconChange: this.state.iconChange, // Invalid if there is iconDesignations definition
+                iconCubeType: this.state.iconCubeType, // Invalid if there is iconDesignations definition
                 sizeScale: this.state.iconCubeType === 0 ? 20 : 2,
                 onHover
               }):null,

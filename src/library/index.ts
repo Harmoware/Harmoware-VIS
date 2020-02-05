@@ -147,7 +147,7 @@ export const getDepots = (props: Props): DepotsData[] => {
 };
 
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {
-  const {departuretime, arrivaltime, operation, ...retValue1} = props.movesbase[idx1];
+  const {departuretime, arrivaltime, operation, type, ...retValue1} = props.movesbase[idx1];
   const {elapsedtime, position, longitude, latitude, ...retValue2} = operation[idx2];
   return Object.assign(retValue1,retValue2);
 };
@@ -164,7 +164,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
   });
   const movedData: MovedData[] = new Array(selectmovesbase.length);
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i += 1) {
-    const { operation, movesbaseidx } = selectmovesbase[i];
+    const { operation, movesbaseidx, type } = selectmovesbase[i];
     for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
       const { elapsedtime } = operation[j];
       const { elapsedtime: nextelapsedtime } = operation[j + 1];
@@ -190,6 +190,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           movesbaseidx},
           getOptionFunction(props, movesbaseidx, j)
         );
+        if(type) movedData[i].type = type;
         break;
       }
     }

@@ -3,8 +3,7 @@ import { CubeGeometry } from 'luma.gl'
 import CubeGraphLayer from '../cubegraph-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject,
-  Position, Radius, DataOption } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
 import {registerLoaders} from '@loaders.gl/core';
 import {GLTFScenegraphLoader} from '@luma.gl/addons';
@@ -44,21 +43,22 @@ interface Props extends LayerProps {
   optionElevationScale?: number,
   optionCentering?: boolean,
   optionDisplayPosition?: number,
-  iconChange?: boolean,
-  iconCubeType?: number,
-  getColor?: (x: DataOption) => number[],
-  getRouteColor?: (x: DataOption) => number[],
-  getRouteWidth?: (x: any) => number,
-  getRadius?: (x: Radius) => number,
-  getCubeColor?: (x: DataOption) => number[][],
-  getCubeElevation?: (x: DataOption) => number[],
-  getArchWidth?: (x: any) => number,
+  iconChange?: boolean, // Invalid if there is iconDesignations definition
+  iconCubeType?: number, // Invalid if there is iconDesignations definition
+  iconDesignations?: IconDesignation[],
+  getColor?: (x: MovedData) => number[],
+  getRouteColor?: (x: MovedData) => number[],
+  getRouteWidth?: (x: MovedData) => number,
+  getRadius?: (x: MovedData) => number,
+  getCubeColor?: (x: MovedData) => number[][],
+  getCubeElevation?: (x: MovedData) => number[],
+  getArchWidth?: (x: MovedData) => number,
   scenegraph?: any,
   mesh?: any,
   sizeScale?: number,
-  getOrientation?: (x: DataOption) => number[],
-  getScale?: (x: DataOption) => number[],
-  getTranslation?: (x: DataOption) => number[],
+  getOrientation?: (x: MovedData) => number[],
+  getScale?: (x: MovedData) => number[],
+  getTranslation?: (x: MovedData) => number[],
 }
 
 export default class MovesLayer extends CompositeLayer<Props> {
@@ -80,34 +80,153 @@ export default class MovesLayer extends CompositeLayer<Props> {
     visible: true,
     iconChange: true,
     iconCubeType: 0,
-    getColor: (x: DataOption) => x.color || COLOR1,
-    getRouteColor: (x: DataOption) => x.routeColor || x.color || COLOR1,
-    getRouteWidth: (x: any) => x.routeWidth || 10,
-    getRadius: (x: Radius) => x.radius || 20,
-    getCubeColor: (x: DataOption) => x.optColor || [x.color] || [COLOR1],
-    getCubeElevation: (x: DataOption) => x.optElevation || [0],
-    getArchWidth: (x: any) => x.archWidth || 10,
+    getColor: (x: MovedData) => x.color || COLOR1,
+    getRouteColor: (x: MovedData) => x.routeColor || x.color || COLOR1,
+    getRouteWidth: (x: MovedData) => x.routeWidth || 10,
+    getRadius: (x: MovedData) => x.radius || 20,
+    getCubeColor: (x: MovedData) => x.optColor || [x.color] || [COLOR1],
+    getCubeElevation: (x: MovedData) => x.optElevation || [0],
+    getArchWidth: (x: MovedData) => x.archWidth || 10,
     scenegraph: defaultScenegraph,
     mesh: defaultmesh,
     sizeScale: 20,
-    getOrientation: (x: any) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
+    getOrientation: (x: MovedData) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
     getScale: [1,1,1],
     getTranslation: [0,0,0],
     };
 
   static layerName = 'MovesLayer';
 
-  getPickingInfo(pickParams: pickParams) {
+  getPickingInfo(pickParams: pickParams):void {
     const { getRouteColor, getRouteWidth } = this.props;
     onHoverClick(pickParams, getRouteColor, getRouteWidth);
   }
 
-  renderLayers() {
-    const { id, routePaths, layerRadiusScale, layerOpacity, movedData,
+  getIconLayer():any[] {
+    const { id, layerRadiusScale, layerOpacity, movedData,
+      getColor, getRadius, iconChange, iconCubeType, visible,
+      scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
+      iconDesignations
+    } = this.props;
+
+    const getPosition = (x: MovedData) => x.position;
+    if(iconDesignations && iconDesignations.length > 0){
+      return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
+        const {type, layer,
+          radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
+          getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
+          sizeScale:oversizeScale, mesh:overmesh, scenegraph:overscenegraph} = iconDesignation;
+        const getTypePosition = (x: MovedData) => !x.type || (x.type && x.type === type) ? x.position : null;
+        if(layer && layer === 'Scatterplot'){
+          return new ScatterplotLayer({
+            id: id + '-moves-flex-' + String(idx),
+            data: movedData,
+            radiusScale: overradiusScale || layerRadiusScale,
+            getPosition: getTypePosition,
+            getFillColor: overgetColor || getColor,
+            getRadius: overgetRadius || getRadius,
+            visible,
+            opacity: layerOpacity,
+            pickable: true,
+            radiusMinPixels: 1
+          });
+        }else
+        if(layer && layer === 'SimpleMesh'){
+          return new SimpleMeshLayer({
+            id: id + '-moves-flex-' + String(idx),
+            data: movedData,
+            mesh: overmesh || mesh,
+            sizeScale: oversizeScale || sizeScale,
+            getPosition: getTypePosition,
+            getColor: overgetColor || getColor,
+            getOrientation: overgetOrientation || getOrientation,
+            getScale: overgetScale || getScale,
+            getTranslation: overgetTranslation || getTranslation,
+            visible,
+            opacity: layerOpacity,
+            pickable: true,
+          });
+        }else
+        if(layer && layer === 'Scenegraph'){
+          return new ScenegraphLayer({
+            id: id + '-moves-flex-' + String(idx),
+            data: movedData,
+            scenegraph: overscenegraph || scenegraph,
+            sizeScale: oversizeScale || sizeScale,
+            getPosition: getTypePosition,
+            getColor: overgetColor || getColor,
+            getOrientation: overgetOrientation || getOrientation,
+            getScale: overgetScale || getScale,
+            getTranslation: overgetTranslation || getTranslation,
+            visible,
+            opacity: layerOpacity,
+            pickable: true,
+          });
+        }else{
+          console.log('iconDesignations layer undefined.');
+          return null;
+        }
+      });
+    }else{
+      if(!iconChange){
+        return [
+          new ScatterplotLayer({
+          id: id + '-moves1',
+          data: movedData,
+          radiusScale: layerRadiusScale,
+          getPosition,
+          getFillColor:getColor,
+          getRadius,
+          visible,
+          opacity: layerOpacity,
+          pickable: true,
+          radiusMinPixels: 1
+        })];
+      }else
+      if(iconCubeType === 0){
+        return [
+          new SimpleMeshLayer({
+          id: id + '-moves2',
+          data: movedData,
+          mesh,
+          sizeScale,
+          getPosition,
+          getColor,
+          getOrientation,
+          getScale,
+          getTranslation,
+          visible,
+          opacity: layerOpacity,
+          pickable: true,
+        })];
+      }else
+      if(iconCubeType === 1){
+        return [
+          new ScenegraphLayer({
+            id: id + '-moves3',
+            data: movedData,
+            scenegraph,
+            sizeScale,
+            getPosition,
+            getColor,
+            getOrientation,
+            getScale,
+            getTranslation,
+            visible,
+            opacity: layerOpacity,
+            pickable: true,
+          })];
+      }else{
+        return null;
+      }
+    }
+  }
+
+  renderLayers():any[] {
+    const { id, routePaths, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionDisplayPosition, optionVisible, optionChange, getColor, getRadius,
-      iconChange, iconCubeType, visible, getCubeColor, getCubeElevation, getArchWidth,
-      scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation, optionCentering
+      optionDisplayPosition, optionVisible, optionChange,
+      iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, optionCentering,
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
@@ -115,61 +234,23 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return null;
     }
 
-    const getPosition = (x: Position) => x.position;
+    const getPosition = (x: MovedData) => x.position;
     const optionMovedData: any[] = movedData;
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
+    const iconLayers = this.getIconLayer();
 
     return [
-      visible && !iconChange ? new ScatterplotLayer({
-        id: id + '-moves1',
-        data: movedData,
-        radiusScale: layerRadiusScale,
-        getPosition,
-        getFillColor:getColor,
-        getRadius,
-        visible,
-        opacity: layerOpacity,
-        pickable: true,
-        radiusMinPixels: 1
-      }) : null,
-      visible && iconChange && iconCubeType === 0 ? new SimpleMeshLayer({
-        id: id + '-moves2',
-        data: movedData,
-        mesh,
-        sizeScale,
-        getPosition,
-        getColor,
-        getOrientation,
-        getScale,
-        getTranslation,
-        visible,
-        opacity: layerOpacity,
-        pickable: true,
-      }) : null,
-      visible && iconChange && iconCubeType === 1 ? new ScenegraphLayer({
-        id: id + '-moves3',
-        data: movedData,
-        scenegraph,
-        sizeScale,
-        getPosition,
-        getColor,
-        getOrientation,
-        getScale,
-        getTranslation,
-        visible,
-        opacity: layerOpacity,
-        pickable: true,
-      }) : null,
+      iconLayers,
       visible ? new LineLayer({
         id: id + '-route-paths',
         data: routePaths,
         widthUnits: 'meters',
         getWidth: (x: any) => x.routeWidth,
         widthMinPixels: 0.1,
-        getColor: (x: DataOption) => x.routeColor,
+        getColor: (x: MovedData) => x.routeColor,
         visible,
         pickable: false
       }) : null,
