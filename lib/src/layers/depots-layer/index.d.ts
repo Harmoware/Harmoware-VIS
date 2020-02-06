@@ -1,7 +1,6 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer } from 'deck.gl';
 import { IcoSphereGeometry } from 'luma.gl';
-import CubeGraphLayer from '../cubegraph-layer';
-import { DepotsData } from '../../types';
+import { DepotsData, IconDesignation } from '../../types';
 interface Props extends LayerProps {
     iconChange?: boolean;
     layerRadiusScale?: number;
@@ -13,6 +12,7 @@ interface Props extends LayerProps {
     optionCellSize?: number;
     optionElevationScale?: number;
     optionCentering?: boolean;
+    iconDesignations?: IconDesignation[];
     getColor?: (x: DepotsData) => number[];
     getRadius?: (x: DepotsData) => number;
     getCubeColor?: (x: DepotsData) => number[][];
@@ -48,28 +48,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getScale: number[];
         getTranslation: number[];
     };
-    renderLayers(): (CubeGraphLayer | ScatterplotLayer<{
-        id: string;
-        data: DepotsData[];
-        radiusScale: number;
-        getPosition: (x: DepotsData) => number[];
-        getFillColor: (x: DepotsData) => number[];
-        getRadius: (x: DepotsData) => number;
-        opacity: number;
-        pickable: boolean;
-        radiusMinPixels: number;
-    }, {}> | SimpleMeshLayer<{
-        id: string;
-        data: DepotsData[];
-        mesh: any;
-        sizeScale: number;
-        getPosition: (x: DepotsData) => number[];
-        getColor: (x: DepotsData) => number[];
-        getOrientation: (x: DepotsData) => number[];
-        getScale: (x: DepotsData) => number[];
-        getTranslation: (x: DepotsData) => number[];
-        opacity: number;
-        pickable: boolean;
-    }, {}>)[];
+    getIconLayer(): any[];
+    renderLayers(): any[];
 }
 export {};

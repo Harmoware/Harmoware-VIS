@@ -42,6 +42,7 @@ export interface AnalyzedBaseData extends MovesbaseFile {
     viewport: Viewport;
 }
 export interface Depotsbase {
+    type?: string;
     longitude?: number;
     latitude?: number;
     position?: number[];
@@ -92,6 +93,7 @@ export interface MovedData {
     archWidth?: number;
 }
 export interface DepotsData {
+    type?: string;
     position: number[];
     longitude?: number;
     latitude?: number;
@@ -104,11 +106,11 @@ export interface IconDesignation {
     type: string;
     layer: string;
     radiusScale?: number;
-    getColor?: (x: MovedData) => number[];
-    getOrientation?: (x: MovedData) => number[];
-    getScale?: (x: MovedData) => number[];
-    getTranslation?: (x: MovedData) => number[];
-    getRadius?: (x: MovedData) => number;
+    getColor?: (x: MovedData | DepotsData) => number[];
+    getOrientation?: (x: MovedData | DepotsData) => number[];
+    getScale?: (x: MovedData | DepotsData) => number[];
+    getTranslation?: (x: MovedData | DepotsData) => number[];
+    getRadius?: (x: MovedData | DepotsData) => number;
     sizeScale?: number;
     mesh?: any;
     scenegraph?: any;
