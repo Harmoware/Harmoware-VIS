@@ -115,12 +115,11 @@ export const analyzeMovesBase =
 };
 
 const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
-  const {position, longitude, latitude, ...retValue} = props.depotsBase[idx];
+  const {position, longitude, latitude, type, ...retValue} = props.depotsBase[idx];
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
   const { depotsBase, bounds, getDepotsOptionFunc } = props;
-  const depotsData: DepotsData[] = [];
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   const areadepots = depotsBase.filter((data)=>{
@@ -133,17 +132,20 @@ export const getDepots = (props: Props): DepotsData[] => {
       bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
   });
   if (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0) {
+    const depotsData: DepotsData[] = new Array(areadepots.length);
     for (let i = 0, lengthi = areadepots.length; i < lengthi; i += 1) {
-      const { longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
-      depotsData.push({
+      const { type, longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
+      depotsData[i] = Object.assign(new Object(),{
         longitude: position[0],
         latitude: position[1],
-        position,
-        ...getOptionFunction(props, i)
-      });
+        position},
+        getOptionFunction(props, i)
+      );
+      if(type) depotsData[i].type = type;
     }
+    return depotsData;
   }
-  return depotsData;
+  return [];
 };
 
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {

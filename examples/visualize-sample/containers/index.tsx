@@ -181,6 +181,9 @@ class App extends Container<BasedProps, State> {
               depotsData.length > 0 ?
               new DepotsLayer({
                 depotsData,
+                /* iconDesignations Setting Example
+                iconDesignations: [{type:'stop', layer:'Scatterplot'},{type:'station', layer:'SimpleMesh'}],
+                /**/
                 optionVisible: this.state.depotOptionVisible,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
@@ -195,7 +198,7 @@ class App extends Container<BasedProps, State> {
                 iconDesignations:[{type:'car', layer:'SimpleMesh', getColor:()=>[255,0,0,255]},
                 {type:'bus', layer:'Scenegraph', getScale:()=>[0.2,0.2,0.2], getOrientation:()=>[0,0,90]},
                 {type:'walker', layer:'Scatterplot'},],
-                */
+                /**/
                 clickedObject,
                 actions,
                 visible: this.state.moveDataVisible,

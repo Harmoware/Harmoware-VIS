@@ -2,7 +2,7 @@ import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'd
 import { IcoSphereGeometry } from 'luma.gl'
 import CubeGraphLayer from '../cubegraph-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData } from '../../types';
+import { DepotsData, IconDesignation } from '../../types';
 
 interface Props extends LayerProps {
   iconChange?: boolean,
@@ -15,6 +15,7 @@ interface Props extends LayerProps {
   optionCellSize?: number,
   optionElevationScale?: number,
   optionCentering?: boolean,
+  iconDesignations?: IconDesignation[],
   getColor?: (x: DepotsData) => number[],
   getRadius?: (x: DepotsData) => number,
   getCubeColor?: (x: DepotsData) => number[][],
@@ -57,11 +58,62 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     getTranslation: [0,0,0],
   };
 
-  renderLayers() {
-    const { id, iconChange, layerRadiusScale, layerOpacity, depotsData, getColor,
+  getIconLayer():any[] {
+    const { id, iconChange, layerRadiusScale, layerOpacity,
+      depotsData, getColor, getRadius, pickable,
+      mesh, meshSizeScale, getOrientation, getScale, getTranslation,
+      iconDesignations:propIconDesignations
+    } = this.props;
+
+    const defaultIconDesignations = [{'type':undefined,'layer':iconChange ? 'SimpleMesh':'Scatterplot'}];
+    const iconDesignations = propIconDesignations || defaultIconDesignations;
+
+    return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
+      const {type, layer,
+        radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
+        getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
+        sizeScale:oversizeScale, mesh:overmesh} = iconDesignation;
+      const getPosition = (x: DepotsData) => !type || !x.type || (x.type && x.type === type) ? x.position : null;
+      if(layer && layer === 'Scatterplot'){
+        return [
+          new ScatterplotLayer({
+            id: id + '-depots-Scatterplot-' + String(idx),
+            data: depotsData,
+            radiusScale: overradiusScale || layerRadiusScale,
+            getPosition,
+            getFillColor: overgetColor || getColor,
+            getRadius: overgetRadius || getRadius,
+            opacity: layerOpacity,
+            pickable,
+            radiusMinPixels: 1
+          })];
+      }else
+      if(layer && layer === 'SimpleMesh'){
+        return [
+          new SimpleMeshLayer({
+            id: id + '-depots-SimpleMesh-' + String(idx),
+            data: depotsData,
+            mesh: overmesh || mesh,
+            sizeScale: oversizeScale || meshSizeScale,
+            getPosition,
+            getColor: overgetColor || getColor,
+            getOrientation: overgetOrientation || getOrientation,
+            getScale: overgetScale || getScale,
+            getTranslation: overgetTranslation || getTranslation,
+            opacity: layerOpacity,
+            pickable,
+          })];
+      }else{
+        console.log('iconDesignations layer undefined.');
+        return null;
+      }
+    });
+  }
+
+  renderLayers():any[] {
+    const { id, depotsData,
       getRadius, optionElevationScale, optionVisible, optionChange, pickable,
       optionOpacity, optionCellSize, getCubeColor, getCubeElevation,
-      mesh, meshSizeScale, getOrientation, getScale, getTranslation,
       optionCentering
     } = this.props;
 
@@ -72,32 +124,10 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const stacking2 = optionVisible && optionChange;
 
     const getPosition = (x: DepotsData) => x.position;
+    const iconLayers = this.getIconLayer();
 
     return [
-      !iconChange ? new ScatterplotLayer({
-        id: id + '-depots1',
-        data: depotsData,
-        radiusScale: layerRadiusScale,
-        getPosition,
-        getFillColor:getColor,
-        getRadius,
-        opacity: layerOpacity,
-        pickable,
-        radiusMinPixels: 1
-      }) : 
-      new SimpleMeshLayer({
-        id: id + '-depots2',
-        data: depotsData,
-        mesh,
-        sizeScale: meshSizeScale,
-        getPosition,
-        getColor,
-        getOrientation,
-        getScale,
-        getTranslation,
-        opacity: layerOpacity,
-        pickable,
-      }),
+      iconLayers,
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-depots-opt-cube',

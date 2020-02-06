@@ -106,120 +106,70 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const { id, layerRadiusScale, layerOpacity, movedData,
       getColor, getRadius, iconChange, iconCubeType, visible,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
-      iconDesignations
+      iconDesignations:propIconDesignations
     } = this.props;
 
-    const getPosition = (x: MovedData) => x.position;
-    if(iconDesignations && iconDesignations.length > 0){
-      return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
-        const {type, layer,
-          radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
-          getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
-          sizeScale:oversizeScale, mesh:overmesh, scenegraph:overscenegraph} = iconDesignation;
-        const getTypePosition = (x: MovedData) => !x.type || (x.type && x.type === type) ? x.position : null;
-        if(layer && layer === 'Scatterplot'){
-          return new ScatterplotLayer({
-            id: id + '-moves-flex-' + String(idx),
-            data: movedData,
-            radiusScale: overradiusScale || layerRadiusScale,
-            getPosition: getTypePosition,
-            getFillColor: overgetColor || getColor,
-            getRadius: overgetRadius || getRadius,
-            visible,
-            opacity: layerOpacity,
-            pickable: true,
-            radiusMinPixels: 1
-          });
-        }else
-        if(layer && layer === 'SimpleMesh'){
-          return new SimpleMeshLayer({
-            id: id + '-moves-flex-' + String(idx),
-            data: movedData,
-            mesh: overmesh || mesh,
-            sizeScale: oversizeScale || sizeScale,
-            getPosition: getTypePosition,
-            getColor: overgetColor || getColor,
-            getOrientation: overgetOrientation || getOrientation,
-            getScale: overgetScale || getScale,
-            getTranslation: overgetTranslation || getTranslation,
-            visible,
-            opacity: layerOpacity,
-            pickable: true,
-          });
-        }else
-        if(layer && layer === 'Scenegraph'){
-          return new ScenegraphLayer({
-            id: id + '-moves-flex-' + String(idx),
-            data: movedData,
-            scenegraph: overscenegraph || scenegraph,
-            sizeScale: oversizeScale || sizeScale,
-            getPosition: getTypePosition,
-            getColor: overgetColor || getColor,
-            getOrientation: overgetOrientation || getOrientation,
-            getScale: overgetScale || getScale,
-            getTranslation: overgetTranslation || getTranslation,
-            visible,
-            opacity: layerOpacity,
-            pickable: true,
-          });
-        }else{
-          console.log('iconDesignations layer undefined.');
-          return null;
-        }
-      });
-    }else{
-      if(!iconChange){
-        return [
-          new ScatterplotLayer({
-          id: id + '-moves1',
+    const selectlayer = !iconChange ? 'Scatterplot':
+      iconCubeType === 0 ? 'SimpleMesh':iconCubeType === 1 ? 'Scenegraph':'Scatterplot';
+    const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
+    const iconDesignations = propIconDesignations || defaultIconDesignations;
+
+    return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
+      const {type, layer,
+        radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
+        getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
+        sizeScale:oversizeScale, mesh:overmesh, scenegraph:overscenegraph} = iconDesignation;
+      const getPosition = (x: MovedData) => !type || !x.type || (x.type && x.type === type) ? x.position : null;
+      if(layer && layer === 'Scatterplot'){
+        return new ScatterplotLayer({
+          id: id + '-moves-Scatterplot-' + String(idx),
           data: movedData,
-          radiusScale: layerRadiusScale,
+          radiusScale: overradiusScale || layerRadiusScale,
           getPosition,
-          getFillColor:getColor,
-          getRadius,
+          getFillColor: overgetColor || getColor,
+          getRadius: overgetRadius || getRadius,
           visible,
           opacity: layerOpacity,
           pickable: true,
           radiusMinPixels: 1
-        })];
+        });
       }else
-      if(iconCubeType === 0){
-        return [
-          new SimpleMeshLayer({
-          id: id + '-moves2',
+      if(layer && layer === 'SimpleMesh'){
+        return new SimpleMeshLayer({
+          id: id + '-moves-SimpleMesh-' + String(idx),
           data: movedData,
-          mesh,
-          sizeScale,
+          mesh: overmesh || mesh,
+          sizeScale: oversizeScale || sizeScale,
           getPosition,
-          getColor,
-          getOrientation,
-          getScale,
-          getTranslation,
+          getColor: overgetColor || getColor,
+          getOrientation: overgetOrientation || getOrientation,
+          getScale: overgetScale || getScale,
+          getTranslation: overgetTranslation || getTranslation,
           visible,
           opacity: layerOpacity,
           pickable: true,
-        })];
+        });
       }else
-      if(iconCubeType === 1){
-        return [
-          new ScenegraphLayer({
-            id: id + '-moves3',
-            data: movedData,
-            scenegraph,
-            sizeScale,
-            getPosition,
-            getColor,
-            getOrientation,
-            getScale,
-            getTranslation,
-            visible,
-            opacity: layerOpacity,
-            pickable: true,
-          })];
+      if(layer && layer === 'Scenegraph'){
+        return new ScenegraphLayer({
+          id: id + '-moves-Scenegraph-' + String(idx),
+          data: movedData,
+          scenegraph: overscenegraph || scenegraph,
+          sizeScale: oversizeScale || sizeScale,
+          getPosition,
+          getColor: overgetColor || getColor,
+          getOrientation: overgetOrientation || getOrientation,
+          getScale: overgetScale || getScale,
+          getTranslation: overgetTranslation || getTranslation,
+          visible,
+          opacity: layerOpacity,
+          pickable: true,
+        });
       }else{
+        console.log('iconDesignations layer undefined.');
         return null;
       }
-    }
+    });
   }
 
   renderLayers():any[] {
