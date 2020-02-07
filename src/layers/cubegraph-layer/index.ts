@@ -1,17 +1,19 @@
 import { LayerProps, GridCellLayer, CompositeLayer } from 'deck.gl';
+import { MovedData, DepotsData } from '../../types';
+
 
 const DEFAULT_COLOR = [255, 255, 255, 255];
 
 interface Props extends LayerProps {
+  optionData: MovedData[]|DepotsData[],
   cellSize?: number,
   coverage?: number,
   elevationScale?: number,
   extruded?: boolean,
-  material?: object,
-  getPosition?: (x: any) => number[],
-  getColor?: (x: any) => number[][],
-  getElevation?: (x: any) => number[],
-  getRadius?: (x: any) => number,
+  getPosition?: (x: MovedData|DepotsData) => number[],
+  getCubeColor?: (x: MovedData|DepotsData) => number[][],
+  getCubeElevation?: (x: MovedData|DepotsData) => number[],
+  getRadius?: (x: MovedData|DepotsData) => number,
   stacking1?: boolean,
   stacking2?: boolean,
   optionCentering?: boolean,
@@ -22,16 +24,20 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
 
   static defaultProps: Props = {
     id: 'CubeGraphLayer',
+    optionData: [],
     visible: true,
     cellSize: 12,
     coverage: 1,
     elevationScale: 1,
     opacity: 0.25,
     extruded: true,
-    getPosition: (x: any) => x.position, // position:[longitude,latitude,[elevation]]
-    getElevation: (x: any) => x.elevation || [0], // elevation:[値-1,値-2,,,値-n]
-    getColor: (x: any) => x.color || [DEFAULT_COLOR], // color:[[rgba-1],[rgba-2],,,[rgba-n]]
-    getRadius: (x: any) => x.radius,
+    // position:[longitude,latitude,[elevation]]
+    getPosition: (x: MovedData|DepotsData) => x.position,
+    // cubeElevation:[値-1,値-2,,,値-n]
+    getCubeElevation: (x: MovedData|DepotsData) => x.optElevation || [0],
+    // cubeColor:[[rgba-1],[rgba-2],,,[rgba-n]]
+    getCubeColor: (x: MovedData|DepotsData) => x.optColor || [DEFAULT_COLOR],
+    getRadius: (x: MovedData|DepotsData) => x.radius,
     stacking1: false,
     stacking2: false,
     optionCentering: false,
@@ -40,11 +46,11 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
   static layerName = 'CubeGraphLayer';
 
   renderLayers() {
-    const { id, data, visible, pickable, opacity, cellSize, elevationScale,
-      getPosition, getElevation, getColor, getRadius,
+    const { id, optionData, visible, pickable, opacity, cellSize, elevationScale,
+      getPosition, getCubeElevation, getCubeColor, getRadius,
       stacking1, stacking2, optionCentering } = this.props;
 
-    if (!data || data.length === 0 || !visible) {
+    if (!optionData || optionData.length === 0 || !visible) {
       return null;
     }
   
@@ -54,13 +60,13 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     const halfcellSize = cellSize / 2;
 
     const setdata = [];
-    for (let i = 0; i < data.length; i += 1) {
-      const item = data[i];
+    for (let i = 0; i < optionData.length; i += 1) {
+      const item = optionData[i];
       const position = getPosition(item);
       if(typeof position === 'undefined') continue;
       let height = position[2] || 0;
-      const elevation = getElevation(item) || [0];
-      const color = getColor(item) || [DEFAULT_COLOR];
+      const elevation = getCubeElevation(item) || [0];
+      const color = getCubeColor(item) || [DEFAULT_COLOR];
       const radius = optionCentering ? 0 : getRadius(item) || cellSize;
       const shiftLng = degreesMeterLng * (radius + halfcellSize);
       const shiftLat = degreesMeterLat * (radius + halfcellSize);

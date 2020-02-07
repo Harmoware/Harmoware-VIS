@@ -94,7 +94,7 @@ export interface MovedData {
   settime?: number,
   routeColor?: number[],
   routeWidth?: number,
-  optColor?: number[],
+  optColor?: number[][],
   optElevation?: number[],
   archWidth?: number,
 };
@@ -106,13 +106,13 @@ export interface DepotsData {
   latitude?: number,
   radius?: number,
   color?: (number | number[])[],
-  optColor?: number[],
+  optColor?: number[][],
   optElevation?: number[],
 };
 
 export interface IconDesignation {
   type: string,
-  layer: string,
+  layer: 'Scatterplot'|'SimpleMesh'|'Scenegraph',
   radiusScale?: number,
   getColor?: (x: MovedData|DepotsData) => number[],
   getOrientation?: (x: MovedData|DepotsData) => number[],

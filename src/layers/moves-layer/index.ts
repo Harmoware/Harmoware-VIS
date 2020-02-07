@@ -207,13 +207,13 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-moves-opt-cube',
-        data: optionMovedData.concat([{}]),
+        optionData: optionMovedData.concat([{}]),
         visible: optionVisible,
         optionCentering,
         stacking1,
         getPosition,
-        getColor: getCubeColor,
-        getElevation: getCubeElevation,
+        getCubeColor,
+        getCubeElevation,
         getRadius: optPlacement,
         opacity: optionOpacity,
         pickable: false,

@@ -131,14 +131,14 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-depots-opt-cube',
-        data: depotsData,
+        optionData: depotsData,
         visible: optionVisible,
         optionCentering,
         stacking2,
         getPosition,
         getRadius,
-        getColor: getCubeColor,
-        getElevation: getCubeElevation,
+        getCubeColor,
+        getCubeElevation,
         opacity: optionOpacity,
         pickable,
         cellSize: optionCellSize,

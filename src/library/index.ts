@@ -141,7 +141,7 @@ export const getDepots = (props: Props): DepotsData[] => {
         position},
         getOptionFunction(props, i)
       );
-      if(type) depotsData[i].type = type;
+      if(typeof type === 'string') depotsData[i].type = type;
     }
     return depotsData;
   }
@@ -192,7 +192,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           movesbaseidx},
           getOptionFunction(props, movesbaseidx, j)
         );
-        if(type) movedData[i].type = type;
+        if(typeof type === 'string') movedData[i].type = type;
         break;
       }
     }
