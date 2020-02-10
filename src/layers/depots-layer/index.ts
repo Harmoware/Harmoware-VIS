@@ -119,7 +119,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       optionCentering
     } = this.props;
 
-    if (!depotsData || depotsData.length === 0 || !optionVisible) {
+    if (!depotsData || depotsData.length === 0) {
       return null;
     }
 
@@ -130,6 +130,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     return [
       iconLayers,
+      optionVisible ?
       new CubeGraphLayer({
         id: id + '-depots-opt-cube',
         optionData: depotsData,
@@ -144,7 +145,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         pickable,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
-      }),
+      }) : null,
     ];
   }
 }
