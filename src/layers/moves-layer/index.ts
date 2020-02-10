@@ -180,7 +180,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
-      !movedData || movedData.length === 0) {
+      !movedData || movedData.length === 0 || !visible) {
       return null;
     }
 
@@ -194,7 +194,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     return [
       iconLayers,
-      visible ? new LineLayer({
+      new LineLayer({
         id: id + '-route-paths',
         data: routePaths,
         widthUnits: 'meters',
@@ -203,7 +203,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getColor: (x: MovedData) => x.routeColor,
         visible,
         pickable: false
-      }) : null,
+      }),
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-moves-opt-cube',

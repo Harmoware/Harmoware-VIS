@@ -46,7 +46,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
       getCoordinates, getElevation, getWidth, getColor, getDashArray,
       widthUnits, widthMinPixels, polygonOpacity, lineOpacity } = this.props;
 
-    if (!data || !visible) {
+    if (!data || data.length === 0 || !visible) {
       return null;
     }
 

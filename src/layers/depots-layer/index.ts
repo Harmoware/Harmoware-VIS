@@ -60,10 +60,12 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
   getIconLayer():any[] {
     const { id, iconChange, layerRadiusScale, layerOpacity,
-      depotsData, getColor, getRadius, pickable,
+      depotsData, getColor, getRadius, pickable, visible,
       mesh, meshSizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
     } = this.props;
+
+    if(!visible) return null;
 
     const defaultIconDesignations = [{'type':undefined,'layer':iconChange ? 'SimpleMesh':'Scatterplot'}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
@@ -117,7 +119,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
       optionCentering
     } = this.props;
 
-    if (!depotsData) {
+    if (!depotsData || depotsData.length === 0 || !optionVisible) {
       return null;
     }
 
@@ -128,7 +130,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     return [
       iconLayers,
-      optionVisible ?
       new CubeGraphLayer({
         id: id + '-depots-opt-cube',
         optionData: depotsData,
@@ -143,7 +144,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         pickable,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
-      }) : null,
+      }),
     ];
   }
 }
