@@ -119,7 +119,10 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
-  const { depotsBase, bounds, getDepotsOptionFunc } = props;
+  const { depotsBase, depotsData:prevData, bounds, getDepotsOptionFunc } = props;
+  if(prevData.length > 0 && !getDepotsOptionFunc){
+    return prevData;
+  }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   const areadepots = depotsBase.filter((data)=>{
