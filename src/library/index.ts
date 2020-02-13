@@ -120,7 +120,7 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
 };
 export const getDepots = (props: Props): DepotsData[] => {
   const { depotsBase, depotsData:prevData, bounds, getDepotsOptionFunc } = props;
-  if(prevData.length > 0 && !getDepotsOptionFunc){
+  if(depotsBase.length > 0 && prevData.length > 0 && !getDepotsOptionFunc){
     return prevData;
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
