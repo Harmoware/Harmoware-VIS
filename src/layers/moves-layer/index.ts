@@ -46,7 +46,6 @@ interface Props extends LayerProps {
   iconChange?: boolean, // Invalid if there is iconDesignations definition
   iconCubeType?: number, // Invalid if there is iconDesignations definition
   iconDesignations?: IconDesignation[],
-  getColor?: (x: MovedData) => number[],
   getRouteColor?: (x: MovedData) => number[],
   getRouteWidth?: (x: MovedData) => number,
   getRadius?: (x: MovedData) => number,
@@ -80,7 +79,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
     visible: true,
     iconChange: true,
     iconCubeType: 0,
-    getColor: (x: MovedData) => x.color || COLOR1,
     getRouteColor: (x: MovedData) => x.routeColor || x.color || COLOR1,
     getRouteWidth: (x: MovedData) => x.routeWidth || 10,
     getRadius: (x: MovedData) => x.radius || 20,
@@ -104,7 +102,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   getIconLayer():any[] {
     const { id, layerRadiusScale, layerOpacity, movedData,
-      getColor, getRadius, iconChange, iconCubeType, visible,
+      getRadius, iconChange, iconCubeType, visible,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
     } = this.props;
@@ -113,6 +111,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       iconCubeType === 0 ? 'SimpleMesh':iconCubeType === 1 ? 'Scenegraph':'Scatterplot';
     const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
+    const getColor = (x: MovedData) => x.color || COLOR1;
 
     return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
       const {type, layer,

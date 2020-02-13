@@ -138,11 +138,11 @@ export const getDepots = (props: Props): DepotsData[] => {
     const depotsData: DepotsData[] = new Array(areadepots.length);
     for (let i = 0, lengthi = areadepots.length; i < lengthi; i += 1) {
       const { type, longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
-      depotsData[i] = Object.assign(new Object(),{
-        longitude: position[0],
-        latitude: position[1],
-        position},
-        getOptionFunction(props, i)
+      depotsData[i] = Object.assign(new Object(),
+        getOptionFunction(props, i),
+        { longitude: position[0],
+          latitude: position[1],
+          position},
       );
       if(typeof type === 'string') depotsData[i].type = type;
     }
@@ -153,8 +153,8 @@ export const getDepots = (props: Props): DepotsData[] => {
 
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {
   const {departuretime, arrivaltime, operation, type, ...retValue1} = props.movesbase[idx1];
-  const {elapsedtime, position, longitude, latitude, ...retValue2} = operation[idx2];
-  return Object.assign(retValue1,retValue2);
+  const {elapsedtime, position, longitude, latitude, color, direction, ...retValue2} = operation[idx2];
+  return Object.assign(retValue2,retValue1);
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength, getMovesOptionFunc } = props;
@@ -182,18 +182,19 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         pos_rate[0] -= (longitude - nextlongitude) * rate;
         pos_rate[1] -= (latitude - nextlatitude) * rate;
         pos_rate[2] -= (elevation - nextelevation) * rate;
-        movedData[i] = Object.assign(new Object(),{
-          settime,
-          longitude: pos_rate[0],
-          latitude: pos_rate[1],
-          position: pos_rate,
-          sourcePosition: [longitude, latitude, elevation],
-          targetPosition: [nextlongitude, nextlatitude, nextelevation],
-          direction,
-          sourceColor: color,
-          targetColor: nextcolor,
-          movesbaseidx},
-          getOptionFunction(props, movesbaseidx, j)
+        movedData[i] = Object.assign(new Object(),
+          getOptionFunction(props, movesbaseidx, j),
+          { settime,
+            longitude: pos_rate[0],
+            latitude: pos_rate[1],
+            position: pos_rate,
+            sourcePosition: [longitude, latitude, elevation],
+            targetPosition: [nextlongitude, nextlatitude, nextelevation],
+            color,
+            direction,
+            sourceColor: color,
+            targetColor: nextcolor,
+            movesbaseidx}
         );
         if(typeof type === 'string') movedData[i].type = type;
         break;
