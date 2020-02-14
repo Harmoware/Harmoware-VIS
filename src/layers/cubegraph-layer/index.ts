@@ -60,7 +60,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     const halfcellSize = cellSize / 2;
 
     const setdata = [];
-    for (let i = 0; i < optionData.length; i += 1) {
+    for (let i = 0; i < optionData.length; i=(i+1)|0) {
       const item = optionData[i];
       const position = getPosition(item);
       if(typeof position === 'undefined') continue;
@@ -70,7 +70,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
       const radius = optionCentering ? 0 : getRadius(item) || cellSize;
       const shiftLng = degreesMeterLng * (radius + halfcellSize);
       const shiftLat = degreesMeterLat * (radius + halfcellSize);
-      for (let j = 0; j < elevation.length; j += 1) {
+      for (let j = 0; j < elevation.length; j=(j+1)|0) {
         if(elevation[j] === 0) continue;
         const elevationValue = elevation[j] * elevationScale;
         const setcolor = color[j] || DEFAULT_COLOR;

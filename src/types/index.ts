@@ -108,6 +108,7 @@ export interface DepotsData {
   color?: (number | number[])[],
   optColor?: number[][],
   optElevation?: number[],
+  settime?: number,
 };
 
 export interface IconDesignation {

@@ -53,7 +53,7 @@ export default class FpsDisplay extends React.Component<Props, State> {
       FpsDisplay.frameCounter = 1;
       return retuenObject;
     }
-    FpsDisplay.frameCounter += 1;
+    FpsDisplay.frameCounter = FpsDisplay.frameCounter + 1;
     return null;
   }
 

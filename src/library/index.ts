@@ -54,7 +54,7 @@ export const analyzeMovesBase =
   let timeEnd: number = 0;
   const longArray: number[] = [];
   const latiArray: number[] = [];
-  for (let i = 0, lengthi = movesbase.length; i < lengthi; i += 1) {
+  for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
     const { departuretime, arrivaltime, operation } = movesbase[i];
     movesbase[i].movesbaseidx = i;
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
@@ -62,7 +62,7 @@ export const analyzeMovesBase =
       timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
     }
 
-    for (let j = 0, lengthj = operation.length; j < lengthj; j += 1) {
+    for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
       const { longitude, latitude, position=[longitude, latitude, 3] } = operation[j];
       if (typeof operation[j].position === 'undefined') {
         operation[j].position = position;
@@ -79,7 +79,7 @@ export const analyzeMovesBase =
       }
     }
     let direction = 0;
-    for (let j = 0, lengthj = operation.length; j < (lengthj-1); j += 1) {
+    for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
       const { position: sourcePosition } = operation[j];
       const { position: targetPosition } = operation[j+1];
       if(sourcePosition[0] === targetPosition[0] && sourcePosition[1] === targetPosition[1]){
@@ -99,11 +99,11 @@ export const analyzeMovesBase =
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
   }else{
-    for (let k = 0, lengthk = movesbase.length; k < lengthk; k += 1) {
+    for (let k = 0, lengthk = movesbase.length; k < lengthk; k=(k+1)|0) {
       movesbase[k].departuretime += timeBegin;
       movesbase[k].arrivaltime += timeBegin;
       const { operation } = movesbase[k];
-      for (let l = 0, lengthl = operation.length; l < lengthl; l += 1) {
+      for (let l = 0, lengthl = operation.length; l < lengthl; l=(l+1)|0) {
         operation[l].elapsedtime += timeBegin;
       }
     }
@@ -119,30 +119,22 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
-  const { depotsBase, depotsData:prevData, bounds, getDepotsOptionFunc } = props;
+  const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
   if(depotsBase.length > 0 && prevData.length > 0 && !getDepotsOptionFunc){
+    return prevData;
+  }
+  if(prevData.length > 0 && Math.abs(prevData[0].settime - settime) <= 1){
     return prevData;
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
-  const areadepots = depotsBase.filter((data)=>{
-    if(bounds.westlongitiude === 0 && bounds.eastlongitiude === 0 &&
-      bounds.southlatitude === 0 && bounds.northlatitude === 0){
-      return true;
-    }
-    const { longitude, latitude, position=[longitude, latitude, 1] } = data;
-    return (bounds.westlongitiude <= position[0] && position[0] <= bounds.eastlongitiude &&
-      bounds.southlatitude <= position[1] && position[1] <= bounds.northlatitude);
-  });
-  if (areadepots.length > 0 && typeof bounds !== 'undefined' && Object.keys(bounds).length > 0) {
-    const depotsData: DepotsData[] = new Array(areadepots.length);
-    for (let i = 0, lengthi = areadepots.length; i < lengthi; i += 1) {
-      const { type, longitude, latitude, position=[longitude, latitude, 1] } = areadepots[i];
+  if (depotsBase.length > 0) {
+    const depotsData: DepotsData[] = new Array(depotsBase.length);
+    for (let i = 0, lengthi = depotsBase.length; i < lengthi; i=(i+1)|0) {
+      const { type, longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
       depotsData[i] = Object.assign(new Object(),
+        { settime, longitude: position[0], latitude: position[1], position},
         getOptionFunction(props, i),
-        { longitude: position[0],
-          latitude: position[1],
-          position},
       );
       if(typeof type === 'string') depotsData[i].type = type;
     }
@@ -154,12 +146,12 @@ export const getDepots = (props: Props): DepotsData[] => {
 const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {
   const {departuretime, arrivaltime, operation, type, ...retValue1} = props.movesbase[idx1];
   const {elapsedtime, position, longitude, latitude, color, direction, ...retValue2} = operation[idx2];
-  return Object.assign(retValue2,retValue1);
+  return Object.assign(retValue1,retValue2);
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength, getMovesOptionFunc } = props;
   if(prevMovedData.length > 0){
-    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120) ) return prevMovedData;
+    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 144) ) return prevMovedData;
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
@@ -168,33 +160,30 @@ export const getMoveObjects = (props : Props): MovedData[] => {
     return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
   const movedData: MovedData[] = new Array(selectmovesbase.length);
-  for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i += 1) {
+  for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i=(i+1)|0) {
     const { operation, movesbaseidx, type } = selectmovesbase[i];
-    for (let j = 0, lengthj = operation.length; j < lengthj - 1; j += 1) {
+    for (let j = 0, lengthj = operation.length; j < lengthj - 1; j=(j+1)|0) {
       const { elapsedtime } = operation[j];
-      const { elapsedtime: nextelapsedtime } = operation[j + 1];
+      const k = (j+1)|0;
+      const { elapsedtime: nextelapsedtime } = operation[k];
       if (elapsedtime <= settime && settime < nextelapsedtime) {
         const { position:[longitude, latitude, elevation], color=COLOR1, direction=0 } = operation[j];
         const { position:[nextlongitude, nextlatitude, nextelevation],
-          color: nextcolor=COLOR1 } = operation[j + 1];
+          color: nextcolor=COLOR1 } = operation[k];
         const pos_rate = [longitude, latitude, elevation];
         const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
         pos_rate[0] -= (longitude - nextlongitude) * rate;
         pos_rate[1] -= (latitude - nextlatitude) * rate;
         pos_rate[2] -= (elevation - nextelevation) * rate;
         movedData[i] = Object.assign(new Object(),
-          getOptionFunction(props, movesbaseidx, j),
           { settime,
-            longitude: pos_rate[0],
-            latitude: pos_rate[1],
-            position: pos_rate,
+            longitude: pos_rate[0], latitude: pos_rate[1], position: pos_rate,
             sourcePosition: [longitude, latitude, elevation],
             targetPosition: [nextlongitude, nextlatitude, nextelevation],
-            color,
-            direction,
-            sourceColor: color,
-            targetColor: nextcolor,
-            movesbaseidx}
+            color, direction,
+            sourceColor: color, targetColor: nextcolor,
+            movesbaseidx},
+          getOptionFunction(props, movesbaseidx, j),
         );
         if(typeof type === 'string') movedData[i].type = type;
         break;
@@ -241,7 +230,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
       const { actions, clickedObject, movesbase, routePaths } = props;
       let deleted = false;
       if (clickedObject && clickedObject.length > 0) {
-        for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
+        for (let i = 0, lengthi = clickedObject.length; i < lengthi; i=(i+1)|0) {
           if (clickedObject[i].object.movesbaseidx === movesbaseidx) {
             deleted = true;
             break;
@@ -255,7 +244,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
         newClickedObject.push({ object, layer: { id } });
         const setRoutePaths = [];
         const { operation } = movesbase[movesbaseidx];
-        for (let j = 0; j < (operation.length - 1); j += 1) {
+        for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
           const { position } = operation[j];
           const routeColor = getRouteColor(operation[j]);
           const routeWidth = getRouteWidth(operation[j]);
@@ -279,9 +268,9 @@ export const checkClickedObjectToBeRemoved = (
   movedData: MovedData[], clickedObject: null | ClickedObject[],
   routePaths: RoutePaths[], actions: ActionTypes): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
-    for (let i = 0, lengthi = clickedObject.length; i < lengthi; i += 1) {
+    for (let i = 0, lengthi = clickedObject.length; i < lengthi; i=(i+1)|0) {
       let deleted = true;
-      for (let j = 0, lengthj = movedData.length; j < lengthj; j += 1) {
+      for (let j = 0, lengthj = movedData.length; j < lengthj; j=(j+1)|0) {
         if (clickedObject[i].object.movesbaseidx === movedData[j].movesbaseidx) {
           deleted = false;
           break;

@@ -30,7 +30,7 @@ class MapGl extends InteractiveMap {
     const map = this.getMap();
     const LayerValuemap = MapGl.mapboxAddLayerValue;
     map.on('load', function() {
-      for(let i=0; LayerValuemap.length > i; i+=1){
+      for(let i=0; LayerValuemap.length > i; i=(i+1)|0){
         map.addLayer(LayerValuemap[i]);
       }
     });
@@ -44,7 +44,7 @@ class MapGl extends InteractiveMap {
       let execflg = false
       map.on('styledata', function() {
         if(execflg) return;
-        for(let i=0; LayerValuemap.length > i; i+=1){
+        for(let i=0; LayerValuemap.length > i; i=(i+1)|0){
           map.addLayer(LayerValuemap[i]);
         }
         execflg = true;
