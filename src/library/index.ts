@@ -129,10 +129,10 @@ export const getDepots = (props: Props): DepotsData[] => {
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
 
   if (depotsBase.length > 0) {
-    const depotsData: DepotsData[] = new Array(depotsBase.length);
+    const depotsData: DepotsData[] = [];
     for (let i = 0, lengthi = depotsBase.length; i < lengthi; i=(i+1)|0) {
       const { type, longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
-      depotsData[i] = Object.assign(new Object(),
+      depotsData[i] = Object.assign({},
         { settime, longitude: position[0], latitude: position[1], position},
         getOptionFunction(props, i),
       );
@@ -159,7 +159,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
     const { departuretime, arrivaltime } = data;
     return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
-  const movedData: MovedData[] = new Array(selectmovesbase.length);
+  const movedData: MovedData[] = [];
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i=(i+1)|0) {
     const { operation, movesbaseidx, type } = selectmovesbase[i];
     for (let j = 0, lengthj = operation.length; j < lengthj - 1; j=(j+1)|0) {
@@ -175,7 +175,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         pos_rate[0] -= (longitude - nextlongitude) * rate;
         pos_rate[1] -= (latitude - nextlatitude) * rate;
         pos_rate[2] -= (elevation - nextelevation) * rate;
-        movedData[i] = Object.assign(new Object(),
+        movedData[i] = Object.assign({},
           { settime,
             longitude: pos_rate[0], latitude: pos_rate[1], position: pos_rate,
             sourcePosition: [longitude, latitude, elevation],
