@@ -82,8 +82,6 @@ export interface MovedData {
   movesbaseidx: number,
   type?: string,
   position: number[],
-  longitude?: number,
-  latitude?: number,
   sourcePosition: number[],
   targetPosition: number[],
   direction?: number,
@@ -102,8 +100,6 @@ export interface MovedData {
 export interface DepotsData {
   type?: string,
   position: number[],
-  longitude?: number,
-  latitude?: number,
   radius?: number,
   color?: (number | number[])[],
   optColor?: number[][],

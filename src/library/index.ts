@@ -133,7 +133,7 @@ export const getDepots = (props: Props): DepotsData[] => {
     for (let i = 0, lengthi = depotsBase.length; i < lengthi; i=(i+1)|0) {
       const { type, longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
       depotsData[i] = Object.assign({},
-        { settime, longitude: position[0], latitude: position[1], position},
+        { settime, position},
         getOptionFunction(props, i),
       );
       if(typeof type === 'string') depotsData[i].type = type;
@@ -180,7 +180,7 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         pos_rate[2] -= (elevation - nextelevation) * rate;
         movedData[i] = Object.assign({},
           { settime,
-            longitude: pos_rate[0], latitude: pos_rate[1], position: pos_rate,
+            position: pos_rate,
             sourcePosition: [longitude, latitude, elevation],
             targetPosition: [nextlongitude, nextlatitude, nextelevation],
             color, direction,
