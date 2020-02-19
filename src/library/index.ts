@@ -119,11 +119,11 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
   return retValue;
 };
 export const getDepots = (props: Props): DepotsData[] => {
-  const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
+  const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc, animatePause } = props;
   if(depotsBase.length > 0 && prevData.length > 0 && !getDepotsOptionFunc){
     return prevData;
   }
-  if(prevData.length > 0 && Math.abs(prevData[0].settime - settime) <= 1){
+  if(prevData.length > 0 && (Math.abs(prevData[0].settime - settime) <= 1 || animatePause)){
     return prevData;
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
@@ -149,9 +149,12 @@ const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object =
   return Object.assign(retValue1,retValue2);
 };
 export const getMoveObjects = (props : Props): MovedData[] => {
-  const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength, getMovesOptionFunc } = props;
+  const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
+    getMovesOptionFunc, animatePause } = props;
   if(prevMovedData.length > 0){
-    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 144) ) return prevMovedData;
+    if(animatePause || Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 144) ){
+      return prevMovedData
+    };
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
 
