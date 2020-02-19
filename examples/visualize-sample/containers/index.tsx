@@ -87,7 +87,7 @@ class App extends Container<BasedProps, State> {
     const { direction } = data;
 
     return (<Marker key={`marker-${index}`}
-      longitude={data.longitude} latitude={data.latitude} >
+      longitude={data.position[0]} latitude={data.position[1]} >
       <SvgIcon viewport={viewport} direction={direction}
       onMouseOver={() => this.setState({popupInfo: data})}
       onMouseOut={() => this.setState({popupInfo: null})} />
@@ -102,8 +102,8 @@ class App extends Container<BasedProps, State> {
       return (
         <Popup tipSize={5}
           anchor="bottom"
-          longitude={popupInfo.longitude}
-          latitude={popupInfo.latitude}
+          longitude={popupInfo.position[0]}
+          latitude={popupInfo.position[1]}
           closeButton={false} >
           <div>{objctlist.map((item)=><p>{`${item[0]}: ${item[1].toString()}`}</p>)}</div>
         </Popup>
