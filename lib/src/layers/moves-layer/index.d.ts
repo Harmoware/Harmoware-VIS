@@ -1,5 +1,4 @@
 import { LayerProps, CompositeLayer } from 'deck.gl';
-import { CubeGeometry } from 'luma.gl';
 import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
@@ -21,7 +20,6 @@ interface Props extends LayerProps {
     iconChange?: boolean;
     iconCubeType?: number;
     iconDesignations?: IconDesignation[];
-    getColor?: (x: MovedData) => number[];
     getRouteColor?: (x: MovedData) => number[];
     getRouteWidth?: (x: MovedData) => number;
     getRadius?: (x: MovedData) => number;
@@ -51,15 +49,14 @@ export default class MovesLayer extends CompositeLayer<Props> {
         visible: boolean;
         iconChange: boolean;
         iconCubeType: number;
-        getColor: (x: MovedData) => (number | number[])[];
         getRouteColor: (x: MovedData) => (number | number[])[];
         getRouteWidth: (x: MovedData) => number;
         getRadius: (x: MovedData) => number;
-        getCubeColor: (x: MovedData) => number[] | (number | number[])[][];
+        getCubeColor: (x: MovedData) => (number | number[])[][];
         getCubeElevation: (x: MovedData) => number[];
         getArchWidth: (x: MovedData) => number;
         scenegraph: string;
-        mesh: CubeGeometry;
+        mesh: any;
         sizeScale: number;
         getOrientation: (x: MovedData) => number[];
         getScale: number[];
