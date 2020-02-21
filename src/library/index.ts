@@ -55,20 +55,25 @@ export const analyzeMovesBase =
   const longArray: number[] = [];
   const latiArray: number[] = [];
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
-    const { departuretime, arrivaltime, operation } = movesbase[i];
-    movesbase[i].movesbaseidx = i;
-    if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
-      timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
-      timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
-    }
-
+    const { operation } = movesbase[i];
+    let departuretime = Number.MAX_VALUE;
+    let arrivaltime = Number.MIN_VALUE;
     for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
-      const { longitude, latitude, position=[longitude, latitude, 3] } = operation[j];
+      if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
+        typeof operation[j].position === 'undefined'){
+        console.log('movesbase operation['+j+'] position undefined');
+      }
+      if(typeof operation[j].elapsedtime !== 'number'){
+        console.log('movesbase operation['+j+'] elapsedtime undefined');
+      }
+      const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
       if (typeof operation[j].position === 'undefined') {
         operation[j].position = position;
       }
       longArray.push(+position[0]);
       latiArray.push(+position[1]);
+      departuretime = Math.min(departuretime, elapsedtime);
+      arrivaltime = Math.max(arrivaltime, elapsedtime);
       if (!baseBounds && position[0] && position[1]) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
         eastlongitiude = !eastlongitiude ? position[0] : Math.max(eastlongitiude, position[0]);
@@ -78,6 +83,14 @@ export const analyzeMovesBase =
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
+    movesbase[i].departuretime = departuretime;
+    movesbase[i].arrivaltime = arrivaltime;
+    movesbase[i].movesbaseidx = i;
+    if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
+      timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
+      timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
+    }
+
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
       const { position: sourcePosition } = operation[j];
@@ -190,6 +203,8 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         );
         if(typeof type === 'string') movedData[i].type = type;
         break;
+      }else{
+        console.log('movedData['+i+'] operation['+j+'] elapsedtime problem occurs');
       }
     }
   }
