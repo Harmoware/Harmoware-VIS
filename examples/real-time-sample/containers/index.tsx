@@ -73,19 +73,16 @@ class App extends Container<BasedProps, State> {
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
-        const arrivaltime = elapsedtime;
         operation.push({
           elapsedtime, position, ...otherkey
         });
-        setMovedata = Object.assign({}, setMovedata, { arrivaltime, operation });
+        setMovedata = Object.assign({}, setMovedata, { operation });
       }
       setMovesbase.push(setMovedata);
     }
     if(!hit){
       setMovesbase.push({
           mtype, id,
-          departuretime: elapsedtime,
-          arrivaltime: elapsedtime,
           operation: [{
             elapsedtime, position, ...otherkey
           }]
@@ -101,13 +98,11 @@ class App extends Container<BasedProps, State> {
     let dataModify = false;
     const compareTime = settime - maxKeepSecond;
     for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
-      const { departuretime: propsdeparturetime, operation: propsoperation } = movesbasedata[i];
-      let departuretime = propsdeparturetime;
+      const { operation: propsoperation } = movesbasedata[i];
       let startIndex = propsoperation.length;
       for (let j = 0, lengthj = propsoperation.length; j < lengthj; j += 1) {
         if(propsoperation[j].elapsedtime > compareTime){
           startIndex = j;
-          departuretime = propsoperation[j].elapsedtime;
           break;
         }
       }
@@ -116,7 +111,7 @@ class App extends Container<BasedProps, State> {
       }else
       if(startIndex < propsoperation.length){
         setMovesbase.push(Object.assign({}, movesbasedata[i], {
-          operation: propsoperation.slice(startIndex), departuretime }));
+          operation: propsoperation.slice(startIndex)}));
         dataModify = true;  
       }else{
         dataModify = true;

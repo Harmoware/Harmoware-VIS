@@ -122,8 +122,6 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
         }
       });
       movesbase.push({
-        departuretime: segments[0][2],
-        arrivaltime: segments[segments.length - 1][2],
         operation
       });
     });
@@ -385,8 +383,6 @@ function* setupByCSV() {
     }
     if (operation.length > 0) {
       busmovesbase.push({
-        departuretime: operation[0].elapsedtime,
-        arrivaltime: operation[operation.length - 1].elapsedtime,
         busclass,
         operation
       });

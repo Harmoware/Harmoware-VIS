@@ -30,8 +30,8 @@ export interface MovesbaseOperation {
 
 export interface Movesbase {
   type?: string,
-  departuretime: number,
-  arrivaltime: number,
+  departuretime?: number,
+  arrivaltime?: number,
   operation: MovesbaseOperation[],
   movesbaseidx?: number
 };
