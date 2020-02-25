@@ -56,15 +56,18 @@ export const analyzeMovesBase =
   const latiArray: number[] = [];
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
     const { operation } = movesbase[i];
+    if(!operation || operation.length === 0){
+      console.log('movesbase['+i+'] operation undefined');
+    }
     let departuretime = Number.MAX_VALUE;
     let arrivaltime = Number.MIN_VALUE;
     for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
       if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
         typeof operation[j].position === 'undefined'){
-        console.log('movesbase operation['+j+'] position undefined');
+        console.log('movesbase['+i+'] operation['+j+'] position undefined');
       }
       if(typeof operation[j].elapsedtime !== 'number'){
-        console.log('movesbase operation['+j+'] elapsedtime undefined');
+        console.log('movesbase['+i+'] operation['+j+'] elapsedtime undefined');
       }
       const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
       if (typeof operation[j].position === 'undefined') {
@@ -203,8 +206,6 @@ export const getMoveObjects = (props : Props): MovedData[] => {
         );
         if(typeof type === 'string') movedData[i].type = type;
         break;
-      }else{
-        console.log('movedData['+i+'] operation['+j+'] elapsedtime problem occurs');
       }
     }
   }
