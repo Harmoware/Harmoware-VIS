@@ -169,7 +169,7 @@ reducer.case(setMovesBase, (state, base) => {
   const settime = timeBegin - (movesbase.length === 0 ? 0 : state.leading);
   let { timeLength } = analyzeData;
   if (timeLength > 0) {
-    timeLength += state.trailing;
+    timeLength = timeLength + state.trailing;
   }
   const loopTime = calcLoopTime(timeLength, state.secperhour);
   // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
@@ -282,7 +282,7 @@ reducer.case(updateMovesBase, (state, base) => {
   if(state.movesbase.length === 0 || timeLength === 0){ //初回？
     const settime = timeBegin - state.leading;
     if (timeLength > 0) {
-      timeLength += state.trailing;
+      timeLength = timeLength + state.trailing;
     }
     const loopTime = calcLoopTime(timeLength, state.secperhour);
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
@@ -302,7 +302,7 @@ reducer.case(updateMovesBase, (state, base) => {
   }
   let startState = {};
   if (timeLength > 0) {
-    timeLength += state.trailing;
+    timeLength = timeLength + state.trailing;
   }
   if(timeBegin !== state.timeBegin || timeLength !== state.timeLength){
     const loopTime = calcLoopTime(timeLength, state.secperhour);

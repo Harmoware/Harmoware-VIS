@@ -15,7 +15,7 @@ const canvasProps = {
     const hMin = 0;
     const hMax = 120;
     const unit = CANVAS_WIDTH / hMax;
-    for (let h = hMin; h <= hMax; h += 1) {
+    for (let h = hMin; h <= hMax; h=(h+1)|0) {
       cont.fillStyle = `rgb(${hsvToRgb(h, 1, 1).join(',')})`;
       cont.fillRect((hMax - h) * unit, 0, unit, CANVAS_HEIGHT);
     }

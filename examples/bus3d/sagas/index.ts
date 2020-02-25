@@ -117,7 +117,7 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
         const [longitude, latitude, elapsedtime] = tripsegment;
         const color = (colorSpec && colorSpec[idx]) ? colorSpec[idx] : COLOR1;
         operation.push({ elapsedtime, longitude, latitude, color });
-        if (!(idx < (segments.length - 1) && (segments[idx + 1][2] - tripsegment[2]) <= 10)) {
+        if (!(idx < (segments.length - 1) && (segments[(idx+1)|0][2] - tripsegment[2]) <= 10)) {
           operation.push({ elapsedtime: (elapsedtime + 10), longitude, latitude, color });
         }
       });
@@ -305,7 +305,7 @@ function* setupByCSV() {
     let savebusoption = null as Busprop;
     const color = COLOR1;
     const busclass = { systemcode, direction, systemname, diagramid, timetable };
-    for (let j = 0, lengthj = busstatus.length; j < lengthj; j += 1) {
+    for (let j = 0, lengthj = busstatus.length; j < lengthj; j=(j+1)|0) {
       const { busstopcode, elapsedtime, order, delaysec, busprop } = busstatus[j];
       if (bssidx[busstopcode]) {
         const busstoplocation = busstopscsv[bssidx[busstopcode]];
@@ -321,17 +321,17 @@ function* setupByCSV() {
           longitude, latitude, color, delaysec,
           busprop: savebusoption });
 
-        if (j < busstatus.length - 1 && busstopcode !== busstatus[j + 1].busstopcode) {
+        if (j < busstatus.length - 1 && busstopcode !== busstatus[(j+1)|0].busstopcode) {
           const busrouteskey = `${systemcode}-${direction}`;
           const { busstopcode: nextbusstopcode, elapsedtime: nextelapsedtime,
-            order: nextorder, delaysec: nextdelaysec } = busstatus[j + 1];
+            order: nextorder, delaysec: nextdelaysec } = busstatus[(j+1)|0];
           const bsorderlist: { busstopcode: string, nextbusstopcode: string }[] = [];
           if (busroutes[busrouteskey]) {
             const wkbusroute = busroutes[busrouteskey];
-            for (let k = order; k < nextorder; k += 1) {
-              if (wkbusroute[k] !== wkbusroute[k + 1]) {
+            for (let k = order; k < nextorder; k=(k+1)|0) {
+              if (wkbusroute[k] !== wkbusroute[(k+1)|0]) {
                 bsorderlist.push({ busstopcode: p04d(wkbusroute[k]),
-                  nextbusstopcode: p04d(wkbusroute[k + 1]) });
+                  nextbusstopcode: p04d(wkbusroute[(k+1)|0]) });
               }
             }
           } else {
@@ -341,19 +341,19 @@ function* setupByCSV() {
 
           let distance = 0;
           let route: number[][] = [];
-          for (let m = 0; m < bsorderlist.length; m += 1) {
+          for (let m = 0; m < bsorderlist.length; m=(m+1)|0) {
             const bsslist = bsorderlist[m];
             if (routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]) {
               const routedata: { result: string, route: number[][], distance: number } = JSON.parse(
                 routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]);
               if (routedata.result === 'success') {
-                for (let n = 0; n < routedata.route.length; n += 1) {
+                for (let n = 0; n < routedata.route.length; n=(n+1)|0) {
                   const wkroute = routedata.route[n];
                   if (wkroute[2] < routedata.distance) {
                     route.push([wkroute[0], wkroute[1], distance + wkroute[2]]);
                   }
                 }
-                distance += routedata.distance;
+                distance = distance + routedata.distance;
               } else {
                 route = [];
                 break;
@@ -367,7 +367,7 @@ function* setupByCSV() {
           const st = elapsedtime;
           const et = nextelapsedtime - 10;
           const dt = et - st;
-          for (let p = 0; p < route.length; p += 1) {
+          for (let p = 0; p < route.length; p=(p+1)|0) {
             const rt = route[p];
             if (rt[2] > 0 && rt[2] < distance) {
               operation.push({
@@ -478,7 +478,7 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
       if (delayrange > 120) { delayrange = 120; }
       yield put(Actions.setDelayRange(delayrange));
     }
-    for (let j = 0; j < (operation.length - 1); j += 1) {
+    for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
       const { longitude, latitude, delaysec } = operation[j];
       const { longitude: nextlongitude, latitude: nextlatitude,
         delaysec: nextdelaysec } = operation[j + 1];
@@ -491,7 +491,7 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
     }
   } else {
     yield put(Actions.setDelayRange(1));
-    for (let j = 0; j < (operation.length - 1); j += 1) {
+    for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
       const { longitude, latitude, color } = operation[j];
       const { longitude: nextlongitude, latitude: nextlatitude } = operation[j + 1];
       routePaths.push({

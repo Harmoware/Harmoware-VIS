@@ -68,7 +68,7 @@ class App extends Container<BasedProps, State> {
     let hit = false;
     const movesbasedata: FixMovesbase[] = [...movesbase];
     const setMovesbase: FixMovesbase[] = [];
-    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
+    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i=(i+1)|0) {
       let setMovedata: FixMovesbase = Object.assign({}, movesbasedata[i]);
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
@@ -97,10 +97,10 @@ class App extends Container<BasedProps, State> {
     const setMovesbase: FixMovesbase[] = [];
     let dataModify = false;
     const compareTime = settime - maxKeepSecond;
-    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i += 1) {
+    for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i=(i+1)|0) {
       const { operation: propsoperation } = movesbasedata[i];
       let startIndex = propsoperation.length;
-      for (let j = 0, lengthj = propsoperation.length; j < lengthj; j += 1) {
+      for (let j = 0, lengthj = propsoperation.length; j < lengthj; j=(j+1)|0) {
         if(propsoperation[j].elapsedtime > compareTime){
           startIndex = j;
           break;
@@ -158,10 +158,10 @@ class App extends Container<BasedProps, State> {
       if (el && el.object) {
         let disptext = '';
         const objctlist = Object.entries(el.object);
-        for (let i = 0, lengthi = objctlist.length; i < lengthi; i += 1) {
+        for (let i = 0, lengthi = objctlist.length; i < lengthi; i=(i+1)|0) {
           const strvalue = objctlist[i][1].toString();
-          disptext += i > 0 ? '\n' : '';
-          disptext += (`${objctlist[i][0]}: ${strvalue}`);
+          disptext = disptext + (i > 0 ? '\n' : '');
+          disptext = disptext + (`${objctlist[i][0]}: ${strvalue}`);
         }
         this.setState({ popup: [el.x, el.y, disptext] });
       } else {

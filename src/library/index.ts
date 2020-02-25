@@ -97,7 +97,7 @@ export const analyzeMovesBase =
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
       const { position: sourcePosition } = operation[j];
-      const { position: targetPosition } = operation[j+1];
+      const { position: targetPosition } = operation[(j+1)|0];
       if(sourcePosition[0] === targetPosition[0] && sourcePosition[1] === targetPosition[1]){
         operation[j].direction = direction;
         continue;
@@ -116,11 +116,11 @@ export const analyzeMovesBase =
     timeLength = timeEnd - timeBegin;
   }else{
     for (let k = 0, lengthk = movesbase.length; k < lengthk; k=(k+1)|0) {
-      movesbase[k].departuretime += timeBegin;
-      movesbase[k].arrivaltime += timeBegin;
+      movesbase[k].departuretime = movesbase[k].departuretime + timeBegin;
+      movesbase[k].arrivaltime = movesbase[k].arrivaltime + timeBegin;
       const { operation } = movesbase[k];
       for (let l = 0, lengthl = operation.length; l < lengthl; l=(l+1)|0) {
-        operation[l].elapsedtime += timeBegin;
+        operation[l].elapsedtime = operation[l].elapsedtime + timeBegin;
       }
     }
   }
@@ -191,9 +191,9 @@ export const getMoveObjects = (props : Props): MovedData[] => {
           color: nextcolor=COLOR1 } = operation[k];
         const pos_rate = [longitude, latitude, elevation];
         const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-        pos_rate[0] -= (longitude - nextlongitude) * rate;
-        pos_rate[1] -= (latitude - nextlatitude) * rate;
-        pos_rate[2] -= (elevation - nextelevation) * rate;
+        pos_rate[0] = pos_rate[0] - (longitude - nextlongitude) * rate;
+        pos_rate[1] = pos_rate[1] - (latitude - nextlatitude) * rate;
+        pos_rate[2] = pos_rate[2] - (elevation - nextelevation) * rate;
         movedData[i] = Object.assign({},
           { settime,
             position: pos_rate,
@@ -267,7 +267,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
           const { position } = operation[j];
           const routeColor = getRouteColor(operation[j]);
           const routeWidth = getRouteWidth(operation[j]);
-          const { position: nextposition } = operation[j + 1];
+          const { position: nextposition } = operation[(j+1)|0];
           setRoutePaths.push({
             movesbaseidx,
             sourcePosition: position,

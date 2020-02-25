@@ -135,10 +135,10 @@ class App extends Container<BasedProps, State> {
       if (el && el.object) {
         let disptext = '';
         const objctlist = Object.entries(el.object);
-        for (let i = 0, lengthi = objctlist.length; i < lengthi; i += 1) {
+        for (let i = 0, lengthi = objctlist.length; i < lengthi; i=(i+1)|0) {
           const strvalue = objctlist[i][1].toString();
-          disptext += i > 0 ? '\n' : '';
-          disptext += (`${objctlist[i][0]}: ${strvalue}`);
+          disptext = disptext + (i > 0 ? '\n' : '');
+          disptext = disptext + (`${objctlist[i][0]}: ${strvalue}`);
         }
         this.setState({ popup: [el.x, el.y, disptext] });
       } else {

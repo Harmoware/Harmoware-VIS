@@ -77,7 +77,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
         let setposition = [];
         if(stacking1){
           setposition = [position[0], position[1], height];
-          height += elevationValue;
+          height = height + elevationValue;
         }else
         if(stacking2){
           if(j===2) height = position[2] || 0;
@@ -86,7 +86,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
             position[1],
             height
           ];
-          height += elevationValue;
+          height = height + elevationValue;
         }else{
           setposition = [
             position[0] + (pm[j][0] * shiftLng),

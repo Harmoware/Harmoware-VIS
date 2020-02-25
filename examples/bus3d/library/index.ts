@@ -86,7 +86,7 @@ export const getBusstopOptionValue = (props: Bus3dProps, busstopsbaseidx: number
   }
   let optionValue = {};
   if (option && option.stime <= currentTime) {
-    for (let i = 0, lengthi = option.data.length; i < lengthi; i += 1) {
+    for (let i = 0, lengthi = option.data.length; i < lengthi; i=(i+1)|0) {
       const optiondata = option.data[i];
       if ((optiondata.time <= currentTime && currentTime <= option.etime) ||
           (option.etime < currentTime && i === (lengthi - 1))) {
@@ -208,7 +208,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
   const selectarchbase = archbase.filter((data)=>{
     return (data.departuretime <= currentTime && currentTime <= data.arrivaltime);
   });
-  for (let i = 0, lengthi = selectarchbase.length; i < lengthi; i += 1) {
+  for (let i = 0, lengthi = selectarchbase.length; i < lengthi; i=(i+1)|0) {
     arcdata.push({ ...selectarchbase[i].arcdata });
   }
   return arcdata;
