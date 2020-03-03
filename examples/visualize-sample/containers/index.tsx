@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HexagonLayer } from 'deck.gl';
+import { PolygonLayer, HexagonLayer } from 'deck.gl';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';
@@ -214,6 +214,21 @@ class App extends Container<BasedProps, State> {
                 id: 'line-map',
                 data: linemapData,
                 onHover
+              }):null,
+              movedData.length > 0 ?
+              new PolygonLayer({
+                id: 'PolygonLayer',
+                data: movedData,
+                visible: true,
+                opacity: 0.5,
+                pickable: true,
+                extruded: true,
+                wireframe: true,
+                getPolygon: (x: any) => x.coordinates || x.polygon || [],
+                getFillColor: (x: any) => x.color || [255,255,255,255],
+                getLineColor: null,
+                getElevation: (x: any) => x.elevation || 3,
+                onHover: onHover
               }):null,
               this.state.heatmapVisible && movedData.length > 0 ?
               new HexagonLayer({

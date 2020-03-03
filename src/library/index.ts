@@ -26,9 +26,9 @@ export const calcLoopTime =
 
 export const analyzeMovesBase =
 (inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
-  let baseTimeBegin: void | number;
-  let baseTimeLength: void | number;
-  let baseBounds: void | Bounds;
+  let baseTimeBegin: undefined | number;
+  let baseTimeLength: undefined | number;
+  let baseBounds: undefined | Bounds;
   let basemovesbase: Movesbase[];
 
   if (Array.isArray(inputData)) { // Array?
@@ -59,24 +59,21 @@ export const analyzeMovesBase =
     if(!operation || operation.length === 0){
       console.log('movesbase['+i+'] operation undefined');
     }
-    let departuretime = Number.MAX_VALUE;
-    let arrivaltime = Number.MIN_VALUE;
     for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
+      const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
+      if(typeof elapsedtime !== 'number'){
+        console.log('movesbase['+i+'] operation['+j+'] elapsedtime undefined');
+        continue;
+      }
       if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
         typeof operation[j].position === 'undefined'){
-        console.log('movesbase['+i+'] operation['+j+'] position undefined');
+        continue;
       }
-      if(typeof operation[j].elapsedtime !== 'number'){
-        console.log('movesbase['+i+'] operation['+j+'] elapsedtime undefined');
-      }
-      const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
       if (typeof operation[j].position === 'undefined') {
         operation[j].position = position;
       }
       longArray.push(+position[0]);
       latiArray.push(+position[1]);
-      departuretime = Math.min(departuretime, elapsedtime);
-      arrivaltime = Math.max(arrivaltime, elapsedtime);
       if (!baseBounds && position[0] && position[1]) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
         eastlongitiude = !eastlongitiude ? position[0] : Math.max(eastlongitiude, position[0]);
@@ -86,16 +83,20 @@ export const analyzeMovesBase =
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
-    movesbase[i].departuretime = departuretime;
-    movesbase[i].arrivaltime = arrivaltime;
+    movesbase[i].departuretime = operation[0].elapsedtime;
+    movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
-      timeBegin = !timeBegin ? departuretime : Math.min(timeBegin, departuretime);
-      timeEnd = !timeEnd ? arrivaltime : Math.max(timeEnd, arrivaltime);
+      timeBegin = !timeBegin ? movesbase[i].departuretime : Math.min(timeBegin, movesbase[i].departuretime);
+      timeEnd = !timeEnd ? movesbase[i].arrivaltime : Math.max(timeEnd, movesbase[i].arrivaltime);
     }
 
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
+      if(typeof operation[j].position === 'undefined' ||
+        typeof operation[(j+1)|0].position === 'undefined'){
+        continue;
+      }
       const { position: sourcePosition } = operation[j];
       const { position: targetPosition } = operation[(j+1)|0];
       if(sourcePosition[0] === targetPosition[0] && sourcePosition[1] === targetPosition[1]){
@@ -124,10 +125,14 @@ export const analyzeMovesBase =
       }
     }
   }
-  const viewport: Viewport = {
-    longitude: getAverage(longArray), latitude: getAverage(latiArray),
-  };
-  return { timeBegin, timeLength, bounds, movesbase, viewport };
+  if(longArray.length > 0 && latiArray.length > 0){
+    const viewport: Viewport = {
+      longitude: getAverage(longArray), latitude: getAverage(latiArray),
+    };
+    return { timeBegin, timeLength, bounds, movesbase, viewport };
+  }else{
+    return { timeBegin, timeLength, bounds, movesbase, viewport:{} };
+  }
 };
 
 const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
@@ -136,9 +141,6 @@ const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
 };
 export const getDepots = (props: Props): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
-  if(depotsBase.length > 0 && prevData.length > 0 && !getDepotsOptionFunc){
-    return prevData;
-  }
   if(prevData.length > 0 && (Math.abs(prevData[0].settime - settime) <= 1)){
     if(!getDepotsOptionFunc) return prevData;
   }
@@ -181,33 +183,37 @@ export const getMoveObjects = (props : Props): MovedData[] => {
   const movedData: MovedData[] = [];
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i=(i+1)|0) {
     const { operation, movesbaseidx, type } = selectmovesbase[i];
-    for (let j = 0, lengthj = operation.length; j < lengthj - 1; j=(j+1)|0) {
-      const { elapsedtime } = operation[j];
-      const k = (j+1)|0;
-      const { elapsedtime: nextelapsedtime } = operation[k];
-      if (elapsedtime <= settime && settime < nextelapsedtime) {
-        const { position:[longitude, latitude, elevation], color=COLOR1, direction=0 } = operation[j];
-        const { position:[nextlongitude, nextlatitude, nextelevation],
-          color: nextcolor=COLOR1 } = operation[k];
-        const pos_rate = [longitude, latitude, elevation];
-        const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-        pos_rate[0] = pos_rate[0] - (longitude - nextlongitude) * rate;
-        pos_rate[1] = pos_rate[1] - (latitude - nextlatitude) * rate;
-        pos_rate[2] = pos_rate[2] - (elevation - nextelevation) * rate;
-        movedData[i] = Object.assign({},
-          { settime,
-            position: pos_rate,
-            sourcePosition: [longitude, latitude, elevation],
-            targetPosition: [nextlongitude, nextlatitude, nextelevation],
-            color, direction,
-            sourceColor: color, targetColor: nextcolor,
-            movesbaseidx},
-          getOptionFunction(props, movesbaseidx, j),
-        );
-        if(typeof type === 'string') movedData[i].type = type;
-        break;
-      }
+    const idx = operation.findIndex((data)=>data.elapsedtime > settime) - 1;
+    const nextidx = (idx+1)|0;
+    if(typeof operation[idx].position === 'undefined' ||
+      typeof operation[nextidx].position === 'undefined'){
+      const {elapsedtime, ...otherProps} = operation[idx];
+      movedData[i] = Object.assign({},
+        otherProps, { settime, movesbaseidx},
+        getOptionFunction(props, movesbaseidx, idx),
+      );
+    }else{
+      const { elapsedtime, position:[longitude, latitude, elevation],
+        color=COLOR1, direction=0 } = operation[idx];
+      const { elapsedtime: nextelapsedtime, position:[nextlongitude, nextlatitude, nextelevation],
+        color: nextcolor=COLOR1 } = operation[nextidx];
+      const pos_rate = [longitude, latitude, elevation];
+      const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
+      pos_rate[0] = pos_rate[0] - (longitude - nextlongitude) * rate;
+      pos_rate[1] = pos_rate[1] - (latitude - nextlatitude) * rate;
+      pos_rate[2] = pos_rate[2] - (elevation - nextelevation) * rate;
+      movedData[i] = Object.assign({},
+        { settime,
+          position: pos_rate,
+          sourcePosition: [longitude, latitude, elevation],
+          targetPosition: [nextlongitude, nextlatitude, nextelevation],
+          color, direction,
+          sourceColor: color, targetColor: nextcolor,
+          movesbaseidx},
+        getOptionFunction(props, movesbaseidx, idx),
+      );
     }
+    if(typeof type === 'string') movedData[i].type = type;
   }
   return movedData;
 };
@@ -249,11 +255,8 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
       const { actions, clickedObject, movesbase, routePaths } = props;
       let deleted = false;
       if (clickedObject && clickedObject.length > 0) {
-        for (let i = 0, lengthi = clickedObject.length; i < lengthi; i=(i+1)|0) {
-          if (clickedObject[i].object.movesbaseidx === movesbaseidx) {
-            deleted = true;
-            break;
-          }
+        if(clickedObject.findIndex((data)=>data.object.movesbaseidx === movesbaseidx) >= 0){
+          deleted = true;
         }
       }
       if (deleted) {
