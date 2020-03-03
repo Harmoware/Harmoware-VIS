@@ -63,7 +63,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     for (let i = 0; i < optionData.length; i=(i+1)|0) {
       const item = optionData[i];
       const position = getPosition(item);
-      if(typeof position === 'undefined') continue;
+      if(!Array.isArray(position) || position.length < 2) continue;
       let height = position[2] || 0;
       const elevation = getCubeElevation(item) || [0];
       const color = getCubeColor(item) || [DEFAULT_COLOR];
@@ -109,7 +109,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
       opacity,
       cellSize,
       elevationScale,
-      getPosition: (x: any) => x.position,
+      getPosition: (x: any) => x.position || null,
       getElevation: (x: any) => x.elevation,
       getFillColor: (x: any) => x.color,
       offset: [0,0],

@@ -84,20 +84,23 @@ class App extends Container<BasedProps, State> {
 
   getMarker(data: MovedData, index: number) {
     const { viewport } = this.props;
-    const { direction } = data;
+    const { direction, position } = data;
 
-    return (<Marker key={`marker-${index}`}
+    if(position){
+      return (<Marker key={`marker-${index}`}
       longitude={data.position[0]} latitude={data.position[1]} >
       <SvgIcon viewport={viewport} direction={direction}
       onMouseOver={() => this.setState({popupInfo: data})}
       onMouseOut={() => this.setState({popupInfo: null})} />
       </Marker>);
+    }
+    return null;
   }
 
   getPopup() {
     const {popupInfo} = this.state;
 
-    if(popupInfo){
+    if(popupInfo && popupInfo.position){
       const objctlist = Object.entries(popupInfo);
       return (
         <Popup tipSize={5}
@@ -130,6 +133,7 @@ class App extends Container<BasedProps, State> {
     const {
       actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
+    const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -215,16 +219,16 @@ class App extends Container<BasedProps, State> {
                 data: linemapData,
                 onHover
               }):null,
-              movedData.length > 0 ?
+              movedData.length > 0  ?
               new PolygonLayer({
                 id: 'PolygonLayer',
-                data: movedData,
+                data: polygonData,
                 visible: true,
                 opacity: 0.5,
                 pickable: true,
                 extruded: true,
                 wireframe: true,
-                getPolygon: (x: any) => x.coordinates || x.polygon || [],
+                getPolygon: (x: any) => x.coordinates || x.polygon,
                 getFillColor: (x: any) => x.color || [255,255,255,255],
                 getLineColor: null,
                 getElevation: (x: any) => x.elevation || 3,
@@ -233,7 +237,8 @@ class App extends Container<BasedProps, State> {
               this.state.heatmapVisible && movedData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
-                data: movedData,
+                data: movedData.filter(x=>x.position),
+                getPosition: (x: any) => x.position,
                 radius: 100,
                 opacity: 0.5,
                 extruded: true,

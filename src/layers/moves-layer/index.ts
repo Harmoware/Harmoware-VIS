@@ -184,9 +184,9 @@ export default class MovesLayer extends CompositeLayer<Props> {
     }
 
     const getPosition = (x: MovedData) => x.position;
-    const optionMovedData: any[] = movedData;
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
+    const ArcData = optionVisible ? movedData.filter((data)=>data.sourcePosition):[];
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
     const iconLayers = this.getIconLayer();
@@ -206,7 +206,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-moves-opt-cube',
-        optionData: optionMovedData.concat([{}]),
+        optionData: movedData,
         visible: optionVisible,
         optionCentering,
         stacking1,
@@ -222,13 +222,13 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible ?
       new ArcLayer({
         id: id + '-moves-opt-arc',
-        data: movedData as any[],
+        data: ArcData,
         visible: optionVisible,
         pickable: true,
         widthUnits: 'meters',
         widthMinPixels: 0.1,
-        getSourcePosition: (x: MovedData) => x.sourcePosition || getPosition(x),
-        getTargetPosition: (x: MovedData) => x.targetPosition || getPosition(x),
+        getSourcePosition: (x: MovedData) => x.sourcePosition,
+        getTargetPosition: (x: MovedData) => x.targetPosition,
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
         getWidth: getArchWidth,
