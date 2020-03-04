@@ -193,6 +193,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     return [
       iconLayers,
+      routePaths.length > 0 ?
       new LineLayer({
         id: id + '-route-paths',
         data: routePaths,
@@ -202,7 +203,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getColor: (x: MovedData) => x.routeColor,
         visible,
         pickable: false
-      }),
+      }) : null,
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-moves-opt-cube',

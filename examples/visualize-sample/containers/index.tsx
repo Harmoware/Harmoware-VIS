@@ -219,7 +219,7 @@ class App extends Container<BasedProps, State> {
                 data: linemapData,
                 onHover
               }):null,
-              movedData.length > 0  ?
+              polygonData.length > 0  ?
               new PolygonLayer({
                 id: 'PolygonLayer',
                 data: polygonData,
