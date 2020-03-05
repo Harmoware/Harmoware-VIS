@@ -118,13 +118,12 @@ export default class MovesLayer extends CompositeLayer<Props> {
         radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
         getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
         sizeScale:oversizeScale, mesh:overmesh, scenegraph:overscenegraph} = iconDesignation;
-      const getPosition = (x: MovedData) => !type || !x.type || (x.type && x.type === type) ? x.position : null;
       if(layer && layer === 'Scatterplot'){
         return new ScatterplotLayer({
           id: id + '-moves-Scatterplot-' + String(idx),
           data: movedData,
           radiusScale: overradiusScale || layerRadiusScale,
-          getPosition,
+          getPosition:(x: MovedData) => !type || !x.type || (x.type && x.type === type) ? x.position : null,
           getFillColor: overgetColor || getColor,
           getRadius: overgetRadius || getRadius,
           visible,
@@ -139,7 +138,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
           data: movedData,
           mesh: overmesh || mesh,
           sizeScale: oversizeScale || sizeScale,
-          getPosition,
+          getPosition:(x: MovedData) => !type || !x.type || (x.type && x.type === type) ? x.position : null,
           getColor: overgetColor || getColor,
           getOrientation: overgetOrientation || getOrientation,
           getScale: overgetScale || getScale,
@@ -155,7 +154,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
           data: movedData,
           scenegraph: overscenegraph || scenegraph,
           sizeScale: oversizeScale || sizeScale,
-          getPosition,
+          getPosition:(x: MovedData) => !type || !x.type || (x.type && x.type === type) ? x.position : null,
           getColor: overgetColor || getColor,
           getOrientation: overgetOrientation || getOrientation,
           getScale: overgetScale || getScale,
@@ -183,7 +182,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
       return null;
     }
 
-    const getPosition = (x: MovedData) => x.position;
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
 
@@ -197,7 +195,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: id + '-route-paths',
         data: routePaths,
         widthUnits: 'meters',
-        getWidth: (x: any) => x.routeWidth,
+        getWidth: (x: MovedData) => x.routeWidth,
         widthMinPixels: 0.1,
         getColor: (x: MovedData) => x.routeColor,
         visible,
@@ -210,7 +208,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         visible: optionVisible,
         optionCentering,
         stacking1,
-        getPosition,
+        getPosition: (x: MovedData) => x.position,
         getCubeColor,
         getCubeElevation,
         getRadius: optPlacement,
