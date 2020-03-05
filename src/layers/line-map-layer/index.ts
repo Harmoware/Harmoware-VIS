@@ -25,9 +25,9 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     pickable: true,
     getSourcePosition: (x: LineMapData) => x.sourcePosition,
     getTargetPosition: (x: LineMapData) => x.targetPosition,
-    getPath: (x: LineMapData) => x.path || [],
-    getPolygon: (x: LineMapData) => x.polygon || [],
-    getCoordinates: (x: LineMapData) => x.coordinates || [],
+    getPath: (x: LineMapData) => x.path,
+    getPolygon: (x: LineMapData) => x.polygon,
+    getCoordinates: (x: LineMapData) => x.coordinates,
     getElevation: (x: LineMapData) => x.elevation || 3,
     getWidth: (x: LineMapData) => x.strokeWidth || 1,
     getColor: (x: LineMapData) => x.color || COLOR2, // white
@@ -49,11 +49,16 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     if (!data || data.length === 0 || !visible) {
       return null;
     }
+    const coordinatesData = data.filter(x=>getCoordinates(x));
+    const pathData = data.filter(x=>getPath(x));
+    const sourcePositionData = data.filter(x=>getSourcePosition(x));
+    const polygonData = data.filter(x=>getPolygon(x));
 
     return [
+      coordinatesData.length > 0 ?
       new PolygonLayer({
         id: id + '-PolygonLayer-2D',
-        data,
+        data: coordinatesData,
         visible,
         opacity: polygonOpacity,
         pickable,
@@ -62,10 +67,11 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getPolygon: getCoordinates,
         getFillColor: getColor,
         getLineColor: null,
-        getElevation }),
+        getElevation }):null,
+      pathData.length > 0 ?
       new PathLayer({
         id: id + '-PathLayer',
-        data,
+        data: pathData,
         visible,
         opacity: lineOpacity,
         pickable,
@@ -75,10 +81,11 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getPath,
         getColor,
         getWidth,
-        getDashArray }),
+        getDashArray }):null,
+      sourcePositionData.length > 0 ?
       new LineLayer({
         id: id + '-LineLayer',
-        data,
+        data: sourcePositionData,
         visible,
         opacity: lineOpacity,
         pickable,
@@ -87,10 +94,11 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getColor,
         getWidth,
         widthUnits,
-        widthMinPixels }),
+        widthMinPixels }):null,
+      polygonData.length > 0 ?
       new PolygonLayer({
         id: id + '-PolygonLayer-3D',
-        data,
+        data: polygonData,
         visible,
         opacity: polygonOpacity,
         pickable,
@@ -99,7 +107,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getPolygon,
         getFillColor: getColor,
         getLineColor: getColor,
-        getElevation }),
+        getElevation }):null,
     ];
   }
 }

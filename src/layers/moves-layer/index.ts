@@ -186,7 +186,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const getPosition = (x: MovedData) => x.position;
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
-    const ArcData = optionVisible ? movedData.filter((data)=>data.sourcePosition):[];
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
     const iconLayers = this.getIconLayer();
@@ -223,7 +222,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible ?
       new ArcLayer({
         id: id + '-moves-opt-arc',
-        data: ArcData,
+        data: movedData.filter((data)=>data.sourcePosition),
         visible: optionVisible,
         pickable: true,
         widthUnits: 'meters',
