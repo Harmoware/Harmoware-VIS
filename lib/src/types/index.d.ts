@@ -139,6 +139,8 @@ export interface BasedState {
     linemapData?: LineMapData[];
     loading?: boolean;
     inputFileName?: ComObj<string>;
+    noLoop?: boolean;
+    addSec?: number;
 }
 export declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {

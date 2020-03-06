@@ -24,3 +24,5 @@ export declare const setLinemapData: import("typescript-fsa").ActionCreator<Line
 export declare const setLoading: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInputFilename: import("typescript-fsa").ActionCreator<Object>;
 export declare const updateMovesBase: import("typescript-fsa").ActionCreator<MovesbaseFile | Movesbase[]>;
+export declare const setNoLoop: import("typescript-fsa").ActionCreator<boolean>;
+export declare const setAddSec: import("typescript-fsa").ActionCreator<number>;

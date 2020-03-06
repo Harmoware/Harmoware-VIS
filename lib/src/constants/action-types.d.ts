@@ -23,3 +23,5 @@ export declare const SETLINEMAPDATA = "SETLINEMAPDATA";
 export declare const SETLOADING = "SETLOADING";
 export declare const SETINPUTFILENAME = "SETINPUTFILENAME";
 export declare const UPDATEMOVESBASE = "UPDATEMOVESBASE";
+export declare const SETNOLOOP = "SETNOLOOP";
+export declare const SETADDSEC = "SETADDSEC";
