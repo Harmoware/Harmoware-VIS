@@ -134,6 +134,7 @@ class App extends Container<BasedProps, State> {
       actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
+    actions.setNoLoop(true);
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {

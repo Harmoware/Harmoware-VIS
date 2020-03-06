@@ -5,7 +5,7 @@ import { addMinutes, setViewport, setDefaultViewport, setTimeStamp,
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
-  setLinemapData, setLoading, setInputFilename, updateMovesBase } from '../actions';
+  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop, setAddSec } from '../actions';
 
 const initialState: BasedState = {
   viewport: {
@@ -48,7 +48,9 @@ const initialState: BasedState = {
   depotsData: [],
   linemapData: [],
   loading: false,
-  inputFileName: {}
+  inputFileName: {},
+  noLoop: false,
+  addSec: 60
 };
 
 const reducer = reducerWithInitialState<BasedState>(initialState);
@@ -56,10 +58,14 @@ const reducer = reducerWithInitialState<BasedState>(initialState);
 reducer.case(addMinutes, (state, min) => {
   const assignData:BasedState = {};
   assignData.settime = state.settime + (min * 60);
-  if (assignData.settime <= (state.timeBegin - state.leading)) {
+  if (assignData.settime < (state.timeBegin - state.leading)) {
     assignData.settime = (state.timeBegin - state.leading);
   }
-  assignData.starttimestamp = Date.now() - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
+  if (assignData.settime > (state.timeBegin + state.timeLength)) {
+    assignData.settime = (state.timeBegin + state.timeLength);
+  }
+  assignData.starttimestamp = Date.now() -
+    (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
   return Object.assign({}, state, assignData);
 });
 
@@ -93,23 +99,30 @@ reducer.case(setTime, (state, settime) => {
 });
 
 reducer.case(increaseTime, (state, props) => {
+  const assignData:BasedState = {};
+  const beforeSettime = state.settime;
   const now = Date.now();
   if ((now - state.starttimestamp) > state.loopTime) {
-    console.log('settime overlap.');
-    const assignData:BasedState = {};
-    assignData.settime = (state.timeBegin - state.leading);
-    assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
-    const setProps = { ...props, ...assignData };
-    assignData.movedData = getMoveObjects(setProps);
-    if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-      assignData.depotsData = getDepots(setProps);
+    if(!state.noLoop){
+      console.log('settime overlap.');
+      assignData.settime = (state.timeBegin - state.leading);
+      assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
+      const setProps = { ...props, ...assignData };
+      assignData.movedData = getMoveObjects(setProps);
+      if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
+        assignData.depotsData = getDepots(setProps);
+      }
+      return Object.assign({}, state, assignData);
+    }else{
+      assignData.timeLength = state.timeLength + state.addSec;
+      assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
+      assignData.settime = ((((now - state.starttimestamp) % assignData.loopTime) /
+        assignData.loopTime) * assignData.timeLength) + state.timeBegin;
     }
-    return Object.assign({}, state, assignData);
+  }else{
+    assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
+      state.loopTime) * state.timeLength) + state.timeBegin;
   }
-  const beforeSettime = state.settime;
-  const assignData:BasedState = {};
-  assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
-    state.loopTime) * state.timeLength) + state.timeBegin;
   if (beforeSettime > assignData.settime) {
     console.log(`${beforeSettime} ${assignData.settime}`);
   }
@@ -310,6 +323,18 @@ reducer.case(updateMovesBase, (state, base) => {
     return Object.assign({}, state, startState, assignData);
   }
   return Object.assign({}, state, assignData);
+});
+
+reducer.case(setNoLoop, (state, noLoop) => {
+  return Object.assign({}, state, {
+    noLoop
+  });
+});
+
+reducer.case(setAddSec, (state, addSec) => {
+  return Object.assign({}, state, {
+    addSec
+  });
 });
 
 reducer.default((state) => state);

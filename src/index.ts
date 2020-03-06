@@ -23,7 +23,9 @@ import {
   setTimeStamp,
   setLinemapData,
   setInputFilename,
-  updateMovesBase
+  updateMovesBase,
+  setNoLoop,
+  setAddSec
 } from './actions';
 
 import {
@@ -94,7 +96,9 @@ const Actions: ActionsInterface = {
   setTimeStamp,
   setLinemapData,
   setInputFilename,
-  updateMovesBase
+  updateMovesBase,
+  setNoLoop,
+  setAddSec
 };
 
 export {

@@ -30,3 +30,5 @@ export const setLinemapData = actionCreator<LineMapData[]>(types.SETLINEMAPDATA)
 export const setLoading = actionCreator<boolean>(types.SETLOADING);
 export const setInputFilename = actionCreator<Object>(types.SETINPUTFILENAME);
 export const updateMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.UPDATEMOVESBASE);
+export const setNoLoop = actionCreator<boolean>(types.SETNOLOOP);
+export const setAddSec = actionCreator<number>(types.SETADDSEC);
