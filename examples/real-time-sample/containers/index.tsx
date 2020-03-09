@@ -40,7 +40,8 @@ class App extends Container<BasedProps, State> {
 
   constructor(props: BasedProps) {
     super(props);
-    const { setSecPerHour, setLeading, setTrailing, setMovesOptionFunc } = props.actions;
+    const { setNoLoop, setSecPerHour, setLeading, setTrailing, setMovesOptionFunc } = props.actions;
+    setNoLoop(true);
     setSecPerHour(3600);
     setLeading(3);
     setTrailing(3);
