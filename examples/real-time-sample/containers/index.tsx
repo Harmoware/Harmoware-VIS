@@ -44,7 +44,7 @@ class App extends Container<BasedProps, State> {
     setNoLoop(true);
     setSecPerHour(3600);
     setLeading(3);
-    setTrailing(3);
+    setTrailing(0);
     setMovesOptionFunc(movesOptionFunc);
     const socket = io();
     this.state = {

@@ -123,6 +123,7 @@ export interface IconDesignation {
 
 export interface BasedState {
   animatePause?: boolean,
+  loopEndPause?: boolean,
   animateReverse?: boolean,
   beforeFrameTimestamp?: number,
   bounds?: Bounds,
@@ -149,7 +150,6 @@ export interface BasedState {
   loading?: boolean,
   inputFileName?: ComObj<string>,
   noLoop?: boolean,
-  addSec?: number
 };
 
 export type ActionTypes = typeof BaseActions;

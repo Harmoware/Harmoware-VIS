@@ -25,7 +25,6 @@ import {
   setInputFilename,
   updateMovesBase,
   setNoLoop,
-  setAddSec
 } from './actions';
 
 import {
@@ -98,7 +97,6 @@ const Actions: ActionsInterface = {
   setInputFilename,
   updateMovesBase,
   setNoLoop,
-  setAddSec
 };
 
 export {

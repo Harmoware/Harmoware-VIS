@@ -23,9 +23,9 @@ export default class Container<P extends Props, S = {}> extends React.Component<
 
   animate() {
     const {
-      timeLength, animatePause, animateReverse, actions } = this.props;
+      timeLength, animatePause, loopEndPause, animateReverse, actions } = this.props;
     if (timeLength > 0) {
-      if (!animatePause) {
+      if (!animatePause && !loopEndPause) {
         if (!animateReverse) {
           actions.increaseTime(this.props);
         } else {
