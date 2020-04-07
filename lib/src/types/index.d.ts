@@ -176,7 +176,7 @@ export declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {
 }
 export interface BasedProps extends BasedState {
-    actions?: ActionTypes;
+    actions: ActionTypes;
 }
 export interface InnerProps extends InnerState {
     actions?: ActionTypes;
