@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Bus3dState } from '../types';
+import { Bus3dDepotsData } from '../types';
 
-interface Props extends Bus3dState {
+interface Props {
   selectedBusstop: string,
   date: number,
+  depotsData: Bus3dDepotsData[]
 };
 
 export default class BusStopInfo extends React.Component<Props> {
