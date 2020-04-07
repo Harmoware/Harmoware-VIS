@@ -1,5 +1,5 @@
-import { BasedState } from '../types';
-declare const _default: (state: BasedState, action: {
+import { InnerState } from '../types';
+declare const _default: (state: InnerState, action: {
     type: any;
-}) => BasedState;
+}) => InnerState;
 export default _default;
