@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { ActionTypes, AnalyzedBaseData, BasedProps as Props, RoutePaths,
+import { ActionTypes, AnalyzedBaseData, InnerProps, RoutePaths,
   Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
@@ -135,11 +135,11 @@ export const analyzeMovesBase =
   }
 };
 
-const defDepotsOptionFunc = (props: Props, idx: number) : Object => {
+const defDepotsOptionFunc = (props: InnerProps, idx: number) : Object => {
   const {position, longitude, latitude, type, ...retValue} = props.depotsBase[idx];
   return retValue;
 };
-export const getDepots = (props: Props): DepotsData[] => {
+export const getDepots = (props: InnerProps): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
   if(prevData.length > 0 && (Math.abs(prevData[0].settime - settime) <= 1)){
     if(!getDepotsOptionFunc) return prevData;
@@ -161,12 +161,12 @@ export const getDepots = (props: Props): DepotsData[] => {
   return [];
 };
 
-const defMovesOptionFunc = (props: Props, idx1: number, idx2: number) : Object => {
+const defMovesOptionFunc = (props: InnerProps, idx1: number, idx2: number) : Object => {
   const {departuretime, arrivaltime, operation, type, ...retValue1} = props.movesbase[idx1];
   const {elapsedtime, position, longitude, latitude, color, direction, ...retValue2} = operation[idx2];
   return Object.assign(retValue1,retValue2);
 };
-export const getMoveObjects = (props : Props): MovedData[] => {
+export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
     getMovesOptionFunc } = props;
   if(prevMovedData.length > 0){

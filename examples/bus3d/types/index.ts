@@ -27,11 +27,11 @@ export interface Bus3dState extends BasedState {
     bustripindex?: ComObj<{ elapsedtime: number, position: number[] }>,
     archbase?: ArchBaseData[],
     rainfall?: RainfallData[],
-    depotsBase?: Bus3dDepotsbase[],
-    depotsData?: Bus3dDepotsData[],
-    movesbase?: Bus3dMovesbase[],
-    movedData?: Bus3dMovedData[],
-    clickedObject?: Bus3dClickedObject[],
+    depotsBase: Bus3dDepotsbase[],
+    depotsData: Bus3dDepotsData[],
+    movesbase: Bus3dMovesbase[],
+    movedData: Bus3dMovedData[],
+    clickedObject: Bus3dClickedObject[],
 };
 export interface Bus3dProps extends Bus3dState {
     actions?: typeof Bus3dActions,

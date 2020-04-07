@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BasedProps } from 'harmoware-vis';
+import { Viewport } from 'harmoware-vis';
 
 const pinStyle = {
   cursor: 'pointer'
@@ -10,7 +10,8 @@ const RECT_WIDTH  = RECT_HEIGHT / 2;
 const ZOOM_MAX = 18;
 const ZOOM_MIN = 14;
 
-interface Props extends BasedProps {
+interface Props {
+  viewport: Viewport,
   maxsize?: number,
   minsize?: number,
   onMouseOver?: any,

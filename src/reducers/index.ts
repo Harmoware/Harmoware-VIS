@@ -1,13 +1,13 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { BasedState, AnalyzedBaseData } from '../types';
+import { InnerState, AnalyzedBaseData } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
   setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop } from '../actions';
 
-const initialState: BasedState = {
+const initialState: InnerState = {
   viewport: {
     longitude: 136.906428,
     latitude: 35.181453,
@@ -53,10 +53,10 @@ const initialState: BasedState = {
   noLoop: false,
 };
 
-const reducer = reducerWithInitialState<BasedState>(initialState);
+const reducer = reducerWithInitialState<InnerState>(initialState);
 
 reducer.case(addMinutes, (state, min) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.settime = state.settime + (min * 60);
   if (assignData.settime < (state.timeBegin - state.leading)) {
@@ -100,7 +100,7 @@ reducer.case(setTime, (state, settime) => {
 });
 
 reducer.case(increaseTime, (state, props) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   const beforeSettime = state.settime;
   const now = Date.now();
   if ((now - state.starttimestamp) >= state.loopTime) {
@@ -136,7 +136,7 @@ reducer.case(increaseTime, (state, props) => {
 reducer.case(decreaseTime, (state, props) => {
   const now = Date.now();
   const beforeFrameElapsed = now - state.beforeFrameTimestamp;
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.starttimestamp = state.starttimestamp + (beforeFrameElapsed * 2);
   assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
     state.loopTime) * state.timeLength) + state.timeBegin;
@@ -169,7 +169,7 @@ reducer.case(setTrailing, (state, trailing) => {
 });
 
 reducer.case(setFrameTimestamp, (state, props) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   const now = Date.now();
   assignData.beforeFrameTimestamp = now;
   assignData.starttimestamp = now - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime);
@@ -183,7 +183,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
 
 reducer.case(setMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
@@ -207,7 +207,7 @@ reducer.case(setMovesBase, (state, base) => {
 });
 
 reducer.case(setDepotsBase, (state, depotsBase) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.depotsBase = depotsBase;
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots({ ...state, depotsBase });
@@ -216,7 +216,7 @@ reducer.case(setDepotsBase, (state, depotsBase) => {
 });
 
 reducer.case(setAnimatePause, (state, animatePause) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.animatePause = animatePause;
   assignData.loopEndPause = false;
   assignData.starttimestamp = (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime));
@@ -230,7 +230,7 @@ reducer.case(setAnimateReverse, (state, animateReverse) => {
 });
 
 reducer.case(setSecPerHour, (state, secperhour) => {
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.secperhour = secperhour;
   assignData.loopTime = calcLoopTime(state.timeLength, secperhour);
@@ -292,7 +292,7 @@ reducer.case(setInputFilename, (state, fileName) => {
 
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
-  const assignData:BasedState = {};
+  const assignData:InnerState = {};
   assignData.loopEndPause = false;
   if(state.movesbase.length === 0 || analyzeData.timeLength === 0){ //初回？
     assignData.timeBegin = analyzeData.timeBegin;
@@ -317,7 +317,7 @@ reducer.case(updateMovesBase, (state, base) => {
 
   assignData.movesbase = analyzeData.movesbase;
   assignData.movedData = [];
-  const startState:BasedState = {};
+  const startState:InnerState = {};
   startState.timeLength = analyzeData.timeLength;
   if (startState.timeLength > 0) {
     startState.timeLength = startState.timeLength + state.trailing;

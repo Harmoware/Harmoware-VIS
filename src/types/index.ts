@@ -121,7 +121,7 @@ export interface IconDesignation {
   scenegraph?: any,
 };
 
-export interface BasedState {
+export interface InnerState {
   animatePause?: boolean,
   loopEndPause?: boolean,
   animateReverse?: boolean,
@@ -152,6 +152,37 @@ export interface BasedState {
   noLoop?: boolean,
 };
 
+export interface BasedState {
+  animatePause: boolean,
+  loopEndPause: boolean,
+  animateReverse: boolean,
+  beforeFrameTimestamp: number,
+  bounds: Bounds,
+  clickedObject: null | ClickedObject[],
+  defaultPitch: number,
+  defaultZoom: number,
+  depotsBase: Depotsbase[],
+  depotsData: DepotsData[],
+  getDepotsOptionFunc: null | (<P>(props: P, i: number) => object),
+  getMovesOptionFunc: null | (<P>(props: P, i: number, j: number) => object),
+  leading: number,
+  loopTime: number,
+  movedData: MovedData[],
+  movesbase: Movesbase[],
+  routePaths: RoutePaths[],
+  secperhour: number,
+  settime: number,
+  starttimestamp: number,
+  timeBegin: number,
+  timeLength: number,
+  trailing: number,
+  viewport: Viewport,
+  linemapData: LineMapData[],
+  loading: boolean,
+  inputFileName: ComObj<string>,
+  noLoop: boolean,
+};
+
 export type ActionTypes = typeof BaseActions;
 
 export interface ActionsInterface extends ActionTypes { }
@@ -159,10 +190,13 @@ export interface ActionsInterface extends ActionTypes { }
 export interface BasedProps extends BasedState {
   actions?: ActionTypes
 };
+export interface InnerProps extends InnerState {
+  actions?: ActionTypes
+};
 
-export type GetDepotsOptionFunc = ((props: BasedProps, i: number) => object);
+export type GetDepotsOptionFunc = (props: object, i: number) => object;
 
-export type GetMovesOptionFunc = ((props: BasedProps, i: number, j: number) => object);
+export type GetMovesOptionFunc = (props: object, i: number, j: number) => object;
 
 export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
   object: {
