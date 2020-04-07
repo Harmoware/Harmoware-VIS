@@ -34,7 +34,7 @@ export interface Bus3dState extends BasedState {
     clickedObject: Bus3dClickedObject[],
 };
 export interface Bus3dProps extends Bus3dState {
-    actions?: typeof Bus3dActions,
+    actions: typeof Bus3dActions,
 };
 interface Bus3dActionsInterface extends ActionsInterface {
     fetchDataList: typeof Actions.fetchDataList,
