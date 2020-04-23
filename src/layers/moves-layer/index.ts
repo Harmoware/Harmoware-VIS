@@ -96,8 +96,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
   static layerName = 'MovesLayer';
 
   getPickingInfo(pickParams: pickParams):void {
-    const { getRouteColor, getRouteWidth } = this.props;
-    onHoverClick(pickParams, getRouteColor, getRouteWidth);
+    const { getRouteColor, getRouteWidth, iconDesignations } = this.props;
+    onHoverClick(pickParams, getRouteColor, getRouteWidth, iconDesignations);
   }
 
   getIconLayer():any[] {

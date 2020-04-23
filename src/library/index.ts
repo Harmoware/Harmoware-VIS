@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { ActionTypes, AnalyzedBaseData, InnerProps, RoutePaths,
+import { ActionTypes, AnalyzedBaseData, InnerProps, RoutePaths, IconDesignation,
   Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
@@ -239,7 +239,8 @@ export interface pickParams {
   mode: string,
   info: EventInfo,
 }
-export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, getRouteWidth:Function): void => {
+export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
+  getRouteWidth:Function, iconDesignations:IconDesignation[]): void => {
   const { mode, info } = pickParams;
   const { object, layer } = info;
   const { id, props } = layer;
@@ -253,6 +254,12 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
     if (object && props.actions) {
       const { movesbaseidx } = object;
       const { actions, clickedObject, movesbase, routePaths } = props;
+      const replaceGetRouteColor = {};
+      if(iconDesignations){
+        for (let i = 0, lengthi = iconDesignations.length; i < lengthi; i=(i+1)|0) {
+          replaceGetRouteColor[iconDesignations[i].type] = iconDesignations[i].getColor || getRouteColor;
+        }
+      }
       let deleted = false;
       if (clickedObject && clickedObject.length > 0) {
         if(clickedObject.findIndex((data)=>data.object.movesbaseidx === movesbaseidx) >= 0){
@@ -265,10 +272,14 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function, get
         const newClickedObject = clickedObject || [];
         newClickedObject.push({ object, layer: { id } });
         const setRoutePaths = [];
-        const { operation } = movesbase[movesbaseidx];
+        const { type, operation } = movesbase[movesbaseidx];
+        let getColor = getRouteColor;
+        if(type && replaceGetRouteColor.hasOwnProperty(type)){
+          getColor = replaceGetRouteColor[type];
+        }
         for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
           const { position } = operation[j];
-          const routeColor = getRouteColor(operation[j]);
+          const routeColor = getColor(operation[j]);
           const routeWidth = getRouteWidth(operation[j]);
           const { position: nextposition } = operation[(j+1)|0];
           setRoutePaths.push({
