@@ -284,7 +284,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
           const routeWidth = getRouteWidth(movedata);
           const { position: nextposition } = operation[(j+1)|0];
           setRoutePaths.push({
-            movesbaseidx,
+            type ,movesbaseidx,
             sourcePosition: position,
             targetPosition: nextposition,
             routeColor: routeColor || COLOR1,
