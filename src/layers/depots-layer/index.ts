@@ -1,5 +1,5 @@
 import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'deck.gl';
-import { IcoSphereGeometry } from 'luma.gl'
+import { IcoSphereGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { COLOR4 } from '../../constants/settings';
 import { DepotsData, IconDesignation } from '../../types';

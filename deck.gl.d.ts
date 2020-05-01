@@ -1,12 +1,7 @@
 declare module "deck.gl" {
 
   import * as React from 'react';
-  import DeckGL from '@deck.gl/react';
   import { Layer } from '@deck.gl/core';
-  import { CompositeLayer, ScatterplotLayer, GridCellLayer, LineLayer,
-    HexagonLayer, ArcLayer, PolygonLayer, AttributeManager } from '@deck.gl/layers';
-  import { vec3 } from 'gl-matrix';
-  import { number } from 'prop-types';
 
   interface Uniforms {
     extruded: boolean,
@@ -53,7 +48,6 @@ declare module "deck.gl" {
 
 declare module "@deck.gl/core" {
 
-  import * as React from 'react';
   import { Uniforms, LayerProps } from 'deck.gl';
 
   class Layer <P extends LayerProps = LayerProps, S = {}> {

@@ -19,12 +19,12 @@ export default class HarmoVisLayers extends React.Component<Props> {
         mapStyle: string;
         mapGlComponents: any;
         mapboxAddLayerValue: {
-            "id": string;
-            "source": string;
+            id: string;
+            source: string;
             "source-layer": string;
-            "filter": string[];
-            "type": string;
-            "paint": {
+            filter: string[];
+            type: string;
+            paint: {
                 "fill-extrusion-color": string;
                 "fill-extrusion-height": (string | number | string[])[];
                 "fill-extrusion-base": (string | number | string[])[];

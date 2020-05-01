@@ -1,3 +1,5 @@
+declare module "@loaders.gl/core" ;
+declare module "@loaders.gl/gltf" ;
 declare module "react-icons-kit/md" {
   export const ic_fast_forward: object;
   export const ic_fast_rewind: object;

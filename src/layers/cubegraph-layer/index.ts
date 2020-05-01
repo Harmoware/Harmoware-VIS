@@ -54,9 +54,9 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
       return null;
     }
   
-    const { distanceScales: { degreesPerPixel, pixelsPerMeter } } = this.context.viewport;
-    const degreesMeterLng = Math.abs(degreesPerPixel[0]) * Math.abs(pixelsPerMeter[0]);
-    const degreesMeterLat = Math.abs(degreesPerPixel[1]) * Math.abs(pixelsPerMeter[1]);
+    const { distanceScales: { degreesPerUnit, unitsPerMeter } } = this.context.viewport;
+    const degreesMeterLng = Math.abs(degreesPerUnit[0]) * Math.abs(unitsPerMeter[0]);
+    const degreesMeterLat = Math.abs(degreesPerUnit[1]) * Math.abs(unitsPerMeter[1]);
     const halfcellSize = cellSize / 2;
 
     const setdata = [];
