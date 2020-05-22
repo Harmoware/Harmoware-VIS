@@ -10,6 +10,7 @@ import SvgIcon from '../icondata/SvgIcon';
 import {registerLoaders} from '@loaders.gl/core';
 import {GLTFLoader} from '@loaders.gl/gltf';
 registerLoaders([GLTFLoader]);
+const scenegraph = '../sampledata/car.glb';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -195,6 +196,7 @@ class App extends Container<BasedProps, State> {
               }):null,
               this.state.moveDataVisible && movedData.length > 0 ?
               new MovesLayer({
+                // scenegraph,
                 routePaths,
                 movedData,
                 movesbase,
