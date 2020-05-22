@@ -50,7 +50,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     getColor: (x: DepotsData) => x.color || COLOR4,
     getRadius: (x: DepotsData) => x.radius || 30,
     getCubeColor: (x: DepotsData) => x.optColor || [x.color] || [COLOR4],
-    getCubeElevation: (x: DepotsData) => x.optElevation || [0],
+    getCubeElevation: (x: DepotsData) => x.optElevation,
     mesh: defaultmesh,
     meshSizeScale: 40,
     getOrientation: [0,0,0],
@@ -125,7 +125,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     const stacking2 = optionVisible && optionChange;
 
-    const getPosition = (x: DepotsData) => x.position;
     const iconLayers = this.getIconLayer();
 
     return [
@@ -137,7 +136,6 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         visible: optionVisible,
         optionCentering,
         stacking2,
-        getPosition,
         getRadius,
         getCubeColor,
         getCubeElevation,

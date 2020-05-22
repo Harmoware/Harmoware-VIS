@@ -135,37 +135,27 @@ export const analyzeMovesBase =
   }
 };
 
-const defDepotsOptionFunc = (props: InnerProps, idx: number) : Object => {
-  const {position, longitude, latitude, type, ...retValue} = props.depotsBase[idx];
-  return retValue;
-};
 export const getDepots = (props: InnerProps): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
   if(prevData.length > 0 && (Math.abs(prevData[0].settime - settime) <= 1)){
     if(!getDepotsOptionFunc) return prevData;
   }
-  const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || defDepotsOptionFunc;
+  const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || (() => {return {};});
 
   if (depotsBase.length > 0) {
     const depotsData: DepotsData[] = [];
     for (let i = 0, lengthi = depotsBase.length; i < lengthi; i=(i+1)|0) {
-      const { type, longitude, latitude, position=[longitude, latitude, 1] } = depotsBase[i];
+      const { longitude, latitude, position=[longitude, latitude, 1], ...otherProps } = depotsBase[i];
       depotsData[i] = Object.assign({},
-        { settime, position},
+        otherProps, { settime, position},
         getOptionFunction(props, i),
       );
-      if(typeof type === 'string') depotsData[i].type = type;
     }
     return depotsData;
   }
   return [];
 };
 
-const defMovesOptionFunc = (props: InnerProps, idx1: number, idx2: number) : Object => {
-  const {departuretime, arrivaltime, operation, type, ...retValue1} = props.movesbase[idx1];
-  const {elapsedtime, position, longitude, latitude, color, direction, ...retValue2} = operation[idx2];
-  return Object.assign(retValue1,retValue2);
-};
 export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
     getMovesOptionFunc } = props;
@@ -174,7 +164,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
       if(!getMovesOptionFunc) return prevMovedData
     };
   }
-  const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || defMovesOptionFunc;
+  const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
 
   const selectmovesbase = movesbase.filter((data)=>{
     const { departuretime, arrivaltime } = data;
@@ -182,38 +172,35 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
   });
   const movedData: MovedData[] = [];
   for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i=(i+1)|0) {
-    const { operation, movesbaseidx, type } = selectmovesbase[i];
+    const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = selectmovesbase[i];
     const idx = operation.findIndex((data)=>data.elapsedtime > settime) - 1;
     const nextidx = (idx+1)|0;
     if(typeof operation[idx].position === 'undefined' ||
       typeof operation[nextidx].position === 'undefined'){
-      const {elapsedtime, ...otherProps} = operation[idx];
+      const {elapsedtime, longitude, latitude, color, direction, ...otherProps2} = operation[idx];
       movedData[i] = Object.assign({},
-        otherProps, { settime, movesbaseidx},
+        otherProps1, otherProps2, { settime, movesbaseidx },
         getOptionFunction(props, movesbaseidx, idx),
       );
     }else{
-      const { elapsedtime, position:[longitude, latitude, elevation],
-        color=COLOR1, direction=0 } = operation[idx];
-      const { elapsedtime: nextelapsedtime, position:[nextlongitude, nextlatitude, nextelevation],
-        color: nextcolor=COLOR1 } = operation[nextidx];
-      const pos_rate = [longitude, latitude, elevation];
+      const { elapsedtime, position:sourcePosition, longitude, latitude,
+        color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
+      const { elapsedtime:nextelapsedtime, position:targetPosition,
+        color:targetColor=COLOR1 } = operation[nextidx];
       const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-      pos_rate[0] = pos_rate[0] - (longitude - nextlongitude) * rate;
-      pos_rate[1] = pos_rate[1] - (latitude - nextlatitude) * rate;
-      pos_rate[2] = pos_rate[2] - (elevation - nextelevation) * rate;
-      movedData[i] = Object.assign({},
+      const position = [
+        sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
+        sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
+        sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
+      ];
+      movedData[i] = Object.assign({}, otherProps1, otherProps2,
         { settime,
-          position: pos_rate,
-          sourcePosition: [longitude, latitude, elevation],
-          targetPosition: [nextlongitude, nextlatitude, nextelevation],
-          color, direction,
-          sourceColor: color, targetColor: nextcolor,
-          movesbaseidx},
+          position, sourcePosition, targetPosition,
+          color:sourceColor, direction,
+          sourceColor, targetColor, movesbaseidx},
         getOptionFunction(props, movesbaseidx, idx),
       );
     }
-    if(typeof type === 'string') movedData[i].type = type;
   }
   return movedData;
 };
