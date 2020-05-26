@@ -486,7 +486,8 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
         sourcePosition: [longitude, latitude, ((delaysec / 2) * delayheight) + 2],
         targetPosition: [nextlongitude, nextlatitude,
           ((nextdelaysec / 2) * delayheight) + 2],
-        color: delaycolor(delaysec, delayrange)
+        routeColor: delaycolor(delaysec, delayrange),
+        routeWidth: 10,
       });
     }
   } else {
@@ -498,7 +499,8 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
         movesbaseidx,
         sourcePosition: [longitude, latitude, 0],
         targetPosition: [nextlongitude, nextlatitude, 0],
-        color: color || COLOR1
+        routeColor: color || COLOR1,
+        routeWidth: 10,
       });
     }
   }
