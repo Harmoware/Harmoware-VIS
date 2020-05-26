@@ -11,6 +11,12 @@ import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
 
+import {registerLoaders} from '@loaders.gl/core';
+import {OBJLoader} from '@loaders.gl/obj';
+registerLoaders([OBJLoader]);
+const busmesh = '../icon/bus.obj';
+const busstopmesh = '../icon/busstop.obj';
+
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface Bus3dAppProps extends Bus3dProps {
@@ -124,7 +130,8 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
                 onHover,
-                onClick: onClickBusstop
+                onClick: onClickBusstop,
+                mesh:busstopmesh
               }):null,
               movedData.length > 0 ? 
               new MovesLayer({
@@ -139,7 +146,8 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange,
                 onHover,
-                onClick: onClickBus
+                onClick: onClickBus,
+                mesh:busmesh
               }):null,
               !this.state.archLayerChange && this.state.arcdata.length > 0 ?
               new Bus3dArcLayer({
