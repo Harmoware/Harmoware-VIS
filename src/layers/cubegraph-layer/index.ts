@@ -55,8 +55,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
 
     const setdata = [];
     const selectOptionData = optionData.filter(x=>x.position && getCubeElevation(x));
-    for (let i = 0; i < selectOptionData.length; i=(i+1)|0) {
-      const item = selectOptionData[i];
+    for (const item of selectOptionData) {
       const position = item.position;
       let height = position[2] || 0;
       const elevation = getCubeElevation(item);

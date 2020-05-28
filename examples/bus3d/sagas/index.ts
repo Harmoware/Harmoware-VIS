@@ -341,14 +341,13 @@ function* setupByCSV() {
 
           let distance = 0;
           let route: number[][] = [];
-          for (let m = 0; m < bsorderlist.length; m=(m+1)|0) {
-            const bsslist = bsorderlist[m];
+          for (const bsslist of bsorderlist) {
             if (routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]) {
               const routedata: { result: string, route: number[][], distance: number } = JSON.parse(
                 routesdata[bsslist.busstopcode + bsslist.nextbusstopcode]);
               if (routedata.result === 'success') {
-                for (let n = 0; n < routedata.route.length; n=(n+1)|0) {
-                  const wkroute = routedata.route[n];
+                for (const routeElement of routedata.route) {
+                  const wkroute = routeElement;
                   if (wkroute[2] < routedata.distance) {
                     route.push([wkroute[0], wkroute[1], distance + wkroute[2]]);
                   }
@@ -367,8 +366,7 @@ function* setupByCSV() {
           const st = elapsedtime;
           const et = nextelapsedtime - 10;
           const dt = et - st;
-          for (let p = 0; p < route.length; p=(p+1)|0) {
-            const rt = route[p];
+          for (const rt of route) {
             if (rt[2] > 0 && rt[2] < distance) {
               operation.push({
                 elapsedtime: st + (dt * (rt[2] / distance)), // 経過時間

@@ -116,12 +116,12 @@ export const analyzeMovesBase =
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
   }else{
-    for (let k = 0, lengthk = movesbase.length; k < lengthk; k=(k+1)|0) {
-      movesbase[k].departuretime = movesbase[k].departuretime + timeBegin;
-      movesbase[k].arrivaltime = movesbase[k].arrivaltime + timeBegin;
-      const { operation } = movesbase[k];
-      for (let l = 0, lengthl = operation.length; l < lengthl; l=(l+1)|0) {
-        operation[l].elapsedtime = operation[l].elapsedtime + timeBegin;
+    for (const movesbaseElement of movesbase) {
+      movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
+      movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
+      const { operation } = movesbaseElement;
+      for (const operationElement of operation) {
+        operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
       }
     }
   }
@@ -171,17 +171,17 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
     return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
   const movedData: MovedData[] = [];
-  for (let i = 0, lengthi = selectmovesbase.length; i < lengthi; i=(i+1)|0) {
-    const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = selectmovesbase[i];
+  for (const movesbaseElement of selectmovesbase) {
+    const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = movesbaseElement;
     const idx = operation.findIndex((data)=>data.elapsedtime > settime) - 1;
     const nextidx = (idx+1)|0;
     if(typeof operation[idx].position === 'undefined' ||
       typeof operation[nextidx].position === 'undefined'){
       const {elapsedtime, longitude, latitude, color, direction, ...otherProps2} = operation[idx];
-      movedData[i] = Object.assign({},
+      movedData.push(Object.assign({},
         otherProps1, otherProps2, { settime, movesbaseidx },
         getOptionFunction(props, movesbaseidx, idx),
-      );
+      ));
     }else{
       const { elapsedtime, position:sourcePosition, longitude, latitude,
         color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
@@ -193,13 +193,13 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
         sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
         sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
       ];
-      movedData[i] = Object.assign({}, otherProps1, otherProps2,
+      movedData.push(Object.assign({}, otherProps1, otherProps2,
         { settime,
           position, sourcePosition, targetPosition,
           color:sourceColor, direction,
           sourceColor, targetColor, movesbaseidx},
         getOptionFunction(props, movesbaseidx, idx),
-      );
+      ));
     }
   }
   return movedData;
@@ -243,8 +243,8 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
       const { actions, clickedObject, movesbase, routePaths } = props;
       const replaceGetRouteColor = {};
       if(iconDesignations){
-        for (let i = 0, lengthi = iconDesignations.length; i < lengthi; i=(i+1)|0) {
-          replaceGetRouteColor[iconDesignations[i].type] = iconDesignations[i].getColor || getRouteColor;
+        for (const iconDesignationsElement of iconDesignations) {
+          replaceGetRouteColor[iconDesignationsElement.type] = iconDesignationsElement.getColor || getRouteColor;
         }
       }
       let deleted = false;
@@ -289,16 +289,16 @@ export const checkClickedObjectToBeRemoved = (
   movedData: MovedData[], clickedObject: null | ClickedObject[],
   routePaths: RoutePaths[], actions: ActionTypes): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
-    for (let i = 0, lengthi = clickedObject.length; i < lengthi; i=(i+1)|0) {
+    for (const clickedObjectElement of clickedObject) {
       let deleted = true;
-      for (let j = 0, lengthj = movedData.length; j < lengthj; j=(j+1)|0) {
-        if (clickedObject[i].object.movesbaseidx === movedData[j].movesbaseidx) {
+      for (const movedDataElement of movedData) {
+        if (clickedObjectElement.object.movesbaseidx === movedDataElement.movesbaseidx) {
           deleted = false;
           break;
         }
       }
       if (deleted) {
-        routeDelete(clickedObject[i].object.movesbaseidx, { routePaths, clickedObject, actions });
+        routeDelete(clickedObjectElement.object.movesbaseidx, { routePaths, clickedObject, actions });
       }
     }
   }

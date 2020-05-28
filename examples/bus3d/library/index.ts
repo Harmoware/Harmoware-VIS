@@ -208,8 +208,8 @@ export const updateArcLayerData = (props: Bus3dProps) => {
   const selectarchbase = archbase.filter((data)=>{
     return (data.departuretime <= currentTime && currentTime <= data.arrivaltime);
   });
-  for (let i = 0, lengthi = selectarchbase.length; i < lengthi; i=(i+1)|0) {
-    arcdata.push({ ...selectarchbase[i].arcdata });
+  for (const selectarchbaseElement of selectarchbase) {
+    arcdata.push({ ...selectarchbaseElement.arcdata });
   }
   return arcdata;
 };
