@@ -77,11 +77,13 @@ reducer.case(setViewport, (state, view) => {
   });
 });
 
-reducer.case(setDefaultViewport, (state) => {
-  const viewport = Object.assign({}, state.viewport, {
-    bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch });
+reducer.case(setDefaultViewport, (state, defViewport:{defaultZoom?:number,defaultPitch?:number}={}) => {
+  const {defaultZoom,defaultPitch} = defViewport;
+  const zoom = defaultZoom||state.defaultZoom;
+  const pitch = defaultPitch||state.defaultPitch;
+  const viewport = Object.assign({}, state.viewport, { bearing:0, zoom, pitch });
   return Object.assign({}, state, {
-    viewport
+    viewport, defaultZoom:zoom, defaultPitch:pitch
   });
 });
 
