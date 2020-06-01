@@ -140,19 +140,19 @@ export default class Controller extends React.Component<Props, State> {
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="MapboxChecked" onChange={getMapboxChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="MapboxChecked" className="form-check-label">Mapboxマップ表示</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="IconChangeChecked" className="form-check-label">アイコン表示パターン切替</label>
               </div>
@@ -167,31 +167,31 @@ export default class Controller extends React.Component<Props, State> {
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="MoveSvgChecked" onChange={getMoveSvgChecked} className="form-check-input" />
                 <label htmlFor="MoveSvgChecked" className="form-check-label">運行データSVG表示</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
                 <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
                 <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
               </div>
             </li>
             <li>
-              <div className="form-check">
+              <div>
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
                 <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
               </div>
@@ -231,11 +231,11 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
-              <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" className="form-control-range" />
+              <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
             </li>
             <li>
               <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
-              <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" className="form-control-range" />
+              <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
             </li>
             <li><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
