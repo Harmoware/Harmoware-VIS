@@ -8,7 +8,10 @@ export declare const setTime: import("typescript-fsa").ActionCreator<number>;
 export declare const setLeading: import("typescript-fsa").ActionCreator<number>;
 export declare const setTrailing: import("typescript-fsa").ActionCreator<number>;
 export declare const setViewport: import("typescript-fsa").ActionCreator<Viewport>;
-export declare const setDefaultViewport: import("typescript-fsa").ActionCreator<void>;
+export declare const setDefaultViewport: import("typescript-fsa").ActionCreator<void | {
+    defaultZoom?: number;
+    defaultPitch?: number;
+}>;
 export declare const setMovesBase: import("typescript-fsa").ActionCreator<MovesbaseFile | Movesbase[]>;
 export declare const setDepotsBase: import("typescript-fsa").ActionCreator<Depotsbase[]>;
 export declare const setAnimatePause: import("typescript-fsa").ActionCreator<boolean>;

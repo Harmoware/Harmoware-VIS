@@ -59,7 +59,8 @@ export interface RoutePaths {
     movesbaseidx?: number;
     sourcePosition: number[];
     targetPosition: number[];
-    color?: number[];
+    routeColor?: number[];
+    routeWidth?: number;
 }
 export interface LineMapData {
     sourcePosition?: number[];
