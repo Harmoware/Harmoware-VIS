@@ -1,6 +1,6 @@
 import { LayerProps, CompositeLayer } from 'deck.gl';
 import { pickParams } from '../../library';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, IconDesignation } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
     routePaths: RoutePaths[];
@@ -17,6 +17,7 @@ interface Props extends LayerProps {
     optionElevationScale?: number;
     optionCentering?: boolean;
     optionDisplayPosition?: number;
+    iconlayer?: LayerTypes;
     iconChange?: boolean;
     iconCubeType?: number;
     iconDesignations?: IconDesignation[];

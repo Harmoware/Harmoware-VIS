@@ -100,9 +100,10 @@ export interface DepotsData {
     optElevation?: number[];
     settime?: number;
 }
+export declare type LayerTypes = 'Scatterplot' | 'SimpleMesh' | 'Scenegraph';
 export interface IconDesignation {
     type: string;
-    layer: 'Scatterplot' | 'SimpleMesh' | 'Scenegraph';
+    layer: LayerTypes;
     radiusScale?: number;
     getColor?: (x: MovedData | DepotsData) => number[];
     getOrientation?: (x: MovedData | DepotsData) => number[];
