@@ -3,7 +3,7 @@ import { CubeGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, IconDesignation } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
 import {registerLoaders} from '@loaders.gl/core';
 import {GLTFLoader} from '@loaders.gl/gltf';
@@ -43,6 +43,7 @@ interface Props extends LayerProps {
   optionElevationScale?: number,
   optionCentering?: boolean,
   optionDisplayPosition?: number,
+  iconlayer?: LayerTypes,
   iconChange?: boolean, // Invalid if there is iconDesignations definition
   iconCubeType?: number, // Invalid if there is iconDesignations definition
   iconDesignations?: IconDesignation[],
@@ -102,13 +103,13 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   getIconLayer():any[] {
     const { id, layerRadiusScale, layerOpacity, movedData,
-      getRadius, iconChange, iconCubeType, visible,
+      getRadius, iconlayer, iconChange, iconCubeType, visible,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
     } = this.props;
 
-    const selectlayer = !iconChange ? 'Scatterplot':
-      iconCubeType === 0 ? 'SimpleMesh':iconCubeType === 1 ? 'Scenegraph':'Scatterplot';
+    const selectlayer = iconlayer || (!iconChange ? 'Scatterplot':
+      iconCubeType === 0 ? 'SimpleMesh':iconCubeType === 1 ? 'Scenegraph':'Scatterplot');
     const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
     const getColor = (x: MovedData) => x.color || COLOR1;

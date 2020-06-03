@@ -2,9 +2,10 @@ import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'd
 import { IcoSphereGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { COLOR4 } from '../../constants/settings';
-import { DepotsData, IconDesignation } from '../../types';
+import { DepotsData, LayerTypes, IconDesignation } from '../../types';
 
 interface Props extends LayerProps {
+  iconlayer?: LayerTypes,
   iconChange?: boolean,
   layerRadiusScale?: number,
   layerOpacity?: number,
@@ -59,7 +60,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
   };
 
   getIconLayer():any[] {
-    const { id, iconChange, layerRadiusScale, layerOpacity,
+    const { id, iconlayer, iconChange, layerRadiusScale, layerOpacity,
       depotsData, getColor, getRadius, pickable, visible,
       mesh, meshSizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
@@ -67,7 +68,8 @@ export default class DepotsLayer extends CompositeLayer<Props> {
 
     if(!visible) return null;
 
-    const defaultIconDesignations = [{'type':undefined,'layer':iconChange ? 'SimpleMesh':'Scatterplot'}];
+    const selectlayer = iconlayer||(iconChange ? 'SimpleMesh':'Scatterplot');
+    const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
 
     return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
