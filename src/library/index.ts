@@ -177,7 +177,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
     const nextidx = (idx+1)|0;
     if(typeof operation[idx].position === 'undefined' ||
       typeof operation[nextidx].position === 'undefined'){
-      const {elapsedtime, longitude, latitude, color, direction, ...otherProps2} = operation[idx];
+      const {elapsedtime, longitude, latitude, ...otherProps2} = operation[idx];
       movedData.push(Object.assign({},
         otherProps1, otherProps2, { settime, movesbaseidx },
         getOptionFunction(props, movesbaseidx, idx),
