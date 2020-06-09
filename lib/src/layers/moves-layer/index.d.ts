@@ -11,6 +11,7 @@ interface Props extends LayerProps {
     clickedObject: null | ClickedObject[];
     actions: typeof Actions;
     optionVisible?: boolean;
+    optionArcVisible?: boolean;
     optionChange?: boolean;
     optionOpacity?: number;
     optionCellSize?: number;
