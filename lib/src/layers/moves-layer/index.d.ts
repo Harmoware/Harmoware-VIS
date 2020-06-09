@@ -60,7 +60,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         mesh: any;
         sizeScale: number;
         getOrientation: (x: MovedData) => number[];
-        getScale: number[];
+        getScale: (x: MovedData) => number[];
         getTranslation: number[];
     };
     static layerName: string;
