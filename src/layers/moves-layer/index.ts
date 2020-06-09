@@ -37,6 +37,7 @@ interface Props extends LayerProps {
   clickedObject: null | ClickedObject[],
   actions: typeof Actions,
   optionVisible?: boolean,
+  optionArcVisible?: boolean,
   optionChange?: boolean,
   optionOpacity?: number,
   optionCellSize?: number,
@@ -174,7 +175,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   renderLayers():any[] {
     const { id, routePaths, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionDisplayPosition, optionVisible, optionChange,
+      optionDisplayPosition, optionVisible, optionArcVisible, optionChange,
       iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, optionCentering,
     } = this.props;
 
@@ -185,6 +186,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
+    const arcVisible = optionArcVisible !== undefined ? optionArcVisible : optionVisible;
 
     checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
     const iconLayers = this.getIconLayer();
@@ -217,11 +219,11 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
       }) : null,
-      optionVisible ?
+      arcVisible ?
       new ArcLayer({
         id: id + '-moves-opt-arc',
         data: movedData.filter((data)=>data.sourcePosition),
-        visible: optionVisible,
+        visible: arcVisible,
         pickable: true,
         widthUnits: 'meters',
         widthMinPixels: 0.1,
