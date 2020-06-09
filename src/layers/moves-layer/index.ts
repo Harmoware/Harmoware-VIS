@@ -90,7 +90,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     mesh: defaultmesh,
     sizeScale: 20,
     getOrientation: (x: MovedData) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
-    getScale: [1,1,1],
+    getScale: (x: MovedData) => x.scale || [1,1,1],
     getTranslation: [0,0,0],
     };
 

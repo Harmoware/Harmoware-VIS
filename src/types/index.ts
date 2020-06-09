@@ -89,6 +89,7 @@ export interface MovedData {
   sourceColor?: number[],
   targetColor?: number[],
   radius?: number,
+  scale?: number[],
   color?: (number | number[])[],
   settime?: number,
   routeColor?: number[],
