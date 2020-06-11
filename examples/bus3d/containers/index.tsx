@@ -46,6 +46,13 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
     };
   }
 
+  componentDidMount(){
+    super.componentDidMount();
+    this.props.actions.setViewport({
+      longitude:136.2028714130227,latitude:35.9574951366151,zoom:11.1
+    });
+  }
+
   getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ iconChange: e.target.checked });
   }
