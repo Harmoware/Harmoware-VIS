@@ -16,6 +16,7 @@ interface Props extends LayerProps {
     lineOpacity?: number;
 }
 export default class LineMapLayer extends CompositeLayer<Props> {
+    constructor(props: Props);
     static defaultProps: {
         id: string;
         pickable: boolean;

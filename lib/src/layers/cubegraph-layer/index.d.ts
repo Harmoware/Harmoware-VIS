@@ -14,6 +14,7 @@ interface Props extends LayerProps {
     optionCentering?: boolean;
 }
 export default class CubeGraphLayer extends CompositeLayer<Props> {
+    constructor(props: Props);
     static defaultProps: {
         id: string;
         visible: boolean;
