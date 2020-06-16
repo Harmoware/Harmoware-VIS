@@ -3,6 +3,7 @@ import { LineMapData } from '../../types';
 import { COLOR2 } from '../../constants/settings';
 
 interface Props extends LayerProps {
+  data?: LineMapData[],
   getSourcePosition?: (x: LineMapData) => number[],
   getTargetPosition?: (x: LineMapData) => number[],
   getPath?: (x: LineMapData) => number[],
