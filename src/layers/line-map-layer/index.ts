@@ -19,6 +19,9 @@ interface Props extends LayerProps {
 }
 
 export default class LineMapLayer extends CompositeLayer<Props> {
+  constructor(props: Props) {
+    super(props);
+  };
 
   static defaultProps = {
     id: 'LineMapLayer',

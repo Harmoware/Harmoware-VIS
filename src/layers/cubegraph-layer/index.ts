@@ -22,6 +22,9 @@ const pm = [[1,1],[1,-1],[-1,1],[-1,-1]];
 const getPosition = (x: MovedData|DepotsData) => x.position;
 
 export default class CubeGraphLayer extends CompositeLayer<Props> {
+  constructor(props: Props) {
+    super(props);
+  };
 
   static defaultProps = {
     id: 'CubeGraphLayer',
