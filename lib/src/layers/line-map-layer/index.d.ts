@@ -1,6 +1,7 @@
 import { LayerProps, CompositeLayer, LineLayer, PathLayer, PolygonLayer } from 'deck.gl';
 import { LineMapData } from '../../types';
 interface Props extends LayerProps {
+    data?: LineMapData[];
     getSourcePosition?: (x: LineMapData) => number[];
     getTargetPosition?: (x: LineMapData) => number[];
     getPath?: (x: LineMapData) => number[];
@@ -37,7 +38,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     static layerName: string;
     renderLayers(): (PolygonLayer<{
         id: string;
-        data: any[];
+        data: LineMapData[];
         visible: true;
         opacity: number;
         pickable: boolean;
@@ -49,7 +50,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getElevation: (x: LineMapData) => number[];
     }, {}> | PathLayer<{
         id: string;
-        data: any[];
+        data: LineMapData[];
         visible: true;
         opacity: number;
         pickable: boolean;
@@ -62,7 +63,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getDashArray: (x: LineMapData) => number[];
     }, {}> | LineLayer<{
         id: string;
-        data: any[];
+        data: LineMapData[];
         visible: true;
         opacity: number;
         pickable: boolean;
