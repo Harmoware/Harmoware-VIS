@@ -31,3 +31,4 @@ export const setLoading = actionCreator<boolean>(types.SETLOADING);
 export const setInputFilename = actionCreator<Object>(types.SETINPUTFILENAME);
 export const updateMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.UPDATEMOVESBASE);
 export const setNoLoop = actionCreator<boolean>(types.SETNOLOOP);
+export const setInitialViewChange = actionCreator<boolean>(types.SETINITIALVIEWCHANGE);

@@ -5,7 +5,7 @@ import { addMinutes, setViewport, setDefaultViewport, setTimeStamp,
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
-  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop } from '../actions';
+  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop, setInitialViewChange } from '../actions';
 
 const initialState: InnerState = {
   viewport: {
@@ -51,6 +51,7 @@ const initialState: InnerState = {
   loading: false,
   inputFileName: {},
   noLoop: false,
+  initialViewChange: true,
 };
 
 const reducer = reducerWithInitialState<InnerState>(initialState);
@@ -192,8 +193,10 @@ reducer.case(setMovesBase, (state, base) => {
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
-  assignData.viewport = Object.assign({}, state.viewport,
-    {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
+  if(state.initialViewChange){
+    assignData.viewport = Object.assign({}, state.viewport,
+      {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
+  }
   assignData.settime =
     analyzeData.timeBegin - (analyzeData.movesbase.length === 0 ? 0 : state.leading);
   if (analyzeData.timeLength > 0) {
@@ -316,8 +319,10 @@ reducer.case(updateMovesBase, (state, base) => {
     assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-    assignData.viewport = Object.assign({}, state.viewport,
-      {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
+    if(state.initialViewChange){
+      assignData.viewport = Object.assign({}, state.viewport,
+        {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
+    }
     if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
       assignData.depotsData = getDepots({ ...state, ...assignData });
     }
@@ -344,6 +349,12 @@ reducer.case(updateMovesBase, (state, base) => {
 reducer.case(setNoLoop, (state, noLoop) => {
   return Object.assign({}, state, {
     noLoop, loopEndPause:false
+  });
+});
+
+reducer.case(setInitialViewChange, (state, initialViewChange) => {
+  return Object.assign({}, state, {
+    initialViewChange
   });
 });
 

@@ -153,6 +153,7 @@ export interface InnerState {
   loading?: boolean,
   inputFileName?: ComObj<string>,
   noLoop?: boolean,
+  initialViewChange?: boolean,
 };
 
 export interface BasedState {
@@ -184,6 +185,7 @@ export interface BasedState {
   loading: boolean,
   inputFileName: ComObj<string>,
   noLoop: boolean,
+  initialViewChange: boolean,
 };
 
 export type ActionTypes = typeof BaseActions;

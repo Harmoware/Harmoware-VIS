@@ -25,6 +25,7 @@ import {
   setInputFilename,
   updateMovesBase,
   setNoLoop,
+  setInitialViewChange,
 } from './actions';
 
 import {
@@ -97,6 +98,7 @@ const Actions: ActionsInterface = {
   setInputFilename,
   updateMovesBase,
   setNoLoop,
+  setInitialViewChange,
 };
 
 export {
