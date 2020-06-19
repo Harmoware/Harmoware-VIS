@@ -46,7 +46,6 @@ export default class MovesInput extends React.Component<Props> {
       }
       actions.setInputFilename({ movesFileName: file_name });
       actions.setMovesBase(readdata);
-      actions.setDefaultViewport();
       actions.setRoutePaths([]);
       actions.setClicked(null);
       actions.setAnimatePause(false);

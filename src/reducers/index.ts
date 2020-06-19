@@ -186,10 +186,14 @@ reducer.case(setFrameTimestamp, (state, props) => {
 reducer.case(setMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
   const assignData:InnerState = {};
+  if(analyzeData.movesbase.length <= 0){
+    return state;
+  }
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
-  assignData.viewport = Object.assign({}, state.viewport, analyzeData.viewport);
+  assignData.viewport = Object.assign({}, state.viewport,
+    {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
   assignData.settime =
     analyzeData.timeBegin - (analyzeData.movesbase.length === 0 ? 0 : state.leading);
   if (analyzeData.timeLength > 0) {
@@ -295,6 +299,9 @@ reducer.case(setInputFilename, (state, fileName) => {
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
   const assignData:InnerState = {};
+  if(analyzeData.movesbase.length <= 0){
+    return state;
+  }
   assignData.loopEndPause = false;
   if(state.movesbase.length === 0 || analyzeData.timeLength === 0){ //初回？
     assignData.timeBegin = analyzeData.timeBegin;
