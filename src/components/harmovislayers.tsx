@@ -1,7 +1,7 @@
 import * as React from 'react';
 import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import DeckGL from 'deck.gl';
+import DeckGL, { FlyToInterpolator, FlyToProps } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 
 interface thisViewport extends Viewport {
@@ -19,6 +19,8 @@ interface Props {
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
+  flyto?: boolean,
+  flytoArgument?: FlyToProps
 }
 
 class MapGl extends InteractiveMap {
@@ -74,7 +76,9 @@ export default class HarmoVisLayers extends React.Component<Props> {
               5, 0, 5.05, ["get", "min_height"] ],
           "fill-extrusion-opacity": .6
       }
-    }]
+    }],
+    flyto: false,
+    flytoArgument: null
   }
   constructor(props: Props){
     super(props);
@@ -86,9 +90,19 @@ export default class HarmoVisLayers extends React.Component<Props> {
     gl.depthFunc(gl.LEQUAL);
   }
 
+  setViewport(viewport:Viewport):void{
+    const { actions } = this.props;
+    this.transitionDuration = null;
+    actions.setViewport(viewport);
+    this.transitionDuration = 'auto';
+  }
+  transitionDuration:(number|'auto')='auto';
+
   render() {
-    const { visible, viewport, mapStyle, actions, mapboxApiAccessToken, layers, mapGlComponents } = this.props;
-    const onViewportChange = this.props.onViewportChange || actions.setViewport;
+    const { visible, viewport, mapStyle, actions, mapboxApiAccessToken,
+      layers, mapGlComponents, flyto, flytoArgument } = this.props;
+    const onViewportChange = this.props.onViewportChange ||
+      flyto ? this.setViewport.bind(this):actions.setViewport;
 
     return (
       <MapGl
@@ -96,6 +110,8 @@ export default class HarmoVisLayers extends React.Component<Props> {
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
         visible={visible}
+        transitionDuration={flyto ? this.transitionDuration:null}
+        transitionInterpolator={new FlyToInterpolator(flytoArgument)}
       >
         { mapGlComponents }
         <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
