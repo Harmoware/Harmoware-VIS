@@ -144,6 +144,7 @@ export interface InnerState {
     loading?: boolean;
     inputFileName?: ComObj<string>;
     noLoop?: boolean;
+    initialViewChange?: boolean;
 }
 export interface BasedState {
     animatePause: boolean;
@@ -174,6 +175,7 @@ export interface BasedState {
     loading: boolean;
     inputFileName: ComObj<string>;
     noLoop: boolean;
+    initialViewChange: boolean;
 }
 export declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {

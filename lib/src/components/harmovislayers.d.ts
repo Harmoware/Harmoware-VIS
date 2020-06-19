@@ -1,6 +1,7 @@
 /// <reference types="mapbox-gl" />
 import * as React from 'react';
 import { Layer } from '@deck.gl/core';
+import { FlyToProps } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 interface Props {
     visible?: boolean;
@@ -12,6 +13,8 @@ interface Props {
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
+    flyto?: boolean;
+    flytoArgument?: FlyToProps;
 }
 export default class HarmoVisLayers extends React.Component<Props> {
     static defaultProps: {
@@ -31,9 +34,13 @@ export default class HarmoVisLayers extends React.Component<Props> {
                 "fill-extrusion-opacity": number;
             };
         }[];
+        flyto: boolean;
+        flytoArgument: any;
     };
     constructor(props: Props);
     initialize(gl: WebGLRenderingContext): void;
+    setViewport(viewport: Viewport): void;
+    transitionDuration: (number | 'auto');
     render(): JSX.Element;
 }
 export {};
