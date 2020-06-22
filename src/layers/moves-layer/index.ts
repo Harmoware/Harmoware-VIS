@@ -102,8 +102,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     onHoverClick(pickParams, getRouteColor, getRouteWidth, iconDesignations);
   }
 
-  getIconLayer():any[] {
-    const { id, layerRadiusScale, layerOpacity, movedData,
+  getIconLayer(movedData:MovedData[]):any[] {
+    const { id, layerRadiusScale, layerOpacity,
       getRadius, iconlayer, iconChange, iconCubeType, visible,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
@@ -187,9 +187,10 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
     const arcVisible = optionArcVisible !== undefined ? optionArcVisible : optionVisible;
+    const movedDataPosition = movedData.filter((x)=>x.position)
 
-    checkClickedObjectToBeRemoved(movedData, clickedObject, routePaths, actions);
-    const iconLayers = this.getIconLayer();
+    checkClickedObjectToBeRemoved(movedDataPosition, clickedObject, routePaths, actions);
+    const iconLayers = this.getIconLayer(movedDataPosition);
 
     return [
       iconLayers,
@@ -207,7 +208,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       optionVisible ?
       new CubeGraphLayer({
         id: id + '-moves-opt-cube',
-        optionData: movedData,
+        optionData: movedDataPosition,
         visible: optionVisible,
         optionCentering,
         stacking1,
