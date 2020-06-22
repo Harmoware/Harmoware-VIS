@@ -11,7 +11,7 @@ const initialState: InnerState = {
   viewport: {
     longitude: 136.906428,
     latitude: 35.181453,
-    zoom: 10,
+    zoom: 11.1,
     maxZoom: 18,
     minZoom: 5,
     pitch: 30,
@@ -187,13 +187,10 @@ reducer.case(setFrameTimestamp, (state, props) => {
 reducer.case(setMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
   const assignData:InnerState = {};
-  if(analyzeData.movesbase.length <= 0){
-    return state;
-  }
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
-  if(state.initialViewChange){
+  if(state.initialViewChange && analyzeData.movesbase.length > 0){
     assignData.viewport = Object.assign({}, state.viewport,
       {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
   }
@@ -302,9 +299,6 @@ reducer.case(setInputFilename, (state, fileName) => {
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
   const assignData:InnerState = {};
-  if(analyzeData.movesbase.length <= 0){
-    return state;
-  }
   assignData.loopEndPause = false;
   if(state.movesbase.length === 0 || analyzeData.timeLength === 0){ //初回？
     assignData.timeBegin = analyzeData.timeBegin;
@@ -319,7 +313,7 @@ reducer.case(updateMovesBase, (state, base) => {
     assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-    if(state.initialViewChange){
+    if(state.initialViewChange && analyzeData.movesbase.length > 0){
       assignData.viewport = Object.assign({}, state.viewport,
         {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
     }
