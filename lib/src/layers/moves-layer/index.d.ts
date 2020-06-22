@@ -66,7 +66,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
-    getIconLayer(): any[];
+    getIconLayer(movedData: MovedData[]): any[];
     renderLayers(): any[];
 }
 export {};
