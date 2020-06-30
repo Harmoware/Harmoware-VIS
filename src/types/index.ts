@@ -1,15 +1,21 @@
+import { TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import * as BaseActions from '../actions';
 
 export interface Viewport {
-  longitude?: number,
+  bearing?: number,
+  height?: number,
   latitude?: number,
-  zoom?: number,
+  longitude?: number,
+  maxPitch?: number,
   maxZoom?: number,
+  minPitch?: number,
   minZoom?: number,
   pitch?: number,
-  bearing?: number,
   width?: number,
-  height?: number,
+  zoom?: number,
+  transitionDuration?: number | 'auto';
+  transitionInterpolator?: TransitionInterpolator;
+  transitionInterruption?: TRANSITION_EVENTS;
 };
 
 export interface Bounds {

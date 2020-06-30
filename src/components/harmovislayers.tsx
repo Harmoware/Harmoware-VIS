@@ -1,13 +1,8 @@
 import * as React from 'react';
-import InteractiveMap from 'react-map-gl';
+import InteractiveMap, { InteractiveMapProps } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL, { FlyToInterpolator, FlyToProps } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
-
-interface thisViewport extends Viewport {
-  width: number,
-  height: number,
-}
 
 interface Props {
   visible?: boolean,
@@ -20,7 +15,11 @@ interface Props {
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
   flyto?: boolean,
-  flytoArgument?: FlyToProps
+  flytoArgument?: FlyToProps,
+  transitionDuration?: number | 'auto'
+}
+interface State {
+  flyto?: boolean,
 }
 
 class MapGl extends InteractiveMap {
@@ -55,7 +54,7 @@ class MapGl extends InteractiveMap {
   }
 }
 
-export default class HarmoVisLayers extends React.Component<Props> {
+export default class HarmoVisLayers extends React.Component<Props,State> {
   static defaultProps = {
     visible: true,
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
@@ -75,14 +74,30 @@ export default class HarmoVisLayers extends React.Component<Props> {
               "interpolate", ["linear"], ["zoom"],
               5, 0, 5.05, ["get", "min_height"] ],
           "fill-extrusion-opacity": .6
-      }
+      },
     }],
     flyto: false,
-    flytoArgument: null
+    flytoArgument: null,
+    transitionDuration: undefined
   }
   constructor(props: Props){
     super(props);
+    this.state = {flyto:false};
+    this.transitionDuration = undefined;
     MapGl.mapboxAddLayerValue = props.mapboxAddLayerValue;
+  }
+
+  componentDidUpdate(prevProps:Props) {
+    if (this.state.flyto !== this.props.flyto) {
+      this.setState({flyto:this.props.flyto});
+      const {flyto,transitionDuration:tran} = this.props;
+      this.transitionDuration = flyto ? (tran ? tran:'auto'):undefined
+    }
+    if(this.props.viewport.transitionDuration !== prevProps.viewport.transitionDuration){
+      if(this.props.viewport.transitionDuration !== undefined){
+        this.props.actions.setViewport({transitionDuration:undefined});
+      }
+    }
   }
 
   initialize(gl: WebGLRenderingContext) {
@@ -90,28 +105,32 @@ export default class HarmoVisLayers extends React.Component<Props> {
     gl.depthFunc(gl.LEQUAL);
   }
 
-  setViewport(viewport:Viewport):void{
-    const { actions } = this.props;
-    this.transitionDuration = null;
-    actions.setViewport(viewport);
-    this.transitionDuration = 'auto';
+  onViewportChange(viewState:Viewport):void{
+    const {actions,transitionDuration:tran} = this.props;
+    const {flyto} = this.state; //必要！
+    this.transitionDuration = undefined;
+    actions.setViewport(viewState);
+    this.transitionDuration = flyto ? (tran ? tran:'auto'):undefined
   }
-  transitionDuration:(number|'auto')='auto';
+  transitionDuration:(number|'auto');
 
   render() {
-    const { visible, viewport, mapStyle, actions, mapboxApiAccessToken,
-      layers, mapGlComponents, flyto, flytoArgument } = this.props;
-    const onViewportChange = this.props.onViewportChange ||
-      flyto ? this.setViewport.bind(this):actions.setViewport;
+    const { visible, viewport, mapStyle, mapboxApiAccessToken,
+      layers, mapGlComponents, flytoArgument } = this.props;
+    const onViewportChange = this.props.onViewportChange || this.onViewportChange.bind(this);
+    const transitionDuration = viewport.transitionDuration || this.transitionDuration;
+    const transitionInterpolator = viewport.transitionInterpolator || new FlyToInterpolator(flytoArgument);
 
     return (
       <MapGl
-        {...(viewport as thisViewport)} mapStyle={mapStyle}
+        {...(viewport as InteractiveMapProps)}
+        mapStyle={mapStyle}
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={mapboxApiAccessToken}
         visible={visible}
-        transitionDuration={flyto ? this.transitionDuration:null}
-        transitionInterpolator={new FlyToInterpolator(flytoArgument)}
+        transitionDuration={transitionDuration}
+        transitionInterpolator={transitionInterpolator}
+        transitionInterruption={viewport.transitionInterruption}
       >
         { mapGlComponents }
         <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />

@@ -16,8 +16,13 @@ const initialState: InnerState = {
     minZoom: 5,
     pitch: 30,
     bearing: 0,
-    width: 500, // 共通
-    height: 500, // 共通
+    maxPitch: undefined,
+    minPitch: undefined,
+    width: window.innerWidth, // 共通
+    height: window.innerHeight, // 共通
+    transitionDuration: undefined,
+    transitionInterpolator: undefined,
+    transitionInterruption: undefined,
   },
   settime: 0,
   starttimestamp: 0,
