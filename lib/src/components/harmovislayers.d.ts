@@ -15,8 +15,12 @@ interface Props {
     mapboxAddLayerValue?: mapboxgl.Layer[];
     flyto?: boolean;
     flytoArgument?: FlyToProps;
+    transitionDuration?: number | 'auto';
 }
-export default class HarmoVisLayers extends React.Component<Props> {
+interface State {
+    flyto?: boolean;
+}
+export default class HarmoVisLayers extends React.Component<Props, State> {
     static defaultProps: {
         visible: boolean;
         mapStyle: string;
@@ -36,10 +40,12 @@ export default class HarmoVisLayers extends React.Component<Props> {
         }[];
         flyto: boolean;
         flytoArgument: any;
+        transitionDuration: any;
     };
     constructor(props: Props);
+    componentDidUpdate(prevProps: Props): void;
     initialize(gl: WebGLRenderingContext): void;
-    setViewport(viewport: Viewport): void;
+    onViewportChange(viewState: Viewport): void;
     transitionDuration: (number | 'auto');
     render(): JSX.Element;
 }
