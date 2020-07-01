@@ -13,9 +13,9 @@ export interface Viewport {
   pitch?: number,
   width?: number,
   zoom?: number,
-  transitionDuration?: number | 'auto';
-  transitionInterpolator?: TransitionInterpolator;
-  transitionInterruption?: TRANSITION_EVENTS;
+  transitionDuration?: number | 'auto',
+  transitionInterpolator?: TransitionInterpolator,
+  transitionInterruption?: TRANSITION_EVENTS,
 };
 
 export interface Bounds {

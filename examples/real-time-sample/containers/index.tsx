@@ -192,7 +192,7 @@ class App extends Container<BasedProps, State> {
         </div>
         <div className="harmovis_area">
           <HarmoVisLayers
-            viewport={viewport} flyto={true}
+            viewport={viewport}
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             mapboxAddLayerValue={null}
