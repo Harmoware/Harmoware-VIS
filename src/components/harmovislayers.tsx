@@ -1,7 +1,9 @@
 import * as React from 'react';
-import InteractiveMap, { InteractiveMapProps, TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import InteractiveMap, { InteractiveMapProps,
+  FlyToInterpolator, FlyToInterpolatorProps,
+  TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import DeckGL, { FlyToInterpolator, FlyToProps } from 'deck.gl';
+import DeckGL from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 
 interface Props {
@@ -14,13 +16,13 @@ interface Props {
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
-  flytoArgument?: FlyToProps,
+  flytoArgument?: FlyToInterpolatorProps,
   transitionDuration?: number | 'auto'
   transitionInterpolator?: TransitionInterpolator,
   transitionInterruption?: TRANSITION_EVENTS,
 }
 interface State {
-  flyto?: boolean,
+  transition?: boolean,
 }
 
 class MapGl extends InteractiveMap {
@@ -84,13 +86,13 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
   }
   constructor(props: Props){
     super(props);
-    this.state = {flyto:false};
+    this.state = {transition:false};
     MapGl.mapboxAddLayerValue = props.mapboxAddLayerValue;
   }
 
   componentDidUpdate(prevProps:Props) {
-    if (!this.state.flyto) {
-      this.setState({flyto:true});
+    if (!this.state.transition) {
+      this.setState({transition:true});
     }
     if(this.props.viewport.transitionDuration !== prevProps.viewport.transitionDuration){
       if(this.props.viewport.transitionDuration !== undefined){
@@ -109,7 +111,7 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
       layers, mapGlComponents, flytoArgument } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
-    const transitionDuration = this.state.flyto?
+    const transitionDuration = this.state.transition?
       (viewport.transitionDuration||props.transitionDuration):undefined;
     const transitionInterpolator = viewport.transitionInterpolator||
       props.transitionInterpolator||new FlyToInterpolator(flytoArgument);

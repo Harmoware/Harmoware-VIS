@@ -1,8 +1,7 @@
 /// <reference types="mapbox-gl" />
 import * as React from 'react';
-import { TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import { FlyToInterpolatorProps, TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import { FlyToProps } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
 interface Props {
     visible?: boolean;
@@ -14,13 +13,13 @@ interface Props {
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
-    flytoArgument?: FlyToProps;
+    flytoArgument?: FlyToInterpolatorProps;
     transitionDuration?: number | 'auto';
     transitionInterpolator?: TransitionInterpolator;
     transitionInterruption?: TRANSITION_EVENTS;
 }
 interface State {
-    flyto?: boolean;
+    transition?: boolean;
 }
 export default class HarmoVisLayers extends React.Component<Props, State> {
     static defaultProps: {

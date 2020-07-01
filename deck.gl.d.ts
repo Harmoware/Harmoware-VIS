@@ -44,14 +44,6 @@ declare module "deck.gl" {
   class AttributeManager {
     addInstanced(attributes: object, updaters?: object): void;
   }
-
-  interface FlyToProps {
-    curve?: number,
-    speed?: number,
-    screenSpeed?: number,
-    maxDuration?: number
-  }
-  class FlyToInterpolator {constructor(props?: FlyToProps);}
 }
 
 declare module "@deck.gl/core" {
