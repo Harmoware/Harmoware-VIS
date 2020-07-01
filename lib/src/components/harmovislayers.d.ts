@@ -1,5 +1,6 @@
 /// <reference types="mapbox-gl" />
 import * as React from 'react';
+import { TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { FlyToProps } from 'deck.gl';
 import { ActionTypes, Viewport } from '../types';
@@ -13,9 +14,10 @@ interface Props {
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
-    flyto?: boolean;
     flytoArgument?: FlyToProps;
     transitionDuration?: number | 'auto';
+    transitionInterpolator?: TransitionInterpolator;
+    transitionInterruption?: TRANSITION_EVENTS;
 }
 interface State {
     flyto?: boolean;
@@ -38,15 +40,14 @@ export default class HarmoVisLayers extends React.Component<Props, State> {
                 "fill-extrusion-opacity": number;
             };
         }[];
-        flyto: boolean;
         flytoArgument: any;
         transitionDuration: any;
+        transitionInterpolator: any;
+        transitionInterruption: any;
     };
     constructor(props: Props);
     componentDidUpdate(prevProps: Props): void;
     initialize(gl: WebGLRenderingContext): void;
-    onViewportChange(viewState: Viewport): void;
-    transitionDuration: (number | 'auto');
     render(): JSX.Element;
 }
 export {};
