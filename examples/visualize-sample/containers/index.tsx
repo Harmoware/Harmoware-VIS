@@ -135,6 +135,7 @@ class App extends Container<BasedProps, State> {
       actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
+    const hexagonData = movedData.filter(x=>x.position);
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -239,7 +240,7 @@ class App extends Container<BasedProps, State> {
               this.state.heatmapVisible && movedData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
-                data: movedData.filter(x=>x.position),
+                data: hexagonData,
                 getPosition: (x: any) => x.position,
                 radius: 100,
                 opacity: 0.5,
