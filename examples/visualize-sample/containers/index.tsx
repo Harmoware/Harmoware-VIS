@@ -7,9 +7,6 @@ import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
-import {registerLoaders} from '@loaders.gl/core';
-import {GLTFLoader} from '@loaders.gl/gltf';
-registerLoaders([GLTFLoader]);
 const scenegraph = '../sampledata/car.glb';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
