@@ -32,6 +32,7 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@loaders.gl/obj": "^2.2.6",
     "@types/axios": "^0.14.0",
     "@types/bootstrap": "^4.5.0",
     "@types/csvtojson": "^1.1.5",
