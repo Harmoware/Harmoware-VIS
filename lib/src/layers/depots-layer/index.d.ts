@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { DepotsData, LayerTypes, IconDesignation } from '../../types';
 interface Props extends LayerProps {
     iconlayer?: LayerTypes;

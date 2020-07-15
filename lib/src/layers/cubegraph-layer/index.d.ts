@@ -1,4 +1,5 @@
-import { LayerProps, GridCellLayer, CompositeLayer } from 'deck.gl';
+import { GridCellLayer } from '@deck.gl/layers';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { MovedData, DepotsData } from '../../types';
 interface Props extends LayerProps {
     optionData: (MovedData | DepotsData)[];

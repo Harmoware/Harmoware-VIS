@@ -1,4 +1,5 @@
-import { LayerProps, CompositeLayer, LineLayer, PathLayer, PolygonLayer } from 'deck.gl';
+import { LineLayer, PathLayer, PolygonLayer } from '@deck.gl/layers';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { LineMapData } from '../../types';
 interface Props extends LayerProps {
     data?: LineMapData[];

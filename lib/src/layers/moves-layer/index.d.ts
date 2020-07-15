@@ -1,4 +1,4 @@
-import { LayerProps, CompositeLayer } from 'deck.gl';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
