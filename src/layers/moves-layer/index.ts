@@ -1,4 +1,6 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer, ScenegraphLayer, LineLayer, ArcLayer } from 'deck.gl';
+import { ScatterplotLayer, LineLayer, ArcLayer } from '@deck.gl/layers';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { SimpleMeshLayer, ScenegraphLayer } from '@deck.gl/mesh-layers';
 import { CubeGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';

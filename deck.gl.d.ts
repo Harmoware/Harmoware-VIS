@@ -1,13 +1,5 @@
-declare module "deck.gl" {
+declare module "@deck.gl/core" {
 
-  import * as React from 'react';
-  import { Layer } from '@deck.gl/core';
-
-  interface Uniforms {
-    extruded: boolean,
-    opacity: number,
-    coverage: number
-  }
   interface LayerProps {
     id?: string;
     data?: any[];
@@ -19,9 +11,26 @@ declare module "deck.gl" {
     coordinateSystem?: number;
   }
 
-  export default class DeckGL extends React.Component<any> {}
+  class Layer <P extends LayerProps = LayerProps, S = {}> {
+    constructor(props: P);
+    context: any;
+    props: P;
+    state: S;
+  }
 
   class CompositeLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+}
+
+declare module "@deck.gl/react" {
+
+  import * as React from 'react';
+
+  export default class DeckGL extends React.Component<any> {}
+}
+
+declare module "@deck.gl/layers" {
+
+  import { Layer, LayerProps, CompositeLayer } from '@deck.gl/core';
 
   class ScatterplotLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
@@ -29,42 +38,25 @@ declare module "deck.gl" {
 
   class LineLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
-  class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
-
   class ArcLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
-
-  class ScenegraphLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
-
-  class SimpleMeshLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class PathLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 
   class PolygonLayer<P extends LayerProps = LayerProps, S = {}> extends CompositeLayer<P, S> {}
-
-  class AttributeManager {
-    addInstanced(attributes: object, updaters?: object): void;
-  }
 }
 
-declare module "@deck.gl/core" {
+declare module "@deck.gl/aggregation-layers" {
 
-  import { Uniforms, LayerProps } from 'deck.gl';
+  import { Layer, LayerProps } from '@deck.gl/core';
 
-  class Layer <P extends LayerProps = LayerProps, S = {}> {
-    constructor(props: P);
-    context: any;
-    props: P;
-    state: S;
-    setUniforms(uniforms: Uniforms): any;
-    draw({uniforms}:{uniforms: Uniforms}): any;
-    setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
-      callback?: () => void
-    ): void;
-    updateState(state: {
-      props: P,
-      oldProps: P,
-      changeFlags: any,
-    }): void;
-  }
+  class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+}
+
+declare module "@deck.gl/mesh-layers" {
+
+  import { Layer, LayerProps } from '@deck.gl/core';
+
+  class ScenegraphLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+
+  class SimpleMeshLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 }

@@ -1,4 +1,6 @@
-import { LayerProps, CompositeLayer, ScatterplotLayer, SimpleMeshLayer } from 'deck.gl';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { SimpleMeshLayer } from '@deck.gl/mesh-layers';
 import { IcoSphereGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { COLOR4 } from '../../constants/settings';

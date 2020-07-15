@@ -1,4 +1,5 @@
-import { LayerProps, ArcLayer } from 'deck.gl';
+import { ArcLayer } from '@deck.gl/layers';
+import { LayerProps } from '@deck.gl/core';
 import { Arcdata } from '../../types';
 import { settings } from 'harmoware-vis';
 const { COLOR1 } = settings;

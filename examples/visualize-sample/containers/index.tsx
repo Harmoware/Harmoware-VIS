@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { PolygonLayer, HexagonLayer } from 'deck.gl';
+import { PolygonLayer } from '@deck.gl/layers';
+import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';

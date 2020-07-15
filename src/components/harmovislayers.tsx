@@ -3,7 +3,7 @@ import InteractiveMap, { InteractiveMapProps,
   FlyToInterpolator, FlyToInterpolatorProps,
   TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import DeckGL from 'deck.gl';
+import DeckGL from '@deck.gl/react';
 import { ActionTypes, Viewport } from '../types';
 
 interface Props {
