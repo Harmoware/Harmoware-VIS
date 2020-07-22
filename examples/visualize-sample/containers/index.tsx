@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { PolygonLayer } from '@deck.gl/layers';
+import { PolygonLayer, PointCloudLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
+import { NamedModulesPlugin } from 'webpack';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
@@ -127,6 +128,20 @@ class App extends Container<BasedProps, State> {
     return null;
   }
 
+  getPointCloudLayer(PointCloudData: any[]){
+    return PointCloudData.map((pointCloudElements:{pointCloud:any[]}, idx:Number)=>{
+      const {pointCloud} = pointCloudElements;
+      const data = pointCloud.filter(x=>x.position);
+      return new PointCloudLayer({
+        id: 'PolygonLayer-' + String(idx),
+        data,
+        getColor: (x: any) => x.color || [255,255,255,255],
+        sizeUnits: 'meters',
+        pointSize: 1,
+      });
+    });
+  }
+
   render() {
     const props = this.props;
     const {
@@ -134,6 +149,7 @@ class App extends Container<BasedProps, State> {
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
     const hexagonData = movedData.filter(x=>x.position);
+    const PointCloudData = movedData.filter((x:any)=>x.pointCloud);
 
     const onHover = (el: EventInfo) => {
       if (el && el.object) {
@@ -235,6 +251,7 @@ class App extends Container<BasedProps, State> {
                 getElevation: (x: any) => x.elevation || 3,
                 onHover: onHover
               }):null,
+              PointCloudData.length > 0 ? this.getPointCloudLayer(PointCloudData):null,
               this.state.heatmapVisible && movedData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
