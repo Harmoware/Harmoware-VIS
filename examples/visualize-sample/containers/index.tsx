@@ -133,7 +133,7 @@ class App extends Container<BasedProps, State> {
       const {pointCloud} = pointCloudElements;
       const data = pointCloud.filter(x=>x.position);
       return new PointCloudLayer({
-        id: 'PolygonLayer-' + String(idx),
+        id: 'PointCloudLayer-' + String(idx),
         data,
         getColor: (x: any) => x.color || [255,255,255,255],
         sizeUnits: 'meters',
