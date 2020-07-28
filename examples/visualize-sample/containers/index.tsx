@@ -142,29 +142,30 @@ class App extends Container<BasedProps, State> {
     });
   }
 
+  onHover(el: EventInfo){
+    if (el && el.object) {
+      let disptext = '';
+      const objctlist = Object.entries(el.object);
+      for (let i = 0, lengthi = objctlist.length; i < lengthi; i=(i+1)|0) {
+        const strvalue = objctlist[i][1].toString();
+        disptext = disptext + (i > 0 ? '\n' : '');
+        disptext = disptext + (`${objctlist[i][0]}: ${strvalue}`);
+      }
+      this.setState({ popup: [el.x, el.y, disptext] });
+    } else {
+      this.setState({ popup: [0, 0, ''] });
+    }
+  }
+
   render() {
     const props = this.props;
-    const {
-      actions, routePaths, viewport, loading,
+    const { actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
-    const hexagonData = movedData.filter(x=>x.position);
+    const hexagonData = this.state.heatmapVisible ? movedData.filter(x=>x.position):[];
     const PointCloudData = movedData.filter((x:any)=>x.pointCloud);
 
-    const onHover = (el: EventInfo) => {
-      if (el && el.object) {
-        let disptext = '';
-        const objctlist = Object.entries(el.object);
-        for (let i = 0, lengthi = objctlist.length; i < lengthi; i=(i+1)|0) {
-          const strvalue = objctlist[i][1].toString();
-          disptext = disptext + (i > 0 ? '\n' : '');
-          disptext = disptext + (`${objctlist[i][0]}: ${strvalue}`);
-        }
-        this.setState({ popup: [el.x, el.y, disptext] });
-      } else {
-        this.setState({ popup: [0, 0, ''] });
-      }
-    };
+    const onHover = this.onHover.bind(this);
 
     return (
       <div>
@@ -252,7 +253,7 @@ class App extends Container<BasedProps, State> {
                 onHover: onHover
               }):null,
               PointCloudData.length > 0 ? this.getPointCloudLayer(PointCloudData):null,
-              this.state.heatmapVisible && movedData.length > 0 ?
+              this.state.heatmapVisible && hexagonData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
                 data: hexagonData,
