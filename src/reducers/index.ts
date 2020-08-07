@@ -12,11 +12,11 @@ const initialState: InnerState = {
     longitude: 136.906428,
     latitude: 35.181453,
     zoom: 11.1,
-    maxZoom: 18,
-    minZoom: 5,
+    maxZoom: undefined,
+    minZoom: undefined,
     pitch: 30,
     bearing: 0,
-    maxPitch: undefined,
+    maxPitch: 90,
     minPitch: undefined,
     width: window.innerWidth, // 共通
     height: window.innerHeight, // 共通

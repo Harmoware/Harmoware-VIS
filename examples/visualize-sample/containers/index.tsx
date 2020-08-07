@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { PolygonLayer, PointCloudLayer } from '@deck.gl/layers';
+import { SimpleMeshLayer } from '@deck.gl/mesh-layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
@@ -7,6 +8,11 @@ import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, Moved
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
 import { NamedModulesPlugin } from 'webpack';
+
+import {registerLoaders} from '@loaders.gl/core';
+import {OBJLoader} from '@loaders.gl/obj';
+registerLoaders([OBJLoader]);
+const objmesh = '../icondata/3dmap.obj';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
@@ -135,9 +141,9 @@ class App extends Container<BasedProps, State> {
       return new PointCloudLayer({
         id: 'PointCloudLayer-' + String(idx),
         data,
-        getColor: (x: any) => x.color || [255,255,255,255],
+        getColor: (x: any) => x.color || [0,255,0,x.position[3]*2.55],
         sizeUnits: 'meters',
-        pointSize: 1,
+        pointSize: 0.1,
       });
     });
   }
@@ -262,7 +268,15 @@ class App extends Container<BasedProps, State> {
                 opacity: 0.5,
                 extruded: true,
                 visible: this.state.heatmapVisible
-              }):null
+              }):null,
+              new SimpleMeshLayer({
+                id:'meshmap',
+                data:[{position:[136.906428,35.181453]}],
+                mesh:objmesh,
+                getColor:[255,255,255,255],
+                getOrientation:[0,0,90],
+                opacity: 0.1,
+              })
             )}
             mapGlComponents={ this.getMapGlComponents(movedData) }
           />
