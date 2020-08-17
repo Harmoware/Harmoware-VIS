@@ -38,7 +38,7 @@ class App extends Container<BasedProps, State> {
   constructor(props: BasedProps) {
     super(props);
     this.state = {
-      mapboxVisible: true,
+      mapboxVisible: false,
       moveDataVisible: true,
       moveOptionVisible: false,
       moveSvgVisible: false,
@@ -50,6 +50,12 @@ class App extends Container<BasedProps, State> {
       popup: [0, 0, ''],
       popupInfo: null
     };
+  }
+
+  componentDidMount(){
+    super.componentDidMount();
+    this.props.actions.setViewport({ zoom:18.6, pitch:60 });
+    this.props.actions.setDefaultViewport({defaultZoom:18.6, defaultPitch:60 });
   }
 
   getMapboxChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -141,7 +147,7 @@ class App extends Container<BasedProps, State> {
       return new PointCloudLayer({
         id: 'PointCloudLayer-' + String(idx),
         data,
-        getColor: (x: any) => x.color || [0,255,0,x.position[3]*2.55],
+        getColor: (x: any) => x.color || [0,255,0,255-x.position[3]*2.55],
         sizeUnits: 'meters',
         pointSize: 0.1,
       });
