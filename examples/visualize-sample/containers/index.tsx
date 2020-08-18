@@ -147,11 +147,7 @@ class App extends Container<BasedProps, State> {
       return new PointCloudLayer({
         id: 'PointCloudLayer-' + String(idx),
         data,
-<<<<<<< HEAD
         getColor: (x: any) => x.color || [0,255,0,128+x.position[3]*1.28],
-=======
-        getColor: (x: any) => x.color || [0,255,0,255-x.position[3]*2.55],
->>>>>>> objLayer
         sizeUnits: 'meters',
         pointSize: 0.1,
       });
