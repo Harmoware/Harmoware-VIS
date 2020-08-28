@@ -14,12 +14,8 @@
     "major": "npm run build:lib && npm version major && git push -u origin HEAD && node ./tools/tag.js"
   },
   "dependencies": {
-    "@deck.gl/aggregation-layers": "^8.2.5",
-    "@deck.gl/core": "^8.2.5",
-    "@deck.gl/layers": "^8.2.5",
-    "@deck.gl/mesh-layers": "^8.2.5",
-    "@deck.gl/react": "^8.2.5",
     "@luma.gl/core": "^8.2.0",
+    "deck.gl": "^8.2.5",
     "gl-matrix": "^2.8.1",
     "mapbox-gl": "^1.12.0",
     "react-icons-kit": "^1.3.1",
