@@ -4,6 +4,7 @@ import InteractiveMap, { InteractiveMapProps,
   TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
+import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 
 interface Props {
@@ -111,27 +112,38 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
       layers, mapGlComponents, flytoArgument } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
-    const transitionDuration = this.state.transition?
-      (viewport.transitionDuration||props.transitionDuration):undefined;
-    const transitionInterpolator = viewport.transitionInterpolator||
-      props.transitionInterpolator||new FlyToInterpolator(flytoArgument);
-    const transitionInterruption = viewport.transitionInterruption||
-      props.transitionInterruption;
 
-    return (
-      <MapGl
-        {...(viewport as InteractiveMapProps)}
-        mapStyle={mapStyle}
-        onViewportChange={onViewportChange}
-        mapboxApiAccessToken={mapboxApiAccessToken}
-        visible={visible}
-        transitionDuration={transitionDuration}
-        transitionInterpolator={transitionInterpolator}
-        transitionInterruption={transitionInterruption}
-      >
-        { mapGlComponents }
-        <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
-      </MapGl>
-    );
+    if(visible){
+      const transitionDuration = this.state.transition?
+        (viewport.transitionDuration||props.transitionDuration):undefined;
+      const transitionInterpolator = viewport.transitionInterpolator||
+        props.transitionInterpolator||new FlyToInterpolator(flytoArgument);
+      const transitionInterruption = viewport.transitionInterruption||
+        props.transitionInterruption;
+      return (
+        <MapGl
+          {...(viewport as InteractiveMapProps)}
+          mapStyle={mapStyle}
+          onViewportChange={onViewportChange}
+          mapboxApiAccessToken={mapboxApiAccessToken}
+          visible={visible}
+          transitionDuration={transitionDuration}
+          transitionInterpolator={transitionInterpolator}
+          transitionInterruption={transitionInterruption}
+        >
+          { mapGlComponents }
+          <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
+        </MapGl>
+      );
+    }else{
+      return (
+        <DeckGL
+          controller={{type: MapController}}
+          onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
+          viewState={viewport}
+          layers={layers}
+          onWebGLInitialized={this.initialize} />
+      );
+    }
   }
 }
