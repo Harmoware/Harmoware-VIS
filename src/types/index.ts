@@ -160,6 +160,7 @@ export interface InnerState {
   inputFileName?: ComObj<string>,
   noLoop?: boolean,
   initialViewChange?: boolean,
+  iconGradation?: boolean,
 };
 
 export interface BasedState {
@@ -192,6 +193,7 @@ export interface BasedState {
   inputFileName: ComObj<string>,
   noLoop: boolean,
   initialViewChange: boolean,
+  iconGradation: boolean,
 };
 
 export type ActionTypes = typeof BaseActions;

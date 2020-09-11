@@ -5,7 +5,8 @@ import { addMinutes, setViewport, setDefaultViewport, setTimeStamp,
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
-  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop, setInitialViewChange } from '../actions';
+  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
+  setInitialViewChange, setIconGradationChange } from '../actions';
 
 const initialState: InnerState = {
   viewport: {
@@ -57,6 +58,7 @@ const initialState: InnerState = {
   inputFileName: {},
   noLoop: false,
   initialViewChange: true,
+  iconGradation: false
 };
 
 const reducer = reducerWithInitialState<InnerState>(initialState);
@@ -354,6 +356,12 @@ reducer.case(setNoLoop, (state, noLoop) => {
 reducer.case(setInitialViewChange, (state, initialViewChange) => {
   return Object.assign({}, state, {
     initialViewChange
+  });
+});
+
+reducer.case(setIconGradationChange, (state, iconGradation) => {
+  return Object.assign({}, state, {
+    iconGradation
   });
 });
 

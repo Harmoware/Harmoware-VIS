@@ -158,7 +158,7 @@ export const getDepots = (props: InnerProps): DepotsData[] => {
 
 export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
-    getMovesOptionFunc } = props;
+    getMovesOptionFunc, iconGradation } = props;
   if(prevMovedData.length > 0){
     if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 144)){
       if(!getMovesOptionFunc) return prevMovedData
@@ -193,11 +193,15 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
         sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
         sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
       ];
+      const color = iconGradation ? [
+        sourceColor[0] + rate * (targetColor[0] - sourceColor[0]),
+        sourceColor[1] + rate * (targetColor[1] - sourceColor[1]),
+        sourceColor[2] + rate * (targetColor[2] - sourceColor[2])
+      ] : sourceColor;
       movedData.push(Object.assign({}, otherProps1, otherProps2,
         { settime,
           position, sourcePosition, targetPosition,
-          color:sourceColor, direction,
-          sourceColor, targetColor, movesbaseidx},
+          color, direction, sourceColor, targetColor, movesbaseidx},
         getOptionFunction(props, movesbaseidx, idx),
       ));
     }

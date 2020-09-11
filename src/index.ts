@@ -26,6 +26,7 @@ import {
   updateMovesBase,
   setNoLoop,
   setInitialViewChange,
+  setIconGradationChange,
 } from './actions';
 
 import {
@@ -99,6 +100,7 @@ const Actions: ActionsInterface = {
   updateMovesBase,
   setNoLoop,
   setInitialViewChange,
+  setIconGradationChange,
 };
 
 export {
