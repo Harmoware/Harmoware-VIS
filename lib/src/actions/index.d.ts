@@ -29,3 +29,4 @@ export declare const setInputFilename: import("typescript-fsa").ActionCreator<Ob
 export declare const updateMovesBase: import("typescript-fsa").ActionCreator<MovesbaseFile | Movesbase[]>;
 export declare const setNoLoop: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInitialViewChange: import("typescript-fsa").ActionCreator<boolean>;
+export declare const setIconGradationChange: import("typescript-fsa").ActionCreator<boolean>;
