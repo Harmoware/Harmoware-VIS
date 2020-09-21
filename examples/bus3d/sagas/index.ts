@@ -113,7 +113,7 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
       const { segments, color: colorSpec } = trip;
       const operation: Bus3dMovesbaseOperation[] = [];
       segments.forEach((tripsegment, idx) => {
-        const [longitude, latitude, elapsedtime] = tripsegment;
+        const [elapsedtime, longitude, latitude] = tripsegment;
         const color = (colorSpec && colorSpec[idx]) ? colorSpec[idx] : COLOR1;
         operation.push({ elapsedtime, longitude, latitude, color });
         if (!(idx < (segments.length - 1) && (segments[(idx+1)|0][2] - tripsegment[2]) <= 10)) {
