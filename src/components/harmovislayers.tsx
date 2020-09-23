@@ -112,14 +112,14 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
       layers, mapGlComponents, flytoArgument } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
+    const transitionDuration = this.state.transition?
+      (viewport.transitionDuration||props.transitionDuration):undefined;
+    const transitionInterpolator = viewport.transitionInterpolator||
+      props.transitionInterpolator||new FlyToInterpolator(flytoArgument);
+    const transitionInterruption = viewport.transitionInterruption||
+      props.transitionInterruption;
 
     if(visible){
-      const transitionDuration = this.state.transition?
-        (viewport.transitionDuration||props.transitionDuration):undefined;
-      const transitionInterpolator = viewport.transitionInterpolator||
-        props.transitionInterpolator||new FlyToInterpolator(flytoArgument);
-      const transitionInterruption = viewport.transitionInterruption||
-        props.transitionInterruption;
       return (
         <MapGl
           {...(viewport as InteractiveMapProps)}
@@ -136,11 +136,12 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
         </MapGl>
       );
     }else{
+      const viewState = {...viewport, transitionDuration, transitionInterpolator, transitionInterruption};
       return (
         <DeckGL
           controller={{type: MapController}}
           onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
-          viewState={viewport}
+          viewState={viewState}
           layers={layers}
           onWebGLInitialized={this.initialize} />
       );
