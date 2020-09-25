@@ -39,6 +39,17 @@ export default class Controller extends React.Component<Props, State> {
     this.props.deleteMovebase(maxKeepSecond);
   }
 
+  saveMovesBase() {
+    if(this.props.movesbase.length > 0){
+      const resultJson = JSON.stringify(this.props.movesbase);
+      const downLoadLink = document.createElement("a");
+      downLoadLink.download = 'movesbase-' + Date.now() + '.json';
+      downLoadLink.href = URL.createObjectURL(new Blob([resultJson], {type: "text.plain"}));
+      downLoadLink.dataset.downloadurl = ["text/plain", downLoadLink.download, downLoadLink.href].join(":");
+      downLoadLink.click();
+    }
+  }
+
   clearAllRoute() {
     this.props.actions.setClicked(null);
     this.props.actions.setRoutePaths([]);
@@ -216,6 +227,13 @@ export default class Controller extends React.Component<Props, State> {
                 </button>
                 <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
                   <span className="button_span"><Icon icon={icDelete} />&nbsp;保存分削除</span>
+                </button>
+              </div>
+            </li>
+            <li><div>移動データ保存</div>
+              <div className="btn-group d-flex" role="group">
+                <button onClick={this.saveMovesBase.bind(this)} className="btn btn-outline-light btn-sm w-100">
+                  <span className="button_span"><Icon icon={icSave} />&nbsp;保存</span>
                 </button>
               </div>
             </li>
