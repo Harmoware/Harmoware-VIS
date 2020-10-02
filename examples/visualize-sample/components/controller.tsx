@@ -100,6 +100,10 @@ export default class Controller extends React.Component<Props, State> {
     }
   }
 
+  seticonGradation(e: React.ChangeEvent<HTMLInputElement>) {
+    this.props.actions.setIconGradationChange(e.target.checked);
+  }
+
   render() {
     const { settime, timeBegin, timeLength, actions, movedData, movesbase,
       secperhour, animatePause, animateReverse, getMapboxChecked,
@@ -149,6 +153,12 @@ export default class Controller extends React.Component<Props, State> {
               <div>
                 <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
                 <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="checkbox" id="IconGradationChecked" onChange={this.seticonGradation.bind(this)} className="form-check-input" />
+                <label htmlFor="IconGradationChecked" className="form-check-label">アイコン色グラデーション</label>
               </div>
             </li>
             <li>
