@@ -8,7 +8,8 @@ interface Props {
   buttonType: string,
   actions: ActionTypes,
   viewport: Viewport,
-  className?: string
+  className?: string,
+  title?: string,
 }
 
 export default class NavigationButton extends React.Component<Props> {
@@ -24,14 +25,15 @@ export default class NavigationButton extends React.Component<Props> {
   }
 
   render() {
-    const { buttonType, viewport, className } = this.props;
+    const { buttonType, viewport, className, title: propTitle } = this.props;
+    const title = propTitle || buttonType;
     switch (buttonType) {
       case 'zoom-in': {
         const zoom = Math.min(viewport.zoom + 0.5, viewport.maxZoom);
         return (
           <button
             onClick={this.setViewport.bind(this, { zoom })}
-            className={className}
+            className={className} title={title}
           >＋</button>
         );
       }
@@ -40,7 +42,7 @@ export default class NavigationButton extends React.Component<Props> {
         return (
           <button
             onClick={this.setViewport.bind(this, { zoom })}
-            className={className}
+            className={className} title={title}
           >－</button>
         );
       }
@@ -49,7 +51,7 @@ export default class NavigationButton extends React.Component<Props> {
         return (
           <button
             onClick={this.setDefaultViewport.bind(this)}
-            className={className}
+            className={className} title={title}
           >
             <div style={iconStyle}><Icon icon={icNavigation} /></div>
           </button>

@@ -7,7 +7,8 @@ interface Props {
   actions: ActionTypes,
   children?: React.ReactNode,
   i18n?: { playButtonCaption: string },
-  className?: string
+  className?: string,
+  title?: string,
 }
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
@@ -25,10 +26,11 @@ export default class PlayButton extends React.Component<Props> {
   }
 
   render() {
-    const { children, i18n, className } = this.props;
+    const { children, i18n, className, title: propTitle } = this.props;
+    const title = propTitle || (children && children.toString()) || i18n.playButtonCaption;
 
     return (
-      <button onClick={this.setAnimatePause.bind(this)} className={className}>
+      <button onClick={this.setAnimatePause.bind(this)} className={className} title={title}>
         {children === undefined ?
           <span style={default_style}>
           <Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :

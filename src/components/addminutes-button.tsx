@@ -8,7 +8,8 @@ interface Props {
   children?: React.ReactNode,
   actions: ActionTypes,
   i18n?: { minutesCaption: string },
-  className?: string
+  className?: string,
+  title?: string,
 }
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
@@ -27,10 +28,11 @@ export default class AddMinutesButton extends React.Component<Props> {
   }
 
   render() {
-    const { addMinutes, children, i18n, className } = this.props;
+    const { addMinutes, children, i18n, className, title: propTitle } = this.props;
+    const title = propTitle || (children && children.toString()) || `${addMinutes} ${i18n.minutesCaption}`;
 
     return (
-      <button onClick={this.addMinutes.bind(this, addMinutes)} className={className}>
+      <button onClick={this.addMinutes.bind(this, addMinutes)} className={className} title={title}>
         {children === undefined ?
           <span style={default_style}>{addMinutes > 0 ?
             <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
