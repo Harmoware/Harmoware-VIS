@@ -7,6 +7,7 @@ interface Props {
         reverseButtonCaption: string;
     };
     className?: string;
+    title?: string;
 }
 export default class ReverseButton extends React.Component<Props> {
     static defaultProps: {

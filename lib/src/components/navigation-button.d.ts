@@ -5,6 +5,7 @@ interface Props {
     actions: ActionTypes;
     viewport: Viewport;
     className?: string;
+    title?: string;
 }
 export default class NavigationButton extends React.Component<Props> {
     static defaultProps: {

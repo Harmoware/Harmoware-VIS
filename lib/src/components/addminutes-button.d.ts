@@ -8,6 +8,7 @@ interface Props {
         minutesCaption: string;
     };
     className?: string;
+    title?: string;
 }
 export default class AddMinutesButton extends React.Component<Props> {
     static defaultProps: {

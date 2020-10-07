@@ -7,6 +7,7 @@ interface Props {
         playButtonCaption: string;
     };
     className?: string;
+    title?: string;
 }
 export default class PlayButton extends React.Component<Props> {
     static defaultProps: {

@@ -8,6 +8,7 @@ interface Props {
     step?: number;
     id?: string;
     className?: string;
+    title?: string;
 }
 export default class SpeedRange extends React.Component<Props> {
     static defaultProps: {

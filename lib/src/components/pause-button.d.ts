@@ -7,6 +7,7 @@ interface Props {
         pauseButtonCaption: string;
     };
     className?: string;
+    title?: string;
 }
 export default class PauseButton extends React.Component<Props> {
     static defaultProps: {

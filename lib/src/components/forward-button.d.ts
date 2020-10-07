@@ -7,6 +7,7 @@ interface Props {
         forwardButtonCaption: string;
     };
     className?: string;
+    title?: string;
 }
 export default class ForwardButton extends React.Component<Props> {
     static defaultProps: {
