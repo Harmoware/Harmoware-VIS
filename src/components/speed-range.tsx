@@ -8,7 +8,8 @@ interface Props {
   min?: number,
   step?: number,
   id?: string,
-  className?: string
+  className?: string,
+  title?: string,
 }
 
 export default class SpeedRange extends React.Component<Props> {
@@ -27,7 +28,8 @@ export default class SpeedRange extends React.Component<Props> {
   }
 
   render() {
-    const { secperhour, maxsecperhour, min, step, id, className } = this.props;
+    const { secperhour, maxsecperhour, min, step, id, className, title: propTitle } = this.props;
+    const title = propTitle || `${secperhour}`;
 
     return (
       <input
@@ -35,7 +37,7 @@ export default class SpeedRange extends React.Component<Props> {
         value={(maxsecperhour + min) - secperhour}
         min={min} max={maxsecperhour} step={step}
         onChange={this.setSecPerHour.bind(this)}
-        id={id} className={className}
+        id={id} className={className} title={title}
       />
     );
   }

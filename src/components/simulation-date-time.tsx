@@ -28,7 +28,9 @@ export default class SimulationDateTime extends React.Component<Props> {
     const nbsp = caption.length > 0 ? ' ' : '';
 
     return (
-      <span className={className}>{caption}{nbsp}
+      <span className={className}
+        title={`${caption}${nbsp}${date.toLocaleString(locales, options)}`}>
+        {caption}{nbsp}
         {date.toLocaleString(locales, options)}
       </span>
     );

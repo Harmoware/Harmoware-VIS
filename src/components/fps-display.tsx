@@ -76,7 +76,7 @@ export default class FpsDisplay extends React.Component<Props, State> {
     const { width, height, className, UnitCaption } = this.props;
 
     return (
-      <div className={className}>
+      <div className={className} title={`${this.state.fpsRate} ${UnitCaption}`}>
         <div><span>{this.state.fpsRate}</span><span>{UnitCaption}</span></div>
         <canvas
           ref={(canvas) => { this.canvas = canvas; }}

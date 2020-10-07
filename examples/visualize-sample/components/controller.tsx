@@ -121,7 +121,7 @@ export default class Controller extends React.Component<Props, State> {
           <ul className="list-group">
             <li>
               <div className="vis_sample_input_button_column">
-                <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100">
+                <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100" title='運行データ選択'>
                   運行データ選択<MovesInput actions={actions} id="MovesInput" />
                 </label>
                 <div>{movesFileName || '選択されていません'}</div>
@@ -129,7 +129,7 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <div className="vis_sample_input_button_column">
-                <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100">
+                <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100" title='停留所データ選択'>
                   停留所データ選択<DepotsInput actions={actions} id="DepotsInput" />
                 </label>
                 <div>{depotsFileName || '選択されていません'}</div>
@@ -137,7 +137,7 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <div className="vis_sample_input_button_column">
-                <label htmlFor="LinemapInput" className="btn btn-outline-light btn-sm w-100">
+                <label htmlFor="LinemapInput" className="btn btn-outline-light btn-sm w-100" title='ラインマップデータ選択'>
                   ラインマップデータ選択<LinemapInput actions={actions} id="LinemapInput" />
                 </label>
                 <div>{linemapFileName || '選択されていません'}</div>
@@ -146,30 +146,30 @@ export default class Controller extends React.Component<Props, State> {
             <li>
               <div>
                 <input type="checkbox" id="MapboxChecked" onChange={getMapboxChecked} className="form-check-input" defaultChecked={true} />
-                <label htmlFor="MapboxChecked" className="form-check-label">Mapboxマップ表示</label>
+                <label htmlFor="MapboxChecked" className="form-check-label" title='Mapboxマップ表示'>Mapboxマップ表示</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
-                <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
+                <label htmlFor="MoveDataChecked" className="form-check-label" title='運行データ表示'>運行データ表示</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="IconGradationChecked" onChange={this.seticonGradation.bind(this)} className="form-check-input" />
-                <label htmlFor="IconGradationChecked" className="form-check-label">アイコン色グラデーション</label>
+                <label htmlFor="IconGradationChecked" className="form-check-label" title='アイコン色グラデーション'>アイコン色グラデーション</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" defaultChecked={true} />
-                <label htmlFor="IconChangeChecked" className="form-check-label">アイコン表示パターン切替</label>
+                <label htmlFor="IconChangeChecked" className="form-check-label" title='アイコン表示パターン切替'>アイコン表示パターン切替</label>
               </div>
             </li>
             <li>
               <div className="form-select">
-                <label htmlFor="IconCubeTypeSelect" className="form-select-label">３Ｄアイコン表示タイプ切替</label>
+                <label htmlFor="IconCubeTypeSelect" className="form-select-label" title='３Ｄアイコン表示タイプ切替'>３Ｄアイコン表示タイプ切替</label>
                 <select id="IconCubeTypeSelect" value={iconCubeType} onChange={getIconCubeTypeSelected} >
                 <option value="0">SimpleMeshLayer</option>
                 <option value="1">ScenegraphLayer</option>
@@ -179,31 +179,31 @@ export default class Controller extends React.Component<Props, State> {
             <li>
               <div>
                 <input type="checkbox" id="MoveSvgChecked" onChange={getMoveSvgChecked} className="form-check-input" />
-                <label htmlFor="MoveSvgChecked" className="form-check-label">運行データSVG表示</label>
+                <label htmlFor="MoveSvgChecked" className="form-check-label" title='運行データSVG表示'>運行データSVG表示</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
-                <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
+                <label htmlFor="MoveOptionChecked" className="form-check-label" title='運行データオプション表示'>運行データオプション表示</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
-                <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
+                <label htmlFor="DepotOptionChecked" className="form-check-label" title='停留所データオプション表示'>停留所データオプション表示</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
-                <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
+                <label htmlFor="OptionChangeChecked" className="form-check-label" title='オプション表示パターン切替'>オプション表示パターン切替</label>
               </div>
             </li>
             <li>
               <div>
                 <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="form-check-input" />
-                <label htmlFor="HeatmapVisible" className="form-check-label">ヒートマップ表示</label>
+                <label htmlFor="HeatmapVisible" className="form-check-label" title='ヒートマップ表示'>ヒートマップ表示</label>
               </div>
             </li>
             <li><span>ナビゲーションパネル</span>
@@ -249,22 +249,22 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li><div>経路操作</div>
               <div className="btn-group d-flex" role="group">
-                <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
+                <button onClick={this.saveRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100" title='SAVE'>
                   <span className="button_span"><Icon icon={icSave} />&nbsp;SAVE&nbsp;
                     <span className="badge badge-light">{saveRouteGroup.length}</span>
                   </span>
                 </button>
-                <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
+                <button onClick={this.displayRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100" title='DISPLAY'>
                   <span className="button_span"><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
                     <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
                   </span>
                 </button>
               </div>
               <div className="btn-group d-flex" role="group">
-                <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100">
+                <button onClick={this.clearAllRoute.bind(this)} className="btn btn-outline-light btn-sm w-100" title='All Clear'>
                   <span className="button_span"><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
                 </button>
-                <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100">
+                <button onClick={this.deleteRouteGroup.bind(this)} className="btn btn-outline-light btn-sm w-100" title='DELETE'>
                   <span className="button_span"><Icon icon={icDelete} />&nbsp;DELETE</span>
                 </button>
               </div>

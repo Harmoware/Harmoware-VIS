@@ -26,9 +26,9 @@ export default class NavigationButton extends React.Component<Props> {
 
   render() {
     const { buttonType, viewport, className, title: propTitle } = this.props;
-    const title = propTitle || buttonType;
     switch (buttonType) {
       case 'zoom-in': {
+        const title = propTitle || buttonType;
         const zoom = Math.min(viewport.zoom + 0.5, viewport.maxZoom);
         return (
           <button
@@ -38,6 +38,7 @@ export default class NavigationButton extends React.Component<Props> {
         );
       }
       case 'zoom-out': {
+        const title = propTitle || buttonType;
         const zoom = Math.max(viewport.zoom - 0.5, viewport.minZoom);
         return (
           <button
@@ -47,6 +48,7 @@ export default class NavigationButton extends React.Component<Props> {
         );
       }
       case 'compass': {
+        const title = propTitle || 'Viewpoint reset';
         const iconStyle = { transform: `rotate(${viewport.bearing * -1}deg)` };
         return (
           <button

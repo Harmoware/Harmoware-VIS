@@ -57,7 +57,7 @@ export default class XbandDataInput extends React.Component<Props, State> {
     const { t } = this.props;
     return (
       <div className="harmovis_input_button_column">
-        <label htmlFor="XbandDataInput">{t('XbandDataInput')}
+        <label htmlFor="XbandDataInput" title={`${t('XbandDataInput')}`}>{t('XbandDataInput')}
           <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id="XbandDataInput" />
         </label>
         <div>{this.state.filename}</div>

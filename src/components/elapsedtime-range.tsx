@@ -9,7 +9,8 @@ interface Props {
   step?: number,
   actions: ActionTypes,
   id?: string,
-  className?: string
+  className?: string,
+  title?: string,
 }
 
 export default class ElapsedTimeRange extends React.Component<Props> {
@@ -25,7 +26,8 @@ export default class ElapsedTimeRange extends React.Component<Props> {
   }
 
   render() {
-    const { settime, timeBegin, timeLength, min, step, id, className } = this.props;
+    const { settime, timeBegin, timeLength, min, step, id, className, title: propTitle } = this.props;
+    const title = propTitle || `${Math.floor(settime - timeBegin)}`;
 
     return (
       <input
@@ -33,7 +35,7 @@ export default class ElapsedTimeRange extends React.Component<Props> {
         value={Math.floor(settime - timeBegin)}
         min={min} max={timeLength} step={step}
         onChange={this.setTime.bind(this)}
-        id={id} className={className}
+        id={id} className={className} title={title}
       />
     );
   }

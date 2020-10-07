@@ -180,7 +180,7 @@ export default class Controller extends React.Component<Props, State> {
       <div className="harmovis_controller">
         <ul>
           <li className="flex_row">
-            <div className="container">
+            <div className="container" title={`${t('title')}`}>
               <label htmlFor="language_select">{t('title')}</label>
               <select className="bus3d_select"
                 id="language_select" value={t('langId')}
@@ -192,7 +192,7 @@ export default class Controller extends React.Component<Props, State> {
             </div>
           </li>
           <li className="flex_row">
-            <div className="container">
+            <div className="container" title={`${t('trip_select')}`}>
               <label htmlFor="trip_select">{t('trip_select')}</label>
               <select className="bus3d_select"
                 id="trip_select" value={answer}
@@ -202,18 +202,18 @@ export default class Controller extends React.Component<Props, State> {
           </li>
           <li className="flex_row">
             <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} />
-            <label htmlFor="IconChangeChecked">{t('IconChangeChecked')}</label>
+            <label htmlFor="IconChangeChecked" title={`${t('IconChangeChecked')}`}>{t('IconChangeChecked')}</label>
           </li>
           <li className="flex_row">
             <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} />
-            <label htmlFor="OptionChangeChecked">{t('OptionChangeChecked')}</label>
+            <label htmlFor="OptionChangeChecked" title={`${t('OptionChangeChecked')}`}>{t('OptionChangeChecked')}</label>
           </li>
           <li className="flex_row">
             <input type="checkbox" id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} />
-            <label htmlFor="ArchLayerChangeChecked">{t('ArchLayerChangeChecked')}</label>
+            <label htmlFor="ArchLayerChangeChecked" title={`${t('ArchLayerChangeChecked')}`}>{t('ArchLayerChangeChecked')}</label>
           </li>
           <li className="flex_row">
-            <div className="harmovis_input_button_column">
+            <div className="harmovis_input_button_column" title={`${t('trip_select')}`}>
               <label htmlFor="MovesInput">{t('trip_select')}
                 <input type="file" accept=".json" onChange={this.handleChangeFile.bind(this)} id="MovesInput" />
               </label>
@@ -244,24 +244,24 @@ export default class Controller extends React.Component<Props, State> {
             <NavigationButton buttonType="compass" actions={actions} viewport={viewport} />
           </li>
           <li className="flex_column">
-            <label htmlFor="ElapsedTimeRange">{t('elapsedTime')}
+            <label htmlFor="ElapsedTimeRange" title={`${t('elapsedTime')}`}>{t('elapsedTime')}
             <ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />
             {t('sec')}</label>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions}
             id="ElapsedTimeRange" />
           </li>
           <li className="flex_column">
-            <label htmlFor="SpeedRange">{t('speed')}
+            <label htmlFor="SpeedRange" title={`${t('speed')}`}>{t('speed')}
             <SpeedValue secperhour={secperhour} actions={actions} />{t('sec')}/{t('hour')}</label>
             <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
           </li>
           <li className="flex_column">
-            <label htmlFor="delayrange">{t('delayrange')}LV&nbsp;0～{delayrange}&nbsp;{t('minute')}</label>
-            <input type="range" value={delayrange} min="1" max="120" step="1"
+            <label htmlFor="delayrange" title={`${t('delayrange')}`}>{t('delayrange')}LV&nbsp;0～{delayrange}&nbsp;{t('minute')}</label>
+            <input type="range" value={delayrange} min="1" max="120" step="1" title={`${delayrange}`}
             onChange={this.setDelayRange.bind(this)} id="delayrange" className="harmovis_input_range" />
           </li>
           <li className="flex_row bus3d_input_button_column">
-            <button onClick={this.setCellSize.bind(this)}>{xBandViewLabel}</button>
+            <button onClick={this.setCellSize.bind(this)} title={xBandViewLabel}>{xBandViewLabel}</button>
             <div>{xbandCellSize ? xbandFname : ''}</div>
           </li>
           <li className="flex_row">
@@ -269,7 +269,7 @@ export default class Controller extends React.Component<Props, State> {
           </li>
           <li className="flex_row">
             <div className="container">
-              <label htmlFor="busstop_select">{t('busStopLocation')}</label>
+              <label htmlFor="busstop_select" title={`${t('busStopLocation')}`}>{t('busStopLocation')}</label>
               <select className="bus3d_select"
                 id="busstop_select" value={selectedBusstop}
                 onChange={this.onBusstopSelect.bind(this)}
@@ -291,7 +291,7 @@ export default class Controller extends React.Component<Props, State> {
           <li className="flex_row">
             {animatePause && Object.keys(busmovesbasedic).length > 0 &&
               <div className="container">
-                <label htmlFor="bus_select">{t('busSelect')}</label>
+                <label htmlFor="bus_select" title={`${t('busSelect')}`}>{t('busSelect')}</label>
                 <select className="bus3d_select"
                   id="bus_select" value={selectedBus}
                   onChange={this.onBusSelect.bind(this)}
