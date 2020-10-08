@@ -68,7 +68,7 @@ export default class Header extends React.Component<Props> {
           (busoption.busmovesoption || busoption.busstopsoption) &&
           <input
             type="range" value={elevationScale} min="1" max="20" step="1"
-            onChange={this.setScaleElevation.bind(this)}
+            onChange={this.setScaleElevation.bind(this)} title={`${elevationScale}`}
           />}
         <br />
         <span>{t('delayrange')} 0{t('minute')}</span>
@@ -79,7 +79,7 @@ export default class Header extends React.Component<Props> {
           <span>
             <input
               type="range" value={delayheight} min="0" max="10" step="1"
-              onChange={this.setDelayHeight.bind(this)}
+              onChange={this.setDelayHeight.bind(this)} title={`${delayheight}`}
             />
           </span>
         }
@@ -87,7 +87,7 @@ export default class Header extends React.Component<Props> {
           <div>
             <span>
             {t('busInformation')}&nbsp;
-              <button onClick={this.onBusReleaseClick.bind(this)}>{t('release')}</button>
+              <button onClick={this.onBusReleaseClick.bind(this)} title={`${t('release')}`}>{t('release')}</button>
             </span>
             <span>{getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}</span>
           </div>
