@@ -17,6 +17,7 @@ interface State {
   mapboxVisible: boolean,
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
+  moveOptionArcVisible: boolean,
   moveSvgVisible: boolean,
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
@@ -35,6 +36,7 @@ class App extends Container<BasedProps, State> {
       mapboxVisible: true,
       moveDataVisible: true,
       moveOptionVisible: false,
+      moveOptionArcVisible: false,
       moveSvgVisible: false,
       depotOptionVisible: false,
       heatmapVisible: false,
@@ -56,6 +58,10 @@ class App extends Container<BasedProps, State> {
 
   getMoveOptionChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveOptionVisible: e.target.checked });
+  }
+
+  getMoveOptionArcChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ moveOptionArcVisible: e.target.checked });
   }
 
   getMoveSvgChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -175,6 +181,7 @@ class App extends Container<BasedProps, State> {
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
+          getMoveOptionArcChecked={this.getMoveOptionArcChecked.bind(this)}
           getMoveSvgChecked={this.getMoveSvgChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
@@ -225,6 +232,7 @@ class App extends Container<BasedProps, State> {
                 actions,
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
+                optionArcVisible: this.state.moveOptionArcVisible,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange, // Invalid if there is iconDesignations definition
                 iconCubeType: this.state.iconCubeType, // Invalid if there is iconDesignations definition

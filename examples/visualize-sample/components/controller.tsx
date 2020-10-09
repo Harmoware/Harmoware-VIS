@@ -11,6 +11,7 @@ interface Props extends BasedProps{
   getMapboxChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionArcChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveSvgChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -107,7 +108,7 @@ export default class Controller extends React.Component<Props, State> {
   render() {
     const { settime, timeBegin, timeLength, actions, movedData, movesbase,
       secperhour, animatePause, animateReverse, getMapboxChecked,
-      getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked, getHeatmapVisible,
+      getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, iconCubeType,
       getMoveSvgChecked, inputFileName, viewport } = this.props;
 
@@ -185,7 +186,13 @@ export default class Controller extends React.Component<Props, State> {
             <li>
               <div>
                 <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
-                <label htmlFor="MoveOptionChecked" className="form-check-label" title='運行データオプション表示'>運行データオプション表示</label>
+                <label htmlFor="MoveOptionChecked" className="form-check-label" title='運行データグラフ表示'>運行データグラフ表示</label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="checkbox" id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} className="form-check-input" />
+                <label htmlFor="MoveOptionArcChecked" className="form-check-label" title='運行データアーチ表示'>運行データアーチ表示</label>
               </div>
             </li>
             <li>
