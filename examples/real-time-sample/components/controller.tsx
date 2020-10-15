@@ -6,6 +6,7 @@ import { DepotsInput,
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave,
   ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
+import { download } from 'react-icons-kit/ikons/download'
 
 interface Props extends BasedProps{
   deleteMovebase?: (maxKeepSecond: number) => void,
@@ -113,7 +114,7 @@ export default class Controller extends React.Component<Props, State> {
 
   render() {
     const { settime, timeBegin, leading, timeLength, actions,
-      secperhour, animatePause, animateReverse,
+      secperhour, animatePause, animateReverse, movesbase,
       getMoveDataChecked, getMoveOptionChecked, getDepotOptionChecked,
       getOptionChangeChecked, getIconChangeChecked, inputFileName, viewport } = this.props;
 
@@ -230,10 +231,11 @@ export default class Controller extends React.Component<Props, State> {
                 </button>
               </div>
             </li>
-            <li><div>移動データ保存</div>
+            <li></li>
+            <li>
               <div className="btn-group d-flex" role="group">
-                <button onClick={this.saveMovesBase.bind(this)} className="btn btn-outline-light btn-sm w-100">
-                  <span className="button_span"><Icon icon={icSave} />&nbsp;保存</span>
+                <button onClick={this.saveMovesBase.bind(this)} className="btn btn-outline-light btn-sm w-100" disabled={movesbase.length===0}>
+                  <span className="button_span"><Icon icon={download} />&nbsp;移動データ保存</span>
                 </button>
               </div>
             </li>
