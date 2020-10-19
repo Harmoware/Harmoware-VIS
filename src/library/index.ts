@@ -173,8 +173,9 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const movedData: MovedData[] = [];
   for (const movesbaseElement of selectmovesbase) {
     const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = movesbaseElement;
-    const idx = operation.findIndex((data)=>data.elapsedtime > settime) - 1;
-    const nextidx = (idx+1)|0;
+    const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
+    const beforeElapsedtime = operation[nextidx-1].elapsedtime;
+    const idx = operation.findIndex((data)=>data.elapsedtime === beforeElapsedtime);
     if(typeof operation[idx].position === 'undefined' ||
       typeof operation[nextidx].position === 'undefined'){
       const {elapsedtime, longitude, latitude, ...otherProps2} = operation[idx];
