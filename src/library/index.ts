@@ -83,6 +83,7 @@ export const analyzeMovesBase =
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
+    operation.sort((a,b)=>a.elapsedtime - b.elapsedtime);
     movesbase[i].departuretime = operation[0].elapsedtime;
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
@@ -93,12 +94,15 @@ export const analyzeMovesBase =
 
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
+      const elapsedtime = operation[j].elapsedtime;
+      const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
+      const nextidx = findIndex < 0 ? (j+1|0) : findIndex;
       if(typeof operation[j].position === 'undefined' ||
-        typeof operation[(j+1)|0].position === 'undefined'){
+        typeof operation[nextidx].position === 'undefined'){
         continue;
       }
       const { position: sourcePosition } = operation[j];
-      const { position: targetPosition } = operation[(j+1)|0];
+      const { position: targetPosition } = operation[nextidx];
       if(sourcePosition[0] === targetPosition[0] && sourcePosition[1] === targetPosition[1]){
         operation[j].direction = direction;
         continue;
@@ -160,7 +164,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
     getMovesOptionFunc, iconGradation } = props;
   if(prevMovedData.length > 0){
-    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 144)){
+    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120)){
       if(!getMovesOptionFunc) return prevMovedData
     };
   }
@@ -270,11 +274,13 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
           getColor = replaceGetRouteColor[type];
         }
         for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
-          const { position } = operation[j];
+          const { position, elapsedtime } = operation[j];
           const movedata = { type, ...operation[j] };
           const routeColor = getColor(movedata);
           const routeWidth = getRouteWidth(movedata);
-          const { position: nextposition } = operation[(j+1)|0];
+          const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
+          const nextidx = findIndex < 0 ? (j+1|0) : findIndex;
+          const { position: nextposition } = operation[nextidx];
           setRoutePaths.push({
             type ,movesbaseidx,
             sourcePosition: position,
