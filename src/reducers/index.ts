@@ -120,6 +120,10 @@ reducer.case(increaseTime, (state, props) => {
       assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
       const setProps = { ...props, ...assignData };
       assignData.movedData = getMoveObjects(setProps);
+      if(assignData.movedData.length === 0){
+        assignData.clickedObject = null;
+        assignData.routePaths = [];
+      }
       if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
         assignData.depotsData = getDepots(setProps);
       }
@@ -137,6 +141,10 @@ reducer.case(increaseTime, (state, props) => {
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
   assignData.movedData = getMoveObjects(setProps);
+  if(assignData.movedData.length === 0){
+    assignData.clickedObject = null;
+    assignData.routePaths = [];
+  }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
@@ -160,6 +168,10 @@ reducer.case(decreaseTime, (state, props) => {
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
   assignData.movedData = getMoveObjects(setProps);
+  if(assignData.movedData.length === 0){
+    assignData.clickedObject = null;
+    assignData.routePaths = [];
+  }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
@@ -185,6 +197,10 @@ reducer.case(setFrameTimestamp, (state, props) => {
   assignData.starttimestamp = now - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime);
   const setProps = { ...props, ...assignData };
   assignData.movedData = getMoveObjects(setProps);
+  if(assignData.movedData.length === 0){
+    assignData.clickedObject = null;
+    assignData.routePaths = [];
+  }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
