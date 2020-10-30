@@ -92,7 +92,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     scenegraph: defaultScenegraph,
     mesh: defaultmesh,
     sizeScale: 20,
-    getOrientation: (x: MovedData) => x.direction ? [0,(x.direction * -1),90] : [0,0,90],
+    getOrientation: (x: MovedData) => x.direction ? [0,-x.direction,90] : [0,0,90],
     getScale: (x: MovedData) => x.scale || [1,1,1],
     getTranslation: [0,0,0],
     };
@@ -117,7 +117,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const iconDesignations = propIconDesignations || defaultIconDesignations;
     const getColor = (x: MovedData) => x.color || COLOR1;
 
-    return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
+    return iconDesignations.map((iconDesignation:IconDesignation, idx:number)=>{
       const {type, layer,
         radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
         getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,
@@ -219,7 +219,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getCubeElevation,
         getRadius: optPlacement,
         opacity: optionOpacity,
-        pickable: false,
+        pickable: true,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
       }) : null,

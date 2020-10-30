@@ -21,9 +21,9 @@ export default class SpeedRange extends React.Component<Props> {
   }
 
   setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
-    const value = Number(e.target.value);
+    const value = +e.target.value;
     const { maxsecperhour, min, actions } = this.props;
-    const secperhour = (maxsecperhour + min) - Math.floor(value);
+    const secperhour = (maxsecperhour + min) - (value|0);
     actions.setSecPerHour(secperhour);
   }
 

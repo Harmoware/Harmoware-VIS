@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ActionTypes } from '../types';
+const {max,min} = Math;
 
 interface Props {
   settime: number,
@@ -18,10 +19,10 @@ export default class ElapsedTimeValue extends React.Component<Props> {
   }
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = Number(e.target.value);
-    const { actions, timeBegin, timeLength, min } = this.props;
-    const settime = Math.min(timeLength, Math.max(min, value));
-    actions.setTime(Math.floor(settime + timeBegin));
+    const value = +e.target.value;
+    const { actions, timeBegin, timeLength, min:minimum } = this.props;
+    const settime = min(timeLength, max(minimum, value));
+    actions.setTime((settime + timeBegin)|0);
   }
 
   render() {
@@ -30,7 +31,7 @@ export default class ElapsedTimeValue extends React.Component<Props> {
     return (
       <input
         type="number"
-        value={Math.floor(settime - timeBegin)}
+        value={(settime - timeBegin)|0}
         min={min} max={timeLength}
         onChange={this.setTime.bind(this)}
         id={id} className={className}

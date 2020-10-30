@@ -1,6 +1,9 @@
 import { settings } from 'harmoware-vis';
 import { Bus3dProps, Arcdata, ComObj } from '../types'
 
+const {isArray} = Array;
+const {abs} = Math;
+const {assign,keys} = Object;
 const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
 export const p02d = (val: number) => {
@@ -15,7 +18,7 @@ export const p04d = (val: string) => (`0000${val}`).substr(-4);
 export const hsvToRgb = (H: number, S: number, V: number) => {
   const C = V * S;
   const Hp = H / 60;
-  const X = C * (1 - Math.abs((Hp % 2) - 1));
+  const X = C * (1 - abs((Hp % 2) - 1));
 
   let R: number, G: number, B: number;
   if (Hp >= 0 && Hp < 1) { [R, G, B] = [C, X, 0]; }
@@ -28,9 +31,9 @@ export const hsvToRgb = (H: number, S: number, V: number) => {
   const m = V - C;
   [R, G, B] = [R + m, G + m, B + m];
 
-  R = Math.floor(R * 255);
-  G = Math.floor(G * 255);
-  B = Math.floor(B * 255);
+  R = (R * 255)|0;
+  G = (G * 255)|0;
+  B = (B * 255)|0;
 
   return [R, G, B];
 };
@@ -40,7 +43,7 @@ export const delaycolor = (delaysec: number, delayrange: number) => {
   if (delaysec < 0) {
     color = 120;
   } else if (delaysec < (60 * delayrange)) {
-    color = 120 - Math.floor(delaysec / ((60 * delayrange) / 120));
+    color = 120 - ((delaysec / ((60 * delayrange) / 120))|0);
   }
   return hsvToRgb(color, 1, 1);
 };
@@ -52,14 +55,14 @@ const getOptionValue = (optionData: { elevation?: (number | number[]),
   if(optionData){
     const { elevation, color, memo } = optionData;
     if (elevation) {
-      if (Array.isArray(elevation)) {
+      if (isArray(elevation)) {
         returnValue.optElevation = elevation;
       } else {
         returnValue.optElevation = [elevation];
       }
     }
     if (color) {
-      if (Array.isArray(color[0])) {
+      if (isArray(color[0])) {
         returnValue.optColor = color as number[][];
       } else {
         returnValue.optColor = [color as number[]];
@@ -90,7 +93,7 @@ export const getBusstopOptionValue = (props: Bus3dProps, busstopsbaseidx: number
       const optiondata = option.data[i];
       if ((optiondata.time <= currentTime && currentTime <= option.etime) ||
           (option.etime < currentTime && i === (lengthi - 1))) {
-        optionValue = Object.assign({}, optionValue, {
+        optionValue = assign({}, optionValue, {
           ...getOptionValue(optiondata)
         });
       }
@@ -155,7 +158,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     return []; // データがない
   }
 
-  if (Object.keys(bustripindex).length === 0) {
+  if (keys(bustripindex).length === 0) {
     const d = new Date(timeBegin * 1000);
     const date: number[] = [d.getFullYear(), d.getMonth(), d.getDate()];
 
@@ -167,7 +170,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     bustripscsv.forEach((csvdata) => {
       const { diagramid, timetable, actualdep, busstopcode, busstoporder } = csvdata;
       if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/) && bssidx[busstopcode]) {
-        const hms = actualdep.split(':').map(current => Number(current));
+        const hms = actualdep.split(':').map(current => +current);
         const timeDeparture = new Date(date[0], date[1], date[2], hms[0], hms[1], hms[2], 0).getTime() / 1000;
         const busstopinfo = busstopscsv[bssidx[busstopcode]];
         bustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {
@@ -179,7 +182,7 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     actions.setBusTripIndex(bustripindex);
   }
 
-  if (Object.keys(bustripindex).length > 0 && archbase.length === 0) {
+  if (keys(bustripindex).length > 0 && archbase.length === 0) {
     const { archoption } = busoption;
     archoption.forEach((optiondata) => {
       const { diagramId, sourceDepotsCode, sourceDepotsOrder,

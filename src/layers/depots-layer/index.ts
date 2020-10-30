@@ -76,7 +76,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
 
-    return iconDesignations.map((iconDesignation:IconDesignation, idx:Number)=>{
+    return iconDesignations.map((iconDesignation:IconDesignation, idx:number)=>{
       const {type, layer,
         radiusScale:overradiusScale, getColor:overgetColor, getOrientation:overgetOrientation,
         getScale:overgetScale, getTranslation:overgetTranslation, getRadius:overgetRadius,

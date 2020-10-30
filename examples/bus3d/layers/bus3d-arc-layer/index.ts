@@ -2,6 +2,7 @@ import { ArcLayer } from '@deck.gl/layers';
 import { LayerProps } from '@deck.gl/core';
 import { Arcdata } from '../../types';
 import { settings } from 'harmoware-vis';
+const assign = Object.assign;
 const { COLOR1 } = settings;
 
 interface Props extends LayerProps {
@@ -21,9 +22,9 @@ interface Props extends LayerProps {
 export default class Bus3dArcLayer extends ArcLayer<Props> {
 
   constructor(props: Props) {
-    const setProps = Object.assign({}, Bus3dArcLayer.defaultProps, props);
+    const setProps = assign({}, Bus3dArcLayer.defaultProps, props);
     const { getWidth, getStrokeWidth, ...otherProps } = setProps;
-    super(Object.assign({}, otherProps, { getWidth: getWidth || getStrokeWidth }));
+    super(assign({}, otherProps, { getWidth: getWidth || getStrokeWidth }));
   }
 
   static defaultProps = {

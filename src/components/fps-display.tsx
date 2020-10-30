@@ -1,4 +1,5 @@
 import * as React from 'react';
+const {max} = Math;
 
 interface Props {
   width?: number,
@@ -62,7 +63,7 @@ export default class FpsDisplay extends React.Component<Props, State> {
       const { width, height, colorCode } = prevProps;
       const { frameCounterArray } = prevState;
       const context = this.canvas.getContext('2d');
-      const maxValue = Math.max.apply(null, frameCounterArray);
+      const maxValue = max.apply(null, frameCounterArray);
       context.clearRect(0,0,width,height);
       frameCounterArray.forEach((frameCounter, idx)=>{
         const value = (frameCounter / maxValue) * height;

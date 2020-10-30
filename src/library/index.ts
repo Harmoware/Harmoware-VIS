@@ -7,15 +7,18 @@ import { ActionTypes, AnalyzedBaseData, InnerProps, RoutePaths, IconDesignation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
+const {assign,keys} = Object;
+const {PI:pi,min,max,abs,sin,cos,tan,atan2} = Math;
+const {isArray} = Array;
 const getAverage = (array: number[]) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
-const radians = (degree: number) => degree * Math.PI / 180;
-const degrees = (radian: number) => radian * 180 / Math.PI;
+const radians = (degree: number) => degree * pi / 180;
+const degrees = (radian: number) => radian * 180 / pi;
 
 export const getContainerProp = <P>(state: P)  => {
   let prop = {};
-  Object.keys(state).forEach((key) => {
-    prop = Object.assign({}, prop, { ...state[key] });
+  keys(state).forEach((key) => {
+    prop = assign({}, prop, { ...state[key] });
   });
   return prop as P;
 };
@@ -31,7 +34,7 @@ export const analyzeMovesBase =
   let baseBounds: undefined | Bounds;
   let basemovesbase: Movesbase[];
 
-  if (Array.isArray(inputData)) { // Array?
+  if (isArray(inputData)) { // Array?
     basemovesbase = [...inputData];
   } else {
     baseTimeBegin = inputData.timeBegin;
@@ -76,10 +79,10 @@ export const analyzeMovesBase =
       latiArray.push(+position[1]);
       if (!baseBounds && position[0] && position[1]) {
         let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
-        eastlongitiude = !eastlongitiude ? position[0] : Math.max(eastlongitiude, position[0]);
-        westlongitiude = !westlongitiude ? position[0] : Math.min(westlongitiude, position[0]);
-        southlatitude = !southlatitude ? position[1] : Math.min(southlatitude, position[1]);
-        northlatitude = !northlatitude ? position[1] : Math.max(northlatitude, position[1]);
+        eastlongitiude = !eastlongitiude ? position[0] : max(eastlongitiude, position[0]);
+        westlongitiude = !westlongitiude ? position[0] : min(westlongitiude, position[0]);
+        southlatitude = !southlatitude ? position[1] : min(southlatitude, position[1]);
+        northlatitude = !northlatitude ? position[1] : max(northlatitude, position[1]);
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
@@ -88,15 +91,15 @@ export const analyzeMovesBase =
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
-      timeBegin = !timeBegin ? movesbase[i].departuretime : Math.min(timeBegin, movesbase[i].departuretime);
-      timeEnd = !timeEnd ? movesbase[i].arrivaltime : Math.max(timeEnd, movesbase[i].arrivaltime);
+      timeBegin = !timeBegin ? movesbase[i].departuretime : min(timeBegin, movesbase[i].departuretime);
+      timeEnd = !timeEnd ? movesbase[i].arrivaltime : max(timeEnd, movesbase[i].arrivaltime);
     }
 
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
       const elapsedtime = operation[j].elapsedtime;
       const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
-      const nextidx = findIndex < 0 ? (j+1|0) : findIndex;
+      const nextidx = findIndex < 0 ? (j+1)|0 : findIndex;
       if(typeof operation[j].position === 'undefined' ||
         typeof operation[nextidx].position === 'undefined'){
         continue;
@@ -112,8 +115,8 @@ export const analyzeMovesBase =
       const x2 = radians(targetPosition[0]);
       const y2 = radians(targetPosition[1]);
       const deltax = x2 - x1;
-      direction = degrees(Math.atan2(Math.sin(deltax), 
-          Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(deltax))) % 360;
+      direction = degrees(atan2(sin(deltax), 
+          cos(y1) * tan(y2) - sin(y1) * cos(deltax))) % 360;
       operation[j].direction = direction;
     }
   }
@@ -141,7 +144,7 @@ export const analyzeMovesBase =
 
 export const getDepots = (props: InnerProps): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
-  if(prevData.length > 0 && (Math.abs(prevData[0].settime - settime) <= 1)){
+  if(prevData.length > 0 && (abs(prevData[0].settime - settime) <= 1)){
     if(!getDepotsOptionFunc) return prevData;
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || (() => {return {};});
@@ -150,7 +153,7 @@ export const getDepots = (props: InnerProps): DepotsData[] => {
     const depotsData: DepotsData[] = [];
     for (let i = 0, lengthi = depotsBase.length; i < lengthi; i=(i+1)|0) {
       const { longitude, latitude, position=[longitude, latitude, 1], ...otherProps } = depotsBase[i];
-      depotsData[i] = Object.assign({},
+      depotsData[i] = assign({},
         otherProps, { settime, position},
         getOptionFunction(props, i),
       );
@@ -164,7 +167,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
     getMovesOptionFunc, iconGradation } = props;
   if(prevMovedData.length > 0){
-    if(Math.abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120)){
+    if(abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120)){
       if(!getMovesOptionFunc) return prevMovedData
     };
   }
@@ -183,7 +186,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
     if(typeof operation[idx].position === 'undefined' ||
       typeof operation[nextidx].position === 'undefined'){
       const {elapsedtime, longitude, latitude, ...otherProps2} = operation[idx];
-      movedData.push(Object.assign({},
+      movedData.push(assign({},
         otherProps1, otherProps2, { settime, movesbaseidx },
         getOptionFunction(props, movesbaseidx, idx),
       ));
@@ -199,11 +202,11 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
         sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
       ];
       const color = iconGradation ? [
-        sourceColor[0] + rate * (targetColor[0] - sourceColor[0]),
-        sourceColor[1] + rate * (targetColor[1] - sourceColor[1]),
-        sourceColor[2] + rate * (targetColor[2] - sourceColor[2])
+        (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
+        (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
+        (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
       ] : sourceColor;
-      movedData.push(Object.assign({}, otherProps1, otherProps2,
+      movedData.push(assign({}, otherProps1, otherProps2,
         { settime,
           position, sourcePosition, targetPosition,
           color, direction, sourceColor, targetColor, movesbaseidx},
@@ -279,7 +282,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
           const routeColor = getColor(movedata);
           const routeWidth = getRouteWidth(movedata);
           const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
-          const nextidx = findIndex < 0 ? (j+1|0) : findIndex;
+          const nextidx = findIndex < 0 ? (j+1)|0 : findIndex;
           const { position: nextposition } = operation[nextidx];
           setRoutePaths.push({
             type ,movesbaseidx,
@@ -319,7 +322,7 @@ export const defaultMapStateToProps = <P>(state: P)  => getContainerProp<P>(stat
 
 export const connectToHarmowareVis = (App, moreActions = null,
   mapStateToProps = defaultMapStateToProps) => {
-  const extendedActions = Object.assign({}, Actions, moreActions);
+  const extendedActions = assign({}, Actions, moreActions);
 
   function mapDispatchToProps(dispatch) {
     return { actions: bindActionCreators(extendedActions, dispatch) };

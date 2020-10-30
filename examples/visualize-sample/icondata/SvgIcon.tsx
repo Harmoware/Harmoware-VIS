@@ -9,6 +9,9 @@ const RECT_HEIGHT = 24;
 const RECT_WIDTH  = RECT_HEIGHT / 2;
 const ZOOM_MAX = 18;
 const ZOOM_MIN = 14;
+const {max,min} = Math;
+const two = function(v) {return ('0' + v.toString(16)).slice(-2);}
+const viewsize = max(RECT_HEIGHT,RECT_WIDTH)*(4/3);
 
 interface Props {
   viewport: Viewport,
@@ -34,17 +37,15 @@ export default class SvgIcon extends React.PureComponent<Props> {
   };
 
   render() {
-    const two = function(v) {return ('0' + v.toString(16)).slice(-2);}
     const {maxsize, minsize, onMouseOver ,onMouseOut , strokecolor, fillcolor, viewport, direction} = this.props;
     const calcheight = (((viewport.zoom - ZOOM_MIN)/(ZOOM_MAX - ZOOM_MIN))*(maxsize - minsize)) + minsize	;
     const viewheight = viewport.zoom > ZOOM_MAX ? maxsize : viewport.zoom < ZOOM_MIN ? minsize : calcheight;
     const translate_y = viewport.zoom < ZOOM_MIN ? (minsize/6)*10 : viewheight;
-    const viewsize = Math.max(RECT_HEIGHT,RECT_WIDTH)*(4/3);
     const x = (viewsize-RECT_WIDTH)/2;
     const y = (viewsize-RECT_HEIGHT)/2;
     const cx = (viewsize/2)-x;
     const cy = (viewsize/2)-y;
-    const mmsum = Math.max.apply(null, fillcolor) + Math.min.apply(null, fillcolor);
+    const mmsum = max.apply(null, fillcolor) + min.apply(null, fillcolor);
     const fillcolor_top = [mmsum - fillcolor[0], mmsum - fillcolor[1], mmsum - fillcolor[2]];
     const stroke = '#'+two(strokecolor[0])+two(strokecolor[1])+two(strokecolor[2]);
     const fill_body = '#'+two(fillcolor[0])+two(fillcolor[1])+two(fillcolor[2]);

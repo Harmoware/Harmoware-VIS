@@ -22,17 +22,17 @@ export default class ElapsedTimeRange extends React.Component<Props> {
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, timeBegin } = this.props;
-    actions.setTime(Math.floor(Number(e.target.value) + timeBegin));
+    actions.setTime((+e.target.value + timeBegin)|0);
   }
 
   render() {
     const { settime, timeBegin, timeLength, min, step, id, className, title: propTitle } = this.props;
-    const title = propTitle || `${Math.floor(settime - timeBegin)}`;
+    const title = propTitle || `${(settime - timeBegin)|0}`;
 
     return (
       <input
         type="range"
-        value={Math.floor(settime - timeBegin)}
+        value={(settime - timeBegin)|0}
         min={min} max={timeLength} step={step}
         onChange={this.setTime.bind(this)}
         id={id} className={className} title={title}

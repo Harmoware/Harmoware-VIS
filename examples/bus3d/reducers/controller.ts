@@ -1,6 +1,7 @@
 import * as types from '../constants/action-types';
 import { Bus3dEventInfo } from '../types'
 
+const assign = Object.assign;
 const initialState: {
   delayheight: number,
   delayrange: number,
@@ -44,70 +45,70 @@ export default (state = initialState, action: Action) => {
     case types.SETDELAYHEIGHT:
       return (() => {
         const delayheight = action.height;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           delayheight
         });
       })();
     case types.SETSCALEELEVATION:
       return (() => {
         const elevationScale = action.elevation;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           elevationScale
         });
       })();
     case types.SETCELLSIZE:
       return (() => {
         const xbandCellSize = action.xbandCellSize;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           xbandCellSize
         });
       })();
     case types.SETBSOPTFNAME:
       return (() => {
         const bsoptFname = action.name;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           bsoptFname
         });
       })();
     case types.SETXBANDFNAME:
       return (() => {
         const xbandFname = action.xbandFname;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           xbandFname
         });
       })();
     case types.SETDELAYRANGE:
       return (() => {
         const delayrange = action.delayrange;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           delayrange
         });
       })();
     case types.SETANSWER:
       return (() => {
         const answer = action.answer;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           answer
         });
       })();
     case types.SETHOVERED:
       return (() => {
         const hovered = action.hovered;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           hovered
         });
       })();
     case types.SETSELECTEDBUSSTOP:
       return (() => {
         const selectedBusstop = action.busstop;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           selectedBusstop
         });
       })();
     case types.SETSELECTEDBUS:
       return (() => {
         const selectedBus = action.selectedBus;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           selectedBus
         });
       })();

@@ -1,6 +1,7 @@
 import * as types from '../constants/action-types';
 import { ComObj, BusOptionData, ArchBaseData, RainfallData } from '../types';
 
+const assign = Object.assign;
 const initialState:{
   answers: string[],
   busoption: BusOptionData,
@@ -35,49 +36,49 @@ export default (state = initialState, action: Action) => {
     case types.SETANSWERS:
       return (() => {
         const answers = action.answers;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           answers
         });
       })();
     case types.SETBUSOPTION:
       return (() => {
         const busoption = action.option;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           busoption
         });
       })();
     case types.SETBUSMOVESBASEDIC:
       return (() => {
         const busmovesbasedic = action.dic;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           busmovesbasedic
         });
       })();
     case types.SETROUTESDATA:
       return (() => {
         const routesdata = action.routes;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           routesdata
         });
       })();
     case types.SETBUSTRIPINDEX:
       return (() => {
         const bustripindex = action.bustripindex;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           bustripindex
         });
       })();
     case types.SETARCHBASE:
       return (() => {
         const archbase = action.archbase;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           archbase
         });
       })();
     case types.SETRAINFALL:
       return (() => {
         const rainfall = action.rainfall;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           rainfall
         });
       })();

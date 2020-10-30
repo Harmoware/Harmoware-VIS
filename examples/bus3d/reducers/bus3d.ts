@@ -1,6 +1,7 @@
 import * as types from '../constants/action-types';
 import { BusTripsCsvData, BusStopsCsvData, Busroutes } from '../types';
 
+const assign = Object.assign;
 const initialState: {
   bustripscsv: BusTripsCsvData[],
   busstopscsv: BusStopsCsvData[],
@@ -23,21 +24,21 @@ export default (state = initialState, action: Action) => {
     case types.SETBUSTRIPSCSV:
       return (() => {
         const bustripscsv = action.bustripscsv;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           bustripscsv
         });
       })();
     case types.SETBUSSTOPSCSV:
       return (() => {
         const busstopscsv = action.busstopscsv;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           busstopscsv
         });
       })();
     case types.SETBUSROUTES:
       return (() => {
         const busroutes = action.routes;
-        return Object.assign({}, state, {
+        return assign({}, state, {
           busroutes
         });
       })();

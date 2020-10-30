@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ActionTypes } from '../types';
+const {max,min} = Math;
 
 interface Props {
   secperhour: number,
@@ -18,9 +19,9 @@ export default class SpeedValue extends React.Component<Props> {
   }
 
   setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
-    const value = Number(e.target.value);
-    const { actions, maxsecperhour, min } = this.props;
-    const secperhour = Math.min(maxsecperhour, Math.max(min, value));
+    const value = +e.target.value;
+    const { actions, maxsecperhour, min:minimum } = this.props;
+    const secperhour = min(maxsecperhour, max(minimum, value));
     actions.setSecPerHour(secperhour);
   }
 

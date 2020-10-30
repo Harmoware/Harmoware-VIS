@@ -10,7 +10,9 @@ import * as moreActions from '../actions';
 import { Bus3dState, BusStopsCsvData, Bus3dDepotsbase, Busroutes, BusTripsCsvData, RainfallData,
   Bus3dMovesbase, Bus3dMovesbaseOperation, Bus3dClickedObject, BusOptionData, ComObj, Busprop } from '../types';
 
-const Actions = Object.assign({}, baseActions, moreActions);
+const assign = Object.assign;
+const {max,min} = Math;
+const Actions = assign({}, baseActions, moreActions);
 
 const { COLOR1 } = settings;
 const DATAPATH = './data/';
@@ -48,7 +50,7 @@ function fetchCSV(path: string, useShiftJis = false) {
       }
 
       csvtojson().fromString(data).then((result: object[]) => {
-        resolve(Object.assign({}, res, {
+        resolve(assign({}, res, {
           data: result
         }));
       });
@@ -167,8 +169,8 @@ function* fetchBusstopCSV() {
         return {
           code: current.停留所コード,
           name: current.停留所名,
-          longitude: Number(current.経度),
-          latitude: Number(current.緯度),
+          longitude: +current.経度,
+          latitude: +current.緯度,
         };
       });
       yield put(Actions.setBusstopsCsv(conversionData));
@@ -238,9 +240,9 @@ function* setupByCSV() {
   }
   const fileymd = fileextension[0].split('-')[1];
   const ymd = [
-    Number(fileymd.substr(0, 4)),
-    Number(fileymd.substr(4, 2)) - 1,
-    Number(fileymd.substr(6, 2))
+    +fileymd.substr(0, 4),
+    +fileymd.substr(4, 2) - 1,
+    +fileymd.substr(6, 2)
   ];
   let savediagramid = '';
   let savebusinfo: Savebusinfo = {};
@@ -267,7 +269,7 @@ function* setupByCSV() {
     }
     if (timetable.match(/\d{1,2}:\d\d/) && actualdep.match(/\d{1,2}:\d\d:\d\d/)) {
       const tiemConversion = (ndate: number[], sTime: string) => {
-        const hms = sTime.split(':').map(current => Number(current));
+        const hms = sTime.split(':').map(current => +current);
         return new Date(ndate[0], ndate[1], ndate[2], hms[0], hms[1], hms[2] || 0).getTime();
       };
       const dtime = tiemConversion(ymd, actualdep);
@@ -279,7 +281,7 @@ function* setupByCSV() {
       const pushdata = {
         busstopcode,
         elapsedtime: dtime / 1000,
-        order: Number(busstoporder) - 1,
+        order: +busstoporder - 1,
         delaysec, busprop
       };
       savebusstatus.push(pushdata);
@@ -368,9 +370,9 @@ function* setupByCSV() {
             if (rt[2] > 0 && rt[2] < distance) {
               operation.push({
                 elapsedtime: st + (dt * (rt[2] / distance)), // 経過時間
-                longitude: Number(rt[1]), latitude: Number(rt[0]), color,
-                delaysec: Math.floor(delaysec + ((nextdelaysec - delaysec) *
-                  (rt[2] / distance))),
+                longitude: +rt[1], latitude: +rt[0], color,
+                delaysec: (delaysec + ((nextdelaysec - delaysec) *
+                  (rt[2] / distance)))|0,
                 busprop: savebusoption });
             }
           }
@@ -403,7 +405,7 @@ function* setupByBusstopCSV() {
     const optionvalue = busstopsoption[time];
     optionvalue.forEach((option) => {
       const { bscode, elevation, color, memo } = option;
-      optionlist.push({ time: Number(time),
+      optionlist.push({ time: +time,
         bscode,
         elevation: elevation || null,
         color: color || null,
@@ -421,17 +423,17 @@ function* setupByBusstopCSV() {
       option[bscode] = { stime: time, etime: time, data: [{ time, elevation, color, memo }] };
     } else {
       const optionvalue = option[bscode];
-      optionvalue.stime = Math.min(optionvalue.stime, time);
-      optionvalue.etime = Math.max(optionvalue.etime, time);
+      optionvalue.stime = min(optionvalue.stime, time);
+      optionvalue.etime = max(optionvalue.etime, time);
       optionvalue.data.push({ time, elevation, color, memo });
     }
   });
   const depotsBase: Bus3dDepotsbase[] = [];
   busstopscsv.forEach((csvdata) => {
     if(csvdata.code in option){
-      depotsBase.push(Object.assign({}, csvdata, { option: option[csvdata.code] }));
+      depotsBase.push(assign({}, csvdata, { option: option[csvdata.code] }));
     }else{
-      depotsBase.push(Object.assign({}, csvdata));
+      depotsBase.push(assign({}, csvdata));
     }
   });
   yield put(Actions.setDepotsBase(depotsBase));
@@ -468,8 +470,8 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
   const { operation, busclass } = movesbase[movesbaseidx];
   if (busclass) {
     if (sw) {
-      const delaysecmax = operation.reduce((prev, current) => Math.max(prev, current.delaysec), 0);
-      delayrange = Math.floor(delaysecmax / 60) + 1;
+      const delaysecmax = operation.reduce((prev, current) => max(prev, current.delaysec), 0);
+      delayrange = ((delaysecmax / 60)|0) + 1;
       if (delayrange > 120) { delayrange = 120; }
       yield put(Actions.setDelayRange(delayrange));
     }

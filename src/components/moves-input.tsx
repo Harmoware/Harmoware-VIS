@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ActionTypes, Movesbase, MovesbaseFile } from '../types';
+const {isArray} = Array;
 
 interface Props {
   actions: ActionTypes,
@@ -36,7 +37,7 @@ export default class MovesInput extends React.Component<Props> {
         window.alert(exception);
         return;
       }
-      if (!Array.isArray(readdata)) { // Not Array?
+      if (!isArray(readdata)) { // Not Array?
         const { movesbase } = readdata;
         if (!movesbase) {
           actions.setLoading(false);

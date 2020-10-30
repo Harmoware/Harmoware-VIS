@@ -81,7 +81,7 @@ class App extends Container<BasedProps, State> {
   }
 
   getIconCubeTypeSelected(e: React.ChangeEvent<HTMLSelectElement>) {
-    this.setState({ iconCubeType: Number(e.target.value) });
+    this.setState({ iconCubeType: +e.target.value });
   }
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
@@ -135,7 +135,7 @@ class App extends Container<BasedProps, State> {
   }
 
   getPointCloudLayer(PointCloudData: any[]){
-    return PointCloudData.map((pointCloudElements:{pointCloud:any[]}, idx:Number)=>{
+    return PointCloudData.map((pointCloudElements:{pointCloud:any[]}, idx:number)=>{
       const {pointCloud} = pointCloudElements;
       const data = pointCloud.filter(x=>x.position);
       return new PointCloudLayer({

@@ -5,6 +5,7 @@ import Controller from '../components/controller';
 import * as io from 'socket.io-client';
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
+const assign = Object.assign;
 
 interface State {
   moveDataVisible: boolean,
@@ -33,7 +34,7 @@ interface FixMovesbase extends Movesbase {
 const movesOptionFunc = (props: any, idx1: number, idx2: number) : Object => {
   const {departuretime, arrivaltime, operation, ...retValue1} = props.movesbase[idx1];
   const {elapsedtime, position, longitude, latitude, angle, ...retValue2} = operation[idx2];
-  return Object.assign(retValue1,retValue2,{direction:angle});
+  return assign(retValue1,retValue2,{direction:angle});
 };
 
 class App extends Container<BasedProps, State> {
@@ -70,14 +71,14 @@ class App extends Container<BasedProps, State> {
     const movesbasedata: FixMovesbase[] = [...movesbase];
     const setMovesbase: FixMovesbase[] = [];
     for (let i = 0, lengthi = movesbasedata.length; i < lengthi; i=(i+1)|0) {
-      let setMovedata: FixMovesbase = Object.assign({}, movesbasedata[i]);
+      let setMovedata: FixMovesbase = assign({}, movesbasedata[i]);
       if(mtype === setMovedata.mtype && id === setMovedata.id){
         hit = true;
         const { operation } = setMovedata;
         operation.push({
           elapsedtime, position, ...otherkey
         });
-        setMovedata = Object.assign({}, setMovedata, { operation });
+        setMovedata = assign({}, setMovedata, { operation });
       }
       setMovesbase.push(setMovedata);
     }
@@ -108,10 +109,10 @@ class App extends Container<BasedProps, State> {
         }
       }
       if(startIndex === 0){
-        setMovesbase.push(Object.assign({}, movesbasedata[i]));
+        setMovesbase.push(assign({}, movesbasedata[i]));
       }else
       if(startIndex < propsoperation.length){
-        setMovesbase.push(Object.assign({}, movesbasedata[i], {
+        setMovesbase.push(assign({}, movesbasedata[i], {
           operation: propsoperation.slice(startIndex)}));
         dataModify = true;  
       }else{

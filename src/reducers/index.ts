@@ -62,6 +62,7 @@ const initialState: InnerState = {
 };
 
 const reducer = reducerWithInitialState<InnerState>(initialState);
+const assign = Object.assign;
 
 reducer.case(addMinutes, (state, min) => {
   const assignData:InnerState = {};
@@ -75,12 +76,12 @@ reducer.case(addMinutes, (state, min) => {
   }
   assignData.starttimestamp = Date.now() -
     (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setViewport, (state, view) => {
-  const viewport = Object.assign({}, state.viewport, view);
-  return Object.assign({}, state, {
+  const viewport = assign({}, state.viewport, view);
+  return assign({}, state, {
     viewport
   });
 });
@@ -89,22 +90,22 @@ reducer.case(setDefaultViewport, (state, defViewport:{defaultZoom?:number,defaul
   const {defaultZoom,defaultPitch} = defViewport;
   const zoom = defaultZoom||state.defaultZoom;
   const pitch = defaultPitch||state.defaultPitch;
-  const viewport = Object.assign({}, state.viewport, { bearing:0, zoom, pitch });
-  return Object.assign({}, state, {
+  const viewport = assign({}, state.viewport, { bearing:0, zoom, pitch });
+  return assign({}, state, {
     viewport, defaultZoom:zoom, defaultPitch:pitch
   });
 });
 
 reducer.case(setTimeStamp, (state, props) => {
   const starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour));
-  return Object.assign({}, state, {
+  return assign({}, state, {
     starttimestamp, loopEndPause:false
   });
 });
 
 reducer.case(setTime, (state, settime) => {
   const starttimestamp = Date.now() - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
-  return Object.assign({}, state, {
+  return assign({}, state, {
     settime, starttimestamp, loopEndPause:false
   });
 });
@@ -127,9 +128,9 @@ reducer.case(increaseTime, (state, props) => {
       if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
         assignData.depotsData = getDepots(setProps);
       }
-      return Object.assign({}, state, assignData);
+      return assign({}, state, assignData);
     }else{
-      return Object.assign({}, state, {loopEndPause:true});
+      return assign({}, state, {loopEndPause:true});
     }
   }else{
     assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
@@ -148,7 +149,7 @@ reducer.case(increaseTime, (state, props) => {
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(decreaseTime, (state, props) => {
@@ -160,7 +161,7 @@ reducer.case(decreaseTime, (state, props) => {
     state.loopTime) * state.timeLength) + state.timeBegin;
   if (assignData.settime <= (state.timeBegin - state.leading)) {
     if(state.noLoop){
-      return Object.assign({}, state, {loopEndPause:true});
+      return assign({}, state, {loopEndPause:true});
     }
     assignData.settime = state.timeBegin + state.timeLength;
     assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
@@ -175,17 +176,17 @@ reducer.case(decreaseTime, (state, props) => {
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setLeading, (state, leading) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     leading
   });
 });
 
 reducer.case(setTrailing, (state, trailing) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     trailing
   });
 });
@@ -204,7 +205,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots(setProps);
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setMovesBase, (state, base) => {
@@ -214,7 +215,7 @@ reducer.case(setMovesBase, (state, base) => {
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
   if(state.initialViewChange && analyzeData.movesbase.length > 0){
-    assignData.viewport = Object.assign({}, state.viewport,
+    assignData.viewport = assign({}, state.viewport,
       {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
   }
   assignData.settime =
@@ -232,7 +233,7 @@ reducer.case(setMovesBase, (state, base) => {
   }
   assignData.movesbase = analyzeData.movesbase;
   assignData.movedData = [];
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setDepotsBase, (state, depotsBase) => {
@@ -241,7 +242,7 @@ reducer.case(setDepotsBase, (state, depotsBase) => {
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     assignData.depotsData = getDepots({ ...state, depotsBase });
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setAnimatePause, (state, animatePause) => {
@@ -249,11 +250,11 @@ reducer.case(setAnimatePause, (state, animatePause) => {
   assignData.animatePause = animatePause;
   assignData.loopEndPause = false;
   assignData.starttimestamp = (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime));
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setAnimateReverse, (state, animateReverse) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     animateReverse, loopEndPause:false
   });
 });
@@ -267,54 +268,54 @@ reducer.case(setSecPerHour, (state, secperhour) => {
     assignData.starttimestamp =
       (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * assignData.loopTime));
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setClicked, (state, clickedObject) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     clickedObject
   });
 });
 
 reducer.case(setRoutePaths, (state, routePaths) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     routePaths
   });
 });
 
 reducer.case(setDefaultPitch, (state, defaultPitch) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     defaultPitch
   });
 });
 
 reducer.case(setMovesOptionFunc, (state, getMovesOptionFunc) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     getMovesOptionFunc
   });
 });
 
 reducer.case(setDepotsOptionFunc, (state, getDepotsOptionFunc) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     getDepotsOptionFunc
   });
 });
 
 reducer.case(setLinemapData, (state, linemapData) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     linemapData
   });
 });
 
 reducer.case(setLoading, (state, loading) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     loading
   });
 });
 
 reducer.case(setInputFilename, (state, fileName) => {
-  const inputFileName = Object.assign({}, state.inputFileName, fileName);
-  return Object.assign({}, state, {
+  const inputFileName = assign({}, state.inputFileName, fileName);
+  return assign({}, state, {
     inputFileName
   });
 });
@@ -337,13 +338,13 @@ reducer.case(updateMovesBase, (state, base) => {
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
     if(state.initialViewChange && analyzeData.movesbase.length > 0){
-      assignData.viewport = Object.assign({}, state.viewport,
+      assignData.viewport = assign({}, state.viewport,
         {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
     }
     if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
       assignData.depotsData = getDepots({ ...state, ...assignData });
     }
-    return Object.assign({}, state, assignData);
+    return assign({}, state, assignData);
   }
 
   assignData.movesbase = analyzeData.movesbase;
@@ -358,25 +359,25 @@ reducer.case(updateMovesBase, (state, base) => {
     startState.loopTime = calcLoopTime(startState.timeLength, state.secperhour);
     startState.starttimestamp =
       (Date.now() - (((state.settime - startState.timeBegin) / startState.timeLength) * startState.loopTime));
-    return Object.assign({}, state, startState, assignData);
+    return assign({}, state, startState, assignData);
   }
-  return Object.assign({}, state, assignData);
+  return assign({}, state, assignData);
 });
 
 reducer.case(setNoLoop, (state, noLoop) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     noLoop, loopEndPause:false
   });
 });
 
 reducer.case(setInitialViewChange, (state, initialViewChange) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     initialViewChange
   });
 });
 
 reducer.case(setIconGradationChange, (state, iconGradation) => {
-  return Object.assign({}, state, {
+  return assign({}, state, {
     iconGradation
   });
 });
