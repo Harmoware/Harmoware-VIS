@@ -68,7 +68,7 @@ export default class FpsDisplay extends React.Component<Props, State> {
       frameCounterArray.forEach((frameCounter, idx)=>{
         const value = (frameCounter / maxValue) * height;
         context.fillStyle = colorCode;
-        context.fillRect((idx*2), (height-value), 1, value);
+        context.fillRect((idx<<1), (height-value), 1, value);
       });
     }
   }

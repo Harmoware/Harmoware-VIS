@@ -55,7 +55,7 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
     const { distanceScales: { degreesPerUnit, unitsPerMeter } } = this.context.viewport;
     const degreesMeterLng = abs(degreesPerUnit[0]) * abs(unitsPerMeter[0]);
     const degreesMeterLat = abs(degreesPerUnit[1]) * abs(unitsPerMeter[1]);
-    const halfcellSize = cellSize / 2;
+    const halfcellSize = cellSize >> 1;
 
     const setdata = [];
     const selectOptionData = optionData.filter(x=>x.position && getCubeElevation(x));

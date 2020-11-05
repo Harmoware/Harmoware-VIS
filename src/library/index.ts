@@ -23,10 +23,6 @@ export const getContainerProp = <P>(state: P)  => {
   return prop as P;
 };
 
-// LoopTime とは１ループにかける時間（ミリ秒）
-export const calcLoopTime =
-(timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
-
 export const analyzeMovesBase =
 (inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
   let baseTimeBegin: undefined | number;

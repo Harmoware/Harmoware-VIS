@@ -22,20 +22,18 @@ export default class Container<P extends Props, S = {}> extends React.Component<
   animationFrame: number;
 
   animate() {
-    const {
-      timeLength, animatePause, loopEndPause, animateReverse, actions } = this.props;
-    if (timeLength > 0) {
-      if (!animatePause && !loopEndPause) {
-        if (!animateReverse) {
-          actions.increaseTime(this.props);
+    if (this.props.timeLength > 0) {
+      if (!this.props.animatePause && !this.props.loopEndPause) {
+        if (!this.props.animateReverse) {
+          this.props.actions.increaseTime(this.props);
         } else {
-          actions.decreaseTime(this.props);
+          this.props.actions.decreaseTime(this.props);
         }
       } else {
-        actions.setFrameTimestamp(this.props);
+        this.props.actions.setFrameTimestamp(this.props);
       }
     } else {
-      actions.setTimeStamp(this.props);
+      this.props.actions.setTimeStamp(this.props);
     }
     this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
   }

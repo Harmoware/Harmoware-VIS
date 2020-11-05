@@ -1,4 +1,4 @@
-import { analyzeMovesBase, getMoveObjects, getDepots, calcLoopTime } from '../library';
+import { analyzeMovesBase, getMoveObjects, getDepots } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { InnerState, AnalyzedBaseData } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
@@ -61,6 +61,12 @@ const initialState: InnerState = {
   iconGradation: false
 };
 
+const parameter = {
+  coefficient: 0
+};
+
+const calcLoopTime = // LoopTime とは１ループにかける時間（ミリ秒）
+  (timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
 const reducer = reducerWithInitialState<InnerState>(initialState);
 const assign = Object.assign;
 
@@ -112,9 +118,9 @@ reducer.case(setTime, (state, settime) => {
 
 reducer.case(increaseTime, (state, props) => {
   const assignData:InnerState = {};
-  const beforeSettime = state.settime;
   const now = Date.now();
-  if ((now - state.starttimestamp) >= state.loopTime) {
+  const difference = now - state.starttimestamp;
+  if (difference >= state.loopTime) {
     if(!state.noLoop){
       console.log('settime overlap.');
       assignData.settime = (state.timeBegin - state.leading);
@@ -133,11 +139,11 @@ reducer.case(increaseTime, (state, props) => {
       return assign({}, state, {loopEndPause:true});
     }
   }else{
-    assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
-      state.loopTime) * state.timeLength) + state.timeBegin;
+//    assignData.settime = ((difference / state.loopTime) * state.timeLength) + state.timeBegin;
+    assignData.settime = (difference * parameter.coefficient) + state.timeBegin;
   }
-  if (beforeSettime > assignData.settime) {
-    console.log(`${beforeSettime} ${assignData.settime}`);
+  if (state.settime > assignData.settime) {
+    console.log(`${state.settime} ${assignData.settime}`);
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
@@ -156,9 +162,8 @@ reducer.case(decreaseTime, (state, props) => {
   const now = Date.now();
   const beforeFrameElapsed = now - state.beforeFrameTimestamp;
   const assignData:InnerState = {};
-  assignData.starttimestamp = state.starttimestamp + (beforeFrameElapsed * 2);
-  assignData.settime = ((((now - state.starttimestamp) % state.loopTime) /
-    state.loopTime) * state.timeLength) + state.timeBegin;
+  assignData.starttimestamp = state.starttimestamp + (beforeFrameElapsed << 1);
+  assignData.settime = (((now - state.starttimestamp) % state.loopTime) * parameter.coefficient) + state.timeBegin;
   if (assignData.settime <= (state.timeBegin - state.leading)) {
     if(state.noLoop){
       return assign({}, state, {loopEndPause:true});
@@ -226,6 +231,7 @@ reducer.case(setMovesBase, (state, base) => {
     assignData.timeLength = analyzeData.timeLength;
   }
   assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
+  parameter.coefficient = assignData.timeLength / assignData.loopTime;
   // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
   assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
@@ -264,6 +270,7 @@ reducer.case(setSecPerHour, (state, secperhour) => {
   assignData.loopEndPause = false;
   assignData.secperhour = secperhour;
   assignData.loopTime = calcLoopTime(state.timeLength, secperhour);
+  parameter.coefficient = state.timeLength / assignData.loopTime;
   if (!state.animatePause) {
     assignData.starttimestamp =
       (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * assignData.loopTime));
@@ -335,6 +342,7 @@ reducer.case(updateMovesBase, (state, base) => {
       assignData.timeLength = assignData.timeLength + state.trailing;
     }
     assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
+    parameter.coefficient = assignData.timeLength / assignData.loopTime;
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
     if(state.initialViewChange && analyzeData.movesbase.length > 0){
@@ -357,6 +365,7 @@ reducer.case(updateMovesBase, (state, base) => {
   if(analyzeData.timeBegin !== state.timeBegin || startState.timeLength !== state.timeLength){
     startState.timeBegin = analyzeData.timeBegin;
     startState.loopTime = calcLoopTime(startState.timeLength, state.secperhour);
+    parameter.coefficient = startState.timeLength / startState.loopTime;
     startState.starttimestamp =
       (Date.now() - (((state.settime - startState.timeBegin) / startState.timeLength) * startState.loopTime));
     return assign({}, state, startState, assignData);
