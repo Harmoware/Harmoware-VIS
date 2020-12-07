@@ -30,3 +30,5 @@ export declare const updateMovesBase: import("typescript-fsa").ActionCreator<Mov
 export declare const setNoLoop: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInitialViewChange: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setIconGradationChange: import("typescript-fsa").ActionCreator<boolean>;
+export declare const setTimeBegin: import("typescript-fsa").ActionCreator<number>;
+export declare const setTimeLength: import("typescript-fsa").ActionCreator<number>;
