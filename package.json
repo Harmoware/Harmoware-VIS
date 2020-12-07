@@ -1,7 +1,7 @@
 {
   "name": "harmoware-vis",
   "description": "This is a minimal standalone version of the TripsLayer example on [deck.gl](http://deck.gl) website.",
-  "version": "1.6.30",
+  "version": "1.6.31",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
