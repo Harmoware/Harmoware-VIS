@@ -33,3 +33,5 @@ export const updateMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(type
 export const setNoLoop = actionCreator<boolean>(types.SETNOLOOP);
 export const setInitialViewChange = actionCreator<boolean>(types.SETINITIALVIEWCHANGE);
 export const setIconGradationChange = actionCreator<boolean>(types.SETICONGRADATIONCHANGE);
+export const setTimeBegin = actionCreator<number>(types.SETTIMEBEGIN);
+export const setTimeLength = actionCreator<number>(types.SETTIMELENGTH);

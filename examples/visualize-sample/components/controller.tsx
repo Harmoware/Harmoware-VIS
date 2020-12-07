@@ -247,7 +247,10 @@ export default class Controller extends React.Component<Props, State> {
               移動体（表示数/総数）&nbsp;{movedData.length}&nbsp;/&nbsp;{movesbase.length}
             </li>
             <li>
-              <label htmlFor="ElapsedTimeRange">経過時間<ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />秒</label>
+              <label htmlFor="ElapsedTimeRange">経過時間
+              <ElapsedTimeValue settime={settime} timeBegin={timeBegin} timeLength={timeLength} actions={actions} />&nbsp;／&nbsp;
+              <input type="number" value={timeLength} onChange={e=>actions.setTimeLength(+e.target.value)} className="harmovis_input_number" min={0} max={timeLength} />&nbsp;秒
+              </label>
               <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
             </li>
             <li>
@@ -275,6 +278,13 @@ export default class Controller extends React.Component<Props, State> {
                   <span className="button_span"><Icon icon={icDelete} />&nbsp;DELETE</span>
                 </button>
               </div>
+            </li>
+            <li>
+              開始 UNIX TIME 設定&nbsp;<input type="number" value={timeBegin} onChange={e=>actions.setTimeBegin(+e.target.value)} className="harmovis_input_number" />
+            </li>
+            <li>
+              開始 日付&nbsp;{(new Date(timeBegin * 1000)).toLocaleString('ja-JP',
+                {year: 'numeric',month: '2-digit',day: '2-digit',hour: '2-digit',minute: '2-digit',second: '2-digit',weekday: 'short' })}
             </li>
           </ul>
         </div>

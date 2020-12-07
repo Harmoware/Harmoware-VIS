@@ -27,6 +27,8 @@ import {
   setNoLoop,
   setInitialViewChange,
   setIconGradationChange,
+  setTimeBegin,
+  setTimeLength,
 } from './actions';
 
 import {
@@ -101,6 +103,8 @@ const Actions: ActionsInterface = {
   setNoLoop,
   setInitialViewChange,
   setIconGradationChange,
+  setTimeBegin,
+  setTimeLength,
 };
 
 export {
