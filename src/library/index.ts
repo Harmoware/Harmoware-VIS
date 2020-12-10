@@ -91,8 +91,10 @@ export const analyzeMovesBase =
     movesbase[i].departuretime = operation[0].elapsedtime;
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
-    if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
+    if (typeof baseTimeBegin !== 'number') {
       timeBegin = timeBegin === undefined ? movesbase[i].departuretime : min(timeBegin, movesbase[i].departuretime);
+    }
+    if (typeof baseTimeLength !== 'number') {
       timeEnd = timeEnd === undefined ? movesbase[i].arrivaltime : max(timeEnd, movesbase[i].arrivaltime);
     }
 
@@ -121,18 +123,29 @@ export const analyzeMovesBase =
       operation[j].direction = direction;
     }
   }
-  if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
+  if (typeof baseTimeBegin !== 'number' && typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
   }else{
-    if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
-      for (const movesbaseElement of movesbase) {
-        movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
-        movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
-        const { operation } = movesbaseElement;
-        for (const operationElement of operation) {
-          operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
+    if(typeof baseTimeBegin === 'number'){
+      if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
+        for (const movesbaseElement of movesbase) {
+          movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
+          movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
+          const { operation } = movesbaseElement;
+          for (const operationElement of operation) {
+            operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
+          }
         }
+        if(typeof baseTimeLength !== 'number'){
+          timeLength = timeEnd;
+        }
+      }else
+      if(typeof baseTimeLength !== 'number'){
+        timeLength = timeEnd - timeBegin;
       }
+    }else
+    if(typeof baseTimeLength !== 'number'){
+      timeLength = timeEnd - timeBegin;
     }
   }
   if(longArray.length > 0 && latiArray.length > 0){
