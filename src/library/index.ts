@@ -29,6 +29,7 @@ export const analyzeMovesBase =
   let baseTimeLength: undefined | number;
   let baseBounds: undefined | Bounds;
   let basemovesbase: Movesbase[];
+  let elapsedtimeMode: string;
 
   if (isArray(inputData)) { // Array?
     basemovesbase = [...inputData];
@@ -37,6 +38,7 @@ export const analyzeMovesBase =
     baseTimeLength = inputData.timeLength;
     baseBounds = inputData.bounds;
     basemovesbase = [...inputData.movesbase];
+    elapsedtimeMode = inputData.elapsedtimeMode;
   }
 
   let timeBegin: number = typeof baseTimeBegin === 'number' ? baseTimeBegin : 0;
@@ -50,7 +52,10 @@ export const analyzeMovesBase =
     return { timeBegin, timeLength, bounds, movesbase, viewport:{} };
   }
 
-  let timeEnd: number = 0;
+  if (typeof baseTimeBegin !== 'number') {
+    timeBegin = undefined;
+  }
+  let timeEnd: number = undefined;
   const longArray: number[] = [];
   const latiArray: number[] = [];
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
@@ -87,8 +92,8 @@ export const analyzeMovesBase =
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
     if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
-      timeBegin = !timeBegin ? movesbase[i].departuretime : min(timeBegin, movesbase[i].departuretime);
-      timeEnd = !timeEnd ? movesbase[i].arrivaltime : max(timeEnd, movesbase[i].arrivaltime);
+      timeBegin = timeBegin === undefined ? movesbase[i].departuretime : min(timeBegin, movesbase[i].departuretime);
+      timeEnd = timeEnd === undefined ? movesbase[i].arrivaltime : max(timeEnd, movesbase[i].arrivaltime);
     }
 
     let direction = 0;
@@ -119,12 +124,14 @@ export const analyzeMovesBase =
   if (typeof baseTimeBegin !== 'number' || typeof baseTimeLength !== 'number') {
     timeLength = timeEnd - timeBegin;
   }else{
-    for (const movesbaseElement of movesbase) {
-      movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
-      movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
-      const { operation } = movesbaseElement;
-      for (const operationElement of operation) {
-        operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
+    if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
+      for (const movesbaseElement of movesbase) {
+        movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
+        movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
+        const { operation } = movesbaseElement;
+        for (const operationElement of operation) {
+          operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
+        }
       }
     }
   }
@@ -171,7 +178,7 @@ export const getMoveObjects = (props : InnerProps): MovedData[] => {
 
   const selectmovesbase = movesbase.filter((data)=>{
     const { departuretime, arrivaltime } = data;
-    return (timeBegin > 0 && timeLength > 0 && departuretime <= settime && settime < arrivaltime);
+    return (timeLength > 0 && departuretime <= settime && settime < arrivaltime);
   });
   const movedData: MovedData[] = [];
   for (const movesbaseElement of selectmovesbase) {
