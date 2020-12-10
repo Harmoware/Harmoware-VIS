@@ -42,6 +42,7 @@ export interface MovesbaseFile {
     timeBegin?: number;
     timeLength?: number;
     bounds?: Bounds;
+    elapsedtimeMode?: string;
     movesbase: Movesbase[];
 }
 export interface AnalyzedBaseData extends MovesbaseFile {
