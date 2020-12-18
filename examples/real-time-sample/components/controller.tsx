@@ -136,31 +136,31 @@ export default class Controller extends React.Component<Props, State> {
             </li>
             <li>
               <div>
-                <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="form-check-input" defaultChecked={true} />
+                <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="harmovis_input_checkbox" defaultChecked={true} />
                 <label htmlFor="MoveDataChecked" className="form-check-label">運行データ表示</label>
               </div>
             </li>
             <li>
               <div>
-                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="form-check-input" defaultChecked={true} />
+                <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="harmovis_input_checkbox" defaultChecked={true} />
                 <label htmlFor="IconChangeChecked" className="form-check-label">アイコン表示パターン切替</label>
               </div>
             </li>
             <li>
               <div>
-                <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="form-check-input" />
+                <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="harmovis_input_checkbox" />
                 <label htmlFor="MoveOptionChecked" className="form-check-label">運行データオプション表示</label>
               </div>
             </li>
             <li>
               <div>
-                <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="form-check-input" />
+                <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="harmovis_input_checkbox" />
                 <label htmlFor="DepotOptionChecked" className="form-check-label">停留所データオプション表示</label>
               </div>
             </li>
             <li>
               <div>
-                <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="form-check-input" />
+                <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="harmovis_input_checkbox" />
                 <label htmlFor="OptionChangeChecked" className="form-check-label">オプション表示パターン切替</label>
               </div>
             </li>

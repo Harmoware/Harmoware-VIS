@@ -201,15 +201,15 @@ export default class Controller extends React.Component<Props, State> {
             </div>
           </li>
           <li className="flex_row">
-            <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} />
+            <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="harmovis_input_checkbox" />
             <label htmlFor="IconChangeChecked" title={`${t('IconChangeChecked')}`}>{t('IconChangeChecked')}</label>
           </li>
           <li className="flex_row">
-            <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} />
+            <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="harmovis_input_checkbox" />
             <label htmlFor="OptionChangeChecked" title={`${t('OptionChangeChecked')}`}>{t('OptionChangeChecked')}</label>
           </li>
           <li className="flex_row">
-            <input type="checkbox" id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} />
+            <input type="checkbox" id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} className="harmovis_input_checkbox" />
             <label htmlFor="ArchLayerChangeChecked" title={`${t('ArchLayerChangeChecked')}`}>{t('ArchLayerChangeChecked')}</label>
           </li>
           <li className="flex_row">

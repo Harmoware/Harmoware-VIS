@@ -101,19 +101,19 @@ button.harmovis_button {
   }
 }
 
-input[type="checkbox"] {
+input.harmovis_input_checkbox[type="checkbox"] {
   display:none
 }
-input[type="checkbox"]+label:before {
+input.harmovis_input_checkbox[type="checkbox"]+label:before {
   font-family: FontAwesome;
   font-size: 12pt;
   display: inline-block;
 }
-input[type="checkbox"]+label:before {
+input.harmovis_input_checkbox[type="checkbox"]+label:before {
   content: "☐";
   letter-spacing: 5px;
 }
-input[type="checkbox"]:checked+label:before {
+input.harmovis_input_checkbox[type="checkbox"]:checked+label:before {
   content: "☑";
   letter-spacing: 5px;
 }
