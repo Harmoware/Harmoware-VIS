@@ -33,7 +33,7 @@ class MapGl extends InteractiveMap {
     super.componentDidMount();
     if(!MapGl.mapboxAddLayerValue) return;
     const map = this.getMap();
-    const LayerValuemap = MapGl.mapboxAddLayerValue;
+    const LayerValuemap:mapboxgl.Layer[] = MapGl.mapboxAddLayerValue;
     map.on('load', function() {
       for(const LayerValuemapElement of LayerValuemap){
         map.addLayer(LayerValuemapElement);
@@ -45,7 +45,7 @@ class MapGl extends InteractiveMap {
     if(prevProps.mapStyle !== this.props.mapStyle && prevProps.mapStyle === '') {
       if(!MapGl.mapboxAddLayerValue) return;
       const map = this.getMap();
-      const LayerValuemap = MapGl.mapboxAddLayerValue;
+      const LayerValuemap:mapboxgl.Layer[] = MapGl.mapboxAddLayerValue;
       let execflg = false
       map.on('styledata', function() {
         if(execflg) return;
@@ -64,20 +64,20 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
     mapGlComponents: null,
     mapboxAddLayerValue: [{
-      "id": '3d-buildings',
-      "source": 'composite',
-      "source-layer": 'building',
-      "filter": ['==', 'extrude', 'true'],
-      "type": 'fill-extrusion',
-      "paint": {
-          "fill-extrusion-color": '#888',
-          "fill-extrusion-height": [
-              "interpolate", ["linear"], ["zoom"],
-              5, 0, 5.05, ["get", "height"] ],
-          "fill-extrusion-base": [
-              "interpolate", ["linear"], ["zoom"],
-              5, 0, 5.05, ["get", "min_height"] ],
-          "fill-extrusion-opacity": .6
+      'id': '3d-buildings',
+      'source': 'composite',
+      'source-layer': 'building',
+      'filter': ['==', 'extrude', 'true'],
+      'type': 'fill-extrusion',
+      'paint': {
+          'fill-extrusion-color': '#888',
+          'fill-extrusion-height': [
+              'interpolate', ['linear'], ['zoom'],
+              5, 0, 5.05, ['get', 'height'] ],
+          'fill-extrusion-base': [
+              'interpolate', ['linear'], ['zoom'],
+              5, 0, 5.05, ['get', 'min_height'] ],
+          'fill-extrusion-opacity': .6
       },
     }],
     flytoArgument: null,
