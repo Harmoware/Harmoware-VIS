@@ -1,4 +1,4 @@
-import { analyzeMovesBase, getMoveObjects, getDepots } from '../library';
+import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { InnerState, AnalyzedBaseData } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
@@ -73,9 +73,9 @@ const assign = Object.assign;
 reducer.case(addMinutes, (state, min) => {
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
-  assignData.settime = state.settime + (min * 60);
-  if (assignData.settime < (state.timeBegin - state.leading)) {
-    assignData.settime = (state.timeBegin - state.leading);
+  assignData.settime = safeAdd(state.settime, (min * 60));
+  if (assignData.settime < safeSubtract(state.timeBegin, state.leading)) {
+    assignData.settime = safeSubtract(state.timeBegin, state.leading);
   }
   if (assignData.settime > (state.timeBegin + state.timeLength)) {
     assignData.settime = (state.timeBegin + state.timeLength);
@@ -110,7 +110,7 @@ reducer.case(setTimeStamp, (state, props) => {
 });
 
 reducer.case(setTime, (state, settime) => {
-  const starttimestamp = Date.now() - (((settime - state.timeBegin) / state.timeLength) * state.loopTime);
+  const starttimestamp = Date.now() - ((safeSubtract(settime, state.timeBegin) / state.timeLength) * state.loopTime);
   return assign({}, state, {
     settime, starttimestamp, loopEndPause:false
   });
@@ -123,8 +123,8 @@ reducer.case(increaseTime, (state, props) => {
   if (difference >= state.loopTime) {
     if(!state.noLoop){
       console.log('settime overlap.');
-      assignData.settime = (state.timeBegin - state.leading);
-      assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
+      assignData.settime = safeSubtract(state.timeBegin, state.leading);
+      assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
       const setProps = { ...props, ...assignData };
       assignData.movedData = getMoveObjects(setProps);
       if(assignData.movedData.length === 0){
@@ -140,7 +140,7 @@ reducer.case(increaseTime, (state, props) => {
     }
   }else{
 //    assignData.settime = ((difference / state.loopTime) * state.timeLength) + state.timeBegin;
-    assignData.settime = (difference * parameter.coefficient) + state.timeBegin;
+    assignData.settime = safeAdd((difference * parameter.coefficient), state.timeBegin);
   }
   if (state.settime > assignData.settime) {
     console.log(`${state.settime} ${assignData.settime}`);
@@ -163,13 +163,13 @@ reducer.case(decreaseTime, (state, props) => {
   const beforeFrameElapsed = now - state.beforeFrameTimestamp;
   const assignData:InnerState = {};
   assignData.starttimestamp = state.starttimestamp + (beforeFrameElapsed << 1);
-  assignData.settime = (((now - state.starttimestamp) % state.loopTime) * parameter.coefficient) + state.timeBegin;
-  if (assignData.settime <= (state.timeBegin - state.leading)) {
+  assignData.settime = safeAdd(((now - state.starttimestamp) % state.loopTime) * parameter.coefficient, state.timeBegin);
+  if (assignData.settime <= safeSubtract(state.timeBegin, state.leading)) {
     if(state.noLoop){
       return assign({}, state, {loopEndPause:true});
     }
-    assignData.settime = state.timeBegin + state.timeLength;
-    assignData.starttimestamp = now - (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
+    assignData.settime = safeAdd(state.timeBegin, state.timeLength);
+    assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
@@ -185,12 +185,14 @@ reducer.case(decreaseTime, (state, props) => {
 });
 
 reducer.case(setLeading, (state, leading) => {
+  safeCheck(leading);
   return assign({}, state, {
     leading
   });
 });
 
 reducer.case(setTrailing, (state, trailing) => {
+  safeCheck(trailing);
   return assign({}, state, {
     trailing
   });
@@ -200,7 +202,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
   const assignData:InnerState = {};
   const now = Date.now();
   assignData.beforeFrameTimestamp = now;
-  assignData.starttimestamp = now - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime);
+  assignData.starttimestamp = now - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * state.loopTime);
   const setProps = { ...props, ...assignData };
   assignData.movedData = getMoveObjects(setProps);
   if(assignData.movedData.length === 0){
@@ -224,9 +226,9 @@ reducer.case(setMovesBase, (state, base) => {
       {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
   }
   assignData.settime =
-    analyzeData.timeBegin - (analyzeData.movesbase.length === 0 ? 0 : state.leading);
+    safeSubtract(analyzeData.timeBegin, (analyzeData.movesbase.length === 0 ? 0 : state.leading));
   if (analyzeData.timeLength > 0) {
-    assignData.timeLength = analyzeData.timeLength + state.trailing;
+    assignData.timeLength = safeAdd(analyzeData.timeLength, state.trailing);
   }else{
     assignData.timeLength = analyzeData.timeLength;
   }
@@ -255,7 +257,7 @@ reducer.case(setAnimatePause, (state, animatePause) => {
   const assignData:InnerState = {};
   assignData.animatePause = animatePause;
   assignData.loopEndPause = false;
-  assignData.starttimestamp = (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * state.loopTime));
+  assignData.starttimestamp = (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * state.loopTime));
   return assign({}, state, assignData);
 });
 
@@ -273,7 +275,7 @@ reducer.case(setSecPerHour, (state, secperhour) => {
   parameter.coefficient = state.timeLength / assignData.loopTime;
   if (!state.animatePause) {
     assignData.starttimestamp =
-      (Date.now() - (((state.settime - state.timeBegin) / state.timeLength) * assignData.loopTime));
+      (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * assignData.loopTime));
   }
   return assign({}, state, assignData);
 });
@@ -337,9 +339,9 @@ reducer.case(updateMovesBase, (state, base) => {
     assignData.bounds = analyzeData.bounds;
     assignData.movesbase = analyzeData.movesbase;
     assignData.movedData = [];
-    assignData.settime = analyzeData.timeBegin - state.leading;
+    assignData.settime = safeSubtract(analyzeData.timeBegin, state.leading);
     if (assignData.timeLength > 0) {
-      assignData.timeLength = assignData.timeLength + state.trailing;
+      assignData.timeLength = safeAdd(assignData.timeLength, state.trailing);
     }
     assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
     parameter.coefficient = assignData.timeLength / assignData.loopTime;
@@ -360,14 +362,14 @@ reducer.case(updateMovesBase, (state, base) => {
   const startState:InnerState = {};
   startState.timeLength = analyzeData.timeLength;
   if (startState.timeLength > 0) {
-    startState.timeLength = startState.timeLength + state.trailing;
+    startState.timeLength = safeAdd(startState.timeLength, state.trailing);
   }
   if(analyzeData.timeBegin !== state.timeBegin || startState.timeLength !== state.timeLength){
     startState.timeBegin = analyzeData.timeBegin;
     startState.loopTime = calcLoopTime(startState.timeLength, state.secperhour);
     parameter.coefficient = startState.timeLength / startState.loopTime;
     startState.starttimestamp =
-      (Date.now() - (((state.settime - startState.timeBegin) / startState.timeLength) * startState.loopTime));
+      (Date.now() - ((safeSubtract(state.settime, startState.timeBegin) / startState.timeLength) * startState.loopTime));
     return assign({}, state, startState, assignData);
   }
   return assign({}, state, assignData);
@@ -392,13 +394,14 @@ reducer.case(setIconGradationChange, (state, iconGradation) => {
 });
 
 reducer.case(setTimeBegin, (state, timeBegin) => {
+  safeCheck(timeBegin);
   const assignData:InnerState = {};
   const movesbaselength = state.movesbase.length;
   if(movesbaselength > 0){
     const firstDeparturetime = state.movesbase.reduce((acc,cur)=>Math.min(acc,cur.departuretime),Number.MAX_SAFE_INTEGER);
     if(firstDeparturetime >= timeBegin){
       assignData.timeBegin = timeBegin;
-      assignData.timeLength = state.timeLength + (state.timeBegin - assignData.timeBegin);
+      assignData.timeLength = safeAdd(state.timeLength, safeSubtract(state.timeBegin, assignData.timeBegin));
       if(assignData.timeLength === 0){
         assignData.settime = assignData.timeBegin;
       }else{
@@ -407,18 +410,18 @@ reducer.case(setTimeBegin, (state, timeBegin) => {
       assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
       parameter.coefficient = assignData.timeLength / assignData.loopTime;
       assignData.starttimestamp =
-        (Date.now() - (((assignData.settime - assignData.timeBegin) / assignData.timeLength) * assignData.loopTime));
+        (Date.now() - ((safeSubtract(assignData.settime, assignData.timeBegin) / assignData.timeLength) * assignData.loopTime));
     }
   }else{
     if(state.timeLength === 0){
       assignData.timeBegin = timeBegin;
       assignData.settime = assignData.timeBegin;
       assignData.starttimestamp =
-        (Date.now() - (((assignData.settime - assignData.timeBegin) / state.timeLength) * state.loopTime));
+        (Date.now() - ((safeSubtract(assignData.settime, assignData.timeBegin) / state.timeLength) * state.loopTime));
     }else
     if((state.timeBegin + state.timeLength) >= timeBegin){
       assignData.timeBegin = timeBegin;
-      assignData.timeLength = state.timeLength + (state.timeBegin - assignData.timeBegin);
+      assignData.timeLength = safeAdd(state.timeLength, safeSubtract(state.timeBegin, assignData.timeBegin));
       if(assignData.timeLength === 0){
         assignData.settime = assignData.timeBegin;
       }else{
@@ -427,20 +430,21 @@ reducer.case(setTimeBegin, (state, timeBegin) => {
       assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
       parameter.coefficient = assignData.timeLength / assignData.loopTime;
       assignData.starttimestamp =
-        (Date.now() - (((assignData.settime - assignData.timeBegin) / assignData.timeLength) * assignData.loopTime));
+        (Date.now() - ((safeSubtract(assignData.settime, assignData.timeBegin) / assignData.timeLength) * assignData.loopTime));
     }
   }
   return assign({}, state, assignData);
 });
 
 reducer.case(setTimeLength, (state, timeLength) => {
+  safeCheck(timeLength);
   const assignData:InnerState = {};
   const movesbaselength = state.movesbase.length;
   if(timeLength >= 0){
     if(movesbaselength > 0){
       if(timeLength >= state.trailing){
         const lastArrivaltime = state.movesbase.reduce((acc,cur)=>Math.max(acc,cur.arrivaltime),state.timeBegin);
-        if((state.timeBegin + timeLength - state.trailing) >= lastArrivaltime){
+        if(safeSubtract(safeAdd(state.timeBegin, timeLength), state.trailing) >= lastArrivaltime){
           assignData.timeLength = timeLength;
           if(assignData.timeLength === 0){
             assignData.settime = state.timeBegin;
@@ -450,7 +454,7 @@ reducer.case(setTimeLength, (state, timeLength) => {
           assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
           parameter.coefficient = assignData.timeLength / assignData.loopTime;
           assignData.starttimestamp =
-            (Date.now() - (((assignData.settime - state.timeBegin) / assignData.timeLength) * assignData.loopTime));
+            (Date.now() - ((safeSubtract(assignData.settime, state.timeBegin) / assignData.timeLength) * assignData.loopTime));
         }
       }
     }else{
@@ -463,7 +467,7 @@ reducer.case(setTimeLength, (state, timeLength) => {
       assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
       parameter.coefficient = assignData.timeLength / assignData.loopTime;
       assignData.starttimestamp =
-        (Date.now() - (((assignData.settime - state.timeBegin) / assignData.timeLength) * assignData.loopTime));
+        (Date.now() - ((safeSubtract(assignData.settime, state.timeBegin) / assignData.timeLength) * assignData.loopTime));
     }
   }
   return assign({}, state, assignData);

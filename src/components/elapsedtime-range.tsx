@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ActionTypes } from '../types';
+import { safeCheck,safeAdd, safeSubtract } from '../library';
 
 interface Props {
   settime: number,
@@ -22,17 +23,18 @@ export default class ElapsedTimeRange extends React.Component<Props> {
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, timeBegin } = this.props;
-    actions.setTime((+e.target.value + timeBegin)|0);
+    const value = safeCheck(+e.target.value);
+    actions.setTime(safeAdd(value, timeBegin)|0);
   }
 
   render() {
     const { settime, timeBegin, timeLength, min, step, id, className, title: propTitle } = this.props;
-    const title = propTitle || `${(settime - timeBegin)|0}`;
+    const title = propTitle || `${safeSubtract(settime, timeBegin)|0}`;
 
     return (
       <input
         type="range"
-        value={(settime - timeBegin)|0}
+        value={safeSubtract(settime, timeBegin)|0}
         min={min} max={timeLength} step={step}
         onChange={this.setTime.bind(this)}
         id={id} className={className} title={title}

@@ -15,12 +15,42 @@ const getAverage = (array: number[]) => array.length &&
 const radians = (degree: number) => degree * pi / 180;
 const degrees = (radian: number) => radian * 180 / pi;
 
+const MIN_VALUE = -2147483648;
+const MAX_VALUE = 2147483647;
+
 export const getContainerProp = <P>(state: P)  => {
   let prop = {};
   keys(state).forEach((key) => {
     prop = assign({}, prop, { ...state[key] });
   });
   return prop as P;
+};
+
+export const safeCheck = (value: number): number => {
+  if(value > MAX_VALUE || value < MIN_VALUE) {
+    const contents = 'value overflow => '+value;
+    console.log(contents);
+    window.alert(contents);
+  }
+  return value;
+};
+
+export const safeAdd = (left: number, right: number): number => {
+  if(right > 0 ? left > (MAX_VALUE-right) : left < (MIN_VALUE-right)) {
+    const contents = 'addition overflow => '+left+' + '+right;
+    console.log(contents);
+    window.alert(contents);
+  }
+  return left + right;
+};
+
+export const safeSubtract = (left: number, right: number): number => {
+  if (right > 0 ? left < MIN_VALUE + right : left > MAX_VALUE + right) {
+    const contents = 'subtraction overflow => '+left+' - '+right;
+    console.log(contents);
+    window.alert(contents);
+  }
+  return left - right;
 };
 
 export const analyzeMovesBase =
@@ -42,7 +72,9 @@ export const analyzeMovesBase =
   }
 
   let timeBegin: number = typeof baseTimeBegin === 'number' ? baseTimeBegin : 0;
+  safeCheck(timeBegin);
   let timeLength: number = typeof baseTimeLength === 'number' ? baseTimeLength : 0;
+  safeCheck(timeLength);
   let bounds: Bounds = typeof baseBounds !== 'undefined' ? baseBounds : {
     westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
   };
@@ -69,6 +101,7 @@ export const analyzeMovesBase =
         console.log('movesbase['+i+'] operation['+j+'] elapsedtime undefined');
         continue;
       }
+      safeCheck(elapsedtime);
       if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
         typeof operation[j].position === 'undefined'){
         continue;
@@ -87,7 +120,7 @@ export const analyzeMovesBase =
         bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
       }
     }
-    operation.sort((a,b)=>a.elapsedtime - b.elapsedtime);
+    operation.sort((a,b)=>a.elapsedtime > b.elapsedtime?1:-1);
     movesbase[i].departuretime = operation[0].elapsedtime;
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
@@ -124,16 +157,16 @@ export const analyzeMovesBase =
     }
   }
   if (typeof baseTimeBegin !== 'number' && typeof baseTimeLength !== 'number') {
-    timeLength = timeEnd - timeBegin;
+    timeLength = safeSubtract(timeEnd, timeBegin);
   }else{
     if(typeof baseTimeBegin === 'number'){
       if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
         for (const movesbaseElement of movesbase) {
-          movesbaseElement.departuretime = movesbaseElement.departuretime + timeBegin;
-          movesbaseElement.arrivaltime = movesbaseElement.arrivaltime + timeBegin;
+          movesbaseElement.departuretime = safeAdd(movesbaseElement.departuretime, timeBegin);
+          movesbaseElement.arrivaltime = safeAdd(movesbaseElement.arrivaltime, timeBegin);
           const { operation } = movesbaseElement;
           for (const operationElement of operation) {
-            operationElement.elapsedtime = operationElement.elapsedtime + timeBegin;
+            operationElement.elapsedtime = safeAdd(operationElement.elapsedtime, timeBegin);
           }
         }
         if(typeof baseTimeLength !== 'number'){
@@ -141,11 +174,11 @@ export const analyzeMovesBase =
         }
       }else
       if(typeof baseTimeLength !== 'number'){
-        timeLength = timeEnd - timeBegin;
+        timeLength = safeSubtract(timeEnd, timeBegin);
       }
     }else
     if(typeof baseTimeLength !== 'number'){
-      timeLength = timeEnd - timeBegin;
+      timeLength = safeSubtract(timeEnd, timeBegin);
     }
   }
   if(longArray.length > 0 && latiArray.length > 0){
@@ -180,10 +213,11 @@ export const getDepots = (props: InnerProps): DepotsData[] => {
 };
 
 export const getMoveObjects = (props : InnerProps): MovedData[] => {
-  const { movesbase, movedData:prevMovedData, settime, secperhour, timeBegin, timeLength,
+  const { movesbase, movedData:prevMovedData, settime, secperhour, timeLength,
     getMovesOptionFunc, iconGradation } = props;
+    safeCheck(settime);
   if(prevMovedData.length > 0){
-    if(abs(prevMovedData[0].settime - settime) <= 1 / (secperhour / 120)){
+    if(abs(safeSubtract(prevMovedData[0].settime, settime)) <= 1 / (secperhour / 120)){
       if(!getMovesOptionFunc) return prevMovedData
     };
   }

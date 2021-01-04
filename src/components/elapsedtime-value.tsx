@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ActionTypes } from '../types';
+import { safeCheck, safeAdd, safeSubtract } from '../library';
 const {max,min} = Math;
 
 interface Props {
@@ -19,10 +20,10 @@ export default class ElapsedTimeValue extends React.Component<Props> {
   }
 
   setTime(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = +e.target.value;
+    const value = safeCheck(+e.target.value);
     const { actions, timeBegin, timeLength, min:minimum } = this.props;
     const settime = min(timeLength, max(minimum, value));
-    actions.setTime((settime + timeBegin)|0);
+    actions.setTime(safeAdd(settime, timeBegin)|0);
   }
 
   render() {
@@ -31,7 +32,7 @@ export default class ElapsedTimeValue extends React.Component<Props> {
     return (
       <input
         type="number"
-        value={(settime - timeBegin)|0}
+        value={safeSubtract(settime, timeBegin)|0}
         min={min} max={timeLength}
         onChange={this.setTime.bind(this)}
         id={id} className={className}
