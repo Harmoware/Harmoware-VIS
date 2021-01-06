@@ -1,5 +1,6 @@
 import { LineLayer, PathLayer, PolygonLayer } from '@deck.gl/layers';
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { PathStyleExtension } from '@deck.gl/extensions';
 import { LineMapData } from '../../types';
 import { COLOR2 } from '../../constants/settings';
 
@@ -86,7 +87,8 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getPath,
         getColor,
         getWidth,
-        getDashArray }):null,
+        getDashArray,
+        extensions: [new PathStyleExtension({dash:true})] }):null,
       sourcePositionData.length > 0 ?
       new LineLayer({
         id: id + '-LineLayer',
