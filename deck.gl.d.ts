@@ -64,3 +64,10 @@ declare module "@deck.gl/mesh-layers" {
 
   class SimpleMeshLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
 }
+
+declare module "@deck.gl/extensions" {
+
+  class PathStyleExtension {
+    constructor(props: any);
+  }
+}

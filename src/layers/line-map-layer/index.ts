@@ -21,6 +21,8 @@ interface Props extends LayerProps {
   lineOpacity?: number,
 }
 
+const extensions = [new PathStyleExtension({dash:true})];
+
 export default class LineMapLayer extends CompositeLayer<Props> {
   constructor(props: Props) {
     super(props);
@@ -88,7 +90,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getColor,
         getWidth,
         getDashArray,
-        extensions: [new PathStyleExtension({dash:true})] }):null,
+        extensions }):null,
       sourcePositionData.length > 0 ?
       new LineLayer({
         id: id + '-LineLayer',
