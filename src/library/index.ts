@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { ActionTypes, AnalyzedBaseData, InnerProps, RoutePaths, IconDesignation,
+import { ActionTypes, AnalyzedBaseData, InnerState, RoutePaths, IconDesignation,
   Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
@@ -191,7 +191,7 @@ export const analyzeMovesBase =
   }
 };
 
-export const getDepots = (props: InnerProps): DepotsData[] => {
+export const getDepots = (props: InnerState): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
   if(prevData.length > 0 && (abs(prevData[0].settime - settime) <= 1)){
     if(!getDepotsOptionFunc) return prevData;
@@ -212,7 +212,7 @@ export const getDepots = (props: InnerProps): DepotsData[] => {
   return [];
 };
 
-export const getMoveObjects = (props : InnerProps): MovedData[] => {
+export const getMoveObjects = (props : InnerState): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeLength,
     getMovesOptionFunc, iconGradation } = props;
     safeCheck(settime);
