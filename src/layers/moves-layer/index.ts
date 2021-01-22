@@ -40,6 +40,7 @@ interface Props extends LayerProps {
   actions: typeof Actions,
   optionVisible?: boolean,
   optionArcVisible?: boolean,
+  optionLineVisible?: boolean,
   optionChange?: boolean,
   optionOpacity?: number,
   optionCellSize?: number,
@@ -56,6 +57,7 @@ interface Props extends LayerProps {
   getCubeColor?: (x: MovedData) => number[][],
   getCubeElevation?: (x: MovedData) => number[],
   getArchWidth?: (x: MovedData) => number,
+  getLinehWidth?: (x: MovedData) => number,
   scenegraph?: any,
   mesh?: any,
   sizeScale?: number,
@@ -74,6 +76,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
     layerRadiusScale: 1,
     layerOpacity: 0.75,
     optionVisible: true,
+    optionArcVisible: false,
+    optionLineVisible: false,
     optionChange: false,
     optionOpacity: 0.25,
     optionCellSize: 12,
@@ -89,6 +93,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getCubeColor: (x: MovedData) => x.optColor || [x.color] || [COLOR1],
     getCubeElevation: (x: MovedData) => x.optElevation,
     getArchWidth: (x: MovedData) => x.archWidth || 10,
+    getLinehWidth: (x: MovedData) => 10,
     scenegraph: defaultScenegraph,
     mesh: defaultmesh,
     sizeScale: 20,
@@ -177,8 +182,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
   renderLayers():any[] {
     const { id, routePaths, layerOpacity, movedData,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
-      optionDisplayPosition, optionVisible, optionArcVisible, optionChange,
-      iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, optionCentering,
+      optionDisplayPosition, optionVisible, optionArcVisible, optionLineVisible, optionChange,
+      iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, getLinehWidth, optionCentering,
     } = this.props;
 
     if (typeof clickedObject === 'undefined' ||
@@ -189,6 +194,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     const stacking1 = visible && optionVisible && optionChange;
     const optPlacement = visible && iconChange ? ()=>optionDisplayPosition : ()=>0;
     const arcVisible = optionArcVisible !== undefined ? optionArcVisible : optionVisible;
+    const lineVisible = optionLineVisible !== undefined ? optionLineVisible : optionVisible;
     const movedDataPosition = movedData.filter((x)=>x.position);
     const arcData = movedData.filter((data)=>data.sourcePosition);
 
@@ -223,7 +229,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
       }) : null,
-      arcVisible ?
+      arcData.length > 0 && arcVisible ?
       new ArcLayer({
         id: id + '-moves-opt-arc',
         data: arcData,
@@ -236,6 +242,20 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
         getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
         getWidth: getArchWidth,
+        opacity: layerOpacity
+      }) : null,
+      arcData.length > 0 && lineVisible ?
+      new LineLayer({
+        id: id + '-moves-opt-line',
+        data: arcData,
+        visible: lineVisible,
+        pickable: true,
+        widthUnits: 'meters',
+        widthMinPixels: 0.1,
+        getSourcePosition: (x: MovedData) => x.sourcePosition,
+        getTargetPosition: (x: MovedData) => x.targetPosition,
+        getColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
+        getWidth: getLinehWidth,
         opacity: layerOpacity
       }) : null,
     ];

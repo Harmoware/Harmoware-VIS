@@ -18,6 +18,7 @@ interface State {
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
   moveOptionArcVisible: boolean,
+  moveOptionLineVisible: boolean,
   moveSvgVisible: boolean,
   depotOptionVisible: boolean,
   heatmapVisible: boolean,
@@ -37,6 +38,7 @@ class App extends Container<BasedProps, State> {
       moveDataVisible: true,
       moveOptionVisible: false,
       moveOptionArcVisible: false,
+      moveOptionLineVisible: false,
       moveSvgVisible: false,
       depotOptionVisible: false,
       heatmapVisible: false,
@@ -62,6 +64,10 @@ class App extends Container<BasedProps, State> {
 
   getMoveOptionArcChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveOptionArcVisible: e.target.checked });
+  }
+
+  getMoveOptionLineChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ moveOptionLineVisible: e.target.checked });
   }
 
   getMoveSvgChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -182,6 +188,7 @@ class App extends Container<BasedProps, State> {
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getMoveOptionArcChecked={this.getMoveOptionArcChecked.bind(this)}
+          getMoveOptionLineChecked={this.getMoveOptionLineChecked.bind(this)}
           getMoveSvgChecked={this.getMoveSvgChecked.bind(this)}
           getDepotOptionChecked={this.getDepotOptionChecked.bind(this)}
           getHeatmapVisible={this.getHeatmapVisible.bind(this)}
@@ -233,6 +240,7 @@ class App extends Container<BasedProps, State> {
                 visible: this.state.moveDataVisible,
                 optionVisible: this.state.moveOptionVisible,
                 optionArcVisible: this.state.moveOptionArcVisible,
+                optionLineVisible: this.state.moveOptionLineVisible,
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange, // Invalid if there is iconDesignations definition
                 iconCubeType: this.state.iconCubeType, // Invalid if there is iconDesignations definition

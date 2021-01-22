@@ -12,6 +12,7 @@ interface Props extends BasedProps{
   getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionArcChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionLineChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveSvgChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -115,7 +116,7 @@ export default class Controller extends React.Component<Props, State> {
       secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, iconCubeType,
-      getMoveSvgChecked, inputFileName, viewport } = this.props;
+      getMoveSvgChecked, getMoveOptionLineChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -207,6 +208,12 @@ export default class Controller extends React.Component<Props, State> {
                     <div>
                       <input type="checkbox" id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} className="harmovis_input_checkbox" />
                       <label htmlFor="MoveOptionArcChecked" className="form-check-label" title='運行データアーチ表示'>運行データアーチ表示</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="checkbox" id="MoveOptionLineChecked" onChange={getMoveOptionLineChecked} className="harmovis_input_checkbox" />
+                      <label htmlFor="MoveOptionLineChecked" className="form-check-label" title='運行データライン表示'>運行データライン表示</label>
                     </div>
                   </li>
                   <li>
