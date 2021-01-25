@@ -76,7 +76,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
     layerRadiusScale: 1,
     layerOpacity: 0.75,
     optionVisible: true,
-    optionArcVisible: false,
     optionLineVisible: false,
     optionChange: false,
     optionOpacity: 0.25,
