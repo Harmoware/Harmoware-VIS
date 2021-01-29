@@ -3,7 +3,7 @@ import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, InnerState, RoutePaths, IconDesignation,
-  Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport,
+  Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport, MovesbaseOperation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
@@ -94,6 +94,7 @@ export const analyzeMovesBase =
     const { operation } = movesbase[i];
     if(!operation || operation.length === 0){
       console.log('movesbase['+i+'] operation undefined');
+      continue;
     }
     for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
       const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
@@ -102,10 +103,21 @@ export const analyzeMovesBase =
         continue;
       }
       safeCheck(elapsedtime);
+    }
+    movesbase[i].operation = operation.reduce((operation: MovesbaseOperation[], operationElement)=>{
+      if(operation.length === 0 || operation.findIndex((data)=>data.elapsedtime === operationElement.elapsedtime) < 0){
+        operation.push(operationElement);
+      }
+      return operation;
+    },[]);
+    for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
+      const { longitude, latitude, position=[longitude, latitude, 3] } = operation[j];
       if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
         typeof operation[j].position === 'undefined'){
         continue;
       }
+      if(operation[j].longitude) delete operation[j].longitude;
+      if(operation[j].latitude) delete operation[j].latitude;
       if (typeof operation[j].position === 'undefined') {
         operation[j].position = position;
       }
@@ -133,9 +145,7 @@ export const analyzeMovesBase =
 
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
-      const elapsedtime = operation[j].elapsedtime;
-      const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
-      const nextidx = findIndex < 0 ? (j+1)|0 : findIndex;
+      const nextidx = (j+1)|0;
       if(typeof operation[j].position === 'undefined' ||
         typeof operation[nextidx].position === 'undefined'){
         continue;
@@ -223,47 +233,44 @@ export const getMoveObjects = (props : InnerState): MovedData[] => {
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
 
-  const selectmovesbase = movesbase.filter((data)=>{
-    const { departuretime, arrivaltime } = data;
-    return (timeLength > 0 && departuretime <= settime && settime < arrivaltime);
-  });
-  const movedData: MovedData[] = [];
-  for (const movesbaseElement of selectmovesbase) {
+  const movedData: MovedData[] = movesbase.reduce((movedData: MovedData[],movesbaseElement)=>{
     const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = movesbaseElement;
-    const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
-    const beforeElapsedtime = operation[nextidx-1].elapsedtime;
-    const idx = operation.findIndex((data)=>data.elapsedtime === beforeElapsedtime);
-    if(typeof operation[idx].position === 'undefined' ||
-      typeof operation[nextidx].position === 'undefined'){
-      const {elapsedtime, longitude, latitude, ...otherProps2} = operation[idx];
-      movedData.push(assign({},
-        otherProps1, otherProps2, { settime, movesbaseidx },
-        getOptionFunction(props, movesbaseidx, idx),
-      ));
-    }else{
-      const { elapsedtime, position:sourcePosition, longitude, latitude,
-        color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
-      const { elapsedtime:nextelapsedtime, position:targetPosition,
-        color:targetColor=COLOR1 } = operation[nextidx];
-      const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-      const position = [
-        sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
-        sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
-        sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
-      ];
-      const color = iconGradation ? [
-        (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
-        (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
-        (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
-      ] : sourceColor;
-      movedData.push(assign({}, otherProps1, otherProps2,
-        { settime,
-          position, sourcePosition, targetPosition,
-          color, direction, sourceColor, targetColor, movesbaseidx},
-        getOptionFunction(props, movesbaseidx, idx),
-      ));
+    if(timeLength > 0 && departuretime <= settime && settime < arrivaltime){
+      const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
+      const idx = (nextidx-1)|0;
+      if(typeof operation[idx].position === 'undefined' ||
+        typeof operation[nextidx].position === 'undefined'){
+        const {elapsedtime, ...otherProps2} = operation[idx];
+        movedData.push(assign({},
+          otherProps1, otherProps2, { settime, movesbaseidx },
+          getOptionFunction(props, movesbaseidx, idx),
+        ));
+      }else{
+        const { elapsedtime, position:sourcePosition,
+          color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
+        const { elapsedtime:nextelapsedtime, position:targetPosition,
+          color:targetColor=COLOR1 } = operation[nextidx];
+        const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
+        const position = [
+          sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
+          sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
+          sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
+        ];
+        const color = iconGradation ? [
+          (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
+          (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
+          (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
+        ] : sourceColor;
+        movedData.push(assign({}, otherProps1, otherProps2,
+          { settime,
+            position, sourcePosition, targetPosition,
+            color, direction, sourceColor, targetColor, movesbaseidx},
+          getOptionFunction(props, movesbaseidx, idx),
+        ));
+      }
     }
-  }
+    return movedData;
+  },[]);
   return movedData;
 };
 
@@ -327,13 +334,11 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
           getColor = replaceGetRouteColor[type];
         }
         for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
-          const { position, elapsedtime } = operation[j];
           const movedata = { type, ...operation[j] };
           const routeColor = getColor(movedata);
           const routeWidth = getRouteWidth(movedata);
-          const findIndex = operation.findIndex((data)=>data.elapsedtime > elapsedtime);
-          const nextidx = findIndex < 0 ? (j+1)|0 : findIndex;
-          const { position: nextposition } = operation[nextidx];
+          const { position } = operation[j];
+          const { position: nextposition } = operation[(j+1)|0];
           setRoutePaths.push({
             type ,movesbaseidx,
             sourcePosition: position,
