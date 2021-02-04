@@ -1,5 +1,6 @@
 import { LineLayer, PathLayer, PolygonLayer } from '@deck.gl/layers';
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { PathStyleExtension } from '@deck.gl/extensions';
 import { LineMapData } from '../../types';
 interface Props extends LayerProps {
     data?: LineMapData[];
@@ -62,6 +63,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         getColor: (x: LineMapData) => number[];
         getWidth: (x: LineMapData) => number;
         getDashArray: (x: LineMapData) => number[];
+        extensions: PathStyleExtension[];
     }, {}> | LineLayer<{
         id: string;
         data: LineMapData[];

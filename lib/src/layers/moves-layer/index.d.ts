@@ -12,6 +12,7 @@ interface Props extends LayerProps {
     actions: typeof Actions;
     optionVisible?: boolean;
     optionArcVisible?: boolean;
+    optionLineVisible?: boolean;
     optionChange?: boolean;
     optionOpacity?: number;
     optionCellSize?: number;
@@ -28,6 +29,7 @@ interface Props extends LayerProps {
     getCubeColor?: (x: MovedData) => number[][];
     getCubeElevation?: (x: MovedData) => number[];
     getArchWidth?: (x: MovedData) => number;
+    getLinehWidth?: (x: MovedData) => number;
     scenegraph?: any;
     mesh?: any;
     sizeScale?: number;
@@ -42,6 +44,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         layerRadiusScale: number;
         layerOpacity: number;
         optionVisible: boolean;
+        optionLineVisible: boolean;
         optionChange: boolean;
         optionOpacity: number;
         optionCellSize: number;
@@ -57,6 +60,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getCubeColor: (x: MovedData) => (number | number[])[][];
         getCubeElevation: (x: MovedData) => number[];
         getArchWidth: (x: MovedData) => number;
+        getLinehWidth: (x: MovedData) => number;
         scenegraph: string;
         mesh: any;
         sizeScale: number;
