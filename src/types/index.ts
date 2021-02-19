@@ -1,4 +1,5 @@
-import { TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import { TransitionInterpolator } from 'react-map-gl';
+import type { TRANSITION_EVENTS } from 'react-map-gl';
 import * as BaseActions from '../actions';
 
 export interface Viewport {
@@ -15,7 +16,8 @@ export interface Viewport {
   zoom?: number,
   transitionDuration?: number | 'auto',
   transitionInterpolator?: TransitionInterpolator,
-  transitionInterruption?: TRANSITION_EVENTS,
+  transitionInterruption?: typeof TRANSITION_EVENTS,
+  transitionEasing?: any
 };
 
 export interface Bounds {

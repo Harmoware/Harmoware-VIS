@@ -1,11 +1,13 @@
 import * as React from 'react';
-import InteractiveMap, { InteractiveMapProps,
-  FlyToInterpolator, FlyToInterpolatorProps,
-  TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import InteractiveMap, { FlyToInterpolator, TransitionInterpolator } from 'react-map-gl';
+import type { TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
+
+type InteractiveMapProps = any;
+type FlyToInterpolatorProps = any;
 
 interface Props {
   visible?: boolean,
@@ -20,43 +22,43 @@ interface Props {
   flytoArgument?: FlyToInterpolatorProps,
   transitionDuration?: number | 'auto'
   transitionInterpolator?: TransitionInterpolator,
-  transitionInterruption?: TRANSITION_EVENTS,
+  transitionInterruption?: typeof TRANSITION_EVENTS,
 }
 interface State {
   transition?: boolean,
 }
 
-class MapGl extends InteractiveMap {
-  static mapboxAddLayerValue: mapboxgl.Layer[];
+const MapGl = (props:InteractiveMapProps) => {
+  const {mapboxAddLayerValue, ...otherProps} = props;
+  const [execflg, setFlg] = React.useState(false);
+  const [prevStyle, setStyle] = React.useState(props.mapStyle);
+  const interactiveMapRef = React.useRef(null);
+  const map = interactiveMapRef.current && interactiveMapRef.current.getMap();
 
-  componentDidMount() {
-    super.componentDidMount();
-    if(!MapGl.mapboxAddLayerValue) return;
-    const map = this.getMap();
-    const LayerValuemap:any[] = MapGl.mapboxAddLayerValue;
+  if(map && !execflg && mapboxAddLayerValue){
+    setFlg(true);
     map.on('load', function() {
-      for(const LayerValuemapElement of LayerValuemap){
-        map.addLayer(LayerValuemapElement);
+      for(const LayerValuemapElement of mapboxAddLayerValue){
+        if(!map.getLayer(LayerValuemapElement.id)){
+          map.addLayer(LayerValuemapElement);
+        }
       }
     });
   }
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>) {
-    super.componentDidUpdate(prevProps, prevState);
-    if(prevProps.mapStyle !== this.props.mapStyle && prevProps.mapStyle === '') {
-      if(!MapGl.mapboxAddLayerValue) return;
-      const map = this.getMap();
-      const LayerValuemap:any[] = MapGl.mapboxAddLayerValue;
-      let execflg = false
+  if(prevStyle !== props.mapStyle){
+    setStyle(props.mapStyle);
+    if(map && mapboxAddLayerValue){
       map.on('styledata', function() {
-        if(execflg) return;
-        for(const LayerValuemapElement of LayerValuemap){
-          map.addLayer(LayerValuemapElement);
+        for(const LayerValuemapElement of mapboxAddLayerValue){
+          if(!map.getLayer(LayerValuemapElement.id)){
+            map.addLayer(LayerValuemapElement);
+          }
         }
-        execflg = true;
       });
     }
   }
-}
+  return (<InteractiveMap {...otherProps} ref={interactiveMapRef} />);
+};
 
 export default class HarmoVisLayers extends React.Component<Props,State> {
   static defaultProps = {
@@ -88,7 +90,6 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
   constructor(props: Props){
     super(props);
     this.state = {transition:false};
-    MapGl.mapboxAddLayerValue = props.mapboxAddLayerValue;
   }
 
   componentDidUpdate(prevProps:Props) {
@@ -110,7 +111,7 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
   render() {
     const { props } = this;
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
-      layers, mapGlComponents, flytoArgument } = props;
+      layers, mapGlComponents, flytoArgument, mapboxAddLayerValue } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
     const transitionDuration = this.state.transition?
       (viewport.transitionDuration||props.transitionDuration):undefined;
@@ -130,6 +131,7 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
           transitionDuration={transitionDuration}
           transitionInterpolator={transitionInterpolator}
           transitionInterruption={transitionInterruption}
+          mapboxAddLayerValue={mapboxAddLayerValue}
         >
           { mapGlComponents }
           <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
