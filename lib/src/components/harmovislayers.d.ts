@@ -1,9 +1,11 @@
 /// <reference types="node" />
 /// <reference types="mapbox-gl" />
 import * as React from 'react';
-import { FlyToInterpolatorProps, TransitionInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import { TransitionInterpolator } from 'react-map-gl';
+import type { TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
+declare type FlyToInterpolatorProps = any;
 interface Props {
     visible?: boolean;
     viewport: Viewport;
@@ -17,7 +19,7 @@ interface Props {
     flytoArgument?: FlyToInterpolatorProps;
     transitionDuration?: number | 'auto';
     transitionInterpolator?: TransitionInterpolator;
-    transitionInterruption?: TRANSITION_EVENTS;
+    transitionInterruption?: typeof TRANSITION_EVENTS;
 }
 interface State {
     transition?: boolean;
