@@ -1,4 +1,3 @@
-/// <reference types="node" />
 /// <reference types="mapbox-gl" />
 import * as React from 'react';
 import { TransitionInterpolator } from 'react-map-gl';
@@ -37,8 +36,8 @@ export default class HarmoVisLayers extends React.Component<Props, State> {
             type: string;
             paint: {
                 "fill-extrusion-color": string;
-                "fill-extrusion-height": import("http").OutgoingHttpHeader[];
-                "fill-extrusion-base": import("http").OutgoingHttpHeader[];
+                "fill-extrusion-height": (string | number | string[])[];
+                "fill-extrusion-base": (string | number | string[])[];
                 "fill-extrusion-opacity": number;
             };
         }[];
