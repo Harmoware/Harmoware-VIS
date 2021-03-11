@@ -476,8 +476,9 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
       yield put(Actions.setDelayRange(delayrange));
     }
     for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
-      const { longitude, latitude, delaysec } = operation[j];
-      const { longitude: nextlongitude, latitude: nextlatitude,
+      const { position, longitude=position[0], latitude=position[1], delaysec } = operation[j];
+      const { position:nextposition,
+        longitude: nextlongitude=nextposition[0], latitude: nextlatitude=nextposition[1],
         delaysec: nextdelaysec } = operation[j + 1];
       routePaths.push({
         sourcePosition: [longitude, latitude, ((delaysec / 2) * delayheight) + 2],
@@ -490,8 +491,9 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
   } else {
     yield put(Actions.setDelayRange(1));
     for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
-      const { longitude, latitude, color } = operation[j];
-      const { longitude: nextlongitude, latitude: nextlatitude } = operation[j + 1];
+      const { position, longitude=position[0], latitude=position[1], color } = operation[j];
+      const { position:nextposition, longitude: nextlongitude=nextposition[0],
+        latitude: nextlatitude=nextposition[1] } = operation[j + 1];
       routePaths.push({
         movesbaseidx,
         sourcePosition: [longitude, latitude, 0],
