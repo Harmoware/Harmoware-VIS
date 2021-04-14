@@ -2,10 +2,11 @@ import * as React from 'react';
 import { MovesInput, DepotsInput, LinemapInput,
   AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton,
   ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime,
-  NavigationButton, BasedProps, ClickedObject, RoutePaths } from 'harmoware-vis';
+  NavigationButton, BasedProps, ClickedObject, RoutePaths, Viewport } from 'harmoware-vis';
 import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave,
   ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
+import ViewportInput from './viewport-input';
 
 interface Props extends BasedProps{
   getMapboxChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -39,6 +40,10 @@ export default class Controller extends React.Component<Props, State> {
       routeGroupDisplay: false,
       saveRouteGroup: [],
     };
+  }
+
+  getViewport(viewport:Viewport){
+    this.props.actions.setViewport(viewport);
   }
 
   clearAllRoute() {
@@ -243,6 +248,13 @@ export default class Controller extends React.Component<Props, State> {
                 <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
                 <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+              </div>
+            </li>
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="ViewportInput" className="btn btn-outline-light btn-sm w-100" title='視点移動データ選択'>
+                  視点移動データ選択<ViewportInput getViewport={this.getViewport.bind(this)} id="ViewportInput" />
+                </label>
               </div>
             </li>
             <li></li>
