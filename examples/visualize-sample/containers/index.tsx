@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { PolygonLayer, PointCloudLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
-import { Marker, Popup } from 'react-map-gl';
+import { Marker, Popup, LinearInterpolator } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
-  connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay } from 'harmoware-vis';
+  connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay, Viewport } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
-import { NamedModulesPlugin } from 'webpack';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
+const defaultInterval = 1000;
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -24,9 +24,12 @@ interface State {
   heatmapVisible: boolean,
   optionChange: boolean,
   iconChange: boolean,
-  iconCubeType?: number,
+  iconCubeType: number,
   popup: [number, number, string],
-  popupInfo: MovedData
+  popupInfo: MovedData,
+  viewportArray: Viewport[],
+  followingiconId: number,
+  follwTimerId: NodeJS.Timeout
 }
 
 class App extends Container<BasedProps, State> {
@@ -46,8 +49,70 @@ class App extends Container<BasedProps, State> {
       iconChange: true,
       iconCubeType: 0,
       popup: [0, 0, ''],
-      popupInfo: null
+      popupInfo: null,
+      viewportArray: [],
+      followingiconId: -1,
+      follwTimerId: null
     };
+    this.viewportPlayback = this.viewportPlayback.bind(this);
+    this.iconFollwNext = this.iconFollwNext.bind(this);
+  }
+
+  viewportPlayback(){
+    const {viewportArray} = this.state;
+    if(viewportArray && viewportArray.length > 0){
+      const viewport = viewportArray.shift();
+      if(viewport.transitionDuration && !viewport.transitionInterpolator){
+        viewport.transitionInterpolator = new LinearInterpolator();
+      }
+      this.props.actions.setViewport(viewport);
+      this.setState({viewportArray:[...viewportArray]});
+      const {transitionDuration = defaultInterval} = viewport;
+      const timeoutValue = (transitionDuration === 'auto' ?
+        defaultInterval : transitionDuration);
+      setTimeout(this.viewportPlayback,timeoutValue);
+    }
+  }
+
+  iconFollwNext(movesbaseidx:number){
+    const {animateReverse,animatePause,loopEndPause,movesbase,movedData,settime,secperhour,actions} = this.props;
+    const data = movedData.find(x=>x.movesbaseidx === movesbaseidx);
+    if(data && data.position){
+      actions.setViewport({
+        longitude:data.position[0], latitude:data.position[1],bearing:data.direction
+      });
+    }
+    const base = movesbase.find(x=>x.movesbaseidx === movesbaseidx);
+    if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
+      if (!animatePause && !loopEndPause) {
+        let next = undefined;
+        let direction = 0;
+        const nextIdx = base.operation.findIndex(x=>x.elapsedtime > settime);
+        if (!animateReverse) {
+          next = base.operation[nextIdx];
+          if(nextIdx === base.operation.length - 1){
+            direction = base.operation[nextIdx-1].direction;
+          }else{
+            direction = base.operation[nextIdx].direction;
+          }
+        }else{
+          next = base.operation[nextIdx-1];
+          direction = base.operation[nextIdx-1].direction;
+        }
+        if(next && next.position){
+          const timeoutValue = (Math.abs(next.elapsedtime - settime)/3600) * 1000 * secperhour;
+          actions.setViewport({
+            longitude:next.position[0], latitude:next.position[1], bearing:direction,
+            transitionDuration:timeoutValue,
+            transitionInterpolator:new LinearInterpolator()
+          });
+          const follwTimerId = setTimeout(this.iconFollwNext,timeoutValue,movesbaseidx);
+          this.setState({ follwTimerId });
+          return;
+        }
+      }
+    }
+    this.setState({ followingiconId: -1 });
   }
 
   getMapboxChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -90,8 +155,33 @@ class App extends Container<BasedProps, State> {
     this.setState({ iconCubeType: +e.target.value });
   }
 
+  getFollowingiconIdSelected(e: React.ChangeEvent<HTMLSelectElement>) {
+    clearTimeout(this.state.follwTimerId);
+    this.setState({ follwTimerId:null });
+    const movesbaseidx:number = +e.target.value;
+    this.setState({ followingiconId: movesbaseidx });
+    if(movesbaseidx < 0) return;
+    const data = this.props.movedData.find(x=>x.movesbaseidx === movesbaseidx);
+    if(data && data.position){
+      setTimeout(this.iconFollwNext,0,movesbaseidx);
+      return;
+    }
+    this.setState({ followingiconId: -1 });
+  }
+
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ heatmapVisible: e.target.checked });
+  }
+
+  getViewport(viewport: Viewport|Viewport[]){
+    if(Array.isArray(viewport)){
+      if(viewport.length > 0){
+        this.setState({viewportArray:viewport});
+        this.viewportPlayback();
+      }
+    }else{
+      this.props.actions.setViewport(viewport);
+    }
   }
 
   getMarker(data: MovedData, index: number) {
@@ -184,6 +274,7 @@ class App extends Container<BasedProps, State> {
         <Controller
           {...props}
           iconCubeType={this.state.iconCubeType}
+          followingiconId={this.state.followingiconId}
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
@@ -195,6 +286,8 @@ class App extends Container<BasedProps, State> {
           getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
           getIconChangeChecked={this.getIconChangeChecked.bind(this)}
           getIconCubeTypeSelected={this.getIconCubeTypeSelected.bind(this)}
+          getFollowingiconIdSelected={this.getFollowingiconIdSelected.bind(this)}
+          getViewport={this.getViewport.bind(this)}
         />
         <div className="harmovis_footer">
           <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">

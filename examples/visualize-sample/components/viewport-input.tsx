@@ -5,7 +5,7 @@ interface Props {
   id?: string,
   className?: string,
   style?: React.CSSProperties,
-  getViewport: (viewport:Viewport)=>{}
+  getViewport: (viewport:any)=>void
 }
 
 export default class ViewportInput extends React.Component<Props> {

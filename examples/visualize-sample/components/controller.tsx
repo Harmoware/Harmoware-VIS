@@ -9,18 +9,21 @@ import { ic_delete_forever as icDeleteForever, ic_save as icSave,
 import ViewportInput from './viewport-input';
 
 interface Props extends BasedProps{
-  getMapboxChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getMoveDataChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getMoveOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getMoveOptionArcChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getMoveOptionLineChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getMoveSvgChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getDepotOptionChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getHeatmapVisible?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getOptionChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getIconChangeChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  getIconCubeTypeSelected?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
-  iconCubeType: number
+  getMapboxChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveDataChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionArcChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveOptionLineChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMoveSvgChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getDepotOptionChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getHeatmapVisible: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getIconChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getIconCubeTypeSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  getFollowingiconIdSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  getViewport?: (viewport: Viewport|Viewport[]) => void,
+  iconCubeType: number,
+  followingiconId: number,
 }
 
 interface State {
@@ -40,10 +43,6 @@ export default class Controller extends React.Component<Props, State> {
       routeGroupDisplay: false,
       saveRouteGroup: [],
     };
-  }
-
-  getViewport(viewport:Viewport){
-    this.props.actions.setViewport(viewport);
   }
 
   clearAllRoute() {
@@ -120,8 +119,9 @@ export default class Controller extends React.Component<Props, State> {
     const { settime, timeBegin, timeLength, actions, movedData, movesbase,
       secperhour, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
-      getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, iconCubeType,
-      getMoveSvgChecked, getMoveOptionLineChecked, inputFileName, viewport } = this.props;
+      getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
+      iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport,
+      inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -137,6 +137,15 @@ export default class Controller extends React.Component<Props, State> {
                   運行データ選択<MovesInput actions={actions} id="MovesInput" />
                 </label>
                 <div>{movesFileName || '選択されていません'}</div>
+              </div>
+            </li>
+            <li>
+              <div className="form-select" title='移動アイコン追従'>
+                <label htmlFor="IconFollowSelect" className="form-select-label">移動アイコン追従</label>
+                <select id="IconFollowSelect" value={followingiconId} onChange={getFollowingiconIdSelected} >
+                <option value="-1">追従なし</option>
+                {movedData.map(x=><option value={x.movesbaseidx} key={x.movesbaseidx}>{x.movesbaseidx}</option>)}
+                </select>
               </div>
             </li>
             <li></li>
@@ -253,7 +262,7 @@ export default class Controller extends React.Component<Props, State> {
             <li>
               <div className="vis_sample_input_button_column">
                 <label htmlFor="ViewportInput" className="btn btn-outline-light btn-sm w-100" title='視点移動データ選択'>
-                  視点移動データ選択<ViewportInput getViewport={this.getViewport.bind(this)} id="ViewportInput" />
+                  視点移動データ選択<ViewportInput getViewport={getViewport} id="ViewportInput" />
                 </label>
               </div>
             </li>
