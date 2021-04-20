@@ -96,9 +96,12 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     if (!this.state.transition) {
       this.setState({transition:true});
     }
-    if(this.props.viewport.transitionDuration !== prevProps.viewport.transitionDuration){
-      if(this.props.viewport.transitionDuration !== undefined){
-        this.props.actions.setViewport({transitionDuration:undefined});
+    const {transitionDuration} = this.props.viewport;
+    if(transitionDuration !== prevProps.viewport.transitionDuration){
+      if(transitionDuration !== undefined){
+        this.props.actions.setViewport({
+          transitionDuration:undefined,
+          transitionInterpolator:undefined });
       }
     }
   }
