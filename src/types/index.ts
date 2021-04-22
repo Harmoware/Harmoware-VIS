@@ -3,6 +3,7 @@ import type { TRANSITION_EVENTS } from 'react-map-gl';
 import * as BaseActions from '../actions';
 
 export interface Viewport {
+  altitude?: number,
   bearing?: number,
   height?: number,
   latitude?: number,
