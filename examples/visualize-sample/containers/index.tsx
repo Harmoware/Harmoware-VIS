@@ -106,9 +106,11 @@ class App extends Container<BasedProps, State> {
             transitionDuration:timeoutValue,
             transitionInterpolator:new LinearInterpolator()
           });
-          const follwTimerId = setTimeout(this.iconFollwNext,timeoutValue,movesbaseidx);
-          this.setState({ follwTimerId });
-          return;
+          if(this.state.followingiconId === movesbaseidx){
+            const follwTimerId = setTimeout(this.iconFollwNext,timeoutValue,movesbaseidx);
+            this.setState({ follwTimerId });
+            return;
+          }
         }
       }
     }
@@ -294,6 +296,7 @@ class App extends Container<BasedProps, State> {
             サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;
           latitude:{viewport.latitude}&nbsp;
+          altitude:{viewport.altitude}&nbsp;
           zoom:{viewport.zoom}&nbsp;
           bearing:{viewport.bearing}&nbsp;
           pitch:{viewport.pitch}
