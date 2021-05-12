@@ -51,7 +51,7 @@
     "csvtojson": "^2.0.10",
     "i18next": "^20.2.2",
     "node-cmd": "^4.0.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^4.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.8.15",
