@@ -94,8 +94,8 @@ reducer.case(setViewport, (state, view) => {
 
 reducer.case(setDefaultViewport, (state, defViewport:{defaultZoom?:number,defaultPitch?:number}={}) => {
   const {defaultZoom,defaultPitch} = defViewport;
-  const zoom = defaultZoom||state.defaultZoom;
-  const pitch = defaultPitch||state.defaultPitch;
+  const zoom = defaultZoom === undefined ? state.defaultZoom : defaultZoom;
+  const pitch = defaultPitch === undefined ? state.defaultPitch : defaultPitch;
   const viewport = assign({}, state.viewport, { bearing:0, zoom, pitch });
   return assign({}, state, {
     viewport, defaultZoom:zoom, defaultPitch:pitch
