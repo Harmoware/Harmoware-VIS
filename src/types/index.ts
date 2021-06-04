@@ -134,39 +134,6 @@ export interface IconDesignation {
   scenegraph?: any,
 };
 
-export interface InnerState {
-  animatePause?: boolean,
-  loopEndPause?: boolean,
-  animateReverse?: boolean,
-  beforeFrameTimestamp?: number,
-  bounds?: Bounds,
-  clickedObject?: null | ClickedObject[],
-  defaultPitch?: number,
-  defaultZoom?: number,
-  depotsBase?: Depotsbase[],
-  depotsData?: DepotsData[],
-  getDepotsOptionFunc?: null | (<P>(props: P, i: number) => object),
-  getMovesOptionFunc?: null | (<P>(props: P, i: number, j: number) => object),
-  leading?: number,
-  loopTime?: number,
-  movedData?: MovedData[],
-  movesbase?: Movesbase[],
-  routePaths?: RoutePaths[],
-  secperhour?: number,
-  settime?: number,
-  starttimestamp?: number,
-  timeBegin?: number,
-  timeLength?: number,
-  trailing?: number,
-  viewport?: Viewport,
-  linemapData?: LineMapData[],
-  loading?: boolean,
-  inputFileName?: ComObj<string>,
-  noLoop?: boolean,
-  initialViewChange?: boolean,
-  iconGradation?: boolean,
-};
-
 export interface BasedState {
   animatePause: boolean,
   loopEndPause: boolean,
@@ -200,6 +167,8 @@ export interface BasedState {
   iconGradation: boolean,
 };
 
+export interface InnerState extends Partial<BasedState>{};
+
 export type ActionTypes = typeof BaseActions;
 
 export interface ActionsInterface extends ActionTypes { }
@@ -207,9 +176,8 @@ export interface ActionsInterface extends ActionTypes { }
 export interface BasedProps extends BasedState {
   actions: ActionTypes
 };
-export interface InnerProps extends InnerState {
-  actions?: ActionTypes
-};
+
+export interface InnerProps extends Partial<BasedProps> {};
 
 export type GetDepotsOptionFunc = (props: object, i: number) => object;
 
