@@ -268,6 +268,7 @@ class App extends Container<BasedProps, State> {
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
     const hexagonData = this.state.heatmapVisible ? movedData.filter(x=>x.position):[];
     const PointCloudData = movedData.filter((x:any)=>x.pointCloud);
+    const sizeScale = Math.max(20 - viewport.zoom,1)**2;
 
     const onHover = this.onHover.bind(this);
 
@@ -340,7 +341,7 @@ class App extends Container<BasedProps, State> {
                 optionChange: this.state.optionChange,
                 iconChange: this.state.iconChange, // Invalid if there is iconDesignations definition
                 iconCubeType: this.state.iconCubeType, // Invalid if there is iconDesignations definition
-                sizeScale: this.state.iconCubeType === 0 ? 20 : 2,
+                sizeScale: this.state.iconCubeType === 0 ? sizeScale : 2,
                 onHover
               }):null,
               linemapData.length > 0 ?
