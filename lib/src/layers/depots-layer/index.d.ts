@@ -1,4 +1,5 @@
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { IcoSphereGeometry } from '@luma.gl/engine';
 import { DepotsData, LayerTypes, IconDesignation } from '../../types';
 interface Props extends LayerProps {
     iconlayer?: LayerTypes;
@@ -44,7 +45,7 @@ export default class DepotsLayer extends CompositeLayer<Props> {
         getRadius: (x: DepotsData) => number;
         getCubeColor: (x: DepotsData) => (number | number[])[][];
         getCubeElevation: (x: DepotsData) => number[];
-        mesh: any;
+        mesh: IcoSphereGeometry;
         meshSizeScale: number;
         getOrientation: number[];
         getScale: number[];

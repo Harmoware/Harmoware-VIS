@@ -1,4 +1,5 @@
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
+import { CubeGeometry } from '@luma.gl/engine';
 import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
@@ -62,7 +63,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getArchWidth: (x: MovedData) => number;
         getLinehWidth: (x: MovedData) => number;
         scenegraph: string;
-        mesh: any;
+        mesh: CubeGeometry;
         sizeScale: number;
         getOrientation: (x: MovedData) => number[];
         getScale: (x: MovedData) => number[];
