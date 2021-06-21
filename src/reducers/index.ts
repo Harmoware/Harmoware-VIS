@@ -358,7 +358,6 @@ reducer.case(updateMovesBase, (state, base) => {
   }
 
   assignData.movesbase = analyzeData.movesbase;
-  assignData.movedData = [];
   const startState:InnerState = {};
   startState.timeLength = analyzeData.timeLength;
   if (startState.timeLength > 0) {
