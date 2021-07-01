@@ -49,7 +49,7 @@ export interface MovesbaseFile {
     movesbase: Movesbase[];
 }
 export interface AnalyzedBaseData extends MovesbaseFile {
-    viewport: Viewport;
+    viewport?: Viewport;
 }
 export interface Depotsbase {
     type?: string;
