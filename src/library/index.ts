@@ -54,100 +54,97 @@ export const safeSubtract = (left: number, right: number): number => {
 };
 
 export const analyzeMovesBase =
-(inputData: (Movesbase[] | MovesbaseFile)) : AnalyzedBaseData => {
-  let baseTimeBegin: undefined | number;
-  let baseTimeLength: undefined | number;
-  let baseBounds: undefined | Bounds;
-  let basemovesbase: Movesbase[];
-  let elapsedtimeMode: string;
+(state: InnerState, inputData: (Movesbase[] | MovesbaseFile), update:boolean) : AnalyzedBaseData => {
+  const outputData: AnalyzedBaseData = {movesbase:[]};
 
-  if (isArray(inputData)) { // Array?
-    basemovesbase = [...inputData];
+  if (isArray(inputData)) {
+    outputData.timeBegin = 0;
+    outputData.timeLength = 0;
+    outputData.bounds = state.bounds;
+    outputData.movesbase = [...inputData];
   } else {
-    baseTimeBegin = inputData.timeBegin;
-    baseTimeLength = inputData.timeLength;
-    baseBounds = inputData.bounds;
-    basemovesbase = [...inputData.movesbase];
-    elapsedtimeMode = inputData.elapsedtimeMode;
+    if(typeof inputData.timeBegin === 'undefined' || typeof inputData.timeBegin !== 'number'){
+      outputData.timeBegin = undefined;
+      console.log('inputData.timeBegin undefined');
+    }else{
+      outputData.timeBegin = inputData.timeBegin;
+      safeCheck(outputData.timeBegin);
+    }
+    if(typeof inputData.timeLength === 'undefined' || typeof inputData.timeLength !== 'number'){
+      outputData.timeLength = undefined;
+      console.log('inputData.timeLength undefined');
+    }else{
+      outputData.timeLength = inputData.timeLength;
+      safeCheck(outputData.timeLength);
+    }
+    if(inputData.bounds){
+      outputData.bounds = inputData.bounds;
+    }else{
+      outputData.bounds = state.bounds;
+    }
+    outputData.movesbase = [...inputData.movesbase];
+    outputData.elapsedtimeMode = inputData.elapsedtimeMode;
   }
 
-  let timeBegin: number = typeof baseTimeBegin === 'number' ? baseTimeBegin : 0;
-  safeCheck(timeBegin);
-  let timeLength: number = typeof baseTimeLength === 'number' ? baseTimeLength : 0;
-  safeCheck(timeLength);
-  let bounds: Bounds = typeof baseBounds !== 'undefined' ? baseBounds : {
-    westlongitiude: 0, eastlongitiude: 0, southlatitude: 0, northlatitude: 0
-  };
-  const movesbase: Movesbase[] = basemovesbase;
+  let { timeBegin, timeLength, movesbase, elapsedtimeMode } = outputData;
 
   if(movesbase.length <= 0){
-    return { timeBegin, timeLength, bounds, movesbase, viewport:{} };
+    return outputData;
   }
 
-  if (typeof baseTimeBegin !== 'number') {
-    timeBegin = undefined;
-  }
-  let timeEnd: number = undefined;
+  const posiAcc:boolean =  state.initialViewChange && state.movesbase.length === 0
   const longArray: number[] = [];
   const latiArray: number[] = [];
+  let firstDeparture: number = MAX_VALUE;
+  let lastArrival: number = MIN_VALUE;
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
     const { operation } = movesbase[i];
     if(!operation || operation.length === 0){
       console.log('movesbase['+i+'] operation undefined');
       continue;
     }
-    for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
-      const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operation[j];
-      if(typeof elapsedtime !== 'number'){
-        console.log('movesbase['+i+'] operation['+j+'] elapsedtime undefined');
-        continue;
-      }
-      safeCheck(elapsedtime);
-    }
+    let sortFlg = false;
     movesbase[i].operation = operation.reduce((operation: MovesbaseOperation[], operationElement)=>{
-      if(operation.length === 0 || operation.findIndex((data)=>data.elapsedtime === operationElement.elapsedtime) < 0){
-        operation.push(operationElement);
+      const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operationElement;
+      if(typeof elapsedtime === 'number'){
+        safeCheck(elapsedtime);
+        if(operation.length === 0 || operation.findIndex((data)=>data.elapsedtime === elapsedtime) < 0){
+          if(typeof longitude === 'number' && typeof latitude === 'number' && typeof operationElement.position === 'undefined'){
+            operationElement.position = position;
+          }
+          if(typeof longitude === 'undefined') delete operationElement.longitude;
+          if(typeof latitude === 'undefined') delete operationElement.latitude;
+          if(posiAcc && typeof operationElement.position !== 'undefined'){
+            longArray.push(+position[0]);
+            latiArray.push(+position[1]);
+          }
+          operation.push(operationElement);
+          if(!sortFlg && operation.length > 0 && operation[operation.length - 1].elapsedtime > operationElement.elapsedtime){
+            sortFlg = true;
+          }
+        }
       }
       return operation;
     },[]);
-    for (let j = 0, lengthj = operation.length; j < lengthj; j=(j+1)|0) {
-      const { longitude, latitude, position=[longitude, latitude, 3] } = operation[j];
-      if((typeof operation[j].longitude !== 'number' || typeof operation[j].latitude !== 'number') &&
-        typeof operation[j].position === 'undefined'){
-        continue;
-      }
-      if(operation[j].longitude) delete operation[j].longitude;
-      if(operation[j].latitude) delete operation[j].latitude;
-      if (typeof operation[j].position === 'undefined') {
-        operation[j].position = position;
-      }
-      longArray.push(+position[0]);
-      latiArray.push(+position[1]);
-      if (!baseBounds && position[0] && position[1]) {
-        let { eastlongitiude, westlongitiude, southlatitude, northlatitude } = bounds || null;
-        eastlongitiude = !eastlongitiude ? position[0] : max(eastlongitiude, position[0]);
-        westlongitiude = !westlongitiude ? position[0] : min(westlongitiude, position[0]);
-        southlatitude = !southlatitude ? position[1] : min(southlatitude, position[1]);
-        northlatitude = !northlatitude ? position[1] : max(northlatitude, position[1]);
-        bounds = { eastlongitiude, westlongitiude, southlatitude, northlatitude };
-      }
+    if(sortFlg){
+      operation.sort((a,b)=>a.elapsedtime > b.elapsedtime?1:-1);
     }
-    operation.sort((a,b)=>a.elapsedtime > b.elapsedtime?1:-1);
     movesbase[i].departuretime = operation[0].elapsedtime;
     movesbase[i].arrivaltime = operation[(operation.length-1)|0].elapsedtime;
     movesbase[i].movesbaseidx = i;
-    if (typeof baseTimeBegin !== 'number') {
-      timeBegin = timeBegin === undefined ? movesbase[i].departuretime : min(timeBegin, movesbase[i].departuretime);
-    }
-    if (typeof baseTimeLength !== 'number') {
-      timeEnd = timeEnd === undefined ? movesbase[i].arrivaltime : max(timeEnd, movesbase[i].arrivaltime);
-    }
+    firstDeparture = min(firstDeparture, movesbase[i].departuretime);
+    lastArrival = max(lastArrival, movesbase[i].arrivaltime);
 
     let direction = 0;
     for (let j = 0, lengthj = operation.length; j < (lengthj-1); j=(j+1)|0) {
       const nextidx = (j+1)|0;
       if(typeof operation[j].position === 'undefined' ||
         typeof operation[nextidx].position === 'undefined'){
+        continue;
+      }
+      if(update && typeof operation[j].direction !== 'undefined' &&
+        typeof operation[nextidx].direction !== 'undefined'){
+        direction = operation[j].direction;
         continue;
       }
       const { position: sourcePosition } = operation[j];
@@ -166,11 +163,16 @@ export const analyzeMovesBase =
       operation[j].direction = direction;
     }
   }
-  if (typeof baseTimeBegin !== 'number' && typeof baseTimeLength !== 'number') {
-    timeLength = safeSubtract(timeEnd, timeBegin);
+  if (isArray(inputData)) {
+    outputData.timeBegin = firstDeparture;
+    outputData.timeLength = safeSubtract(lastArrival, firstDeparture);
   }else{
-    if(typeof baseTimeBegin === 'number'){
+    if(typeof timeBegin === 'undefined'){
+      outputData.timeBegin = firstDeparture;
+    }else{
       if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
+        firstDeparture = safeAdd(firstDeparture, timeBegin);
+        lastArrival = safeAdd(lastArrival, timeBegin);
         for (const movesbaseElement of movesbase) {
           movesbaseElement.departuretime = safeAdd(movesbaseElement.departuretime, timeBegin);
           movesbaseElement.arrivaltime = safeAdd(movesbaseElement.arrivaltime, timeBegin);
@@ -179,26 +181,18 @@ export const analyzeMovesBase =
             operationElement.elapsedtime = safeAdd(operationElement.elapsedtime, timeBegin);
           }
         }
-        if(typeof baseTimeLength !== 'number'){
-          timeLength = timeEnd;
-        }
-      }else
-      if(typeof baseTimeLength !== 'number'){
-        timeLength = safeSubtract(timeEnd, timeBegin);
       }
-    }else
-    if(typeof baseTimeLength !== 'number'){
-      timeLength = safeSubtract(timeEnd, timeBegin);
+    }
+    if(typeof timeLength === 'undefined'){
+      outputData.timeLength = safeSubtract(lastArrival, timeBegin);
     }
   }
   if(longArray.length > 0 && latiArray.length > 0){
-    const viewport: Viewport = {
+    outputData.viewport = {
       longitude: getAverage(longArray), latitude: getAverage(latiArray),
     };
-    return { timeBegin, timeLength, bounds, movesbase, viewport };
-  }else{
-    return { timeBegin, timeLength, bounds, movesbase, viewport:{} };
   }
+  return outputData;
 };
 
 export const getDepots = (props: InnerState): DepotsData[] => {

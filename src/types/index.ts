@@ -54,7 +54,7 @@ export interface MovesbaseFile {
 };
 
 export interface AnalyzedBaseData extends MovesbaseFile {
-  viewport: Viewport
+  viewport?: Viewport
 };
 
 export interface Depotsbase {

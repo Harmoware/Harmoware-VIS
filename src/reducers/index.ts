@@ -216,12 +216,12 @@ reducer.case(setFrameTimestamp, (state, props) => {
 });
 
 reducer.case(setMovesBase, (state, base) => {
-  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
+  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, false);
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
   assignData.bounds = analyzeData.bounds;
-  if(state.initialViewChange && analyzeData.movesbase.length > 0){
+  if(analyzeData.viewport && state.initialViewChange && analyzeData.movesbase.length > 0){
     assignData.viewport = assign({}, state.viewport,
       {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
   }
@@ -330,7 +330,7 @@ reducer.case(setInputFilename, (state, fileName) => {
 });
 
 reducer.case(updateMovesBase, (state, base) => {
-  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(base);
+  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, true);
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
   if(state.movesbase.length === 0 || analyzeData.timeLength === 0){ //初回？
@@ -347,7 +347,7 @@ reducer.case(updateMovesBase, (state, base) => {
     parameter.coefficient = assignData.timeLength / assignData.loopTime;
     // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
     assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-    if(state.initialViewChange && analyzeData.movesbase.length > 0){
+    if(analyzeData.viewport && state.initialViewChange && analyzeData.movesbase.length > 0){
       assignData.viewport = assign({}, state.viewport,
         {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
     }
