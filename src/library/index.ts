@@ -118,10 +118,10 @@ export const analyzeMovesBase =
             longArray.push(+position[0]);
             latiArray.push(+position[1]);
           }
-          operation.push(operationElement);
           if(!sortFlg && operation.length > 0 && operation[operation.length - 1].elapsedtime > operationElement.elapsedtime){
             sortFlg = true;
           }
+          operation.push(operationElement);
         }
       }
       return operation;
