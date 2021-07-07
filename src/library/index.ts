@@ -86,7 +86,7 @@ export const analyzeMovesBase =
     outputData.elapsedtimeMode = inputData.elapsedtimeMode;
   }
 
-  let { timeBegin, timeLength, movesbase, elapsedtimeMode } = outputData;
+  let { movesbase, elapsedtimeMode } = outputData;
 
   if(movesbase.length <= 0){
     return outputData;
@@ -112,8 +112,8 @@ export const analyzeMovesBase =
           if(typeof longitude === 'number' && typeof latitude === 'number' && typeof operationElement.position === 'undefined'){
             operationElement.position = position;
           }
-          if(typeof longitude === 'undefined') delete operationElement.longitude;
-          if(typeof latitude === 'undefined') delete operationElement.latitude;
+          if(typeof longitude !== 'undefined') delete operationElement.longitude;
+          if(typeof latitude !== 'undefined') delete operationElement.latitude;
           if(posiAcc && typeof operationElement.position !== 'undefined'){
             longArray.push(+position[0]);
             latiArray.push(+position[1]);
@@ -167,24 +167,24 @@ export const analyzeMovesBase =
     outputData.timeBegin = firstDeparture;
     outputData.timeLength = safeSubtract(lastArrival, firstDeparture);
   }else{
-    if(typeof timeBegin === 'undefined'){
+    if(typeof outputData.timeBegin === 'undefined'){
       outputData.timeBegin = firstDeparture;
     }else{
       if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
-        firstDeparture = safeAdd(firstDeparture, timeBegin);
-        lastArrival = safeAdd(lastArrival, timeBegin);
+        firstDeparture = safeAdd(firstDeparture, outputData.timeBegin);
+        lastArrival = safeAdd(lastArrival, outputData.timeBegin);
         for (const movesbaseElement of movesbase) {
-          movesbaseElement.departuretime = safeAdd(movesbaseElement.departuretime, timeBegin);
-          movesbaseElement.arrivaltime = safeAdd(movesbaseElement.arrivaltime, timeBegin);
+          movesbaseElement.departuretime = safeAdd(movesbaseElement.departuretime, outputData.timeBegin);
+          movesbaseElement.arrivaltime = safeAdd(movesbaseElement.arrivaltime, outputData.timeBegin);
           const { operation } = movesbaseElement;
           for (const operationElement of operation) {
-            operationElement.elapsedtime = safeAdd(operationElement.elapsedtime, timeBegin);
+            operationElement.elapsedtime = safeAdd(operationElement.elapsedtime, outputData.timeBegin);
           }
         }
       }
     }
-    if(typeof timeLength === 'undefined'){
-      outputData.timeLength = safeSubtract(lastArrival, timeBegin);
+    if(typeof outputData.timeLength === 'undefined'){
+      outputData.timeLength = safeSubtract(lastArrival, outputData.timeBegin);
     }
   }
   if(longArray.length > 0 && latiArray.length > 0){
@@ -196,9 +196,11 @@ export const analyzeMovesBase =
 };
 
 export const getDepots = (props: InnerState): DepotsData[] => {
-  const { settime, depotsBase, depotsData:prevData, getDepotsOptionFunc } = props;
-  if(prevData.length > 0 && (abs(prevData[0].settime - settime) <= 1)){
-    if(!getDepotsOptionFunc) return prevData;
+  const { settime, depotsBase, depotsData:prevData, secperhour, getDepotsOptionFunc } = props;
+  if(prevData.length > 0){
+    if(!getDepotsOptionFunc || (abs(prevData[0].settime - settime)/3.6)*secperhour < 100){
+      return prevData;
+    }
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || (() => {return {};});
 
@@ -219,10 +221,10 @@ export const getDepots = (props: InnerState): DepotsData[] => {
 export const getMoveObjects = (props : InnerState): MovedData[] => {
   const { movesbase, movedData:prevMovedData, settime, secperhour, timeLength,
     getMovesOptionFunc, iconGradation } = props;
-    safeCheck(settime);
+  safeCheck(settime);
   if(prevMovedData.length > 0){
-    if(abs(safeSubtract(prevMovedData[0].settime, settime)) <= 1 / (secperhour / 120)){
-      if(!getMovesOptionFunc) return prevMovedData
+    if((abs(safeSubtract(prevMovedData[0].settime, settime))/3.6)*secperhour < 25){
+      return prevMovedData
     };
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});

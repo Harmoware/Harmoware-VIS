@@ -66,7 +66,7 @@ const parameter = {
 };
 
 const calcLoopTime = // LoopTime とは１ループにかける時間（ミリ秒）
-  (timeLength : number, secperhour: number) : number => (timeLength / 3600) * 1000 * secperhour;
+  (timeLength : number, secperhour: number) : number => (timeLength / 3.6) * secperhour;
 const reducer = reducerWithInitialState<InnerState>(initialState);
 const assign = Object.assign;
 
