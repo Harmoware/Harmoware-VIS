@@ -126,13 +126,19 @@ reducer.case(increaseTime, (state, props) => {
       assignData.settime = safeSubtract(state.timeBegin, state.leading);
       assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
       const setProps = { ...props, ...assignData };
-      assignData.movedData = getMoveObjects(setProps);
-      if(assignData.movedData.length === 0){
-        assignData.clickedObject = null;
-        assignData.routePaths = [];
+      const movedData = getMoveObjects(setProps);
+      if(movedData){
+        assignData.movedData = movedData;
+        if(assignData.movedData.length === 0){
+          assignData.clickedObject = null;
+          assignData.routePaths = [];
+        }
       }
       if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-        assignData.depotsData = getDepots(setProps);
+        const depotsData = getDepots(setProps)
+        if(depotsData){
+          assignData.depotsData = depotsData;
+        }
       }
       return assign({}, state, assignData);
     }else{
@@ -147,13 +153,19 @@ reducer.case(increaseTime, (state, props) => {
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
-  assignData.movedData = getMoveObjects(setProps);
-  if(assignData.movedData.length === 0){
-    assignData.clickedObject = null;
-    assignData.routePaths = [];
+  const movedData = getMoveObjects(setProps);
+  if(movedData){
+    assignData.movedData = movedData;
+    if(assignData.movedData.length === 0){
+      assignData.clickedObject = null;
+      assignData.routePaths = [];
+    }
   }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    assignData.depotsData = getDepots(setProps);
+    const depotsData = getDepots(setProps)
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
   }
   return assign({}, state, assignData);
 });
@@ -173,13 +185,19 @@ reducer.case(decreaseTime, (state, props) => {
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
-  assignData.movedData = getMoveObjects(setProps);
-  if(assignData.movedData.length === 0){
-    assignData.clickedObject = null;
-    assignData.routePaths = [];
+  const movedData = getMoveObjects(setProps);
+  if(movedData){
+    assignData.movedData = movedData;
+    if(assignData.movedData.length === 0){
+      assignData.clickedObject = null;
+      assignData.routePaths = [];
+    }
   }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    assignData.depotsData = getDepots(setProps);
+    const depotsData = getDepots(setProps)
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
   }
   return assign({}, state, assignData);
 });
@@ -204,13 +222,19 @@ reducer.case(setFrameTimestamp, (state, props) => {
   assignData.beforeFrameTimestamp = now;
   assignData.starttimestamp = now - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * state.loopTime);
   const setProps = { ...props, ...assignData };
-  assignData.movedData = getMoveObjects(setProps);
-  if(assignData.movedData.length === 0){
-    assignData.clickedObject = null;
-    assignData.routePaths = [];
+  const movedData = getMoveObjects(setProps);
+  if(movedData){
+    assignData.movedData = movedData;
+    if(assignData.movedData.length === 0){
+      assignData.clickedObject = null;
+      assignData.routePaths = [];
+    }
   }
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    assignData.depotsData = getDepots(setProps);
+    const depotsData = getDepots(setProps)
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
   }
   return assign({}, state, assignData);
 });
@@ -237,7 +261,10 @@ reducer.case(setMovesBase, (state, base) => {
   // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
   assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    assignData.depotsData = getDepots({ ...state, bounds:analyzeData.bounds });
+    const depotsData = getDepots({ ...state, bounds:analyzeData.bounds })
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
   }
   assignData.movesbase = analyzeData.movesbase;
   assignData.movedData = [];
@@ -248,7 +275,10 @@ reducer.case(setDepotsBase, (state, depotsBase) => {
   const assignData:InnerState = {};
   assignData.depotsBase = depotsBase;
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    assignData.depotsData = getDepots({ ...state, depotsBase });
+    const depotsData = getDepots({ ...state, depotsBase })
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
   }
   return assign({}, state, assignData);
 });
@@ -352,7 +382,10 @@ reducer.case(updateMovesBase, (state, base) => {
         {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
     }
     if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-      assignData.depotsData = getDepots({ ...state, ...assignData });
+      const depotsData = getDepots({ ...state, ...assignData })
+      if(depotsData){
+        assignData.depotsData = depotsData;
+      }
     }
     return assign({}, state, assignData);
   }

@@ -199,7 +199,7 @@ export const getDepots = (props: InnerState): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, secperhour, getDepotsOptionFunc } = props;
   if(prevData.length > 0){
     if(!getDepotsOptionFunc || (abs(prevData[0].settime - settime)/3.6)*secperhour < 100){
-      return prevData;
+      return null;
     }
   }
   const getOptionFunction: GetDepotsOptionFunc = getDepotsOptionFunc || (() => {return {};});
@@ -224,7 +224,7 @@ export const getMoveObjects = (props : InnerState): MovedData[] => {
   safeCheck(settime);
   if(prevMovedData.length > 0){
     if((abs(safeSubtract(prevMovedData[0].settime, settime))/3.6)*secperhour < 25){
-      return prevMovedData
+      return null
     };
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
