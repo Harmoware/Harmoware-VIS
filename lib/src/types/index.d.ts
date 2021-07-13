@@ -76,10 +76,10 @@ export interface LineMapData {
     sourcePosition?: number[];
     targetPosition?: number[];
     color?: number[];
-    path?: number[];
-    polygon?: number[];
-    coordinates?: number[];
-    elevation?: number[];
+    path?: number[][];
+    polygon?: number[][];
+    coordinates?: number[][];
+    elevation?: number;
     strokeWidth?: number;
     dash?: number[];
 }

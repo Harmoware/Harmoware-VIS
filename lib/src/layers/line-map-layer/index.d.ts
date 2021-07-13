@@ -6,10 +6,10 @@ interface Props extends LayerProps {
     data?: LineMapData[];
     getSourcePosition?: (x: LineMapData) => number[];
     getTargetPosition?: (x: LineMapData) => number[];
-    getPath?: (x: LineMapData) => number[];
-    getPolygon?: (x: LineMapData) => number[];
-    getCoordinates?: (x: LineMapData) => number[];
-    getElevation?: (x: LineMapData) => number[];
+    getPath?: (x: LineMapData) => number[][];
+    getPolygon?: (x: LineMapData) => number[][];
+    getCoordinates?: (x: LineMapData) => number[][];
+    getElevation?: (x: LineMapData) => number;
     getColor?: (x: LineMapData) => number[];
     getWidth?: (x: LineMapData) => number;
     getDashArray?: (x: LineMapData) => number[];
@@ -25,10 +25,10 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         pickable: boolean;
         getSourcePosition: (x: LineMapData) => number[];
         getTargetPosition: (x: LineMapData) => number[];
-        getPath: (x: LineMapData) => number[];
-        getPolygon: (x: LineMapData) => number[];
-        getCoordinates: (x: LineMapData) => number[];
-        getElevation: (x: LineMapData) => number[] | 3;
+        getPath: (x: LineMapData) => number[][];
+        getPolygon: (x: LineMapData) => number[][];
+        getCoordinates: (x: LineMapData) => number[][];
+        getElevation: (x: LineMapData) => number;
         getWidth: (x: LineMapData) => number;
         getColor: (x: LineMapData) => number[];
         getDashArray: (x: LineMapData) => number[];
@@ -46,10 +46,10 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         pickable: boolean;
         extruded: boolean;
         wireframe: boolean;
-        getPolygon: (x: LineMapData) => number[];
+        getPolygon: (x: LineMapData) => number[][];
         getFillColor: (x: LineMapData) => number[];
         getLineColor: any;
-        getElevation: (x: LineMapData) => number[];
+        getElevation: (x: LineMapData) => number;
     }, {}> | PathLayer<{
         id: string;
         data: LineMapData[];
@@ -59,7 +59,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         widthUnits: string;
         widthMinPixels: number;
         rounded: boolean;
-        getPath: (x: LineMapData) => number[];
+        getPath: (x: LineMapData) => number[][];
         getColor: (x: LineMapData) => number[];
         getWidth: (x: LineMapData) => number;
         getDashArray: (x: LineMapData) => number[];

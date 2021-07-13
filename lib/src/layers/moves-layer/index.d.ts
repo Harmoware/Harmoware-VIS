@@ -4,12 +4,12 @@ import { pickParams } from '../../library';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
-    routePaths: RoutePaths[];
+    routePaths?: RoutePaths[];
     layerRadiusScale?: number;
     layerOpacity?: number;
     movedData: MovedData[];
-    movesbase: Movesbase[];
-    clickedObject: null | ClickedObject[];
+    movesbase?: Movesbase[];
+    clickedObject?: null | ClickedObject[];
     actions: typeof Actions;
     optionVisible?: boolean;
     optionArcVisible?: boolean;
