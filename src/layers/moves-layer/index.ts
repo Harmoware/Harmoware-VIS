@@ -31,12 +31,12 @@ const defaultmesh = new CubeGeometry({attributes: ATTRIBUTES});
 const defaultScenegraph = 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/scenegraph-layer/airplane.glb';
 
 interface Props extends LayerProps {
-  routePaths: RoutePaths[],
+  routePaths?: RoutePaths[],
   layerRadiusScale?: number,
   layerOpacity?: number,
   movedData: MovedData[],
-  movesbase: Movesbase[],
-  clickedObject: null | ClickedObject[],
+  movesbase?: Movesbase[],
+  clickedObject?: null | ClickedObject[],
   actions: typeof Actions,
   optionVisible?: boolean,
   optionArcVisible?: boolean,
@@ -185,8 +185,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, getLinehWidth, optionCentering,
     } = this.props;
 
-    if (typeof clickedObject === 'undefined' ||
-      !movedData || movedData.length === 0 || !visible) {
+    if (!movedData || movedData.length === 0 || !visible) {
       return null;
     }
 
@@ -202,7 +201,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
     return [
       iconLayers,
-      routePaths.length > 0 ?
+      routePaths && routePaths.length > 0 ?
       new LineLayer({
         id: id + '-route-paths',
         data: routePaths,

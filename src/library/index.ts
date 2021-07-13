@@ -303,7 +303,7 @@ export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
     if (props.onClick) {
       props.onClick(info);
     } else
-    if (object && props.actions) {
+    if (object && props.actions && props.movesbase && props.routePaths) {
       const { movesbaseidx } = object;
       const { actions, clickedObject, movesbase, routePaths } = props;
       const replaceGetRouteColor = {};
