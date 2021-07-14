@@ -292,7 +292,7 @@ export default class Controller extends React.Component<Props, State> {
               再現中日時&nbsp;<SimulationDateTime settime={settime} />
             </li>
             <li></li>
-            <li title={`${movedData.length} / ${movesbase.length}`}>
+            <li>
               移動体（表示数/総数）&nbsp;{movedData.length}&nbsp;/&nbsp;{movesbase.length}
             </li>
             <li></li>

@@ -32,7 +32,7 @@ export default class ElapsedTimeValue extends React.Component<Props> {
     return (
       <input
         type="number"
-        value={safeSubtract(settime, timeBegin)|0}
+        value={safeSubtract(Math.floor(settime), timeBegin)|0}
         min={min} max={timeLength}
         onChange={this.setTime.bind(this)}
         id={id} className={className}
