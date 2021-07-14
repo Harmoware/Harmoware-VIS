@@ -37,7 +37,7 @@ interface Props extends LayerProps {
   movedData: MovedData[],
   movesbase?: Movesbase[],
   clickedObject?: null | ClickedObject[],
-  actions: typeof Actions,
+  actions?: typeof Actions,
   optionVisible?: boolean,
   optionArcVisible?: boolean,
   optionLineVisible?: boolean,
