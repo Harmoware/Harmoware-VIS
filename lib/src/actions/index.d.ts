@@ -32,3 +32,4 @@ export declare const setInitialViewChange: import("typescript-fsa").ActionCreato
 export declare const setIconGradationChange: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setTimeBegin: import("typescript-fsa").ActionCreator<number>;
 export declare const setTimeLength: import("typescript-fsa").ActionCreator<number>;
+export declare const addMovesBaseData: import("typescript-fsa").ActionCreator<Movesbase[]>;
