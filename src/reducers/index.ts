@@ -1,12 +1,12 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { InnerState, AnalyzedBaseData } from '../types';
+import { InnerState, AnalyzedBaseData, Movesbase, MovesbaseFile } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
   setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
-  setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength} from '../actions';
+  setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength, addMovesBaseData} from '../actions';
 
 const initialState: InnerState = {
   viewport: {
@@ -359,35 +359,40 @@ reducer.case(setInputFilename, (state, fileName) => {
   });
 });
 
+const addMovesBaseFunc = (state:InnerState, analyzeData:AnalyzedBaseData):InnerState => {
+  const assignData:InnerState = {};
+  assignData.timeBegin = analyzeData.timeBegin;
+  assignData.timeLength = analyzeData.timeLength;
+  assignData.bounds = analyzeData.bounds;
+  assignData.movesbase = analyzeData.movesbase;
+  assignData.movedData = [];
+  assignData.settime = safeSubtract(analyzeData.timeBegin, state.leading);
+  if (assignData.timeLength > 0) {
+    assignData.timeLength = safeAdd(assignData.timeLength, state.trailing);
+  }
+  assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
+  parameter.coefficient = assignData.timeLength / assignData.loopTime;
+  // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
+  assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
+  if(analyzeData.viewport && state.initialViewChange && analyzeData.movesbase.length > 0){
+    assignData.viewport = assign({}, state.viewport,
+      {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
+  }
+  if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
+    const depotsData = getDepots({ ...state, ...assignData })
+    if(depotsData){
+      assignData.depotsData = depotsData;
+    }
+  }
+  return assign({}, state, assignData);
+};
+
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, true);
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
-  if(state.movesbase.length === 0 || analyzeData.timeLength === 0){ //初回？
-    assignData.timeBegin = analyzeData.timeBegin;
-    assignData.timeLength = analyzeData.timeLength;
-    assignData.bounds = analyzeData.bounds;
-    assignData.movesbase = analyzeData.movesbase;
-    assignData.movedData = [];
-    assignData.settime = safeSubtract(analyzeData.timeBegin, state.leading);
-    if (assignData.timeLength > 0) {
-      assignData.timeLength = safeAdd(assignData.timeLength, state.trailing);
-    }
-    assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
-    parameter.coefficient = assignData.timeLength / assignData.loopTime;
-    // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
-    assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-    if(analyzeData.viewport && state.initialViewChange && analyzeData.movesbase.length > 0){
-      assignData.viewport = assign({}, state.viewport,
-        {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
-    }
-    if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-      const depotsData = getDepots({ ...state, ...assignData })
-      if(depotsData){
-        assignData.depotsData = depotsData;
-      }
-    }
-    return assign({}, state, assignData);
+  if(state.movesbase.length === 0){ //初回？
+    return addMovesBaseFunc(state, analyzeData);
   }
 
   assignData.movesbase = analyzeData.movesbase;
@@ -501,6 +506,50 @@ reducer.case(setTimeLength, (state, timeLength) => {
       assignData.starttimestamp =
         (Date.now() - ((safeSubtract(assignData.settime, state.timeBegin) / assignData.timeLength) * assignData.loopTime));
     }
+  }
+  return assign({}, state, assignData);
+});
+
+reducer.case(addMovesBaseData, (state, movesbase) => {
+  const movesbaseidxArray = movesbase.map(x=>x.movesbaseidx);
+  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, movesbase, true);
+  const assignData:InnerState = {};
+  assignData.loopEndPause = false;
+  if(state.movesbase.length === 0){ //初回？
+    return addMovesBaseFunc(state, analyzeData);
+  }
+
+  assignData.movesbase = [...state.movesbase];
+  for (let i = 0, lengthi = movesbaseidxArray.length; i < lengthi; i=(i+1)|0) {
+    const movesbaseidx = movesbaseidxArray[i];
+    if(movesbaseidx !== undefined && movesbaseidx < state.movesbase.length){
+      assignData.movesbase[movesbaseidx] = analyzeData.movesbase[i];
+      assignData.movesbase[movesbaseidx].movesbaseidx = movesbaseidx;
+    }else{
+      const addidx = assignData.movesbase.length;
+      assignData.movesbase.push(analyzeData.movesbase[i]);
+      assignData.movesbase[addidx].movesbaseidx = addidx;
+    }
+  }
+  const startState:InnerState = {};
+  if(analyzeData.timeBegin < state.timeBegin){
+    startState.timeBegin = analyzeData.timeBegin;
+  }else{
+    startState.timeBegin = state.timeBegin;
+  }
+  const analyzeEndTime = safeAdd(analyzeData.timeBegin, analyzeData.timeLength);
+  const stateEndTime = safeAdd(state.timeBegin, state.timeLength);
+  if(analyzeEndTime > stateEndTime){
+    startState.timeLength = safeSubtract(analyzeEndTime, startState.timeBegin);
+  }else{
+    startState.timeLength = safeSubtract(stateEndTime, startState.timeBegin);
+  }
+  if(startState.timeBegin !== state.timeBegin || startState.timeLength !== state.timeLength){
+    startState.loopTime = calcLoopTime(startState.timeLength, state.secperhour);
+    parameter.coefficient = startState.timeLength / startState.loopTime;
+    startState.starttimestamp =
+      (Date.now() - ((safeSubtract(state.settime, startState.timeBegin) / startState.timeLength) * startState.loopTime));
+    return assign({}, state, startState, assignData);
   }
   return assign({}, state, assignData);
 });

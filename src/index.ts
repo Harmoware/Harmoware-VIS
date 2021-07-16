@@ -29,6 +29,7 @@ import {
   setIconGradationChange,
   setTimeBegin,
   setTimeLength,
+  addMovesBaseData,
 } from './actions';
 
 import {
@@ -105,6 +106,7 @@ const Actions: ActionsInterface = {
   setIconGradationChange,
   setTimeBegin,
   setTimeLength,
+  addMovesBaseData,
 };
 
 export {

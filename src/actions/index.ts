@@ -35,3 +35,4 @@ export const setInitialViewChange = actionCreator<boolean>(types.SETINITIALVIEWC
 export const setIconGradationChange = actionCreator<boolean>(types.SETICONGRADATIONCHANGE);
 export const setTimeBegin = actionCreator<number>(types.SETTIMEBEGIN);
 export const setTimeLength = actionCreator<number>(types.SETTIMELENGTH);
+export const addMovesBaseData = actionCreator<Movesbase[]>(types.ADDMOVESBASEDATA);
