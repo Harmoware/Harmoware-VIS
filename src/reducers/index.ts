@@ -120,30 +120,32 @@ reducer.case(increaseTime, (state, props) => {
   const assignData:InnerState = {};
   const now = Date.now();
   const difference = now - state.starttimestamp;
-  if (difference >= state.loopTime) {
-    if(!state.noLoop){
-      console.log('settime overlap.');
-      assignData.settime = safeSubtract(state.timeBegin, state.leading);
-      assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
-      const setProps = { ...props, ...assignData };
-      const movedData = getMoveObjects(setProps);
-      if(movedData){
-        assignData.movedData = movedData;
-        if(assignData.movedData.length === 0){
-          assignData.clickedObject = null;
-          assignData.routePaths = [];
-        }
-      }
-      if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-        const depotsData = getDepots(setProps)
-        if(depotsData){
-          assignData.depotsData = depotsData;
-        }
-      }
-      return assign({}, state, assignData);
-    }else{
+  if(state.noLoop){
+    const margins = calcLoopTime(state.leading + state.trailing, state.secperhour);
+    if(difference >= (state.loopTime - margins)){
       return assign({}, state, {loopEndPause:true});
     }
+  }
+  if (difference >= state.loopTime) {
+    console.log('settime overlap.');
+    assignData.settime = safeSubtract(state.timeBegin, state.leading);
+    assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
+    const setProps = { ...props, ...assignData };
+    const movedData = getMoveObjects(setProps);
+    if(movedData){
+      assignData.movedData = movedData;
+      if(assignData.movedData.length === 0){
+        assignData.clickedObject = null;
+        assignData.routePaths = [];
+      }
+    }
+    if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
+      const depotsData = getDepots(setProps)
+      if(depotsData){
+        assignData.depotsData = depotsData;
+      }
+    }
+    return assign({}, state, assignData);
   }else{
 //    assignData.settime = ((difference / state.loopTime) * state.timeLength) + state.timeBegin;
     assignData.settime = safeAdd((difference * parameter.coefficient), state.timeBegin);
@@ -239,8 +241,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
   return assign({}, state, assignData);
 });
 
-reducer.case(setMovesBase, (state, base) => {
-  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, false);
+const setMovesBaseFunc = (state:InnerState, analyzeData:AnalyzedBaseData):InnerState => {
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
@@ -261,14 +262,20 @@ reducer.case(setMovesBase, (state, base) => {
   // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
   assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    const depotsData = getDepots({ ...state, bounds:analyzeData.bounds })
+    const depotsData = getDepots({ ...state, ...assignData })
     if(depotsData){
       assignData.depotsData = depotsData;
     }
   }
   assignData.movesbase = analyzeData.movesbase;
   assignData.movedData = [];
+  console.log('setMovesBaseFunc');
   return assign({}, state, assignData);
+};
+
+reducer.case(setMovesBase, (state, base) => {
+  const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, false);
+  return setMovesBaseFunc(state, analyzeData);
 });
 
 reducer.case(setDepotsBase, (state, depotsBase) => {
@@ -359,42 +366,14 @@ reducer.case(setInputFilename, (state, fileName) => {
   });
 });
 
-const addMovesBaseFunc = (state:InnerState, analyzeData:AnalyzedBaseData):InnerState => {
-  const assignData:InnerState = {};
-  assignData.timeBegin = analyzeData.timeBegin;
-  assignData.timeLength = analyzeData.timeLength;
-  assignData.bounds = analyzeData.bounds;
-  assignData.movesbase = analyzeData.movesbase;
-  assignData.movedData = [];
-  assignData.settime = safeSubtract(analyzeData.timeBegin, state.leading);
-  if (assignData.timeLength > 0) {
-    assignData.timeLength = safeAdd(assignData.timeLength, state.trailing);
-  }
-  assignData.loopTime = calcLoopTime(assignData.timeLength, state.secperhour);
-  parameter.coefficient = assignData.timeLength / assignData.loopTime;
-  // starttimestampはDate.now()の値でいいが、スタート時はleading分の余白時間を付加する
-  assignData.starttimestamp = Date.now() + calcLoopTime(state.leading, state.secperhour);
-  if(analyzeData.viewport && state.initialViewChange && analyzeData.movesbase.length > 0){
-    assignData.viewport = assign({}, state.viewport,
-      {bearing:0, zoom:state.defaultZoom, pitch:state.defaultPitch}, analyzeData.viewport);
-  }
-  if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    const depotsData = getDepots({ ...state, ...assignData })
-    if(depotsData){
-      assignData.depotsData = depotsData;
-    }
-  }
-  return assign({}, state, assignData);
-};
-
 reducer.case(updateMovesBase, (state, base) => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, true);
-  const assignData:InnerState = {};
-  assignData.loopEndPause = false;
   if(state.movesbase.length === 0){ //初回？
-    return addMovesBaseFunc(state, analyzeData);
+    return setMovesBaseFunc(state, analyzeData);
   }
 
+  const assignData:InnerState = {};
+  assignData.loopEndPause = false;
   assignData.movesbase = analyzeData.movesbase;
   const startState:InnerState = {};
   startState.timeLength = analyzeData.timeLength;
@@ -513,12 +492,12 @@ reducer.case(setTimeLength, (state, timeLength) => {
 reducer.case(addMovesBaseData, (state, movesbase) => {
   const movesbaseidxArray = movesbase.map(x=>x.movesbaseidx);
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, movesbase, true);
-  const assignData:InnerState = {};
-  assignData.loopEndPause = false;
   if(state.movesbase.length === 0){ //初回？
-    return addMovesBaseFunc(state, analyzeData);
+    return setMovesBaseFunc(state, analyzeData);
   }
 
+  const assignData:InnerState = {};
+  assignData.loopEndPause = false;
   assignData.movesbase = [...state.movesbase];
   for (let i = 0, lengthi = movesbaseidxArray.length; i < lengthi; i=(i+1)|0) {
     const movesbaseidx = movesbaseidxArray[i];
