@@ -86,12 +86,11 @@ export const analyzeMovesBase =
     outputData.elapsedtimeMode = inputData.elapsedtimeMode;
   }
 
-  let { movesbase, elapsedtimeMode } = outputData;
-
-  if(movesbase.length <= 0){
+  if(outputData.movesbase.length <= 0){
     return outputData;
   }
 
+  let { movesbase } = outputData;
   const posiAcc:boolean =  state.initialViewChange && state.movesbase.length === 0
   const longArray: number[] = [];
   const latiArray: number[] = [];
@@ -170,7 +169,7 @@ export const analyzeMovesBase =
     if(typeof outputData.timeBegin === 'undefined'){
       outputData.timeBegin = firstDeparture;
     }else{
-      if(!elapsedtimeMode || elapsedtimeMode !== 'UNIXTIME'){
+      if(!outputData.elapsedtimeMode || outputData.elapsedtimeMode !== 'UNIXTIME'){
         firstDeparture = safeAdd(firstDeparture, outputData.timeBegin);
         lastArrival = safeAdd(lastArrival, outputData.timeBegin);
         for (const movesbaseElement of movesbase) {
