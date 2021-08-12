@@ -25,7 +25,7 @@ interface State {
   optionChange: boolean,
   iconChange: boolean,
   iconCubeType: number,
-  popup: [number, number, string],
+  popup: any[],
   popupInfo: MovedData,
   viewportArray: Viewport[],
   followingiconId: number,
@@ -82,7 +82,7 @@ class App extends Container<BasedProps, State> {
         longitude:data.position[0], latitude:data.position[1],bearing:data.direction
       });
     }
-    const base = movesbase.find(x=>x.movesbaseidx === movesbaseidx);
+    const base = movesbase[movesbaseidx];
     if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
       if (!animatePause && !loopEndPause) {
         let next = undefined;
@@ -100,7 +100,7 @@ class App extends Container<BasedProps, State> {
           direction = base.operation[nextIdx-1].direction;
         }
         if(next && next.position){
-          const timeoutValue = (Math.abs(next.elapsedtime - settime)/3600) * 1000 * secperhour;
+          const timeoutValue = (Math.abs(next.elapsedtime - settime)/3.6) * secperhour;
           actions.setViewport({
             longitude:next.position[0], latitude:next.position[1], bearing:direction,
             transitionDuration:timeoutValue,
@@ -383,7 +383,7 @@ class App extends Container<BasedProps, State> {
         <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">
           <g fill="white" fontSize="12">
             {this.state.popup[2].length > 0 ?
-              this.state.popup[2].split('\n').map((value, index) =>
+              this.state.popup[2].split('\n').map((value:any, index:number) =>
                 <text
                   x={this.state.popup[0] + 10} y={this.state.popup[1] + (index * 12)}
                   key={index.toString()}

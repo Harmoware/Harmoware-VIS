@@ -222,14 +222,14 @@ export const getMoveObjects = (props : InnerState): MovedData[] => {
     getMovesOptionFunc, iconGradation } = props;
   safeCheck(settime);
   if(prevMovedData.length > 0){
-    if((abs(safeSubtract(prevMovedData[0].settime, settime))/3.6)*secperhour < 25){
+    if((abs(prevMovedData[0].settime - settime)/3.6)*secperhour < 25){
       return null
     };
   }
   const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
 
-  const movedData: MovedData[] = movesbase.reduce((movedData: MovedData[],movesbaseElement)=>{
-    const { departuretime, arrivaltime, operation, movesbaseidx, ...otherProps1 } = movesbaseElement;
+  const movedData: MovedData[] = movesbase.reduce((movedData: MovedData[],movesbaseElement,movesbaseidx)=>{
+    const { departuretime, arrivaltime, operation, ...otherProps1 } = movesbaseElement;
     if(timeLength > 0 && departuretime <= settime && settime < arrivaltime){
       const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
       const idx = (nextidx-1)|0;

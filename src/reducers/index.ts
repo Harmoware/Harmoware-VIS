@@ -21,7 +21,7 @@ const initialState: InnerState = {
     minPitch: undefined,
     width: window.innerWidth, // 共通
     height: window.innerHeight, // 共通
-    transitionDuration: undefined,
+    transitionDuration: 0,
     transitionInterpolator: undefined,
     transitionInterruption: undefined,
   },

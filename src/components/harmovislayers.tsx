@@ -83,7 +83,7 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
       },
     }],
     flytoArgument: null,
-    transitionDuration: undefined,
+    transitionDuration: 0,
     transitionInterpolator: undefined,
     transitionInterruption: undefined,
   }
@@ -98,9 +98,9 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     }
     const {transitionDuration} = this.props.viewport;
     if(transitionDuration !== prevProps.viewport.transitionDuration){
-      if(transitionDuration !== undefined){
+      if(transitionDuration !== 0){
         this.props.actions.setViewport({
-          transitionDuration:undefined,
+          transitionDuration:0,
           transitionInterpolator:undefined });
       }
     }
@@ -117,9 +117,9 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
       layers, mapGlComponents, flytoArgument, mapboxAddLayerValue } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
     const transitionDuration = this.state.transition?
-      (viewport.transitionDuration||props.transitionDuration):undefined;
+      (viewport.transitionDuration||props.transitionDuration):0;
     const transitionInterpolator = viewport.transitionInterpolator||
-      props.transitionInterpolator||new FlyToInterpolator(flytoArgument);
+      props.transitionInterpolator;
     const transitionInterruption = viewport.transitionInterruption||
       props.transitionInterruption;
 
