@@ -2,8 +2,8 @@
   "compilerOptions": {
       "sourceMap": true,
       "allowSyntheticDefaultImports": true, 
-      // TSはECMAScript 5に変換
-      "target": "es5",
+      // TSはECMAScript 6に変換
+      "target": "es6",
       // TSのモジュールはES Modulesとして出力
       "module": "es2015",
       // JSXの書式を有効に設定

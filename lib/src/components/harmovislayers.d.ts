@@ -42,7 +42,7 @@ export default class HarmoVisLayers extends React.Component<Props, State> {
             };
         }[];
         flytoArgument: any;
-        transitionDuration: any;
+        transitionDuration: number;
         transitionInterpolator: any;
         transitionInterruption: any;
     };
