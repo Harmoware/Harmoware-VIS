@@ -13,6 +13,7 @@ export declare const SETDEPOTSBASE = "SETDEPOTSBASE";
 export declare const SETANIMATEPAUSE = "SETANIMATEPAUSE";
 export declare const SETANIMATEREVERSE = "SETANIMATEREVERSE";
 export declare const SETSECPERHOUR = "SETSECPERHOUR";
+export declare const SETMULTIPLYSPEED = "SETMULTIPLYSPEED";
 export declare const SETCLICKED = "SETCLICKED";
 export declare const SETROUTEPATHS = "SETROUTEPATHS";
 export declare const SETDEFAULTZOOM = "SETDEFAULTZOOM";
