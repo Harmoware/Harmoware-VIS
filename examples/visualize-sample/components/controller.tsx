@@ -117,7 +117,7 @@ export default class Controller extends React.Component<Props, State> {
 
   render() {
     const { settime, timeBegin, timeLength, actions, movedData, movesbase,
-      secperhour, animatePause, animateReverse, getMapboxChecked,
+      multiplySpeed, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
       iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport,
@@ -304,8 +304,8 @@ export default class Controller extends React.Component<Props, State> {
               <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
             </li>
             <li>
-              <label htmlFor="SpeedRange">スピード<SpeedValue secperhour={secperhour} actions={actions} />秒/時</label>
-              <SpeedRange secperhour={secperhour} actions={actions} id="SpeedRange" />
+              <label htmlFor="SpeedRange">スピード<SpeedValue multiplySpeed={multiplySpeed} actions={actions} />倍速</label>
+              <SpeedRange multiplySpeed={multiplySpeed} actions={actions} id="SpeedRange" />
             </li>
             <li></li>
             <li>

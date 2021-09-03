@@ -20,6 +20,7 @@ export const setDepotsBase = actionCreator<Depotsbase[]>(types.SETDEPOTSBASE);
 export const setAnimatePause = actionCreator<boolean>(types.SETANIMATEPAUSE);
 export const setAnimateReverse = actionCreator<boolean>(types.SETANIMATEREVERSE);
 export const setSecPerHour =　actionCreator<number>(types.SETSECPERHOUR);
+export const setMultiplySpeed =　actionCreator<number>(types.SETMULTIPLYSPEED);
 export const setClicked = actionCreator<null | ClickedObject[]>(types.SETCLICKED);
 export const setRoutePaths = actionCreator<RoutePaths[]>(types.SETROUTEPATHS);
 export const setDefaultZoom = actionCreator<number>(types.SETDEFAULTZOOM);

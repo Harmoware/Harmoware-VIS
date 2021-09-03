@@ -3,7 +3,7 @@ import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { InnerState, AnalyzedBaseData, Movesbase, MovesbaseFile } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
-  setAnimatePause, setAnimateReverse, setSecPerHour, setClicked, 
+  setAnimatePause, setAnimateReverse, setSecPerHour, setMultiplySpeed, setClicked, 
   setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
   setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
   setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength, addMovesBaseData} from '../actions';
@@ -45,6 +45,7 @@ const initialState: InnerState = {
   loopEndPause: false,
   animateReverse: false,
   secperhour: 180,
+  multiplySpeed:20, //(3600 / secperhour)値であること
   clickedObject: null,
   routePaths: [],
   defaultZoom: 11.1,
@@ -305,10 +306,33 @@ reducer.case(setAnimateReverse, (state, animateReverse) => {
 });
 
 reducer.case(setSecPerHour, (state, secperhour) => {
+  if(secperhour === 0){
+    console.log('secperhour set zero!');
+    return state;
+  }
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.secperhour = secperhour;
+  assignData.multiplySpeed = 3600 / secperhour;
   assignData.loopTime = calcLoopTime(state.timeLength, secperhour);
+  parameter.coefficient = state.timeLength / assignData.loopTime;
+  if (!state.animatePause) {
+    assignData.starttimestamp =
+      (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * assignData.loopTime));
+  }
+  return assign({}, state, assignData);
+});
+
+reducer.case(setMultiplySpeed, (state, multiplySpeed) => {
+  if(multiplySpeed === 0){
+    console.log('secperhour set zero!');
+    return state;
+  }
+  const assignData:InnerState = {};
+  assignData.loopEndPause = false;
+  assignData.multiplySpeed = multiplySpeed;
+  assignData.secperhour = 3600 / multiplySpeed;
+  assignData.loopTime = calcLoopTime(state.timeLength, assignData.secperhour);
   parameter.coefficient = state.timeLength / assignData.loopTime;
   if (!state.animatePause) {
     assignData.starttimestamp =

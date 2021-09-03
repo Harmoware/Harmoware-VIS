@@ -153,6 +153,7 @@ export interface BasedState {
   movesbase: Movesbase[],
   routePaths: RoutePaths[],
   secperhour: number,
+  multiplySpeed: number,
   settime: number,
   starttimestamp: number,
   timeBegin: number,
