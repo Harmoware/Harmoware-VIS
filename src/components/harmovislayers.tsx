@@ -37,12 +37,14 @@ const MapGl = (props:InteractiveMapProps) => {
   const interactiveMapRef = React.useRef(null);
   const map = interactiveMapRef.current && interactiveMapRef.current.getMap();
 
-  if(map && !execflg && mapboxAddLayerValue){
+  if(map && !execflg && (mapboxAddLayerValue || terrain)){
     setFlg(true);
     map.on('load', function() {
-      for(const LayerValuemapElement of mapboxAddLayerValue){
-        if(!map.getLayer(LayerValuemapElement.id)){
-          map.addLayer(LayerValuemapElement);
+      if(mapboxAddLayerValue){
+        for(const LayerValuemapElement of mapboxAddLayerValue){
+          if(!map.getLayer(LayerValuemapElement.id)){
+            map.addLayer(LayerValuemapElement);
+          }
         }
       }
       if(terrain){
@@ -53,11 +55,13 @@ const MapGl = (props:InteractiveMapProps) => {
   }
   if(prevStyle !== props.mapStyle){
     setStyle(props.mapStyle);
-    if(map && mapboxAddLayerValue){
+    if(map && (mapboxAddLayerValue || terrain)){
       map.on('styledata', function() {
-        for(const LayerValuemapElement of mapboxAddLayerValue){
-          if(!map.getLayer(LayerValuemapElement.id)){
-            map.addLayer(LayerValuemapElement);
+        if(mapboxAddLayerValue){
+          for(const LayerValuemapElement of mapboxAddLayerValue){
+            if(!map.getLayer(LayerValuemapElement.id)){
+              map.addLayer(LayerValuemapElement);
+            }
           }
         }
         if(terrain){
