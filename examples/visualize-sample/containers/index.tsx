@@ -309,6 +309,7 @@ class App extends Container<BasedProps, State> {
             mapboxApiAccessToken={this.state.mapboxVisible ? MAPBOX_TOKEN : ''}
             mapStyle={this.state.mapboxVisible ? undefined : ''}
             visible={this.state.mapboxVisible}
+            terrain={false}
             layers={[].concat(
               depotsData.length > 0 ?
               new DepotsLayer({

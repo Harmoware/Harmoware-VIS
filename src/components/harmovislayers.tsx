@@ -1,5 +1,5 @@
 import * as React from 'react';
-import InteractiveMap, { FlyToInterpolator, TransitionInterpolator } from 'react-map-gl';
+import InteractiveMap, { TransitionInterpolator } from 'react-map-gl';
 import type { TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
@@ -19,7 +19,9 @@ interface Props {
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
-  flytoArgument?: FlyToInterpolatorProps,
+  terrain?: boolean,
+  terrainSource?: {id:string,source:object},
+  setTerrain?: {source:string,exaggeration?:number},
   transitionDuration?: number | 'auto'
   transitionInterpolator?: TransitionInterpolator,
   transitionInterruption?: typeof TRANSITION_EVENTS,
@@ -29,7 +31,7 @@ interface State {
 }
 
 const MapGl = (props:InteractiveMapProps) => {
-  const {mapboxAddLayerValue, ...otherProps} = props;
+  const {mapboxAddLayerValue, terrain, terrainSource, setTerrain, ...otherProps} = props;
   const [execflg, setFlg] = React.useState(false);
   const [prevStyle, setStyle] = React.useState(props.mapStyle);
   const interactiveMapRef = React.useRef(null);
@@ -43,6 +45,10 @@ const MapGl = (props:InteractiveMapProps) => {
           map.addLayer(LayerValuemapElement);
         }
       }
+      if(terrain){
+        map.addSource(terrainSource.id, terrainSource.source);
+        map.setTerrain(setTerrain);
+      }
     });
   }
   if(prevStyle !== props.mapStyle){
@@ -53,6 +59,10 @@ const MapGl = (props:InteractiveMapProps) => {
           if(!map.getLayer(LayerValuemapElement.id)){
             map.addLayer(LayerValuemapElement);
           }
+        }
+        if(terrain){
+          map.addSource(terrainSource.id, terrainSource.source);
+          map.setTerrain(setTerrain);
         }
       });
     }
@@ -82,7 +92,12 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
           "fill-extrusion-opacity": .6
       },
     }],
-    flytoArgument: null,
+    terrain: false,
+    terrainSource: {id:'mapbox-dem',source:{
+      'type': 'raster-dem',
+      'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+    }},
+    setTerrain: {source:'mapbox-dem'},
     transitionDuration: 0,
     transitionInterpolator: undefined,
     transitionInterruption: undefined,
@@ -114,7 +129,8 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
   render() {
     const { props } = this;
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
-      layers, mapGlComponents, flytoArgument, mapboxAddLayerValue } = props;
+      layers, mapGlComponents, mapboxAddLayerValue,
+      terrain, terrainSource, setTerrain } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
     const transitionDuration = this.state.transition?
       (viewport.transitionDuration||props.transitionDuration):0;
@@ -135,6 +151,9 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
           transitionInterpolator={transitionInterpolator}
           transitionInterruption={transitionInterruption}
           mapboxAddLayerValue={mapboxAddLayerValue}
+          terrain={terrain}
+          terrainSource={terrainSource}
+          setTerrain={setTerrain}
         >
           { mapGlComponents }
           <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
