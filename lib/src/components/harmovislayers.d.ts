@@ -4,7 +4,6 @@ import { TransitionInterpolator } from 'react-map-gl';
 import type { TRANSITION_EVENTS } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
-declare type FlyToInterpolatorProps = any;
 interface Props {
     visible?: boolean;
     viewport: Viewport;
@@ -15,7 +14,15 @@ interface Props {
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
-    flytoArgument?: FlyToInterpolatorProps;
+    terrain?: boolean;
+    terrainSource?: {
+        id: string;
+        source: object;
+    };
+    setTerrain?: {
+        source: string;
+        exaggeration?: number;
+    };
     transitionDuration?: number | 'auto';
     transitionInterpolator?: TransitionInterpolator;
     transitionInterruption?: typeof TRANSITION_EVENTS;
@@ -41,7 +48,17 @@ export default class HarmoVisLayers extends React.Component<Props, State> {
                 "fill-extrusion-opacity": number;
             };
         }[];
-        flytoArgument: any;
+        terrain: boolean;
+        terrainSource: {
+            id: string;
+            source: {
+                type: string;
+                url: string;
+            };
+        };
+        setTerrain: {
+            source: string;
+        };
         transitionDuration: number;
         transitionInterpolator: any;
         transitionInterruption: any;
