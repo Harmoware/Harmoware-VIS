@@ -68,6 +68,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getOrientation: (x: MovedData) => number[];
         getScale: (x: MovedData) => number[];
         getTranslation: number[];
+        pickable: boolean;
     };
     static layerName: string;
     getPickingInfo(pickParams: pickParams): void;
