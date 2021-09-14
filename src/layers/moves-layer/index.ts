@@ -99,6 +99,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getOrientation: (x: MovedData) => x.direction ? [0,-x.direction,90] : [0,0,90],
     getScale: (x: MovedData) => x.scale || [1,1,1],
     getTranslation: [0,0,0],
+    pickable: true,
     };
 
   static layerName = 'MovesLayer';
@@ -109,7 +110,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   }
 
   getIconLayer(movedData:MovedData[]):any[] {
-    const { id, layerRadiusScale, layerOpacity,
+    const { id, layerRadiusScale, layerOpacity, pickable,
       getRadius, iconlayer, iconChange, iconCubeType, visible,
       scenegraph, mesh, sizeScale, getOrientation, getScale, getTranslation,
       iconDesignations:propIconDesignations
@@ -136,7 +137,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
           getRadius: overgetRadius || getRadius,
           visible,
           opacity: layerOpacity,
-          pickable: true,
+          pickable,
           radiusMinPixels: 1
         });
       }else
@@ -153,7 +154,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
           getTranslation: overgetTranslation || getTranslation,
           visible,
           opacity: layerOpacity,
-          pickable: true,
+          pickable,
         });
       }else
       if(layer && layer === 'Scenegraph'){
@@ -169,7 +170,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
           getTranslation: overgetTranslation || getTranslation,
           visible,
           opacity: layerOpacity,
-          pickable: true,
+          pickable,
         });
       }else{
         console.log('iconDesignations layer undefined.');
@@ -179,7 +180,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
   }
 
   renderLayers():any[] {
-    const { id, routePaths, layerOpacity, movedData,
+    const { id, routePaths, layerOpacity, movedData, pickable,
       clickedObject, actions, optionElevationScale, optionOpacity, optionCellSize,
       optionDisplayPosition, optionVisible, optionArcVisible, optionLineVisible, optionChange,
       iconChange, visible, getCubeColor, getCubeElevation, getArchWidth, getLinehWidth, optionCentering,
@@ -223,7 +224,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         getCubeElevation,
         getRadius: optPlacement,
         opacity: optionOpacity,
-        pickable: true,
+        pickable,
         cellSize: optionCellSize,
         elevationScale: optionElevationScale,
       }) : null,
@@ -232,7 +233,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: id + '-moves-opt-arc',
         data: arcData,
         visible: arcVisible,
-        pickable: true,
+        pickable,
         widthUnits: 'meters',
         widthMinPixels: 0.1,
         getSourcePosition: (x: MovedData) => x.sourcePosition,
@@ -247,7 +248,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         id: id + '-moves-opt-line',
         data: arcData,
         visible: lineVisible,
-        pickable: true,
+        pickable,
         widthUnits: 'meters',
         widthMinPixels: 0.1,
         getSourcePosition: (x: MovedData) => x.sourcePosition,
