@@ -95,7 +95,7 @@ export interface MovedData {
     radius?: number;
     scale?: number[];
     color?: (number | number[])[];
-    settime?: number;
+    settime: number;
     routeColor?: number[];
     routeWidth?: number;
     optColor?: number[][];
@@ -109,7 +109,7 @@ export interface DepotsData {
     color?: (number | number[])[];
     optColor?: number[][];
     optElevation?: number[];
-    settime?: number;
+    settime: number;
 }
 export declare type LayerTypes = 'Scatterplot' | 'SimpleMesh' | 'Scenegraph';
 export interface IconDesignation {
@@ -141,6 +141,8 @@ export interface BasedState {
     leading: number;
     loopTime: number;
     movedData: MovedData[];
+    ExtractedData: any;
+    getExtractedDataFunc: null | (<P>(props: P) => any);
     movesbase: Movesbase[];
     routePaths: RoutePaths[];
     secperhour: number;

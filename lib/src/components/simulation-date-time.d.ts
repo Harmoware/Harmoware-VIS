@@ -1,6 +1,6 @@
 import * as React from 'react';
 interface Props {
-    settime?: number;
+    settime: number;
     caption?: string;
     locales?: string;
     options?: object;

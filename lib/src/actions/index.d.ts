@@ -24,6 +24,7 @@ export declare const setDefaultZoom: import("typescript-fsa").ActionCreator<numb
 export declare const setDefaultPitch: import("typescript-fsa").ActionCreator<number>;
 export declare const setMovesOptionFunc: import("typescript-fsa").ActionCreator<GetMovesOptionFunc>;
 export declare const setDepotsOptionFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
+export declare const setExtractedDataFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
 export declare const setLinemapData: import("typescript-fsa").ActionCreator<LineMapData[]>;
 export declare const setLoading: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInputFilename: import("typescript-fsa").ActionCreator<Object>;

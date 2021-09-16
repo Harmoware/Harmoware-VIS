@@ -5,7 +5,10 @@ export declare const safeAdd: (left: number, right: number) => number;
 export declare const safeSubtract: (left: number, right: number) => number;
 export declare const analyzeMovesBase: (state: InnerState, inputData: (Movesbase[] | MovesbaseFile), update: boolean) => AnalyzedBaseData;
 export declare const getDepots: (props: InnerState) => DepotsData[];
-export declare const getMoveObjects: (props: InnerState) => MovedData[];
+export declare const getMoveObjects: (props: InnerState) => {
+    movedData?: MovedData[];
+    ExtractedData?: any;
+};
 export interface pickParams {
     mode: string;
     info: EventInfo;
