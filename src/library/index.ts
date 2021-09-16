@@ -217,56 +217,68 @@ export const getDepots = (props: InnerState): DepotsData[] => {
   return [];
 };
 
-export const getMoveObjects = (props : InnerState): MovedData[] => {
-  const { movesbase, movedData:prevMovedData, settime, secperhour, timeLength,
-    getMovesOptionFunc, iconGradation } = props;
-  safeCheck(settime);
-  if(prevMovedData.length > 0){
-    if((abs(prevMovedData[0].settime - settime)/3.6)*secperhour < 25){
-      return null
-    };
-  }
-  const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
+export const getMoveObjects = (props : InnerState): {movedData?:MovedData[],ExtractedData?:any} => {
+  const { movesbase, getExtractedDataFunc } = props;
 
-  const movedData: MovedData[] = movesbase.reduce((movedData: MovedData[],movesbaseElement,movesbaseidx)=>{
-    const { departuretime, arrivaltime, operation, ...otherProps1 } = movesbaseElement;
-    if(timeLength > 0 && departuretime <= settime && settime < arrivaltime){
-      const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
-      const idx = (nextidx-1)|0;
-      if(typeof operation[idx].position === 'undefined' ||
-        typeof operation[nextidx].position === 'undefined'){
-        const {elapsedtime, ...otherProps2} = operation[idx];
-        movedData.push(assign({},
-          otherProps1, otherProps2, { settime, movesbaseidx },
-          getOptionFunction(props, movesbaseidx, idx),
-        ));
-      }else{
-        const { elapsedtime, position:sourcePosition,
-          color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
-        const { elapsedtime:nextelapsedtime, position:targetPosition,
-          color:targetColor=COLOR1 } = operation[nextidx];
-        const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-        const position = [
-          sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
-          sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
-          sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
-        ];
-        const color = iconGradation ? [
-          (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
-          (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
-          (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
-        ] : sourceColor;
-        movedData.push(assign({}, otherProps1, otherProps2,
-          { settime,
-            position, sourcePosition, targetPosition,
-            color, direction, sourceColor, targetColor, movesbaseidx},
-          getOptionFunction(props, movesbaseidx, idx),
-        ));
-      }
+  const retrunData:{movedData?:MovedData[],ExtractedData?:any} = {}
+  if(movesbase.length > 0){
+    const { settime, movedData:prevMovedData, secperhour, timeLength,
+    getMovesOptionFunc, iconGradation } = props;
+    safeCheck(settime);
+    let skip = false;
+    if(prevMovedData.length > 0){
+      if((abs(prevMovedData[0].settime - settime)/3.6)*secperhour < 25){
+        skip = true;
+      };
     }
-    return movedData;
-  },[]);
-  return movedData;
+    if(!skip){
+      const getOptionFunction: GetMovesOptionFunc = getMovesOptionFunc || (() => {return {};});
+  
+      const movedData: MovedData[] = movesbase.reduce((movedData: MovedData[],movesbaseElement,movesbaseidx)=>{
+        const { departuretime, arrivaltime, operation, ...otherProps1 } = movesbaseElement;
+        if(timeLength > 0 && departuretime <= settime && settime < arrivaltime){
+          const nextidx = operation.findIndex((data)=>data.elapsedtime > settime);
+          const idx = (nextidx-1)|0;
+          if(typeof operation[idx].position === 'undefined' ||
+            typeof operation[nextidx].position === 'undefined'){
+            const {elapsedtime, ...otherProps2} = operation[idx];
+            movedData.push(assign({},
+              otherProps1, otherProps2, { settime, movesbaseidx },
+              getOptionFunction(props, movesbaseidx, idx),
+            ));
+          }else{
+            const { elapsedtime, position:sourcePosition,
+              color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
+            const { elapsedtime:nextelapsedtime, position:targetPosition,
+              color:targetColor=COLOR1 } = operation[nextidx];
+            const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
+            const position = [
+              sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
+              sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
+              sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
+            ];
+            const color = iconGradation ? [
+              (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
+              (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
+              (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
+            ] : sourceColor;
+            movedData.push(assign({}, otherProps1, otherProps2,
+              { settime,
+                position, sourcePosition, targetPosition,
+                color, direction, sourceColor, targetColor, movesbaseidx},
+              getOptionFunction(props, movesbaseidx, idx),
+            ));
+          }
+        }
+        return movedData;
+      },[]);
+      retrunData.movedData = movedData;
+    }
+  }
+  if(getExtractedDataFunc){
+    retrunData.ExtractedData = getExtractedDataFunc(props);
+  }
+  return retrunData;
 };
 
 const routeDelete = (movesbaseidx: number, props: {

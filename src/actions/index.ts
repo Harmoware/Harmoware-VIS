@@ -27,6 +27,7 @@ export const setDefaultZoom = actionCreator<number>(types.SETDEFAULTZOOM);
 export const setDefaultPitch = actionCreator<number>(types.SETDEFAULTPITCH);
 export const setMovesOptionFunc = actionCreator<GetMovesOptionFunc>(types.SETMOVESOPTIONFUNC);
 export const setDepotsOptionFunc = actionCreator<GetDepotsOptionFunc>(types.SETDEPOTSOPTIONFUNC);
+export const setExtractedDataFunc = actionCreator<GetDepotsOptionFunc>(types.SETEXTRACTEDDATAFUNC);
 export const setLinemapData = actionCreator<LineMapData[]>(types.SETLINEMAPDATA);
 export const setLoading = actionCreator<boolean>(types.SETLOADING);
 export const setInputFilename = actionCreator<Object>(types.SETINPUTFILENAME);

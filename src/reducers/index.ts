@@ -1,10 +1,10 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { InnerState, AnalyzedBaseData, Movesbase, MovesbaseFile } from '../types';
+import { InnerState, AnalyzedBaseData } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setMultiplySpeed, setClicked, 
-  setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, 
+  setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, setExtractedDataFunc,
   setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
   setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength, addMovesBaseData} from '../actions';
 
@@ -53,6 +53,8 @@ const initialState: InnerState = {
   getMovesOptionFunc: null,
   getDepotsOptionFunc: null,
   movedData: [],
+  ExtractedData: undefined,
+  getExtractedDataFunc: null,
   depotsData: [],
   linemapData: [],
   loading: false,
@@ -132,7 +134,7 @@ reducer.case(increaseTime, (state, props) => {
     assignData.settime = safeSubtract(state.timeBegin, state.leading);
     assignData.starttimestamp = now - ((safeSubtract(assignData.settime, state.timeBegin) / state.timeLength) * state.loopTime);
     const setProps = { ...props, ...assignData };
-    const movedData = getMoveObjects(setProps);
+    const {movedData,ExtractedData} = getMoveObjects(setProps);
     if(movedData){
       assignData.movedData = movedData;
       if(assignData.movedData.length === 0){
@@ -140,6 +142,7 @@ reducer.case(increaseTime, (state, props) => {
         assignData.routePaths = [];
       }
     }
+    assignData.ExtractedData = ExtractedData;
     if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
       const depotsData = getDepots(setProps)
       if(depotsData){
@@ -156,7 +159,7 @@ reducer.case(increaseTime, (state, props) => {
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
-  const movedData = getMoveObjects(setProps);
+  const {movedData,ExtractedData} = getMoveObjects(setProps);
   if(movedData){
     assignData.movedData = movedData;
     if(assignData.movedData.length === 0){
@@ -164,6 +167,7 @@ reducer.case(increaseTime, (state, props) => {
       assignData.routePaths = [];
     }
   }
+  assignData.ExtractedData = ExtractedData;
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     const depotsData = getDepots(setProps)
     if(depotsData){
@@ -188,7 +192,7 @@ reducer.case(decreaseTime, (state, props) => {
   }
   assignData.beforeFrameTimestamp = now;
   const setProps = { ...props, ...assignData };
-  const movedData = getMoveObjects(setProps);
+  const {movedData,ExtractedData} = getMoveObjects(setProps);
   if(movedData){
     assignData.movedData = movedData;
     if(assignData.movedData.length === 0){
@@ -196,6 +200,7 @@ reducer.case(decreaseTime, (state, props) => {
       assignData.routePaths = [];
     }
   }
+  assignData.ExtractedData = ExtractedData;
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     const depotsData = getDepots(setProps)
     if(depotsData){
@@ -225,7 +230,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
   assignData.beforeFrameTimestamp = now;
   assignData.starttimestamp = now - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * state.loopTime);
   const setProps = { ...props, ...assignData };
-  const movedData = getMoveObjects(setProps);
+  const {movedData,ExtractedData} = getMoveObjects(setProps);
   if(movedData){
     assignData.movedData = movedData;
     if(assignData.movedData.length === 0){
@@ -233,6 +238,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
       assignData.routePaths = [];
     }
   }
+  assignData.ExtractedData = ExtractedData;
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     const depotsData = getDepots(setProps)
     if(depotsData){
@@ -368,6 +374,12 @@ reducer.case(setMovesOptionFunc, (state, getMovesOptionFunc) => {
 reducer.case(setDepotsOptionFunc, (state, getDepotsOptionFunc) => {
   return assign({}, state, {
     getDepotsOptionFunc
+  });
+});
+
+reducer.case(setExtractedDataFunc, (state, getExtractedDataFunc) => {
+  return assign({}, state, {
+    getExtractedDataFunc
   });
 });
 
