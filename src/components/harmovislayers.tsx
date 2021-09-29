@@ -1,21 +1,15 @@
 import * as React from 'react';
-import InteractiveMap, { TransitionInterpolator } from 'react-map-gl';
-import type { TRANSITION_EVENTS } from 'react-map-gl';
+import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 
-type InteractiveMapProps = any;
-type FlyToInterpolatorProps = any;
+type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 
-interface Props {
-  visible?: boolean,
+interface Props extends Omit<InteractiveMapProps,"transitionDuration">{
   viewport : Viewport,
-  mapboxApiAccessToken: string,
-  mapStyle?: string,
   actions: ActionTypes,
-  onViewportChange?(viewport: Viewport): void,
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
@@ -23,14 +17,12 @@ interface Props {
   terrainSource?: {id:string,source:object},
   setTerrain?: {source:string,exaggeration?:number},
   transitionDuration?: number | 'auto'
-  transitionInterpolator?: TransitionInterpolator,
-  transitionInterruption?: typeof TRANSITION_EVENTS,
 }
 interface State {
   transition?: boolean,
 }
 
-const MapGl = (props:InteractiveMapProps) => {
+const MapGl = (props:Partial<Props>) => {
   const {mapboxAddLayerValue, terrain, terrainSource, setTerrain, ...otherProps} = props;
   const [execflg, setFlg] = React.useState(false);
   const [prevStyle, setStyle] = React.useState(props.mapStyle);
@@ -71,7 +63,7 @@ const MapGl = (props:InteractiveMapProps) => {
       });
     }
   }
-  return (<InteractiveMap {...otherProps} ref={interactiveMapRef} />);
+  return (<InteractiveMap {...otherProps as any} ref={interactiveMapRef} />);
 };
 
 export default class HarmoVisLayers extends React.Component<Props,State> {
@@ -103,8 +95,6 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     }},
     setTerrain: {source:'mapbox-dem'},
     transitionDuration: 0,
-    transitionInterpolator: undefined,
-    transitionInterruption: undefined,
   }
   constructor(props: Props){
     super(props);
@@ -146,7 +136,7 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     if(visible){
       return (
         <MapGl
-          {...(viewport as InteractiveMapProps)}
+          {...viewport}
           mapStyle={mapStyle}
           onViewportChange={onViewportChange}
           mapboxApiAccessToken={mapboxApiAccessToken}

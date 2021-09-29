@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { ActionTypes, AnalyzedBaseData, InnerState, RoutePaths, IconDesignation,
-  Bounds, MovesbaseFile, Movesbase, MovedData, DepotsData, Viewport, MovesbaseOperation,
+import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
+  MovesbaseFile, Movesbase, MovedData, DepotsData, MovesbaseOperation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
@@ -54,7 +54,7 @@ export const safeSubtract = (left: number, right: number): number => {
 };
 
 export const analyzeMovesBase =
-(state: InnerState, inputData: (Movesbase[] | MovesbaseFile), update:boolean) : AnalyzedBaseData => {
+(state: BasedState, inputData: (Movesbase[] | MovesbaseFile), update:boolean) : AnalyzedBaseData => {
   const outputData: AnalyzedBaseData = {movesbase:[]};
 
   if (isArray(inputData)) {
@@ -194,7 +194,7 @@ export const analyzeMovesBase =
   return outputData;
 };
 
-export const getDepots = (props: InnerState): DepotsData[] => {
+export const getDepots = (props: BasedState): DepotsData[] => {
   const { settime, depotsBase, depotsData:prevData, secperhour, getDepotsOptionFunc } = props;
   if(prevData.length > 0){
     if(!getDepotsOptionFunc || (abs(prevData[0].settime - settime)/3.6)*secperhour < 100){
@@ -217,7 +217,7 @@ export const getDepots = (props: InnerState): DepotsData[] => {
   return [];
 };
 
-export const getMoveObjects = (props : InnerState): {movedData?:MovedData[],ExtractedData?:any} => {
+export const getMoveObjects = (props : BasedState): {movedData?:MovedData[],ExtractedData?:any} => {
   const { movesbase, getExtractedDataFunc } = props;
 
   const retrunData:{movedData?:MovedData[],ExtractedData?:any} = {}

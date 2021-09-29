@@ -1,6 +1,6 @@
 import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { InnerState, AnalyzedBaseData } from '../types';
+import { BasedState, AnalyzedBaseData } from '../types';
 import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
   setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
   setAnimatePause, setAnimateReverse, setSecPerHour, setMultiplySpeed, setClicked, 
@@ -8,7 +8,9 @@ import { addMinutes, setViewport, setDefaultViewport, setTimeStamp,
   setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
   setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength, addMovesBaseData} from '../actions';
 
-const initialState: InnerState = {
+interface InnerState extends Partial<BasedState>{};
+
+const initialState: BasedState = {
   viewport: {
     longitude: 136.906428,
     latitude: 35.181453,
@@ -70,7 +72,7 @@ const parameter = {
 
 const calcLoopTime = // LoopTime とは１ループにかける時間（ミリ秒）
   (timeLength : number, secperhour: number) : number => (timeLength / 3.6) * secperhour;
-const reducer = reducerWithInitialState<InnerState>(initialState);
+const reducer = reducerWithInitialState<BasedState>(initialState);
 const assign = Object.assign;
 
 reducer.case(addMinutes, (state, min) => {
@@ -248,7 +250,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
   return assign({}, state, assignData);
 });
 
-const setMovesBaseFunc = (state:InnerState, analyzeData:AnalyzedBaseData):InnerState => {
+const setMovesBaseFunc = (state:BasedState, analyzeData:AnalyzedBaseData):BasedState => {
   const assignData:InnerState = {};
   assignData.loopEndPause = false;
   assignData.timeBegin = analyzeData.timeBegin;
