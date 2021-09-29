@@ -1,24 +1,8 @@
 /// <reference types="react" />
-import { TransitionInterpolator } from 'react-map-gl';
-import type { TRANSITION_EVENTS } from 'react-map-gl';
+import { ViewportProps } from 'react-map-gl';
 import * as BaseActions from '../actions';
-export interface Viewport {
-    altitude?: number;
-    bearing?: number;
-    height?: number;
-    latitude?: number;
-    longitude?: number;
-    maxPitch?: number;
-    maxZoom?: number;
-    minPitch?: number;
-    minZoom?: number;
-    pitch?: number;
-    width?: number;
-    zoom?: number;
+export interface Viewport extends Omit<ViewportProps, "transitionDuration"> {
     transitionDuration?: number | 'auto';
-    transitionInterpolator?: TransitionInterpolator;
-    transitionInterruption?: typeof TRANSITION_EVENTS;
-    transitionEasing?: any;
 }
 export interface Bounds {
     westlongitiude: number;
@@ -155,20 +139,18 @@ export interface BasedState {
     viewport: Viewport;
     linemapData: LineMapData[];
     loading: boolean;
-    inputFileName: ComObj<string>;
+    inputFileName: {
+        [propName: string]: string;
+    };
     noLoop: boolean;
     initialViewChange: boolean;
     iconGradation: boolean;
-}
-export interface InnerState extends Partial<BasedState> {
 }
 export declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {
 }
 export interface BasedProps extends BasedState {
     actions: ActionTypes;
-}
-export interface InnerProps extends Partial<BasedProps> {
 }
 export declare type GetDepotsOptionFunc = (props: object, i: number) => object;
 export declare type GetMovesOptionFunc = (props: object, i: number, j: number) => object;
@@ -190,7 +172,3 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
     x: number;
     y: number;
 }
-interface ComObj<T> {
-    [propName: string]: T;
-}
-export {};
