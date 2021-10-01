@@ -7,16 +7,15 @@ import { ActionTypes, Viewport } from '../types';
 
 type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 
-interface Props extends Omit<InteractiveMapProps,"transitionDuration">{
+interface Props extends InteractiveMapProps{
   viewport : Viewport,
   actions: ActionTypes,
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
-  terrain?: boolean,
-  terrainSource?: {id:string,source:object},
-  setTerrain?: {source:string,exaggeration?:number},
-  transitionDuration?: number | 'auto'
+  terrain: boolean,
+  terrainSource: {id:string,source:object},
+  setTerrain: {source:string,exaggeration?:number},
 }
 interface State {
   transition?: boolean,
@@ -66,7 +65,7 @@ const MapGl = (props:Partial<Props>) => {
   return (<InteractiveMap {...otherProps as any} ref={interactiveMapRef} />);
 };
 
-export default class HarmoVisLayers extends React.Component<Props,State> {
+export default class HarmoVisLayers extends React.Component<Partial<Props>,State> {
   static defaultProps = {
     visible: true,
     mapStyle: 'mapbox://styles/mapbox/dark-v8',
@@ -96,12 +95,12 @@ export default class HarmoVisLayers extends React.Component<Props,State> {
     setTerrain: {source:'mapbox-dem'},
     transitionDuration: 0,
   }
-  constructor(props: Props){
+  constructor(props: Partial<Props>){
     super(props);
     this.state = {transition:false};
   }
 
-  componentDidUpdate(prevProps:Props) {
+  componentDidUpdate(prevProps:Partial<Props>) {
     if (!this.state.transition) {
       this.setState({transition:true});
     }

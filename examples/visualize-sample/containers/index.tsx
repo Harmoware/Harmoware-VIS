@@ -10,11 +10,19 @@ import SvgIcon from '../icondata/SvgIcon';
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
 const defaultInterval = 1000;
+const mapStyle:string[] = [
+  'mapbox://styles/mapbox/dark-v8', //0
+  'mapbox://styles/mapbox/light-v8', //1
+  'mapbox://styles/mapbox/streets-v8', //2
+  'mapbox://styles/mapbox/satellite-v8', //3
+  'mapbox://styles/mapbox/outdoors-v10', //4
+];
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
 interface State {
   mapboxVisible: boolean,
+  mapStyleNo: number,
   moveDataVisible: boolean,
   moveOptionVisible: boolean,
   moveOptionArcVisible: boolean,
@@ -29,7 +37,8 @@ interface State {
   popupInfo: MovedData,
   viewportArray: Viewport[],
   followingiconId: number,
-  follwTimerId: NodeJS.Timeout
+  follwTimerId: NodeJS.Timeout,
+  terrain: boolean
 }
 
 class App extends Container<BasedProps, State> {
@@ -38,6 +47,7 @@ class App extends Container<BasedProps, State> {
     super(props);
     this.state = {
       mapboxVisible: true,
+      mapStyleNo: 0,
       moveDataVisible: true,
       moveOptionVisible: false,
       moveOptionArcVisible: false,
@@ -52,7 +62,8 @@ class App extends Container<BasedProps, State> {
       popupInfo: null,
       viewportArray: [],
       followingiconId: -1,
-      follwTimerId: null
+      follwTimerId: null,
+      terrain: false
     };
     this.viewportPlayback = this.viewportPlayback.bind(this);
     this.iconFollwNext = this.iconFollwNext.bind(this);
@@ -119,6 +130,10 @@ class App extends Container<BasedProps, State> {
 
   getMapboxChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ mapboxVisible: e.target.checked });
+  }
+
+  getMapStyleSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ mapStyleNo: +e.target.value });
   }
 
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -262,11 +277,12 @@ class App extends Container<BasedProps, State> {
   }
 
   render() {
+    const state = this.state;
     const props = this.props;
     const { actions, routePaths, viewport, loading,
       clickedObject, movedData, movesbase, depotsData, linemapData } = props;
     const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon));
-    const hexagonData = this.state.heatmapVisible ? movedData.filter(x=>x.position):[];
+    const hexagonData = state.heatmapVisible ? movedData.filter(x=>x.position):[];
     const PointCloudData = movedData.filter((x:any)=>x.pointCloud);
     const sizeScale = (Math.max(17 - viewport.zoom,2)**2)*2;
 
@@ -276,9 +292,11 @@ class App extends Container<BasedProps, State> {
       <div>
         <Controller
           {...props}
-          iconCubeType={this.state.iconCubeType}
-          followingiconId={this.state.followingiconId}
+          mapStyleNo={state.mapStyleNo}
+          iconCubeType={state.iconCubeType}
+          followingiconId={state.followingiconId}
           getMapboxChecked={this.getMapboxChecked.bind(this)}
+          getMapStyleSelected={this.getMapStyleSelected.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getMoveOptionArcChecked={this.getMoveOptionArcChecked.bind(this)}
@@ -306,10 +324,10 @@ class App extends Container<BasedProps, State> {
           <HarmoVisLayers
             viewport={viewport}
             actions={actions}
-            mapboxApiAccessToken={this.state.mapboxVisible ? MAPBOX_TOKEN : ''}
-            mapStyle={this.state.mapboxVisible ? undefined : ''}
-            visible={this.state.mapboxVisible}
-            terrain={false}
+            mapboxApiAccessToken={state.mapboxVisible ? MAPBOX_TOKEN : ''}
+            mapStyle={state.mapboxVisible ? mapStyle[state.mapStyleNo] : ''}
+            visible={state.mapboxVisible}
+            terrain={state.terrain}
             layers={[].concat(
               depotsData.length > 0 ?
               new DepotsLayer({
@@ -317,12 +335,12 @@ class App extends Container<BasedProps, State> {
                 /* iconDesignations Setting Example
                 iconDesignations: [{type:'stop', layer:'Scatterplot'},{type:'station', layer:'SimpleMesh'}],
                 /**/
-                optionVisible: this.state.depotOptionVisible,
-                optionChange: this.state.optionChange,
-                iconChange: this.state.iconChange,
+                optionVisible: state.depotOptionVisible,
+                optionChange: state.optionChange,
+                iconChange: state.iconChange,
                 onHover
               }):null,
-              this.state.moveDataVisible && movedData.length > 0 ?
+              state.moveDataVisible && movedData.length > 0 ?
               new MovesLayer({
                 // scenegraph,
                 routePaths,
@@ -335,14 +353,14 @@ class App extends Container<BasedProps, State> {
                 /**/
                 clickedObject,
                 actions,
-                visible: this.state.moveDataVisible,
-                optionVisible: this.state.moveOptionVisible,
-                optionArcVisible: this.state.moveOptionArcVisible,
-                optionLineVisible: this.state.moveOptionLineVisible,
-                optionChange: this.state.optionChange,
-                iconChange: this.state.iconChange, // Invalid if there is iconDesignations definition
-                iconCubeType: this.state.iconCubeType, // Invalid if there is iconDesignations definition
-                sizeScale: this.state.iconCubeType === 0 ? sizeScale : (sizeScale/10),
+                visible: state.moveDataVisible,
+                optionVisible: state.moveOptionVisible,
+                optionArcVisible: state.moveOptionArcVisible,
+                optionLineVisible: state.moveOptionLineVisible,
+                optionChange: state.optionChange,
+                iconChange: state.iconChange, // Invalid if there is iconDesignations definition
+                iconCubeType: state.iconCubeType, // Invalid if there is iconDesignations definition
+                sizeScale: state.iconCubeType === 0 ? sizeScale : (sizeScale/10),
                 onHover
               }):null,
               linemapData.length > 0 ?
@@ -367,7 +385,7 @@ class App extends Container<BasedProps, State> {
                 onHover: onHover
               }):null,
               PointCloudData.length > 0 ? this.getPointCloudLayer(PointCloudData):null,
-              this.state.heatmapVisible && hexagonData.length > 0 ?
+              state.heatmapVisible && hexagonData.length > 0 ?
               new HexagonLayer({
                 id: '3d-heatmap',
                 data: hexagonData,
@@ -375,7 +393,7 @@ class App extends Container<BasedProps, State> {
                 radius: 100,
                 opacity: 0.5,
                 extruded: true,
-                visible: this.state.heatmapVisible
+                visible: state.heatmapVisible
               }):null
             )}
             mapGlComponents={ this.getMapGlComponents(movedData) }
@@ -383,10 +401,10 @@ class App extends Container<BasedProps, State> {
         </div>
         <svg width={viewport.width} height={viewport.height} className="harmovis_overlay">
           <g fill="white" fontSize="12">
-            {this.state.popup[2].length > 0 ?
-              this.state.popup[2].split('\n').map((value:any, index:number) =>
+            {state.popup[2].length > 0 ?
+              state.popup[2].split('\n').map((value:any, index:number) =>
                 <text
-                  x={this.state.popup[0] + 10} y={this.state.popup[1] + (index * 12)}
+                  x={state.popup[0] + 10} y={state.popup[1] + (index * 12)}
                   key={index.toString()}
                 >{value}</text>) : null
             }

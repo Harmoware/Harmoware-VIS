@@ -10,6 +10,7 @@ import ViewportInput from './viewport-input';
 
 interface Props extends BasedProps{
   getMapboxChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getMapStyleSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   getMoveDataChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionArcChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -22,6 +23,7 @@ interface Props extends BasedProps{
   getIconCubeTypeSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   getFollowingiconIdSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   getViewport?: (viewport: Viewport|Viewport[]) => void,
+  mapStyleNo: number,
   iconCubeType: number,
   followingiconId: number,
 }
@@ -116,11 +118,11 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   render() {
-    const { settime, timeBegin, timeLength, actions, movedData, movesbase,
+    const { settime, timeBegin, timeLength, actions, movedData, movesbase, mapStyleNo,
       multiplySpeed, animatePause, animateReverse, getMapboxChecked,
       getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
-      iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport,
+      iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport, getMapStyleSelected,
       inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
@@ -177,6 +179,18 @@ export default class Controller extends React.Component<Props, State> {
                     <div>
                       <input type="checkbox" id="MapboxChecked" onChange={getMapboxChecked} className="harmovis_input_checkbox" defaultChecked={true} />
                       <label htmlFor="MapboxChecked" className="form-check-label" title='Mapboxマップ表示'>Mapboxマップ表示</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="form-select" title='マップスタイル切替'>
+                      <label htmlFor="MapStyleSelected" className="form-select-label">マップスタイル切替</label>
+                      <select id="MapStyleSelected" value={mapStyleNo} onChange={getMapStyleSelected} >
+                      <option value="0">dark</option>
+                      <option value="1">light</option>
+                      <option value="2">streets</option>
+                      <option value="3">satellite</option>
+                      <option value="4">outdoors</option>
+                      </select>
                     </div>
                   </li>
                   <li>

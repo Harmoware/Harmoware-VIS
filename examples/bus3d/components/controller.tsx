@@ -102,7 +102,7 @@ export default class Controller extends React.Component<Props, State> {
     actions.setViewport({
       longitude: busstop.position[0],
       latitude: busstop.position[1],
-      zoom: 16, transitionDuration:'auto'
+      zoom: 16, transitionDuration: 100
     });
   }
 
