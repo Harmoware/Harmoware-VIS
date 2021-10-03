@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import { ViewportProps } from 'react-map-gl';
 import * as BaseActions from '../actions';
-export interface Viewport extends Omit<ViewportProps, "transitionDuration"> {
+export interface Viewport extends Omit<Partial<ViewportProps>, "transitionDuration"> {
     transitionDuration?: number | 'auto';
 }
 export interface Bounds {

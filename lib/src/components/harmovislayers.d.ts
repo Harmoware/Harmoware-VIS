@@ -4,27 +4,26 @@ import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 declare type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
-interface Props extends Omit<InteractiveMapProps, "transitionDuration"> {
+interface Props extends InteractiveMapProps {
     viewport: Viewport;
     actions: ActionTypes;
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
-    terrain?: boolean;
-    terrainSource?: {
+    terrain: boolean;
+    terrainSource: {
         id: string;
         source: object;
     };
-    setTerrain?: {
+    setTerrain: {
         source: string;
         exaggeration?: number;
     };
-    transitionDuration?: number | 'auto';
 }
 interface State {
     transition?: boolean;
 }
-export default class HarmoVisLayers extends React.Component<Props, State> {
+export default class HarmoVisLayers extends React.Component<Partial<Props>, State> {
     static defaultProps: {
         visible: boolean;
         mapStyle: string;
@@ -55,8 +54,8 @@ export default class HarmoVisLayers extends React.Component<Props, State> {
         };
         transitionDuration: number;
     };
-    constructor(props: Props);
-    componentDidUpdate(prevProps: Props): void;
+    constructor(props: Partial<Props>);
+    componentDidUpdate(prevProps: Partial<Props>): void;
     initialize(gl: WebGLRenderingContext): void;
     render(): JSX.Element;
 }
