@@ -11,6 +11,7 @@ import ViewportInput from './viewport-input';
 interface Props extends BasedProps{
   getMapboxChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMapStyleSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  getTerrainChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveDataChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getMoveOptionArcChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -123,7 +124,7 @@ export default class Controller extends React.Component<Props, State> {
       getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
       getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
       iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport, getMapStyleSelected,
-      inputFileName, viewport } = this.props;
+      getTerrainChecked, inputFileName, viewport } = this.props;
 
     const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = this.state;
     const displayIndex = saveRouteGroup.length ? currentGroupindex + 1 : 0;
@@ -191,6 +192,12 @@ export default class Controller extends React.Component<Props, State> {
                       <option value="3">satellite</option>
                       <option value="4">outdoors</option>
                       </select>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="checkbox" id="TerrainChecked" onChange={getTerrainChecked} className="harmovis_input_checkbox" defaultChecked={false} />
+                      <label htmlFor="TerrainChecked" className="form-check-label" title='３Ｄ地形表示'>３Ｄ地形表示</label>
                     </div>
                   </li>
                   <li>

@@ -22,47 +22,66 @@ interface State {
 }
 
 const MapGl = (props:Partial<Props>) => {
-  const {mapboxAddLayerValue, terrain, terrainSource, setTerrain, ...otherProps} = props;
   const [execflg, setFlg] = React.useState(false);
   const [prevStyle, setStyle] = React.useState(props.mapStyle);
+  const [prevTerr, setTerr] = React.useState(props.terrain);
   const interactiveMapRef = React.useRef(null);
   const map = interactiveMapRef.current && interactiveMapRef.current.getMap();
 
-  if(map && !execflg && (mapboxAddLayerValue || terrain)){
-    setFlg(true);
-    map.on('load', function() {
-      if(mapboxAddLayerValue){
-        for(const LayerValuemapElement of mapboxAddLayerValue){
-          if(!map.getLayer(LayerValuemapElement.id)){
-            map.addLayer(LayerValuemapElement);
-          }
-        }
-      }
-      if(terrain){
-        map.addSource(terrainSource.id, terrainSource.source);
-        map.setTerrain(setTerrain);
-      }
-    });
-  }
-  if(prevStyle !== props.mapStyle){
-    setStyle(props.mapStyle);
-    if(map && (mapboxAddLayerValue || terrain)){
-      map.on('styledata', function() {
-        if(mapboxAddLayerValue){
-          for(const LayerValuemapElement of mapboxAddLayerValue){
+  if(map){
+    if(!execflg){
+      setFlg(true);
+      map.on('load', function(){
+        if(props.mapboxAddLayerValue){
+          for(const LayerValuemapElement of props.mapboxAddLayerValue){
             if(!map.getLayer(LayerValuemapElement.id)){
               map.addLayer(LayerValuemapElement);
             }
           }
         }
-        if(terrain){
-          map.addSource(terrainSource.id, terrainSource.source);
-          map.setTerrain(setTerrain);
+        if(props.terrain){
+          const { id, source } = props.terrainSource
+          if(!map.getSource(id)){
+            map.addSource(id, source);
+            map.setTerrain(props.setTerrain);
+          }
+        }
+      });
+      map.on('styledata', function(){
+        if(props.mapboxAddLayerValue){
+          for(const LayerValuemapElement of props.mapboxAddLayerValue){
+            if(!map.getLayer(LayerValuemapElement.id)){
+              map.addLayer(LayerValuemapElement);
+            }
+          }
+        }
+        if(props.terrain){
+          const { id, source } = props.terrainSource
+          if(!map.getSource(id)){
+            map.addSource(id, source);
+            map.setTerrain(props.setTerrain);
+          }
         }
       });
     }
+    if(prevTerr !== props.terrain || prevStyle !== props.mapStyle){
+      setTerr(props.terrain);
+      setStyle(props.mapStyle);
+      map.off('load', ()=>{});
+      map.off('styledata', ()=>{});
+      if(props.terrain){
+        const { id, source } = props.terrainSource
+        if(!map.getSource(id)){
+          map.addSource(id, source);
+        }
+        map.setTerrain(props.setTerrain);
+      }else{
+        map.setTerrain();
+      }
+      setFlg(false);
+    }
   }
-  return (<InteractiveMap {...otherProps as any} ref={interactiveMapRef} />);
+  return (<InteractiveMap {...props as any} ref={interactiveMapRef} />);
 };
 
 export default class HarmoVisLayers extends React.Component<Partial<Props>,State> {

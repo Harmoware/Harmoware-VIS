@@ -136,6 +136,10 @@ class App extends Container<BasedProps, State> {
     this.setState({ mapStyleNo: +e.target.value });
   }
 
+  getTerrainChecked(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ terrain: e.target.checked });
+  }
+
   getMoveDataChecked(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ moveDataVisible: e.target.checked });
   }
@@ -297,6 +301,7 @@ class App extends Container<BasedProps, State> {
           followingiconId={state.followingiconId}
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMapStyleSelected={this.getMapStyleSelected.bind(this)}
+          getTerrainChecked={this.getTerrainChecked.bind(this)}
           getMoveDataChecked={this.getMoveDataChecked.bind(this)}
           getMoveOptionChecked={this.getMoveOptionChecked.bind(this)}
           getMoveOptionArcChecked={this.getMoveOptionArcChecked.bind(this)}
