@@ -27,48 +27,42 @@ const MapGl = (props:Partial<Props>) => {
   const [prevTerr, setTerr] = React.useState(props.terrain);
   const interactiveMapRef = React.useRef(null);
   const map = interactiveMapRef.current && interactiveMapRef.current.getMap();
+  const addLayer = ()=>{
+    if(props.mapboxAddLayerValue){
+      for(const LayerValuemapElement of props.mapboxAddLayerValue){
+        if(!map.getLayer(LayerValuemapElement.id)){
+          map.addLayer(LayerValuemapElement);
+        }
+      }
+    }
+  }
+  const setTerrain = ()=>{
+    if(props.terrain){
+      const { id, source } = props.terrainSource
+      if(!map.getSource(id)){
+        map.addSource(id, source);
+        map.setTerrain(props.setTerrain);
+      }
+    }
+  }
 
   if(map){
     if(!execflg){
       setFlg(true);
-      map.on('load', function(){
-        if(props.mapboxAddLayerValue){
-          for(const LayerValuemapElement of props.mapboxAddLayerValue){
-            if(!map.getLayer(LayerValuemapElement.id)){
-              map.addLayer(LayerValuemapElement);
-            }
-          }
-        }
-        if(props.terrain){
-          const { id, source } = props.terrainSource
-          if(!map.getSource(id)){
-            map.addSource(id, source);
-            map.setTerrain(props.setTerrain);
-          }
-        }
+      map.once('load', function(){
+        addLayer();
+        setTerrain();
+        setFlg(false);
       });
-      map.on('styledata', function(){
-        if(props.mapboxAddLayerValue){
-          for(const LayerValuemapElement of props.mapboxAddLayerValue){
-            if(!map.getLayer(LayerValuemapElement.id)){
-              map.addLayer(LayerValuemapElement);
-            }
-          }
-        }
-        if(props.terrain){
-          const { id, source } = props.terrainSource
-          if(!map.getSource(id)){
-            map.addSource(id, source);
-            map.setTerrain(props.setTerrain);
-          }
-        }
+      map.once('styledata', function(){
+        addLayer();
+        setTerrain();
+        setFlg(false);
       });
     }
     if(prevTerr !== props.terrain || prevStyle !== props.mapStyle){
       setTerr(props.terrain);
       setStyle(props.mapStyle);
-      map.off('load', ()=>{});
-      map.off('styledata', ()=>{});
       if(props.terrain){
         const { id, source } = props.terrainSource
         if(!map.getSource(id)){
