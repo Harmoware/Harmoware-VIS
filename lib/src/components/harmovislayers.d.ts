@@ -1,8 +1,8 @@
-/// <reference types="mapbox-gl" />
 import * as React from 'react';
 import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
+import mapboxgl from 'mapbox-gl';
 declare type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 interface Props extends InteractiveMapProps {
     viewport: Viewport;
@@ -10,15 +10,16 @@ interface Props extends InteractiveMapProps {
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.Layer[];
+    mapboxAddSourceValue?: {
+        id: string;
+        source: object;
+    }[];
     terrain: boolean;
     terrainSource: {
         id: string;
         source: object;
     };
-    setTerrain: {
-        source: string;
-        exaggeration?: number;
-    };
+    setTerrain: mapboxgl.TerrainSpecification;
 }
 interface State {
     transition?: boolean;
@@ -28,7 +29,7 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>, Stat
         visible: boolean;
         mapStyle: string;
         mapGlComponents: any;
-        mapboxAddLayerValue: {
+        mapboxAddLayerValue: ({
             id: string;
             source: string;
             "source-layer": string;
@@ -39,8 +40,26 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>, Stat
                 "fill-extrusion-height": (string | number | string[])[];
                 "fill-extrusion-base": (string | number | string[])[];
                 "fill-extrusion-opacity": number;
+                'sky-type'?: undefined;
+                'sky-atmosphere-sun'?: undefined;
+                'sky-atmosphere-sun-intensity'?: undefined;
             };
-        }[];
+        } | {
+            id: string;
+            type: string;
+            paint: {
+                'sky-type': string;
+                'sky-atmosphere-sun': number[];
+                'sky-atmosphere-sun-intensity': number;
+                "fill-extrusion-color"?: undefined;
+                "fill-extrusion-height"?: undefined;
+                "fill-extrusion-base"?: undefined;
+                "fill-extrusion-opacity"?: undefined;
+            };
+            source?: undefined;
+            "source-layer"?: undefined;
+            filter?: undefined;
+        })[];
         terrain: boolean;
         terrainSource: {
             id: string;
