@@ -4,6 +4,7 @@ import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
+import mapboxgl from 'mapbox-gl';
 
 type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 
@@ -13,9 +14,10 @@ interface Props extends InteractiveMapProps{
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.Layer[],
+  mapboxAddSourceValue?: {id:string, source:object}[],
   terrain: boolean,
-  terrainSource: {id:string,source:object},
-  setTerrain: {source:string,exaggeration?:number},
+  terrainSource: {id:string, source:object},
+  setTerrain: mapboxgl.TerrainSpecification,
 }
 interface State {
   transition?: boolean,
@@ -45,6 +47,16 @@ const MapGl = (props:Partial<Props>) => {
       }
     }
   }
+  const setSource = ()=>{
+    if(props.mapboxAddSourceValue){
+      for(const mapboxAddSourceElement of props.mapboxAddSourceValue){
+        const { id, source } = mapboxAddSourceElement;
+        if(!map.getSource(id)){
+          map.addSource(id, source);
+        }
+      }
+    }
+  }
 
   if(map){
     if(!execflg){
@@ -52,11 +64,13 @@ const MapGl = (props:Partial<Props>) => {
       map.once('load', function(){
         addLayer();
         setTerrain();
+        setSource();
         setFlg(false);
       });
       map.once('styledata', function(){
         addLayer();
         setTerrain();
+        setSource();
         setFlg(false);
       });
     }
@@ -99,6 +113,14 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>,State
               5, 0, 5.05, ["get", "min_height"] ],
           "fill-extrusion-opacity": .6
       },
+    },{
+      "id": 'sky',
+      "type": 'sky',
+      "paint": {
+        'sky-type': 'atmosphere',
+        'sky-atmosphere-sun': [180.0, 60.0],
+        'sky-atmosphere-sun-intensity': 5
+      }
     }],
     terrain: false,
     terrainSource: {id:'mapbox-dem',source:{
@@ -135,7 +157,7 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>,State
   render() {
     const { props } = this;
     const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
-      layers, mapGlComponents, mapboxAddLayerValue,
+      layers, mapGlComponents, mapboxAddLayerValue, mapboxAddSourceValue,
       terrain, terrainSource, setTerrain } = props;
     const onViewportChange = props.onViewportChange||actions.setViewport;
     const transitionDuration = this.state.transition?
@@ -157,6 +179,7 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>,State
           transitionInterpolator={transitionInterpolator}
           transitionInterruption={transitionInterruption}
           mapboxAddLayerValue={mapboxAddLayerValue}
+          mapboxAddSourceValue={mapboxAddSourceValue}
           terrain={terrain}
           terrainSource={terrainSource}
           setTerrain={setTerrain}

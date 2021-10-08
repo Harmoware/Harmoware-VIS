@@ -331,6 +331,7 @@ class App extends Container<BasedProps, State> {
             actions={actions}
             mapboxApiAccessToken={state.mapboxVisible ? MAPBOX_TOKEN : ''}
             mapStyle={state.mapboxVisible ? mapStyle[state.mapStyleNo] : ''}
+            mapboxAddSourceValue={undefined}
             visible={state.mapboxVisible}
             terrain={state.terrain}
             layers={[].concat(
