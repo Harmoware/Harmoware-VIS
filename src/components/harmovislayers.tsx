@@ -24,12 +24,11 @@ interface State {
 }
 
 const MapGl = (props:Partial<Props>) => {
-  const [execflg, setFlg] = React.useState(false);
+  const [map, setMap] = React.useState(undefined);
   const [prevStyle, setStyle] = React.useState(props.mapStyle);
   const [prevTerr, setTerr] = React.useState(props.terrain);
-  const interactiveMapRef = React.useRef(null);
-  const map = interactiveMapRef.current && interactiveMapRef.current.getMap();
-  const addLayer = ()=>{
+
+  const stateUpdate = (map:any)=>{
     if(props.mapboxAddLayerValue){
       for(const LayerValuemapElement of props.mapboxAddLayerValue){
         if(!map.getLayer(LayerValuemapElement.id)){
@@ -37,17 +36,13 @@ const MapGl = (props:Partial<Props>) => {
         }
       }
     }
-  }
-  const setTerrain = ()=>{
     if(props.terrain){
       const { id, source } = props.terrainSource
       if(!map.getSource(id)){
         map.addSource(id, source);
-        map.setTerrain(props.setTerrain);
       }
+      map.setTerrain(props.setTerrain);
     }
-  }
-  const setSource = ()=>{
     if(props.mapboxAddSourceValue){
       for(const mapboxAddSourceElement of props.mapboxAddSourceValue){
         const { id, source } = mapboxAddSourceElement;
@@ -56,24 +51,17 @@ const MapGl = (props:Partial<Props>) => {
         }
       }
     }
-  }
+  };
+
+  const onMapLoad = React.useCallback(evt => {
+    setMap(evt.target);
+    stateUpdate(evt.target);
+    evt.target.on('styledata', function(){
+      stateUpdate(evt.target);
+    });
+  }, []);
 
   if(map){
-    if(!execflg){
-      setFlg(true);
-      map.once('load', function(){
-        addLayer();
-        setTerrain();
-        setSource();
-        setFlg(false);
-      });
-      map.once('styledata', function(){
-        addLayer();
-        setTerrain();
-        setSource();
-        setFlg(false);
-      });
-    }
     if(prevTerr !== props.terrain || prevStyle !== props.mapStyle){
       setTerr(props.terrain);
       setStyle(props.mapStyle);
@@ -86,10 +74,9 @@ const MapGl = (props:Partial<Props>) => {
       }else{
         map.setTerrain();
       }
-      setFlg(false);
     }
   }
-  return (<InteractiveMap {...props as any} ref={interactiveMapRef} />);
+  return (<InteractiveMap {...props as InteractiveMapProps} onLoad={onMapLoad} />);
 };
 
 export default class HarmoVisLayers extends React.Component<Partial<Props>,State> {
