@@ -316,8 +316,6 @@ class App extends Container<BasedProps, State> {
           getViewport={this.getViewport.bind(this)}
         />
         <div className="harmovis_footer">
-          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
-            サンプルプログラムで「つつじバスロケーションWEB API」で取得したデータを使用しています。</a>&nbsp;
           longitude:{viewport.longitude}&nbsp;
           latitude:{viewport.latitude}&nbsp;
           altitude:{viewport.altitude}&nbsp;
