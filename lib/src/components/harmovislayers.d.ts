@@ -1,8 +1,8 @@
+/// <reference types="mapbox-gl" />
 import * as React from 'react';
 import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
-import mapboxgl from 'mapbox-gl';
 declare type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 interface Props extends InteractiveMapProps {
     viewport: Viewport;
