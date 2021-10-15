@@ -4,7 +4,6 @@ import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
-import mapboxgl from 'mapbox-gl';
 
 type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 
@@ -23,35 +22,35 @@ interface State {
   transition?: boolean,
 }
 
+let gMapGlprops:Partial<Props>;
 const MapGl = (props:Partial<Props>) => {
+  gMapGlprops = props;
   const [map, setMap] = React.useState(undefined);
-  const [prevStyle, setStyle] = React.useState(props.mapStyle);
-  const [prevTerr, setTerr] = React.useState(props.terrain);
 
-  const stateUpdate = (map:any)=>{
-    if(props.mapboxAddLayerValue){
-      for(const LayerValuemapElement of props.mapboxAddLayerValue){
+  const stateUpdate = React.useCallback((map:any)=>{
+    if(gMapGlprops.mapboxAddLayerValue){
+      for(const LayerValuemapElement of gMapGlprops.mapboxAddLayerValue){
         if(!map.getLayer(LayerValuemapElement.id)){
           map.addLayer(LayerValuemapElement);
         }
       }
     }
-    if(props.terrain){
-      const { id, source } = props.terrainSource
+    if(gMapGlprops.terrain){
+      const { id, source } = gMapGlprops.terrainSource
       if(!map.getSource(id)){
         map.addSource(id, source);
+        map.setTerrain(gMapGlprops.setTerrain);
       }
-      map.setTerrain(props.setTerrain);
     }
-    if(props.mapboxAddSourceValue){
-      for(const mapboxAddSourceElement of props.mapboxAddSourceValue){
+    if(gMapGlprops.mapboxAddSourceValue){
+      for(const mapboxAddSourceElement of gMapGlprops.mapboxAddSourceValue){
         const { id, source } = mapboxAddSourceElement;
         if(!map.getSource(id)){
           map.addSource(id, source);
         }
       }
     }
-  };
+  },[map]);
 
   const onMapLoad = React.useCallback(evt => {
     setMap(evt.target);
@@ -61,10 +60,8 @@ const MapGl = (props:Partial<Props>) => {
     });
   }, []);
 
-  if(map){
-    if(prevTerr !== props.terrain || prevStyle !== props.mapStyle){
-      setTerr(props.terrain);
-      setStyle(props.mapStyle);
+  React.useEffect(() => {
+    if(map){
       if(props.terrain){
         const { id, source } = props.terrainSource
         if(!map.getSource(id)){
@@ -75,7 +72,7 @@ const MapGl = (props:Partial<Props>) => {
         map.setTerrain();
       }
     }
-  }
+  },[props.terrain,props.mapStyle]);
   return (<InteractiveMap {...props as InteractiveMapProps} onLoad={onMapLoad} />);
 };
 
