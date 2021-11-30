@@ -23,7 +23,6 @@ export const setSecPerHour =　actionCreator<number>(types.SETSECPERHOUR);
 export const setMultiplySpeed =　actionCreator<number>(types.SETMULTIPLYSPEED);
 export const setClicked = actionCreator<null | ClickedObject[]>(types.SETCLICKED);
 export const setRoutePaths = actionCreator<RoutePaths[]>(types.SETROUTEPATHS);
-export const setDefaultZoom = actionCreator<number>(types.SETDEFAULTZOOM);
 export const setDefaultPitch = actionCreator<number>(types.SETDEFAULTPITCH);
 export const setMovesOptionFunc = actionCreator<GetMovesOptionFunc>(types.SETMOVESOPTIONFUNC);
 export const setDepotsOptionFunc = actionCreator<GetDepotsOptionFunc>(types.SETDEPOTSOPTIONFUNC);
