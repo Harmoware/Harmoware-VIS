@@ -20,7 +20,6 @@ export declare const setSecPerHour: import("typescript-fsa").ActionCreator<numbe
 export declare const setMultiplySpeed: import("typescript-fsa").ActionCreator<number>;
 export declare const setClicked: import("typescript-fsa").ActionCreator<ClickedObject[]>;
 export declare const setRoutePaths: import("typescript-fsa").ActionCreator<RoutePaths[]>;
-export declare const setDefaultZoom: import("typescript-fsa").ActionCreator<number>;
 export declare const setDefaultPitch: import("typescript-fsa").ActionCreator<number>;
 export declare const setMovesOptionFunc: import("typescript-fsa").ActionCreator<GetMovesOptionFunc>;
 export declare const setDepotsOptionFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
