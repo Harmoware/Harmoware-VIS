@@ -12,7 +12,7 @@ This library is for visualizing moving objects and the additional info of them u
 ## Getting Started
 
 ## Document
-Refer to [gitbook](https://harmoware-vis.gitbook.io/ "gitbook").
+Refer to [qiita](https://qiita.com/ucl_Harmoware_VIS "qiita").
 
 ### Run External sample
 Refer to [Harmoware-VIS-Demo](https://github.com/Harmoware/Harmoware-VIS-Demo "Harmoware-VIS-Demo") / [Harmoware-VIS-SUMO-FCD](https://github.com/Harmoware/Harmoware-VIS-SUMO-FCD "Harmoware-VIS-SUMO-FCD") / [Harmoware-VIS-PointCloud-Demo](https://github.com/Harmoware/Harmoware-VIS-PointCloud-Demo "Harmoware-VIS-PointCloud-Demo").
