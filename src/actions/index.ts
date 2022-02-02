@@ -1,9 +1,10 @@
 import * as types from '../constants/action-types';
 import actionCreatorFactory from 'typescript-fsa';
 const actionCreator = actionCreatorFactory();
-import { BasedProps as Props, Viewport,
-  Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc,
+import { BasedProps as Props, BasedState, Viewport,
+  Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc,
   ClickedObject, RoutePaths, LineMapData } from '../types';
+interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration'|'defaultAddTimeLength'|'remainingTime'>{}
 
 export const addMinutes =  actionCreator<number>(types.ADDMINUTES);
 export const increaseTime = actionCreator<Props>(types.INCREASETIME);
@@ -17,6 +18,8 @@ export const setViewport = actionCreator<Viewport>(types.SETVIEWPORT);
 export const setDefaultViewport = actionCreator<void|{defaultZoom?:number,defaultPitch?:number}>(types.SETDEFAULTVIEWPORT);
 export const setMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.SETMOVESBASE);
 export const setDepotsBase = actionCreator<Depotsbase[]>(types.SETDEPOTSBASE);
+export const setLocationData = actionCreator<LocationData>(types.SETLOCATIONDATA);
+export const setLocationDataOption = actionCreator<LocationDataOption>(types.SETLOCATIONDATAOPTION);
 export const setAnimatePause = actionCreator<boolean>(types.SETANIMATEPAUSE);
 export const setAnimateReverse = actionCreator<boolean>(types.SETANIMATEREVERSE);
 export const setSecPerHour =　actionCreator<number>(types.SETSECPERHOUR);

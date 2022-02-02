@@ -3,7 +3,7 @@ import { bindActionCreators, combineReducers } from 'redux';
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
-  MovesbaseFile, Movesbase, MovedData, DepotsData, MovesbaseOperation,
+  MovesbaseFile, Movesbase, MovedData, LocationData, DepotsData, MovesbaseOperation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import { COLOR1 } from '../constants/settings';
 
@@ -217,10 +217,12 @@ export const getDepots = (props: BasedState): DepotsData[] => {
   return [];
 };
 
-export const getMoveObjects = (props : BasedState): {movedData?:MovedData[],ExtractedData?:any} => {
-  const { movesbase, getExtractedDataFunc } = props;
+interface RetrunState extends Pick<Partial<BasedState>,'movedData'|'locationData'|'ExtractedData'>{};
 
-  const retrunData:{movedData?:MovedData[],ExtractedData?:any} = {}
+export const getMoveObjects = (props : Readonly<BasedState>): RetrunState => {
+  const { movesbase, locationBase, locationMoveDuration, getExtractedDataFunc } = props;
+
+  const retrunData:RetrunState = {}
   if(movesbase.length > 0){
     const { settime, movedData:prevMovedData, secperhour, timeLength,
     getMovesOptionFunc, iconGradation } = props;
@@ -272,7 +274,36 @@ export const getMoveObjects = (props : BasedState): {movedData?:MovedData[],Extr
         }
         return movedData;
       },[]);
-      retrunData.movedData = movedData;
+      retrunData.movedData = [...movedData];
+    }
+  }
+  if(locationBase.length > 0){
+    const { settime } = props
+    const locationData = locationBase.reduce((data:LocationData[],current:Readonly<LocationData>,index)=>{
+      if(current.targetPosition[0] === current.sourcePosition[0] &&
+        current.targetPosition[1] === current.sourcePosition[1] &&
+        current.targetPosition[2] === current.sourcePosition[2]){
+
+        const position = [...current.targetPosition]
+        data.push({...current, position, settime, movesbaseidx:index})
+        return data
+      }else{
+        const difference = props.settime - current.elapsedtime
+        let position = []
+        if(0 < locationMoveDuration && difference <= locationMoveDuration){
+          const rate = difference / locationMoveDuration
+          position = current.targetPosition.map((targetPosition,index)=>{
+            return current.sourcePosition[index] - (current.sourcePosition[index] - targetPosition) * rate
+          })
+        }else{
+          position = [...current.targetPosition]
+        }
+        data.push({...current, position, settime, movesbaseidx:index})
+        return data
+      }
+    },[])
+    if(locationData.length > 0){
+      retrunData.locationData = [...locationData];
     }
   }
   if(getExtractedDataFunc){

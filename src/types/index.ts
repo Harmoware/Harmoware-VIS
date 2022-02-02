@@ -93,6 +93,12 @@ export interface MovedData {
   archWidth?: number,
 };
 
+export interface LocationData extends Partial<MovedData> {
+  id: any,
+  elapsedtime?: number,
+  [key:string] : any
+};
+
 export interface DepotsData {
   type?: string,
   position: number[],
@@ -134,6 +140,11 @@ export interface BasedState {
   leading: number,
   loopTime: number,
   movedData: MovedData[],
+  locationBase: LocationData[],
+  locationData: LocationData[],
+  locationMoveDuration: number,
+  defaultAddTimeLength: number,
+  remainingTime: number,
   ExtractedData: any,
   getExtractedDataFunc: null | (<P>(props: P) => any),
   movesbase: Movesbase[],
