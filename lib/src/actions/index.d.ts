@@ -1,4 +1,6 @@
-import { BasedProps as Props, Viewport, Movesbase, MovesbaseFile, Depotsbase, GetMovesOptionFunc, GetDepotsOptionFunc, ClickedObject, RoutePaths, LineMapData } from '../types';
+import { BasedProps as Props, BasedState, Viewport, Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc, ClickedObject, RoutePaths, LineMapData } from '../types';
+interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration' | 'defaultAddTimeLength' | 'remainingTime'> {
+}
 export declare const addMinutes: import("typescript-fsa").ActionCreator<number>;
 export declare const increaseTime: import("typescript-fsa").ActionCreator<Props>;
 export declare const decreaseTime: import("typescript-fsa").ActionCreator<Props>;
@@ -14,6 +16,8 @@ export declare const setDefaultViewport: import("typescript-fsa").ActionCreator<
 }>;
 export declare const setMovesBase: import("typescript-fsa").ActionCreator<MovesbaseFile | Movesbase[]>;
 export declare const setDepotsBase: import("typescript-fsa").ActionCreator<Depotsbase[]>;
+export declare const setLocationData: import("typescript-fsa").ActionCreator<LocationData>;
+export declare const setLocationDataOption: import("typescript-fsa").ActionCreator<LocationDataOption>;
 export declare const setAnimatePause: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setAnimateReverse: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setSecPerHour: import("typescript-fsa").ActionCreator<number>;
@@ -34,3 +38,4 @@ export declare const setIconGradationChange: import("typescript-fsa").ActionCrea
 export declare const setTimeBegin: import("typescript-fsa").ActionCreator<number>;
 export declare const setTimeLength: import("typescript-fsa").ActionCreator<number>;
 export declare const addMovesBaseData: import("typescript-fsa").ActionCreator<Movesbase[]>;
+export {};
