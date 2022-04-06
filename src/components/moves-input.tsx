@@ -10,15 +10,16 @@ interface Props {
   style?: React.CSSProperties
 }
 
-export default class MovesInput extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      formatError: 'データ形式不正'
-    }
+const MovesInput = (props:Props)=>{
+  const { actions, id, className, style, i18n } = props;
+
+  const onClick = (e: React.ChangeEvent<any>)=>{
+    actions.setInputFilename({ movesFileName: null });
+    actions.setMovesBase([]);
+    e.target.value = '';
   }
 
-  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const { i18n, actions } = this.props;
+  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -55,22 +56,16 @@ export default class MovesInput extends React.Component<Props> {
     };
   }
 
-  onClick(e: React.ChangeEvent<HTMLInputElement>) {
-    const { actions } = this.props;
-    actions.setInputFilename({ movesFileName: null });
-    actions.setMovesBase([]);
-    e.target.value = '';
-  }
-
-  render() {
-    const { id, className, style } = this.props;
-
-    return (
-      <input type="file" accept=".json"
-      id={id} className={className} style={style}
-      onClick={this.onClick.bind(this)}
-      onChange={this.onSelect.bind(this)}
-      />
-    );
+  return (
+    <input type="file" accept=".json"
+    id={id} className={className} style={style}
+    onClick={onClick} onChange={onSelect}
+    />
+  );
+}
+MovesInput.defaultProps = {
+  i18n: {
+    formatError: 'データ形式不正'
   }
 }
+export default MovesInput

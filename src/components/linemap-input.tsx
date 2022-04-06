@@ -9,15 +9,16 @@ interface Props {
   style?: React.CSSProperties
 }
 
-export default class LinemapInput extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      formatError: 'データ形式不正'
-    }
+const LinemapInput = (props:Props)=>{
+  const { actions, id, className, style } = props;
+
+  const onClick = (e: React.ChangeEvent<any>)=>{
+    actions.setInputFilename({ linemapFileName: null });
+    actions.setLinemapData([]);
+    e.target.value = '';
   }
 
-  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const { actions } = this.props;
+  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -48,22 +49,17 @@ export default class LinemapInput extends React.Component<Props> {
     };
   }
 
-  onClick(e: React.ChangeEvent<HTMLInputElement>) {
-    const { actions } = this.props;
-    actions.setInputFilename({ linemapFileName: null });
-    actions.setLinemapData([]);
-    e.target.value = '';
-  }
-
-  render() {
-    const { id, className, style } = this.props;
-
-    return (
-      <input type="file" accept=".json"
-      id={id} className={className} style={style}
-      onClick={this.onClick.bind(this)}
-      onChange={this.onSelect.bind(this)}
-      />
-    );
+  return (
+    <input type="file" accept=".json"
+    id={id} className={className} style={style}
+    onClick={onClick}
+    onChange={onSelect}
+    />
+  );
+}
+LinemapInput.defaultProps = {
+  i18n: {
+    formatError: 'データ形式不正'
   }
 }
+export default LinemapInput

@@ -13,30 +13,28 @@ interface Props {
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
-export default class PauseButton extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      pauseButtonCaption: 'PAUSE'
-    },
-    className: 'harmovis_button'
+const PauseButton = (props:Props)=>{
+  const { children, i18n, className, title: propTitle } = props;
+  const title = propTitle || (children && children.toString()) || i18n.pauseButtonCaption;
+
+  const setAnimatePause = ()=>{
+    props.actions.setAnimatePause(true);
   }
 
-  setAnimatePause() {
-    this.props.actions.setAnimatePause(true);
-  }
-
-  render() {
-    const { children, i18n, className, title: propTitle } = this.props;
-    const title = propTitle || (children && children.toString()) || i18n.pauseButtonCaption;
-
-    return (
-      <button onClick={this.setAnimatePause.bind(this)} className={className} title={title}>
-        {children === undefined ?
-          <span style={default_style}>
-          <Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
-          <span>{children}</span>
-        }
-      </button>
-    );
-  }
+  return (
+    <button onClick={setAnimatePause} className={className} title={title}>
+      {children === undefined ?
+        <span style={default_style}>
+        <Icon icon={icPause} />&nbsp;{i18n.pauseButtonCaption}</span> :
+        <span>{children}</span>
+      }
+    </button>
+  );
 }
+PauseButton.defaultProps = {
+  i18n: {
+    pauseButtonCaption: 'PAUSE'
+  },
+  className: 'harmovis_button'
+}
+export default PauseButton

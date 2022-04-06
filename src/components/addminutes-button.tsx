@@ -14,32 +14,31 @@ interface Props {
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
-export default class AddMinutesButton extends React.Component<Props> {
-  static defaultProps = {
-    addMinutes: 10,
-    i18n: {
-      minutesCaption: 'min'
-    },
-    className: 'harmovis_button'
+const AddMinutesButton = (props:Props)=>{
+  const { addMinutes:prop_addMinutes, children, i18n, className, title: propTitle } = props;
+  const title = propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`;
+
+  const func_addMinutes = (minutes: number)=>{
+    props.actions.addMinutes(minutes);
   }
 
-  addMinutes(minutes: number) {
-    this.props.actions.addMinutes(minutes);
-  }
+  return (
+    <button onClick={()=>func_addMinutes(prop_addMinutes)} className={className} title={title}>
+      {children === undefined ?
+        <span style={default_style}>{prop_addMinutes > 0 ?
+          <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
+        }&nbsp;{prop_addMinutes}&nbsp;{i18n.minutesCaption}</span> :
+        <span>{children}</span>
+      }
+    </button>
+  );
 
-  render() {
-    const { addMinutes, children, i18n, className, title: propTitle } = this.props;
-    const title = propTitle || (children && children.toString()) || `${addMinutes} ${i18n.minutesCaption}`;
-
-    return (
-      <button onClick={this.addMinutes.bind(this, addMinutes)} className={className} title={title}>
-        {children === undefined ?
-          <span style={default_style}>{addMinutes > 0 ?
-            <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
-          }&nbsp;{addMinutes}&nbsp;{i18n.minutesCaption}</span> :
-          <span>{children}</span>
-        }
-      </button>
-    );
-  }
 }
+AddMinutesButton.defaultProps = {
+  addMinutes: 10,
+  i18n: {
+    minutesCaption: 'min'
+  },
+  className: 'harmovis_button'
+}
+export default AddMinutesButton

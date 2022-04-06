@@ -13,30 +13,28 @@ interface Props {
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
-export default class ReverseButton extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      reverseButtonCaption: 'REVERSE'
-    },
-    className: 'harmovis_button'
+const ReverseButton = (props:Props)=>{
+  const { children, i18n, className, title: propTitle } = props;
+  const title = propTitle || (children && children.toString()) || i18n.reverseButtonCaption;
+
+  const setAnimateReverse = ()=>{
+    props.actions.setAnimateReverse(true);
   }
 
-  setAnimateReverse() {
-    this.props.actions.setAnimateReverse(true);
-  }
-
-  render() {
-    const { children, i18n, className, title: propTitle } = this.props;
-    const title = propTitle || (children && children.toString()) || i18n.reverseButtonCaption;
-
-    return (
-      <button onClick={this.setAnimateReverse.bind(this)} className={className} title={title}>
-        {children === undefined ?
-          <span style={default_style}>
-          <Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
-          <span>{children}</span>
-        }
-      </button>
-    );
-  }
+  return (
+    <button onClick={setAnimateReverse} className={className} title={title}>
+      {children === undefined ?
+        <span style={default_style}>
+        <Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
+        <span>{children}</span>
+      }
+    </button>
+  );
 }
+ReverseButton.defaultProps = {
+  i18n: {
+    reverseButtonCaption: 'REVERSE'
+  },
+  className: 'harmovis_button'
+}
+export default ReverseButton

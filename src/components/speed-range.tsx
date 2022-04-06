@@ -14,51 +14,48 @@ interface Props {
   title?: string,
 }
 
-export default class SpeedRange extends React.Component<Props> {
-  static defaultProps = {
-    maxsecperhour: 3600,
-    maxmultiplySpeed: 3600,
-    min: 1,
-    step: 1,
-    className: 'harmovis_input_range'
-  }
+const SpeedRange = (props:Props)=>{
+  const { actions, secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
+    min:prop_min, step, id, className, title: propTitle } = props;
+  const title = propTitle || `${secperhour}`;
 
-  setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
+  const setSecPerHour = (e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
-    const { maxsecperhour, min, actions } = this.props;
-    const secperhour = (maxsecperhour + min) - (value|0);
+    const secperhour = (maxsecperhour + prop_min) - (value|0);
     actions.setSecPerHour(secperhour);
   }
-  setMultiplySpeed(e : React.ChangeEvent<HTMLInputElement>) {
+
+  const setMultiplySpeed = (e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
-    const { actions } = this.props;
     const multiplySpeed = value|0;
     actions.setMultiplySpeed(multiplySpeed);
   }
 
-  render() {
-    const { secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
-      min, step, id, className, title: propTitle } = this.props;
-    const title = propTitle || `${secperhour}`;
-
-    return (
-      secperhour ?
-      <input
-        type="range"
-        value={(maxsecperhour + min) - secperhour}
-        min={min} max={maxsecperhour} step={step}
-        onChange={this.setSecPerHour.bind(this)}
-        id={id} className={className} title={title}
-      />
-      :multiplySpeed ?
-      <input
-        type="range"
-        value={multiplySpeed}
-        min={min} max={maxmultiplySpeed} step={step}
-        onChange={this.setMultiplySpeed.bind(this)}
-        id={id} className={className} title={title}
-      />
-      :<p>SpeedRange props error!</p>
-    );
-  }
+  return (
+    secperhour ?
+    <input
+      type="range"
+      value={(maxsecperhour + prop_min) - secperhour}
+      min={prop_min} max={maxsecperhour} step={step}
+      onChange={setSecPerHour}
+      id={id} className={className} title={title}
+    />
+    :multiplySpeed ?
+    <input
+      type="range"
+      value={multiplySpeed}
+      min={prop_min} max={maxmultiplySpeed} step={step}
+      onChange={setMultiplySpeed}
+      id={id} className={className} title={title}
+    />
+    :<p>SpeedRange props error!</p>
+  )
 }
+SpeedRange.defaultProps = {
+  maxsecperhour: 3600,
+  maxmultiplySpeed: 3600,
+  min: 1,
+  step: 1,
+  className: 'harmovis_input_range'
+}
+export default SpeedRange

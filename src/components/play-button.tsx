@@ -13,30 +13,28 @@ interface Props {
 
 const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
-export default class PlayButton extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      playButtonCaption: '️PLAY'
-    },
-    className: 'harmovis_button'
+const PlayButton = (props:Props)=>{
+  const { children, i18n, className, title: propTitle } = props;
+  const title = propTitle || (children && children.toString()) || i18n.playButtonCaption;
+
+  const setAnimatePause = ()=>{
+    props.actions.setAnimatePause(false);
   }
 
-  setAnimatePause() {
-    this.props.actions.setAnimatePause(false);
-  }
-
-  render() {
-    const { children, i18n, className, title: propTitle } = this.props;
-    const title = propTitle || (children && children.toString()) || i18n.playButtonCaption;
-
-    return (
-      <button onClick={this.setAnimatePause.bind(this)} className={className} title={title}>
-        {children === undefined ?
-          <span style={default_style}>
-          <Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
-          <span>{children}</span>
-        }
-      </button>
-    );
-  }
+  return (
+    <button onClick={setAnimatePause} className={className} title={title}>
+      {children === undefined ?
+        <span style={default_style}>
+        <Icon icon={icPlayArrow} />&nbsp;{i18n.playButtonCaption}</span> :
+        <span>{children}</span>
+      }
+    </button>
+  );
 }
+PlayButton.defaultProps = {
+  i18n: {
+    playButtonCaption: '️PLAY'
+  },
+  className: 'harmovis_button'
+}
+export default PlayButton

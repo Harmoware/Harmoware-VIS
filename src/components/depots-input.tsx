@@ -9,15 +9,16 @@ interface Props {
   style?: React.CSSProperties
 }
 
-export default class DepotsInput extends React.Component<Props> {
-  static defaultProps = {
-    i18n: {
-      formatError: 'データ形式不正'
-    }
+const DepotsInput = (props:Props)=>{
+  const { actions, id, className, style, i18n } = props;
+
+  const onClick = (e: React.ChangeEvent<any>)=>{
+    actions.setInputFilename({ depotsFileName: null });
+    actions.setDepotsBase([]);
+    e.target.value = '';
   }
 
-  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const { i18n, actions } = this.props;
+  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -52,22 +53,17 @@ export default class DepotsInput extends React.Component<Props> {
     };
   }
 
-  onClick(e: React.ChangeEvent<HTMLInputElement>) {
-    const { actions } = this.props;
-    actions.setInputFilename({ depotsFileName: null });
-    actions.setDepotsBase([]);
-    e.target.value = '';
-  }
-
-  render() {
-    const { id, className, style } = this.props;
-
-    return (
-      <input type="file" accept=".json" 
-      id={id} className={className} style={style}
-      onClick={this.onClick.bind(this)}
-      onChange={this.onSelect.bind(this)}
-      />
-    );
+  return (
+    <input type="file" accept=".json" 
+    id={id} className={className} style={style}
+    onClick={onClick}
+    onChange={onSelect}
+    />
+  );
+}
+DepotsInput.defaultProps = {
+  i18n: {
+    formatError: 'データ形式不正'
   }
 }
+export default DepotsInput

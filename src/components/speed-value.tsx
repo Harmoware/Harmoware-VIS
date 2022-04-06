@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ActionTypes } from '../types';
-const {max,min} = Math;
 
 interface Props {
   secperhour?: number,
@@ -13,49 +12,46 @@ interface Props {
   className?: string
 }
 
-export default class SpeedValue extends React.Component<Props> {
-  static defaultProps = {
-    maxsecperhour: 3600,
-    maxmultiplySpeed: 3600,
-    min: 1,
-    className: 'harmovis_input_number'
+const SpeedValue = (props:Props)=>{
+  const { actions, secperhour, multiplySpeed,
+    maxsecperhour, maxmultiplySpeed, min:prop_min, id, className } = props
+
+  const setSecPerHour = (e : React.ChangeEvent<HTMLInputElement>)=>{
+    const value = +e.target.value
+    const secperhour = Math.min(maxsecperhour, Math.max(prop_min, value))
+    actions.setSecPerHour(secperhour)
   }
 
-  setSecPerHour(e : React.ChangeEvent<HTMLInputElement>) {
+  const setMultiplySpeed = (e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
-    const { actions, maxsecperhour, min:minimum } = this.props;
-    const secperhour = min(maxsecperhour, max(minimum, value));
-    actions.setSecPerHour(secperhour);
-  }
-  setMultiplySpeed(e : React.ChangeEvent<HTMLInputElement>) {
-    const value = +e.target.value;
-    const { actions, maxmultiplySpeed, min:minimum } = this.props;
-    const multiplySpeed = min(maxmultiplySpeed, max(minimum, value));
+    const multiplySpeed = Math.min(maxmultiplySpeed, Math.max(prop_min, value));
     actions.setMultiplySpeed(multiplySpeed);
   }
 
-  render() {
-    const { secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
-      min, id, className } = this.props;
-
-    return (
-      secperhour ?
-      <input
-        type="number"
-        value={secperhour}
-        min={min} max={maxsecperhour}
-        onChange={this.setSecPerHour.bind(this)}
-        id={id} className={className}
-      />
-      :multiplySpeed ?
-      <input
-        type="number"
-        value={multiplySpeed}
-        min={min} max={maxmultiplySpeed}
-        onChange={this.setMultiplySpeed.bind(this)}
-        id={id} className={className}
-      />
-      :<p>SpeedValue props error!</p>
-    );
-  }
+  return (
+    secperhour ?
+    <input
+      type="number"
+      value={secperhour}
+      min={prop_min} max={maxsecperhour}
+      onChange={setSecPerHour}
+      id={id} className={className}
+    />
+    :multiplySpeed ?
+    <input
+      type="number"
+      value={multiplySpeed}
+      min={prop_min} max={maxmultiplySpeed}
+      onChange={setMultiplySpeed}
+      id={id} className={className}
+    />
+    :<p>SpeedValue props error!</p>
+  )
 }
+SpeedValue.defaultProps = {
+  maxsecperhour: 3600,
+  maxmultiplySpeed: 3600,
+  min: 1,
+  className: 'harmovis_input_number'
+}
+export default SpeedValue
