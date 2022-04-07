@@ -76,112 +76,107 @@ const MapGl = (props:Partial<Props>) => {
   return (<InteractiveMap {...props as InteractiveMapProps} onLoad={onMapLoad} />);
 };
 
-export default class HarmoVisLayers extends React.Component<Partial<Props>,State> {
-  static defaultProps = {
-    visible: true,
-    mapStyle: 'mapbox://styles/mapbox/dark-v8',
-    mapGlComponents: null,
-    mapboxAddLayerValue: [{
-      "id": "3d-buildings",
-      "source": "composite",
-      "source-layer": "building",
-      "filter": ["==", "extrude", "true"],
-      "type": "fill-extrusion",
-      "paint": {
-          "fill-extrusion-color": "#888",
-          "fill-extrusion-height": [
-              "interpolate", ["linear"], ["zoom"],
-              5, 0, 5.05, ["get", "height"] ],
-          "fill-extrusion-base": [
-              "interpolate", ["linear"], ["zoom"],
-              5, 0, 5.05, ["get", "min_height"] ],
-          "fill-extrusion-opacity": .6
-      },
-    },{
-      "id": 'sky',
-      "type": 'sky',
-      "paint": {
-        'sky-type': 'atmosphere',
-        'sky-atmosphere-sun': [180.0, 60.0],
-        'sky-atmosphere-sun-intensity': 5
-      }
-    }],
-    terrain: false,
-    terrainSource: {id:'mapbox-dem',source:{
-      'type': 'raster-dem',
-      'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-    }},
-    setTerrain: {source:'mapbox-dem'},
-    transitionDuration: 0,
-  }
-  constructor(props: Partial<Props>){
-    super(props);
-    this.state = {transition:false};
-  }
+const HarmoVisLayers = (props:Partial<Props>)=>{
+  const [transition,setTransition] = React.useState(false as boolean)
+  const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
+    layers, mapGlComponents, mapboxAddLayerValue, mapboxAddSourceValue,
+    terrain, terrainSource, setTerrain } = props;
+  const onViewportChange = props.onViewportChange||actions.setViewport;
+  const transitionDuration = transition?
+    (viewport.transitionDuration||props.transitionDuration):0;
+  const transitionInterpolator = viewport.transitionInterpolator||
+    props.transitionInterpolator;
+  const transitionInterruption = viewport.transitionInterruption||
+    props.transitionInterruption;
 
-  componentDidUpdate(prevProps:Partial<Props>) {
-    if (!this.state.transition) {
-      this.setState({transition:true});
-    }
-    const {transitionDuration} = this.props.viewport;
-    if(transitionDuration !== prevProps.viewport.transitionDuration){
-      if(transitionDuration !== 0){
-        this.props.actions.setViewport({
-          transitionDuration:0,
-          transitionInterpolator:undefined });
-      }
-    }
-  }
-
-  initialize(gl: WebGLRenderingContext) {
+  const initialize = (gl: WebGLRenderingContext)=>{
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
   }
 
-  render() {
-    const { props } = this;
-    const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
-      layers, mapGlComponents, mapboxAddLayerValue, mapboxAddSourceValue,
-      terrain, terrainSource, setTerrain } = props;
-    const onViewportChange = props.onViewportChange||actions.setViewport;
-    const transitionDuration = this.state.transition?
-      (viewport.transitionDuration||props.transitionDuration):0;
-    const transitionInterpolator = viewport.transitionInterpolator||
-      props.transitionInterpolator;
-    const transitionInterruption = viewport.transitionInterruption||
-      props.transitionInterruption;
-
-    if(visible){
-      return (
-        <MapGl
-          {...viewport}
-          mapStyle={mapStyle}
-          onViewportChange={onViewportChange}
-          mapboxApiAccessToken={mapboxApiAccessToken}
-          visible={visible}
-          transitionDuration={transitionDuration}
-          transitionInterpolator={transitionInterpolator}
-          transitionInterruption={transitionInterruption}
-          mapboxAddLayerValue={mapboxAddLayerValue}
-          mapboxAddSourceValue={mapboxAddSourceValue}
-          terrain={terrain}
-          terrainSource={terrainSource}
-          setTerrain={setTerrain}
-        >
-          { mapGlComponents }
-          <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={this.initialize} />
-        </MapGl>
-      );
-    }else{
-      const viewState = {...viewport, transitionDuration, transitionInterpolator, transitionInterruption};
-      return (
-        <DeckGL
-          controller={{type: MapController}}
-          onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
-          viewState={viewState}
-          layers={layers}
-          onWebGLInitialized={this.initialize} />
-      );
+  React.useEffect(()=>{
+    if (!transition) {
+      setTransition(true);
     }
+  })
+
+  React.useEffect(()=>{
+    const {transitionDuration} = viewport;
+    if(transitionDuration !== 0){
+      actions.setViewport({
+        transitionDuration:0,
+        transitionInterpolator:undefined });
+    }
+  },[viewport.transitionDuration])
+
+  if(visible){
+    return (
+      <MapGl
+        {...viewport}
+        mapStyle={mapStyle}
+        onViewportChange={onViewportChange}
+        mapboxApiAccessToken={mapboxApiAccessToken}
+        visible={visible}
+        transitionDuration={transitionDuration}
+        transitionInterpolator={transitionInterpolator}
+        transitionInterruption={transitionInterruption}
+        mapboxAddLayerValue={mapboxAddLayerValue}
+        mapboxAddSourceValue={mapboxAddSourceValue}
+        terrain={terrain}
+        terrainSource={terrainSource}
+        setTerrain={setTerrain}
+      >
+        { mapGlComponents }
+        <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={initialize} />
+      </MapGl>
+    );
+  }else{
+    const viewState = {...viewport, transitionDuration, transitionInterpolator, transitionInterruption};
+    return (
+      <DeckGL
+        controller={{type: MapController}}
+        onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
+        viewState={viewState}
+        layers={layers}
+        onWebGLInitialized={initialize} />
+    );
   }
 }
+HarmoVisLayers.defaultProps = {
+  visible: true,
+  mapStyle: 'mapbox://styles/mapbox/dark-v8',
+  mapGlComponents: null,
+  mapboxAddLayerValue: [{
+    "id": "3d-buildings",
+    "source": "composite",
+    "source-layer": "building",
+    "filter": ["==", "extrude", "true"],
+    "type": "fill-extrusion",
+    "paint": {
+        "fill-extrusion-color": "#888",
+        "fill-extrusion-height": [
+            "interpolate", ["linear"], ["zoom"],
+            5, 0, 5.05, ["get", "height"] ],
+        "fill-extrusion-base": [
+            "interpolate", ["linear"], ["zoom"],
+            5, 0, 5.05, ["get", "min_height"] ],
+        "fill-extrusion-opacity": .6
+    },
+  },{
+    "id": 'sky',
+    "type": 'sky',
+    "paint": {
+      'sky-type': 'atmosphere',
+      'sky-atmosphere-sun': [180.0, 60.0],
+      'sky-atmosphere-sun-intensity': 5
+    }
+  }],
+  terrain: false,
+  terrainSource: {id:'mapbox-dem',source:{
+    'type': 'raster-dem',
+    'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+  }},
+  setTerrain: {source:'mapbox-dem'},
+  transitionDuration: 0,
+}
+export default HarmoVisLayers
