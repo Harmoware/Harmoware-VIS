@@ -8,9 +8,10 @@ interface Props {
   getViewport: (viewport:any)=>void
 }
 
-export default class ViewportInput extends React.Component<Props> {
+const ViewportInput = (props:Props)=>{
+  const { id, className, style, getViewport } = props;
 
-  onChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -25,23 +26,20 @@ export default class ViewportInput extends React.Component<Props> {
         window.alert(exception);
         return;
       }
-      this.props.getViewport(readdata);
+      getViewport(readdata);
     };
   }
 
-  onClick(e: React.ChangeEvent<HTMLInputElement>) {
+  const onClick = (e: React.ChangeEvent<any>)=>{
     e.target.value = '';
   }
 
-  render() {
-    const { id, className, style } = this.props;
-
-    return (
-      <input type="file" accept=".json"
-      id={id} className={className} style={style}
-      onClick={this.onClick.bind(this)}
-      onChange={this.onChange.bind(this)}
-      />
-    );
-  }
+  return (
+    <input type="file" accept=".json"
+    id={id} className={className} style={style}
+    onClick={onClick}
+    onChange={onChange}
+    />
+  );
 }
+export default ViewportInput
