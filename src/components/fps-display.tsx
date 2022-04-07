@@ -1,5 +1,4 @@
 import * as React from 'react';
-const {max} = Math;
 
 interface Props {
   width?: number,
@@ -9,61 +8,30 @@ interface Props {
   UnitCaption?: string,
 }
 
-interface State {
-  saveTime: number,
-  frameCounterArray: number[],
-  fpsRate: number,
-}
+const FpsDisplay = (props:Props)=>{
+  const { width, height, className, UnitCaption, colorCode } = props;
+  const [saveTime,setSaveTime] = React.useState(Date.now() as number)
+  const [frameCounterArray,setFrameCounterArray] = React.useState([] as number[])
+  const [fpsRate,setFpsRate] = React.useState(0 as number)
+  let canvas: HTMLCanvasElement = undefined
 
-export default class FpsDisplay extends React.Component<Props, State> {
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      saveTime: Date.now(),
-      frameCounterArray: [],
-      fpsRate: 0,
-    };
-    FpsDisplay.frameCounter = 0;
-  }
-
-  canvas: HTMLCanvasElement;
-  static frameCounter: number;
-
-  static defaultProps = {
-      width: 60,
-      height: 40,
-      colorCode: '#00FF00',
-      className: 'harmovis_fpsRate',
-      UnitCaption: 'fps'
-  }
-
-  static getDerivedStateFromProps(nextProps: Props, prevState: State){
-    const { width } = nextProps;
-    const { saveTime, frameCounterArray } = prevState;
-    if((Date.now() - saveTime) >= 1000){
-      frameCounterArray.push(FpsDisplay.frameCounter);
-      if(frameCounterArray.length > (width / 2)){
-        frameCounterArray.shift();
-      }
-      const retuenObject = {
-        saveTime: Date.now(),
-        frameCounterArray: frameCounterArray,
-        fpsRate: FpsDisplay.frameCounter,
-      }
-      FpsDisplay.frameCounter = 1;
-      return retuenObject;
+  if((Date.now() - saveTime) >= 1000){
+    frameCounterArray.push(FpsDisplay.frameCounter);
+    if(frameCounterArray.length > (width / 2)){
+      frameCounterArray.shift();
     }
+    setSaveTime(Date.now())
+    setFrameCounterArray(frameCounterArray)
+    setFpsRate(FpsDisplay.frameCounter)
+    FpsDisplay.frameCounter = 1;
+  }else{
     FpsDisplay.frameCounter = FpsDisplay.frameCounter + 1;
-    return null;
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State){
-    if(this.state !== prevState){
-      const { width, height, colorCode } = prevProps;
-      const { frameCounterArray } = prevState;
-      const context = this.canvas.getContext('2d');
-      const maxValue = max.apply(null, frameCounterArray);
+  React.useEffect(()=>{
+    if(canvas !== undefined){
+      const context = canvas.getContext('2d');
+      const maxValue = Math.max.apply(null, frameCounterArray);
       context.clearRect(0,0,width,height);
       frameCounterArray.forEach((frameCounter, idx)=>{
         const value = (frameCounter / maxValue) * height;
@@ -71,19 +39,24 @@ export default class FpsDisplay extends React.Component<Props, State> {
         context.fillRect((idx<<1), (height-value), 1, value);
       });
     }
-  }
+  })
 
-  render() {
-    const { width, height, className, UnitCaption } = this.props;
-
-    return (
-      <div className={className} title={`${this.state.fpsRate} ${UnitCaption}`}>
-        <div><span>{this.state.fpsRate}</span><span>{UnitCaption}</span></div>
-        <canvas
-          ref={(canvas) => { this.canvas = canvas; }}
-          width={width} height={height}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className={className} title={`${fpsRate} ${UnitCaption}`}>
+      <div><span>{fpsRate}</span><span>{UnitCaption}</span></div>
+      <canvas
+        ref={(cv) => { canvas = cv; }}
+        width={width} height={height}
+      />
+    </div>
+  );
 }
+FpsDisplay.defaultProps = {
+  width: 60,
+  height: 40,
+  colorCode: '#00FF00',
+  className: 'harmovis_fpsRate',
+  UnitCaption: 'fps'
+}
+FpsDisplay.frameCounter = 0 as number
+export default FpsDisplay
