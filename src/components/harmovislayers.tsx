@@ -18,9 +18,6 @@ interface Props extends InteractiveMapProps{
   terrainSource: {id:string, source:object},
   setTerrain: mapboxgl.TerrainSpecification,
 }
-interface State {
-  transition?: boolean,
-}
 
 let gMapGlprops:Partial<Props>;
 const MapGl = (props:Partial<Props>) => {
