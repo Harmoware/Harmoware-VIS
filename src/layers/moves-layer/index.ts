@@ -3,9 +3,9 @@ import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { SimpleMeshLayer, ScenegraphLayer } from '@deck.gl/mesh-layers';
 import { CubeGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
-import { onHoverClick, pickParams, checkClickedObjectToBeRemoved } from '../../library';
+import { onDefaultClick, checkClickedObjectToBeRemoved } from '../../library';
 import { COLOR1 } from '../../constants/settings';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation, EventInfo } from '../../types';
 import * as Actions from '../../actions';
 import {registerLoaders} from '@loaders.gl/core';
 import {GLTFLoader} from '@loaders.gl/gltf';
@@ -104,9 +104,20 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesLayer';
 
-  getPickingInfo(pickParams: pickParams):void {
-    const { getRouteColor, getRouteWidth, iconDesignations } = this.props;
-    onHoverClick(pickParams, getRouteColor, getRouteWidth, iconDesignations);
+  onHover(event: EventInfo){
+    const {onHover} = this.props;
+    if(onHover){
+      onHover(event)
+    }
+  }
+
+  onClick(event: EventInfo){
+    const {onClick} = this.props;
+    if(onClick){
+      onClick(event)
+    }else{
+      onDefaultClick(event);
+    }
   }
 
   getIconLayer(movedData:MovedData[]):any[] {

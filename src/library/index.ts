@@ -329,65 +329,53 @@ const routeDelete = (movesbaseidx: number, props: {
   }
 };
 
-export interface pickParams {
-  mode: string,
-  info: EventInfo,
-}
-export const onHoverClick = (pickParams: pickParams, getRouteColor:Function,
-  getRouteWidth:Function, iconDesignations:IconDesignation[]): void => {
-  const { mode, info } = pickParams;
-  const { object, layer } = info;
+export const onDefaultClick = (event: EventInfo): void => {
+  const { object, layer } = event;
   const { id, props } = layer;
-  if (mode === 'hover' && props.onHover) {
-    props.onHover(info);
-  }
-  if (mode === 'click' || mode === 'query') {
-    if (props.onClick) {
-      props.onClick(info);
-    } else
-    if (object && props.actions && props.movesbase && props.routePaths) {
-      const { movesbaseidx } = object;
-      const { actions, clickedObject, movesbase, routePaths } = props;
-      const replaceGetRouteColor = {};
-      if(iconDesignations){
-        for (const iconDesignationsElement of iconDesignations) {
-          replaceGetRouteColor[iconDesignationsElement.type] = iconDesignationsElement.getColor || getRouteColor;
-        }
+  if (object && object.movesbaseidx && props.actions && props.movesbase && props.routePaths) {
+    const { movesbaseidx } = object;
+    const { actions, clickedObject, movesbase, routePaths } = props;
+    const { getRouteColor, getRouteWidth, iconDesignations } = props;
+    const replaceGetRouteColor = {};
+    if(iconDesignations){
+      for (const iconDesignationsElement of iconDesignations) {
+        replaceGetRouteColor[iconDesignationsElement.type] = iconDesignationsElement.getColor || getRouteColor;
       }
-      let deleted = false;
-      if (clickedObject && clickedObject.length > 0) {
-        if(clickedObject.findIndex((data)=>data.object.movesbaseidx === movesbaseidx) >= 0){
-          deleted = true;
-        }
+    }
+    let deleted = false;
+    if (clickedObject && clickedObject.length > 0) {
+      if(clickedObject.findIndex((data)=>data.object.movesbaseidx === movesbaseidx) >= 0){
+        deleted = true;
       }
-      if (deleted) {
-        routeDelete(movesbaseidx, props);
-      } else {
-        const newClickedObject = clickedObject || [];
-        newClickedObject.push({ object, layer: { id } });
-        const setRoutePaths = [];
-        const { type, operation } = movesbase[movesbaseidx];
-        let getColor = getRouteColor;
-        if(type && replaceGetRouteColor.hasOwnProperty(type)){
-          getColor = replaceGetRouteColor[type];
-        }
-        for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
-          const movedata = { type, ...operation[j] };
-          const routeColor = getColor(movedata);
-          const routeWidth = getRouteWidth(movedata);
-          const { position } = operation[j];
-          const { position: nextposition } = operation[(j+1)|0];
-          setRoutePaths.push({
-            type ,movesbaseidx,
-            sourcePosition: position,
-            targetPosition: nextposition,
-            routeColor: routeColor || COLOR1,
-            routeWidth: routeWidth || 10,
-          });
-        }
-        actions.setClicked(newClickedObject);
-        actions.setRoutePaths([...routePaths, ...setRoutePaths]);
+    }
+    if (deleted) {
+      routeDelete(movesbaseidx, props);
+    } else {
+      const newClickedObject = clickedObject || [];
+      newClickedObject.push({ object, layer: { id } });
+      const setRoutePaths = [];
+      const { type, operation:baseoperation } = movesbase[movesbaseidx];
+      const operation = baseoperation.filter(x=>x.position)
+      let getColor = getRouteColor;
+      if(type && replaceGetRouteColor.hasOwnProperty(type)){
+        getColor = replaceGetRouteColor[type];
       }
+      for (let j = 0; j < (operation.length - 1); j=(j+1)|0) {
+        const movedata = { type, ...operation[j] };
+        const routeColor = getColor(movedata);
+        const routeWidth = getRouteWidth(movedata);
+        const { position } = operation[j];
+        const { position: nextposition } = operation[(j+1)|0];
+        setRoutePaths.push({
+          type ,movesbaseidx,
+          sourcePosition: position,
+          targetPosition: nextposition,
+          routeColor: routeColor || COLOR1,
+          routeWidth: routeWidth || 10,
+        });
+      }
+      actions.setClicked(newClickedObject);
+      actions.setRoutePaths([...routePaths, ...setRoutePaths]);
     }
   }
 };
