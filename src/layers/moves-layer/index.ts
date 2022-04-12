@@ -104,13 +104,6 @@ export default class MovesLayer extends CompositeLayer<Props> {
 
   static layerName = 'MovesLayer';
 
-  onHover(event: EventInfo){
-    const {onHover} = this.props;
-    if(onHover){
-      onHover(event)
-    }
-  }
-
   onClick(event: EventInfo){
     const {onClick} = this.props;
     if(onClick){
