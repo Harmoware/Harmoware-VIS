@@ -1,4 +1,4 @@
-import * as React from 'react';
+/// <reference types="react" />
 import { ActionTypes, Viewport } from '../types';
 interface Props {
     buttonType: string;
@@ -7,12 +7,10 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class NavigationButton extends React.Component<Props> {
-    static defaultProps: {
+declare const NavigationButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         className: string;
     };
-    setViewport(argument: Viewport): void;
-    setDefaultViewport(): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default NavigationButton;

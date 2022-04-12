@@ -9,14 +9,13 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class ForwardButton extends React.Component<Props> {
-    static defaultProps: {
+declare const ForwardButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         i18n: {
             forwardButtonCaption: string;
         };
         className: string;
     };
-    setAnimateReverse(): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default ForwardButton;

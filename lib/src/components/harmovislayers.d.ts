@@ -1,5 +1,5 @@
+/// <reference types="react" />
 /// <reference types="mapbox-gl" />
-import * as React from 'react';
 import InteractiveMap from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
@@ -21,11 +21,9 @@ interface Props extends InteractiveMapProps {
     };
     setTerrain: mapboxgl.TerrainSpecification;
 }
-interface State {
-    transition?: boolean;
-}
-export default class HarmoVisLayers extends React.Component<Partial<Props>, State> {
-    static defaultProps: {
+declare const HarmoVisLayers: {
+    (props: Partial<Props>): JSX.Element;
+    defaultProps: {
         visible: boolean;
         mapStyle: string;
         mapGlComponents: any;
@@ -73,9 +71,5 @@ export default class HarmoVisLayers extends React.Component<Partial<Props>, Stat
         };
         transitionDuration: number;
     };
-    constructor(props: Partial<Props>);
-    componentDidUpdate(prevProps: Partial<Props>): void;
-    initialize(gl: WebGLRenderingContext): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default HarmoVisLayers;

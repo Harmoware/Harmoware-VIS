@@ -10,15 +10,14 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class AddMinutesButton extends React.Component<Props> {
-    static defaultProps: {
+declare const AddMinutesButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         addMinutes: number;
         i18n: {
             minutesCaption: string;
         };
         className: string;
     };
-    addMinutes(minutes: number): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default AddMinutesButton;

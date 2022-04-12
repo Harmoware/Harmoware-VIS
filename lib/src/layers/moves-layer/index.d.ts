@@ -1,7 +1,6 @@
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { CubeGeometry } from '@luma.gl/engine';
-import { pickParams } from '../../library';
-import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation } from '../../types';
+import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation, EventInfo } from '../../types';
 import * as Actions from '../../actions';
 interface Props extends LayerProps {
     routePaths?: RoutePaths[];
@@ -71,7 +70,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         pickable: boolean;
     };
     static layerName: string;
-    getPickingInfo(pickParams: pickParams): void;
+    onClick(event: EventInfo): void;
     getIconLayer(movedData: MovedData[]): any[];
     renderLayers(): any[];
 }

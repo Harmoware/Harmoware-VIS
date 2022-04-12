@@ -1,4 +1,4 @@
-import * as React from 'react';
+/// <reference types="react" />
 interface Props {
     settime: number;
     caption?: string;
@@ -6,8 +6,9 @@ interface Props {
     options?: object;
     className?: string;
 }
-export default class SimulationDateTime extends React.Component<Props> {
-    static defaultProps: {
+declare const SimulationDateTime: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         caption: string;
         locales: string;
         options: {
@@ -20,6 +21,5 @@ export default class SimulationDateTime extends React.Component<Props> {
             weekday: string;
         };
     };
-    render(): JSX.Element;
-}
-export {};
+};
+export default SimulationDateTime;

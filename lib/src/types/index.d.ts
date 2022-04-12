@@ -175,8 +175,9 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
             routePaths: RoutePaths[];
             actions: ActionTypes;
             clickedObject: ClickedObject[];
-            onHover?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-            onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+            getRouteColor?: Function;
+            getRouteWidth?: Function;
+            iconDesignations?: IconDesignation[];
         };
     };
     x: number;

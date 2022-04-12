@@ -1,4 +1,4 @@
-import * as React from 'react';
+/// <reference types="react" />
 import { ActionTypes } from '../types';
 interface Props {
     settime: number;
@@ -9,12 +9,11 @@ interface Props {
     id?: string;
     className?: string;
 }
-export default class ElapsedTimeValue extends React.Component<Props> {
-    static defaultProps: {
+declare const ElapsedTimeValue: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         min: number;
         className: string;
     };
-    setTime(e: React.ChangeEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default ElapsedTimeValue;

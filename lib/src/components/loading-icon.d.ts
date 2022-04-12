@@ -1,13 +1,13 @@
-import * as React from 'react';
+/// <reference types="react" />
 interface Props {
     loading?: boolean;
     color?: string;
 }
-export default class LoadingIcon extends React.Component<Props> {
-    static defaultProps: {
+declare const LoadingIcon: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         loading: boolean;
         color: string;
     };
-    render(): JSX.Element;
-}
-export {};
+};
+export default LoadingIcon;

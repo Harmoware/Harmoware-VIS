@@ -9,14 +9,13 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class PauseButton extends React.Component<Props> {
-    static defaultProps: {
+declare const PauseButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         i18n: {
             pauseButtonCaption: string;
         };
         className: string;
     };
-    setAnimatePause(): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default PauseButton;

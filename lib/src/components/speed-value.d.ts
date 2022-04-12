@@ -1,4 +1,4 @@
-import * as React from 'react';
+/// <reference types="react" />
 import { ActionTypes } from '../types';
 interface Props {
     secperhour?: number;
@@ -10,15 +10,13 @@ interface Props {
     id?: string;
     className?: string;
 }
-export default class SpeedValue extends React.Component<Props> {
-    static defaultProps: {
+declare const SpeedValue: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         maxsecperhour: number;
         maxmultiplySpeed: number;
         min: number;
         className: string;
     };
-    setSecPerHour(e: React.ChangeEvent<HTMLInputElement>): void;
-    setMultiplySpeed(e: React.ChangeEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default SpeedValue;

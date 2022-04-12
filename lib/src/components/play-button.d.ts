@@ -9,14 +9,13 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class PlayButton extends React.Component<Props> {
-    static defaultProps: {
+declare const PlayButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         i18n: {
             playButtonCaption: string;
         };
         className: string;
     };
-    setAnimatePause(): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default PlayButton;

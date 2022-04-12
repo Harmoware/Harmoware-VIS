@@ -9,14 +9,12 @@ interface Props {
     className?: string;
     style?: React.CSSProperties;
 }
-export default class DepotsInput extends React.Component<Props> {
-    static defaultProps: {
+declare const DepotsInput: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         i18n: {
             formatError: string;
         };
     };
-    onSelect(e: React.ChangeEvent<HTMLInputElement>): void;
-    onClick(e: React.ChangeEvent<HTMLInputElement>): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default DepotsInput;

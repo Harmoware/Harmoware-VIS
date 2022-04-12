@@ -9,14 +9,13 @@ interface Props {
     className?: string;
     title?: string;
 }
-export default class ReverseButton extends React.Component<Props> {
-    static defaultProps: {
+declare const ReverseButton: {
+    (props: Props): JSX.Element;
+    defaultProps: {
         i18n: {
             reverseButtonCaption: string;
         };
         className: string;
     };
-    setAnimateReverse(): void;
-    render(): JSX.Element;
-}
-export {};
+};
+export default ReverseButton;
