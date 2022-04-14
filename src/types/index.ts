@@ -173,11 +173,11 @@ export interface BasedProps extends BasedState {
   actions: ActionTypes
 };
 
-export type GetDepotsOptionFunc = <P>(props: P, i: number) => object;
+export type GetDepotsOptionFunc = (props: object, i: number) => object;
 
-export type GetMovesOptionFunc = <P>(props: P, i: number, j: number) => object;
+export type GetMovesOptionFunc = (props: object, i: number, j: number) => object;
 
-export type GetExtractedDataFunc = <P>(props: P) => any;
+export type GetExtractedDataFunc = (props: object) => any;
 
 export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
   object: Partial<MovedData>,
