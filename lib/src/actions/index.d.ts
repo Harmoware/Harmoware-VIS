@@ -1,4 +1,4 @@
-import { BasedProps as Props, BasedState, Viewport, Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc, ClickedObject, RoutePaths, LineMapData } from '../types';
+import { BasedProps as Props, BasedState, Viewport, Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc, GetExtractedDataFunc, ClickedObject, RoutePaths, LineMapData } from '../types';
 interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration' | 'defaultAddTimeLength' | 'remainingTime'> {
 }
 export declare const addMinutes: import("typescript-fsa").ActionCreator<number>;
@@ -27,7 +27,7 @@ export declare const setRoutePaths: import("typescript-fsa").ActionCreator<Route
 export declare const setDefaultPitch: import("typescript-fsa").ActionCreator<number>;
 export declare const setMovesOptionFunc: import("typescript-fsa").ActionCreator<GetMovesOptionFunc>;
 export declare const setDepotsOptionFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
-export declare const setExtractedDataFunc: import("typescript-fsa").ActionCreator<GetDepotsOptionFunc>;
+export declare const setExtractedDataFunc: import("typescript-fsa").ActionCreator<GetExtractedDataFunc>;
 export declare const setLinemapData: import("typescript-fsa").ActionCreator<LineMapData[]>;
 export declare const setLoading: import("typescript-fsa").ActionCreator<boolean>;
 export declare const setInputFilename: import("typescript-fsa").ActionCreator<Object>;

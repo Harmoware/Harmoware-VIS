@@ -42,9 +42,7 @@ export interface Depotsbase {
     position?: number[];
 }
 export interface ClickedObject {
-    object: {
-        movesbaseidx: number;
-    };
+    object: Partial<MovedData>;
     layer: {
         id: string;
     };
@@ -125,8 +123,8 @@ export interface BasedState {
     defaultZoom: number;
     depotsBase: Depotsbase[];
     depotsData: DepotsData[];
-    getDepotsOptionFunc: null | (<P>(props: P, i: number) => object);
-    getMovesOptionFunc: null | (<P>(props: P, i: number, j: number) => object);
+    getDepotsOptionFunc: null | GetDepotsOptionFunc;
+    getMovesOptionFunc: null | GetMovesOptionFunc;
     leading: number;
     loopTime: number;
     movedData: MovedData[];
@@ -136,7 +134,7 @@ export interface BasedState {
     defaultAddTimeLength: number;
     remainingTime: number;
     ExtractedData: any;
-    getExtractedDataFunc: null | (<P>(props: P) => any);
+    getExtractedDataFunc: null | GetExtractedDataFunc;
     movesbase: Movesbase[];
     routePaths: RoutePaths[];
     secperhour: number;
@@ -164,10 +162,9 @@ export interface BasedProps extends BasedState {
 }
 export declare type GetDepotsOptionFunc = (props: object, i: number) => object;
 export declare type GetMovesOptionFunc = (props: object, i: number, j: number) => object;
+export declare type GetExtractedDataFunc = (props: object) => any;
 export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
-    object: {
-        movesbaseidx: number;
-    };
+    object: Partial<MovedData>;
     layer: {
         id: string;
         props: {
