@@ -331,7 +331,7 @@ const routeDelete = (movesbaseidx: number, props: {
 
 export const onDefaultClick = (event: EventInfo): void => {
   const { object, layer } = event;
-  const { id, props } = layer;
+  const { props } = layer;
   if (object && object.movesbaseidx && props.actions && props.movesbase && props.routePaths) {
     const { movesbaseidx } = object;
     const { actions, clickedObject, movesbase, routePaths } = props;
@@ -352,7 +352,7 @@ export const onDefaultClick = (event: EventInfo): void => {
       routeDelete(movesbaseidx, props);
     } else {
       const newClickedObject = clickedObject || [];
-      newClickedObject.push({ object, layer: { id } });
+      newClickedObject.push({ object, layer });
       const setRoutePaths = [];
       const { type, operation:baseoperation } = movesbase[movesbaseidx];
       const operation = baseoperation.filter(x=>x.position)

@@ -2,7 +2,7 @@ import * as types from '../constants/action-types';
 import actionCreatorFactory from 'typescript-fsa';
 const actionCreator = actionCreatorFactory();
 import { BasedProps as Props, BasedState, Viewport,
-  Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc,
+  Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc, GetExtractedDataFunc,
   ClickedObject, RoutePaths, LineMapData } from '../types';
 interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration'|'defaultAddTimeLength'|'remainingTime'>{}
 
@@ -29,7 +29,7 @@ export const setRoutePaths = actionCreator<RoutePaths[]>(types.SETROUTEPATHS);
 export const setDefaultPitch = actionCreator<number>(types.SETDEFAULTPITCH);
 export const setMovesOptionFunc = actionCreator<GetMovesOptionFunc>(types.SETMOVESOPTIONFUNC);
 export const setDepotsOptionFunc = actionCreator<GetDepotsOptionFunc>(types.SETDEPOTSOPTIONFUNC);
-export const setExtractedDataFunc = actionCreator<GetDepotsOptionFunc>(types.SETEXTRACTEDDATAFUNC);
+export const setExtractedDataFunc = actionCreator<GetExtractedDataFunc>(types.SETEXTRACTEDDATAFUNC);
 export const setLinemapData = actionCreator<LineMapData[]>(types.SETLINEMAPDATA);
 export const setLoading = actionCreator<boolean>(types.SETLOADING);
 export const setInputFilename = actionCreator<Object>(types.SETINPUTFILENAME);
