@@ -20,6 +20,7 @@ interface Props extends InteractiveMapProps {
         source: object;
     };
     setTerrain: mapboxgl.TerrainSpecification;
+    deckGLProps?: object;
 }
 declare const HarmoVisLayers: {
     (props: Partial<Props>): JSX.Element;
@@ -70,6 +71,7 @@ declare const HarmoVisLayers: {
             source: string;
         };
         transitionDuration: number;
+        deckGLProps: {};
     };
 };
 export default HarmoVisLayers;
