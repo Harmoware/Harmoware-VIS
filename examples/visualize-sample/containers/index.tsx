@@ -6,6 +6,7 @@ import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, Moved
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay, Viewport } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
+import containers from 'examples/bus3d/containers';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
@@ -17,6 +18,7 @@ const mapStyle:string[] = [
   'mapbox://styles/mapbox/satellite-v8', //3
   'mapbox://styles/mapbox/outdoors-v10', //4
 ];
+const transitionInterpolator = new LinearInterpolator()
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -35,9 +37,6 @@ interface State {
   iconCubeType: number,
   popup: any[],
   popupInfo: MovedData,
-  viewportArray: Viewport[],
-  followingiconId: number,
-  follwTimerId: NodeJS.Timeout,
   terrain: boolean
 }
 
@@ -60,39 +59,39 @@ class App extends Container<BasedProps, State> {
       iconCubeType: 0,
       popup: [0, 0, ''],
       popupInfo: null,
-      viewportArray: [],
-      followingiconId: -1,
-      follwTimerId: null,
       terrain: false
     };
+    this.playbackTimerId = null
+    this.follwTimerId = null
+    this.followingiconId = -1
+    this.onHover = this.onHover.bind(this);
     this.viewportPlayback = this.viewportPlayback.bind(this);
     this.iconFollwNext = this.iconFollwNext.bind(this);
+    this.onTransitionInterrupt = this.onTransitionInterrupt.bind(this)
   }
+  playbackTimerId: NodeJS.Timeout
+  follwTimerId: NodeJS.Timeout
+  followingiconId: number
 
-  viewportPlayback(){
-    const {viewportArray} = this.state;
+  viewportPlayback(viewportArray: Viewport[]){
     if(viewportArray && viewportArray.length > 0){
-      const viewport = viewportArray.shift();
+      const viewportArrayBase = [...viewportArray]
+      const viewport = viewportArrayBase.shift();
       if(viewport.transitionDuration && !viewport.transitionInterpolator){
-        viewport.transitionInterpolator = new LinearInterpolator();
+        viewport.transitionInterpolator = transitionInterpolator;
       }
       this.props.actions.setViewport(viewport);
-      this.setState({viewportArray:[...viewportArray]});
       const {transitionDuration = defaultInterval} = viewport;
       const timeoutValue = (transitionDuration === 'auto' ?
         defaultInterval : transitionDuration);
-      setTimeout(this.viewportPlayback,timeoutValue);
+      this.playbackTimerId = setTimeout(this.viewportPlayback,timeoutValue,viewportArrayBase);
+    }else{
+      this.playbackTimerId = null
     }
   }
 
   iconFollwNext(movesbaseidx:number){
-    const {animateReverse,animatePause,loopEndPause,movesbase,movedData,settime,secperhour,actions} = this.props;
-    const data = movedData.find(x=>x.movesbaseidx === movesbaseidx);
-    if(data && data.position){
-      actions.setViewport({
-        longitude:data.position[0], latitude:data.position[1],bearing:data.direction
-      });
-    }
+    const {animateReverse,animatePause,loopEndPause,movesbase,settime,secperhour,actions} = this.props;
     const base = movesbase[movesbaseidx];
     if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
       if (!animatePause && !loopEndPause) {
@@ -111,21 +110,17 @@ class App extends Container<BasedProps, State> {
           direction = base.operation[nextIdx-1].direction;
         }
         if(next && next.position){
-          const timeoutValue = (Math.abs(next.elapsedtime - settime)/3.6) * secperhour;
+          const transitionDuration = (Math.abs(next.elapsedtime - settime)/3.6) * secperhour;
           actions.setViewport({
             longitude:next.position[0], latitude:next.position[1], bearing:direction,
-            transitionDuration:timeoutValue,
-            transitionInterpolator:new LinearInterpolator()
+            transitionDuration,
+            transitionInterpolator:transitionInterpolator
           });
-          if(this.state.followingiconId === movesbaseidx){
-            const follwTimerId = setTimeout(this.iconFollwNext,timeoutValue,movesbaseidx);
-            this.setState({ follwTimerId });
-            return;
-          }
+          this.follwTimerId = setTimeout(this.iconFollwNext,transitionDuration,movesbaseidx);
+          this.followingiconId = movesbaseidx
         }
       }
     }
-    this.setState({ followingiconId: -1 });
   }
 
   getMapboxChecked(e: React.ChangeEvent<HTMLInputElement>) {
@@ -177,17 +172,20 @@ class App extends Container<BasedProps, State> {
   }
 
   getFollowingiconIdSelected(e: React.ChangeEvent<HTMLSelectElement>) {
-    clearTimeout(this.state.follwTimerId);
-    this.setState({ follwTimerId:null });
+    clearTimeout(this.follwTimerId);
+    this.follwTimerId = null
     const movesbaseidx:number = +e.target.value;
-    this.setState({ followingiconId: movesbaseidx });
     if(movesbaseidx < 0) return;
     const data = this.props.movedData.find(x=>x.movesbaseidx === movesbaseidx);
     if(data && data.position){
+      this.props.actions.setViewport({
+        longitude:data.position[0], latitude:data.position[1], bearing:data.direction
+      });
       setTimeout(this.iconFollwNext,0,movesbaseidx);
+      this.followingiconId = movesbaseidx
       return;
     }
-    this.setState({ followingiconId: -1 });
+    this.followingiconId = -1
   }
 
   getHeatmapVisible(e: React.ChangeEvent<HTMLInputElement>) {
@@ -195,10 +193,11 @@ class App extends Container<BasedProps, State> {
   }
 
   getViewport(viewport: Viewport|Viewport[]){
+    clearTimeout(this.playbackTimerId);
+    this.playbackTimerId = null
     if(Array.isArray(viewport)){
       if(viewport.length > 0){
-        this.setState({viewportArray:viewport});
-        this.viewportPlayback();
+        this.viewportPlayback(viewport);
       }
     }else{
       this.props.actions.setViewport(viewport);
@@ -280,6 +279,27 @@ class App extends Container<BasedProps, State> {
     }
   }
 
+  onLoad(){
+    this.props.actions.setViewport({
+      onTransitionInterrupt: this.onTransitionInterrupt
+    } as any);
+  }
+  onTransitionInterrupt(){
+    console.log('onTransitionInterrupt')
+    const {follwTimerId, playbackTimerId} = this
+    if(follwTimerId){
+      console.log('follwTimerId')
+      clearTimeout(follwTimerId);
+      this.follwTimerId = null
+      this.followingiconId = -1
+    }
+    if(playbackTimerId){
+      console.log('playbackTimerId')
+      clearTimeout(playbackTimerId);
+      this.playbackTimerId = null
+    }
+  }
+
   render() {
     const state = this.state;
     const props = this.props;
@@ -290,7 +310,7 @@ class App extends Container<BasedProps, State> {
     const PointCloudData = movedData.filter((x:any)=>x.pointCloud);
     const sizeScale = (Math.max(17 - viewport.zoom,2)**2)*2;
 
-    const onHover = this.onHover.bind(this);
+    const onHover = this.onHover
 
     return (
       <div>
@@ -298,7 +318,7 @@ class App extends Container<BasedProps, State> {
           {...props}
           mapStyleNo={state.mapStyleNo}
           iconCubeType={state.iconCubeType}
-          followingiconId={state.followingiconId}
+          followingiconId={this.followingiconId}
           getMapboxChecked={this.getMapboxChecked.bind(this)}
           getMapStyleSelected={this.getMapStyleSelected.bind(this)}
           getTerrainChecked={this.getTerrainChecked.bind(this)}
@@ -325,6 +345,7 @@ class App extends Container<BasedProps, State> {
         </div>
         <div className="harmovis_area">
           <HarmoVisLayers
+            deckGLProps={{onLoad:this.onLoad.bind(this)}}
             viewport={viewport}
             actions={actions}
             mapboxApiAccessToken={state.mapboxVisible ? MAPBOX_TOKEN : ''}
@@ -386,7 +407,7 @@ class App extends Container<BasedProps, State> {
                 getFillColor: (x: any) => x.color || [255,255,255,255],
                 getLineColor: null,
                 getElevation: (x: any) => x.elevation || 3,
-                onHover: onHover
+                onHover 
               }):null,
               PointCloudData.length > 0 ? this.getPointCloudLayer(PointCloudData):null,
               state.heatmapVisible && hexagonData.length > 0 ?

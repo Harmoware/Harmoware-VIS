@@ -1,8 +1,7 @@
 import * as React from 'react';
 import InteractiveMap from 'react-map-gl';
-import { Layer } from '@deck.gl/core';
+import { Layer, MapController } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
-import {MapController} from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 
 type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
@@ -17,6 +16,7 @@ interface Props extends InteractiveMapProps{
   terrain: boolean,
   terrainSource: {id:string, source:object},
   setTerrain: mapboxgl.TerrainSpecification,
+  deckGLProps?:object
 }
 
 let gMapGlprops:Partial<Props>;
@@ -77,7 +77,7 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
   const [transition,setTransition] = React.useState(false as boolean)
   const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
     layers, mapGlComponents, mapboxAddLayerValue, mapboxAddSourceValue,
-    terrain, terrainSource, setTerrain } = props;
+    terrain, terrainSource, setTerrain, deckGLProps } = props;
   const onViewportChange = props.onViewportChange||actions.setViewport;
   const transitionDuration = transition?
     (viewport.transitionDuration||props.transitionDuration):0;
@@ -124,13 +124,14 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
         setTerrain={setTerrain}
       >
         { mapGlComponents }
-        <DeckGL viewState={viewport} layers={layers} onWebGLInitialized={initialize} />
+        <DeckGL {...deckGLProps} viewState={viewport} layers={layers} onWebGLInitialized={initialize} />
       </MapGl>
     );
   }else{
     const viewState = {...viewport, transitionDuration, transitionInterpolator, transitionInterruption};
     return (
       <DeckGL
+        {...deckGLProps}
         controller={{type: MapController}}
         onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
         viewState={viewState}
@@ -175,5 +176,6 @@ HarmoVisLayers.defaultProps = {
   }},
   setTerrain: {source:'mapbox-dem'},
   transitionDuration: 0,
+  deckGLProps:{}
 }
 export default HarmoVisLayers
