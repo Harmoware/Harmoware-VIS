@@ -1,23 +1,22 @@
 /// <reference types="react" />
 /// <reference types="mapbox-gl" />
-import InteractiveMap from 'react-map-gl';
+import { InteractiveMapProps } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
-declare type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 interface Props extends InteractiveMapProps {
     viewport: Viewport;
     actions: ActionTypes;
     layers: Layer[];
     mapGlComponents?: any;
-    mapboxAddLayerValue?: mapboxgl.Layer[];
+    mapboxAddLayerValue?: mapboxgl.AnyLayer[];
     mapboxAddSourceValue?: {
         id: string;
-        source: object;
+        source: mapboxgl.AnySourceData;
     }[];
     terrain: boolean;
     terrainSource: {
         id: string;
-        source: object;
+        source: mapboxgl.AnySourceData;
     };
     setTerrain: mapboxgl.TerrainSpecification;
     deckGLProps?: object;
