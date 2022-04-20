@@ -1,20 +1,18 @@
 import * as React from 'react';
-import InteractiveMap from 'react-map-gl';
+import InteractiveMap, { InteractiveMapProps, MapLoadEvent } from 'react-map-gl';
 import { Layer, MapController } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import { ActionTypes, Viewport } from '../types';
-
-type InteractiveMapProps = Parameters<typeof InteractiveMap>[0];
 
 interface Props extends InteractiveMapProps{
   viewport : Viewport,
   actions: ActionTypes,
   layers: Layer[],
   mapGlComponents?: any
-  mapboxAddLayerValue?: mapboxgl.Layer[],
-  mapboxAddSourceValue?: {id:string, source:object}[],
+  mapboxAddLayerValue?: mapboxgl.AnyLayer[],
+  mapboxAddSourceValue?: {id:string, source:mapboxgl.AnySourceData}[],
   terrain: boolean,
-  terrainSource: {id:string, source:object},
+  terrainSource: {id:string, source:mapboxgl.AnySourceData},
   setTerrain: mapboxgl.TerrainSpecification,
   deckGLProps?:object
 }
@@ -24,7 +22,7 @@ const MapGl = (props:Partial<Props>) => {
   gMapGlprops = props;
   const [map, setMap] = React.useState(undefined);
 
-  const stateUpdate = React.useCallback((map:any)=>{
+  const stateUpdate = React.useCallback((map:mapboxgl.Map)=>{
     if(gMapGlprops.mapboxAddLayerValue){
       for(const LayerValuemapElement of gMapGlprops.mapboxAddLayerValue){
         if(!map.getLayer(LayerValuemapElement.id)){
@@ -49,7 +47,7 @@ const MapGl = (props:Partial<Props>) => {
     }
   },[map]);
 
-  const onMapLoad = React.useCallback(evt => {
+  const onMapLoad = React.useCallback((evt:MapLoadEvent) => {
     setMap(evt.target);
     stateUpdate(evt.target);
     evt.target.on('styledata', function(){
