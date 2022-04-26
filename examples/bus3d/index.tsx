@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import * as React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
