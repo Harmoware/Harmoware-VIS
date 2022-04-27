@@ -24,7 +24,18 @@ div.harmovis_controller {
   @extend .harmovis_controller;
   width: 260px;
   ul {
-    @extend ul.flex_list;
+    list-style-type: none; 
+    padding: 0px; 
+    margin: 0px; 
+    li.flex_row {
+      padding: 5px 0px; 
+      display: flex;
+      flex-direction: row;
+    }
+    li.flex_column {
+      @extend .flex_row;
+      flex-direction: column;
+    }
   }
   li.bus3d_input_button_column {
     width: 100%;
