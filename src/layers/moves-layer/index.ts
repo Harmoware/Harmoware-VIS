@@ -4,7 +4,7 @@ import { SimpleMeshLayer, ScenegraphLayer } from '@deck.gl/mesh-layers';
 import { CubeGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
 import { onDefaultClick, checkClickedObjectToBeRemoved } from '../../library';
-import { COLOR1 } from '../../constants/settings';
+import * as settings from '../../constants/settings';
 import { RoutePaths, MovedData, Movesbase, ClickedObject, LayerTypes, IconDesignation, EventInfo } from '../../types';
 import * as Actions from '../../actions';
 import {registerLoaders} from '@loaders.gl/core';
@@ -86,10 +86,10 @@ export default class MovesLayer extends CompositeLayer<Props> {
     visible: true,
     iconChange: true,
     iconCubeType: 0,
-    getRouteColor: (x: MovedData) => x.routeColor || x.color || COLOR1,
+    getRouteColor: (x: MovedData) => x.routeColor || x.color || settings.COLOR1,
     getRouteWidth: (x: MovedData) => x.routeWidth || 10,
     getRadius: (x: MovedData) => x.radius || 20,
-    getCubeColor: (x: MovedData) => x.optColor || [x.color] || [COLOR1],
+    getCubeColor: (x: MovedData) => x.optColor || [x.color] || [settings.COLOR1],
     getCubeElevation: (x: MovedData) => x.optElevation,
     getArchWidth: (x: MovedData) => x.archWidth || 10,
     getLinehWidth: (x: MovedData) => 10,
@@ -124,7 +124,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
       iconCubeType === 0 ? 'SimpleMesh':iconCubeType === 1 ? 'Scenegraph':'Scatterplot');
     const defaultIconDesignations = [{'type':undefined,'layer':selectlayer}];
     const iconDesignations = propIconDesignations || defaultIconDesignations;
-    const getColor = (x: MovedData) => x.color || COLOR1;
+    const getColor = (x: MovedData) => x.color || settings.COLOR1;
 
     return iconDesignations.map((iconDesignation:IconDesignation, idx:number)=>{
       const {type, layer,
@@ -242,8 +242,8 @@ export default class MovesLayer extends CompositeLayer<Props> {
         widthMinPixels: 0.1,
         getSourcePosition: (x: MovedData) => x.sourcePosition,
         getTargetPosition: (x: MovedData) => x.targetPosition,
-        getSourceColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
-        getTargetColor: (x: MovedData) => x.targetColor || x.color || COLOR1,
+        getSourceColor: (x: MovedData) => x.sourceColor || x.color || settings.COLOR1,
+        getTargetColor: (x: MovedData) => x.targetColor || x.color || settings.COLOR1,
         getWidth: getArchWidth,
         opacity: layerOpacity
       }) : null,
@@ -257,7 +257,7 @@ export default class MovesLayer extends CompositeLayer<Props> {
         widthMinPixels: 0.1,
         getSourcePosition: (x: MovedData) => x.sourcePosition,
         getTargetPosition: (x: MovedData) => x.targetPosition,
-        getColor: (x: MovedData) => x.sourceColor || x.color || COLOR1,
+        getColor: (x: MovedData) => x.sourceColor || x.color || settings.COLOR1,
         getWidth: getLinehWidth,
         opacity: layerOpacity
       }) : null,

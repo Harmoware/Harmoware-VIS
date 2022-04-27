@@ -2,7 +2,7 @@ import { LineLayer, PathLayer, PolygonLayer } from '@deck.gl/layers';
 import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { PathStyleExtension } from '@deck.gl/extensions';
 import { LineMapData } from '../../types';
-import { COLOR2 } from '../../constants/settings';
+import * as settings from '../../constants/settings';
 
 interface Props extends LayerProps {
   data?: LineMapData[],
@@ -38,7 +38,7 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     getCoordinates: (x: LineMapData) => x.coordinates,
     getElevation: (x: LineMapData) => x.elevation || 3,
     getWidth: (x: LineMapData) => x.strokeWidth || 1,
-    getColor: (x: LineMapData) => x.color || COLOR2, // white
+    getColor: (x: LineMapData) => x.color || settings.COLOR2, // white
     getDashArray: (x: LineMapData) => x.dash || [0,0],
     widthUnits: 'meters',
     widthMinPixels: 0.1,

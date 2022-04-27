@@ -14,7 +14,6 @@ const assign = Object.assign;
 const {max,min} = Math;
 const Actions = assign({}, baseActions, moreActions);
 
-const { COLOR1 } = settings;
 const DATAPATH = './data/';
 const GRIDDATAPATH = './GridCellLayerData/';
 const BUSSTOPSPATH = './BusStopsData/';
@@ -116,7 +115,7 @@ function* fetchDataByAnswer({ answer }: { answer: string }) {
       const operation: Bus3dMovesbaseOperation[] = [];
       segments.forEach((tripsegment, idx) => {
         const [longitude, latitude, elapsedtime] = tripsegment;
-        const color = (colorSpec && colorSpec[idx]) ? colorSpec[idx] : COLOR1;
+        const color = (colorSpec && colorSpec[idx]) ? colorSpec[idx] : settings.COLOR1;
         operation.push({ elapsedtime, longitude, latitude, color });
         if (!(idx < (segments.length - 1) && (segments[(idx+1)|0][2] - tripsegment[2]) <= 10)) {
           operation.push({ elapsedtime: (elapsedtime + 10), longitude, latitude, color });
@@ -303,7 +302,7 @@ function* setupByCSV() {
     const { systemcode, direction, systemname, timetable } = businfo;
     const operation: Bus3dMovesbaseOperation[] = [];
     let savebusoption = null as Busprop;
-    const color = COLOR1;
+    const color = settings.COLOR1;
     const busclass = { systemcode, direction, systemname, diagramid, timetable };
     for (let j = 0, lengthj = busstatus.length; j < lengthj; j=(j+1)|0) {
       const { busstopcode, elapsedtime, order, delaysec, busprop } = busstatus[j];
@@ -498,7 +497,7 @@ function* updateRoute({ el, sw }:{ el: Bus3dClickedObject[], sw: boolean }) {
         movesbaseidx,
         sourcePosition: [longitude, latitude, 0],
         targetPosition: [nextlongitude, nextlatitude, 0],
-        routeColor: color || COLOR1,
+        routeColor: color || settings.COLOR1,
         routeWidth: 10,
       });
     }

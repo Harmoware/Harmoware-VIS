@@ -5,7 +5,7 @@ import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
   MovesbaseFile, Movesbase, MovedData, LocationData, DepotsData, MovesbaseOperation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
-import { COLOR1 } from '../constants/settings';
+import * as settings from '../constants/settings';
 
 const {assign,keys} = Object;
 const {PI:pi,min,max,abs,sin,cos,tan,atan2} = Math;
@@ -250,9 +250,9 @@ export const getMoveObjects = (props : Readonly<BasedState>): RetrunState => {
             ));
           }else{
             const { elapsedtime, position:sourcePosition,
-              color:sourceColor=COLOR1, direction=0, ...otherProps2 } = operation[idx];
+              color:sourceColor=settings.COLOR1, direction=0, ...otherProps2 } = operation[idx];
             const { elapsedtime:nextelapsedtime, position:targetPosition,
-              color:targetColor=COLOR1 } = operation[nextidx];
+              color:targetColor=settings.COLOR1 } = operation[nextidx];
             const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
             const position = [
               sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
@@ -370,7 +370,7 @@ export const onDefaultClick = (event: EventInfo): void => {
           type ,movesbaseidx,
           sourcePosition: position,
           targetPosition: nextposition,
-          routeColor: routeColor || COLOR1,
+          routeColor: routeColor || settings.COLOR1,
           routeWidth: routeWidth || 10,
         });
       }

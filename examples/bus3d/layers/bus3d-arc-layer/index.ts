@@ -3,7 +3,6 @@ import { LayerProps } from '@deck.gl/core';
 import { Arcdata } from '../../types';
 import { settings } from 'harmoware-vis';
 const assign = Object.assign;
-const { COLOR1 } = settings;
 
 interface Props extends LayerProps {
     data: Arcdata[],
@@ -34,8 +33,8 @@ export default class Bus3dArcLayer extends ArcLayer<Props> {
     widthMinPixels: 0.1,
     getSourcePosition: (x: Arcdata) => x.sourcePosition,
     getTargetPosition: (x: Arcdata) => x.targetPosition,
-    getSourceColor: (x: Arcdata) => x.sourceColor || x.color || COLOR1,
-    getTargetColor: (x: Arcdata) => x.targetColor || x.color || COLOR1,
+    getSourceColor: (x: Arcdata) => x.sourceColor || x.color || settings.COLOR1,
+    getTargetColor: (x: Arcdata) => x.targetColor || x.color || settings.COLOR1,
     getStrokeWidth: (x: Arcdata) => x.strokeWidth || 1,
   };
 

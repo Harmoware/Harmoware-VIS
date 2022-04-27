@@ -4,7 +4,6 @@ import { Bus3dProps, Arcdata, ComObj } from '../types'
 const {isArray} = Array;
 const {abs} = Math;
 const {assign,keys} = Object;
-const { COLOR1, COLOR2, COLOR3, COLOR4 } = settings;
 
 export const p02d = (val: number) => {
   if (val < 10) {
@@ -79,10 +78,10 @@ export const getBusstopOptionValue = (props: Bus3dProps, busstopsbaseidx: number
   const { depotsBase, settime, timeBegin, selectedBusstop, hovered } = props;
   const currentTime = settime - timeBegin;
   const { code, name, option } = depotsBase[busstopsbaseidx];
-  let color = COLOR4;
+  let color = settings.COLOR4;
   let radius = 30;
   if (selectedBusstop === code) {
-    color = COLOR3;
+    color = settings.COLOR3;
   }
   if (hovered && hovered.object && hovered.object.code === code) {
     radius = 50;
@@ -110,14 +109,14 @@ export const getBusOptionValue = (props: Bus3dProps, movesbaseidx: number, opera
     clickedObject[0].object.movesbaseidx === movesbaseidx);
   const hoveredbus = (hovered && hovered.object &&
     hovered.object.movesbaseidx === movesbaseidx);
-  let color = COLOR2;
+  let color = settings.COLOR2;
   if (operationidx !== 0) {
     if (clickedbus) {
-      color = COLOR3;
+      color = settings.COLOR3;
     } else if (delaysec) {
       color = delaycolor(delaysec, delayrange);
     } else {
-      color = specifycolor || COLOR1;
+      color = specifycolor || settings.COLOR1;
     }
   }
   let radius = 80;

@@ -3,7 +3,7 @@ import { LayerProps, CompositeLayer } from '@deck.gl/core';
 import { SimpleMeshLayer } from '@deck.gl/mesh-layers';
 import { IcoSphereGeometry } from '@luma.gl/engine'
 import CubeGraphLayer from '../cubegraph-layer';
-import { COLOR4 } from '../../constants/settings';
+import * as settings from '../../constants/settings';
 import { DepotsData, LayerTypes, IconDesignation } from '../../types';
 
 interface Props extends LayerProps {
@@ -52,9 +52,9 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     optionCentering: false,
     optionDisplayPosition: 30,
     pickable: true,
-    getColor: (x: DepotsData) => x.color || COLOR4,
+    getColor: (x: DepotsData) => x.color || settings.COLOR4,
     getRadius: (x: DepotsData) => x.radius || 30,
-    getCubeColor: (x: DepotsData) => x.optColor || [x.color] || [COLOR4],
+    getCubeColor: (x: DepotsData) => x.optColor || [x.color] || [settings.COLOR4],
     getCubeElevation: (x: DepotsData) => x.optElevation,
     mesh: defaultmesh,
     meshSizeScale: 40,
