@@ -7,7 +7,6 @@
   "scripts": {
     "build:lib": "tsc --p tsconfig.json",
     "bus3d": "webpack-cli serve --progress --hot --port 3030 --open --content-base ./examples/bus3d --config ./examples/bus3d/webpack.config.js --mode development",
-    "real-time-sample": "webpack-cli serve --progress --hot --port 8000 --open --content-base ./examples/real-time-sample --config ./examples/real-time-sample/webpack.config.js --mode development",
     "visualize-sample": "webpack-cli serve --progress --hot --port 3030 --open --content-base ./examples/visualize-sample --config ./examples/visualize-sample/webpack.config.js --mode development",
     "patch": "npm run build:lib && npm version patch && git push -u origin HEAD && node ./tools/tag.js",
     "minor": "npm run build:lib && npm version minor && git push -u origin HEAD && node ./tools/tag.js",
