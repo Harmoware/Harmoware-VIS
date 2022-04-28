@@ -45,7 +45,7 @@ const MapGl = (props:Partial<Props>) => {
         }
       }
     }
-  },[map]);
+  },[gMapGlprops.mapboxAddLayerValue,gMapGlprops.terrain,gMapGlprops.mapboxAddSourceValue,map]);
 
   const onMapLoad = React.useCallback((evt:MapLoadEvent) => {
     setMap(evt.target);
@@ -53,7 +53,7 @@ const MapGl = (props:Partial<Props>) => {
     evt.target.on('styledata', function(){
       stateUpdate(evt.target);
     });
-  }, []);
+  },[]);
 
   React.useEffect(() => {
     if(map){
@@ -84,10 +84,10 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
   const transitionInterruption = viewport.transitionInterruption||
     props.transitionInterruption;
 
-  const initialize = (gl: WebGLRenderingContext)=>{
+  const initialize = React.useCallback((gl: WebGLRenderingContext)=>{
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
-  }
+  },[])
 
   React.useEffect(()=>{
     if (!transition) {

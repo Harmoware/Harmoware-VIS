@@ -311,6 +311,7 @@ reducer.case(setMovesBase, (state, base) => {
 reducer.case(setDepotsBase, (state, depotsBase) => {
   const assignData:InnerState = {};
   assignData.depotsBase = depotsBase;
+  assignData.depotsData = [];
   if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
     const depotsData = getDepots({ ...state, depotsBase })
     if(depotsData){

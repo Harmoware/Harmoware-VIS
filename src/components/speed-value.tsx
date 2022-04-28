@@ -16,17 +16,17 @@ const SpeedValue = (props:Props)=>{
   const { actions, secperhour, multiplySpeed,
     maxsecperhour, maxmultiplySpeed, min:prop_min, id, className } = props
 
-  const setSecPerHour = (e : React.ChangeEvent<HTMLInputElement>)=>{
+  const setSecPerHour = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value
     const secperhour = Math.min(maxsecperhour, Math.max(prop_min, value))
     actions.setSecPerHour(secperhour)
-  }
+  },[maxsecperhour,prop_min])
 
-  const setMultiplySpeed = (e : React.ChangeEvent<HTMLInputElement>)=>{
+  const setMultiplySpeed = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
     const multiplySpeed = Math.min(maxmultiplySpeed, Math.max(prop_min, value));
     actions.setMultiplySpeed(multiplySpeed);
-  }
+  },[maxmultiplySpeed,prop_min])
 
   return (
     secperhour ?

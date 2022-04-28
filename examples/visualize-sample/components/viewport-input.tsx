@@ -11,7 +11,7 @@ interface Props {
 const ViewportInput = (props:Props)=>{
   const { id, className, style, getViewport } = props;
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+  const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -28,7 +28,7 @@ const ViewportInput = (props:Props)=>{
       }
       getViewport(readdata);
     };
-  }
+  },[getViewport])
 
   const onClick = (e: React.ChangeEvent<any>)=>{
     e.target.value = '';

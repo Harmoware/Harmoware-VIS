@@ -13,13 +13,13 @@ interface Props {
 const MovesInput = (props:Props)=>{
   const { actions, id, className, style, i18n } = props;
 
-  const onClick = (e: React.ChangeEvent<any>)=>{
+  const onClick = React.useCallback((e: React.ChangeEvent<any>)=>{
     actions.setInputFilename({ movesFileName: null });
     actions.setMovesBase([]);
     e.target.value = '';
-  }
+  },[])
 
-  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
+  const onSelect = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -54,7 +54,7 @@ const MovesInput = (props:Props)=>{
       actions.setAnimateReverse(false);
       actions.setLoading(false);
     };
-  }
+  },[i18n])
 
   return (
     <input type="file" accept=".json"

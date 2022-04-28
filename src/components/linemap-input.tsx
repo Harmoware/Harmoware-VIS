@@ -12,13 +12,13 @@ interface Props {
 const LinemapInput = (props:Props)=>{
   const { actions, id, className, style } = props;
 
-  const onClick = (e: React.ChangeEvent<any>)=>{
+  const onClick = React.useCallback((e: React.ChangeEvent<any>)=>{
     actions.setInputFilename({ linemapFileName: null });
     actions.setLinemapData([]);
     e.target.value = '';
-  }
+  },[])
 
-  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
+  const onSelect = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
     const reader = new FileReader();
     const file = e.target.files[0];
     if (!file) {
@@ -47,7 +47,7 @@ const LinemapInput = (props:Props)=>{
       actions.setLinemapData([]);
       actions.setLoading(false);
     };
-  }
+  },[])
 
   return (
     <input type="file" accept=".json"

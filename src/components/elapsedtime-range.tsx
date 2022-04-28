@@ -19,17 +19,17 @@ const ElapsedTimeRange = (props:Props)=>{
     min, step, id, className, title: propTitle } = props;
   const title = propTitle || `${safeSubtract(settime, timeBegin)|0}`;
 
-  const setTime = (e: React.ChangeEvent<HTMLInputElement>)=>{
+  const setTime = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
     const value = safeCheck(+e.target.value);
     actions.setTime(safeAdd(value, timeBegin)|0);
-  }
+  },[timeBegin])
 
   return (
     <input
       type="range"
       value={safeSubtract(settime, timeBegin)|0}
       min={min} max={timeLength} step={step}
-      onChange={setTime.bind(this)}
+      onChange={setTime}
       id={id} className={className} title={title}
     />
   );

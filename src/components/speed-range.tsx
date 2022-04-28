@@ -19,17 +19,17 @@ const SpeedRange = (props:Props)=>{
     min:prop_min, step, id, className, title: propTitle } = props;
   const title = propTitle || `${secperhour}`;
 
-  const setSecPerHour = (e : React.ChangeEvent<HTMLInputElement>)=>{
+  const setSecPerHour = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
     const secperhour = (maxsecperhour + prop_min) - (value|0);
     actions.setSecPerHour(secperhour);
-  }
+  },[maxsecperhour,prop_min])
 
-  const setMultiplySpeed = (e : React.ChangeEvent<HTMLInputElement>)=>{
+  const setMultiplySpeed = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
     const multiplySpeed = value|0;
     actions.setMultiplySpeed(multiplySpeed);
-  }
+  },[])
 
   return (
     secperhour ?
