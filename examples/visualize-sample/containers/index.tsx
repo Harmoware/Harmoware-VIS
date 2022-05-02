@@ -6,7 +6,6 @@ import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, Moved
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay, Viewport } from 'harmoware-vis';
 import Controller from '../components/controller';
 import SvgIcon from '../icondata/SvgIcon';
-import containers from 'examples/bus3d/containers';
 
 // MovesLayer で iconCubeType=1(ScenegraphLayer) を使用する場合に登録要
 const scenegraph = '../sampledata/car.glb';
