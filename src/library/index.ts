@@ -332,8 +332,8 @@ const routeDelete = (movesbaseidx: number, props: {
 export const onDefaultClick = (event: EventInfo): void => {
   const { object, layer } = event;
   const { props } = layer;
-  if (object && object.movesbaseidx && props.actions && props.movesbase && props.routePaths) {
-    const { movesbaseidx } = object;
+  const { movesbaseidx } = object;
+  if (object && movesbaseidx != undefined && props.actions && props.movesbase && props.routePaths) {
     const { actions, clickedObject, movesbase, routePaths } = props;
     const { getRouteColor, getRouteWidth, iconDesignations } = props;
     const replaceGetRouteColor = {};
