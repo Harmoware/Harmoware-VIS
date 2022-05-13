@@ -6,23 +6,18 @@ interface Props {
   updateCanvas: (context: CanvasRenderingContext2D) => void,
 }
 
-export default class CanvasComponent extends React.Component<Props> {
-  canvas: HTMLCanvasElement;
+const CanvasComponent = (props:Props)=>{
+  const canvas = React.useRef(undefined);
 
-  componentDidMount() {
-    this.updateCanvas();
-  }
+  React.useEffect(()=>{
+    if(canvas !== undefined){
+      const context = canvas.current.getContext('2d');
+      props.updateCanvas(context);
+    }
+  },[canvas])
 
-  updateCanvas() {
-    const { canvas } = this;
-    const context = canvas.getContext('2d');
-    this.props.updateCanvas(context);
-  }
-
-  render() {
-    return (<canvas
-      ref={(canvas) => { this.canvas = canvas; }}
-      width={this.props.width} height={this.props.height}
-    />);
-  }
+  return (<canvas
+    ref={canvas} width={props.width} height={props.height}
+  />);
 }
+export default CanvasComponent

@@ -10,10 +10,11 @@ interface Props {
 
 const FpsDisplay = (props:Props)=>{
   const { width, height, className, UnitCaption, colorCode } = props;
+  const canvas = React.useRef(undefined);
+  const [context,setContext] = React.useState(undefined)
   const [saveTime,setSaveTime] = React.useState(Date.now() as number)
   const [frameCounterArray,setFrameCounterArray] = React.useState([] as number[])
   const [fpsRate,setFpsRate] = React.useState(0 as number)
-  let canvas: HTMLCanvasElement = undefined
 
   if((Date.now() - saveTime) >= 1000){
     frameCounterArray.push(FpsDisplay.frameCounter);
@@ -30,7 +31,13 @@ const FpsDisplay = (props:Props)=>{
 
   React.useEffect(()=>{
     if(canvas !== undefined){
-      const context = canvas.getContext('2d');
+      const context = canvas.current.getContext('2d');
+      setContext(context)
+    }
+  },[canvas])
+
+  React.useEffect(()=>{
+    if(context !== undefined){
       const maxValue = Math.max.apply(null, frameCounterArray);
       context.clearRect(0,0,width,height);
       frameCounterArray.forEach((frameCounter, idx)=>{
@@ -39,15 +46,12 @@ const FpsDisplay = (props:Props)=>{
         context.fillRect((idx<<1), (height-value), 1, value);
       });
     }
-  })
+  },[saveTime])
 
   return (
     <div className={className} title={`${fpsRate} ${UnitCaption}`}>
       <div><span>{fpsRate}</span><span>{UnitCaption}</span></div>
-      <canvas
-        ref={(cv) => { canvas = cv; }}
-        width={width} height={height}
-      />
+      <canvas ref={canvas} width={width} height={height} />
     </div>
   );
 }
