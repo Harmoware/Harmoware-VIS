@@ -36,7 +36,6 @@
     "@reduxjs/toolkit": "1.8.1",
     "@types/bootstrap": "5.1.10",
     "@types/csvtojson": "1.1.5",
-    "@types/node-sass": "^4.11.2",
     "@types/offscreencanvas": "2019.6.4",
     "@types/react": "16.14.25",
     "@types/react-dom": "16.9.15",
