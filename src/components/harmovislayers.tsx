@@ -79,8 +79,6 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
   const onViewportChange = props.onViewportChange||actions.setViewport;
   const transitionDuration = transition?
     (viewport.transitionDuration||props.transitionDuration):0;
-  const transitionInterpolator = viewport.transitionInterpolator||
-    props.transitionInterpolator;
   const transitionInterruption = viewport.transitionInterruption||
     props.transitionInterruption;
 
@@ -98,9 +96,7 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
   React.useEffect(()=>{
     const {transitionDuration} = viewport;
     if(transitionDuration !== 0){
-      actions.setViewport({
-        transitionDuration:0,
-        transitionInterpolator:undefined });
+      actions.setViewport({ transitionDuration:0 });
     }
   },[viewport.transitionDuration])
 
@@ -113,7 +109,6 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
         mapboxApiAccessToken={mapboxApiAccessToken}
         visible={visible}
         transitionDuration={transitionDuration}
-        transitionInterpolator={transitionInterpolator}
         transitionInterruption={transitionInterruption}
         mapboxAddLayerValue={mapboxAddLayerValue}
         mapboxAddSourceValue={mapboxAddSourceValue}
@@ -126,7 +121,7 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
       </MapGl>
     );
   }else{
-    const viewState = {...viewport, transitionDuration, transitionInterpolator, transitionInterruption};
+    const viewState = {...viewport, transitionDuration, transitionInterruption};
     return (
       <DeckGL
         {...deckGLProps}

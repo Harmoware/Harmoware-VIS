@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, combineReducers } from '@reduxjs/toolkit';
+import { bindActionCreators, combineReducers, Reducer } from '@reduxjs/toolkit';
+import { legacy_createStore as createStore } from 'redux'
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,

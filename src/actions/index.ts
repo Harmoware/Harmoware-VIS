@@ -1,42 +1,37 @@
-import * as types from '../constants/action-types';
-import actionCreatorFactory from 'typescript-fsa';
-const actionCreator = actionCreatorFactory();
-import { BasedProps as Props, BasedState, Viewport,
-  Movesbase, MovesbaseFile, Depotsbase, LocationData, GetMovesOptionFunc, GetDepotsOptionFunc, GetExtractedDataFunc,
-  ClickedObject, RoutePaths, LineMapData } from '../types';
-interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration'|'defaultAddTimeLength'|'remainingTime'>{}
-
-export const addMinutes =  actionCreator<number>(types.ADDMINUTES);
-export const increaseTime = actionCreator<Props>(types.INCREASETIME);
-export const decreaseTime = actionCreator<Props>(types.DECREASETIME);
-export const setFrameTimestamp = actionCreator<Props>(types.SETFRAMETIMESTAMP);
-export const setTimeStamp = actionCreator<Props>(types.SETTIMESTAMP);
-export const setTime = actionCreator<number>(types.SETTIME);
-export const setLeading = actionCreator<number>(types.SETLEADING);
-export const setTrailing = actionCreator<number>(types.SETTRAILING);
-export const setViewport = actionCreator<Viewport>(types.SETVIEWPORT);
-export const setDefaultViewport = actionCreator<void|{defaultZoom?:number,defaultPitch?:number}>(types.SETDEFAULTVIEWPORT);
-export const setMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.SETMOVESBASE);
-export const setDepotsBase = actionCreator<Depotsbase[]>(types.SETDEPOTSBASE);
-export const setLocationData = actionCreator<LocationData>(types.SETLOCATIONDATA);
-export const setLocationDataOption = actionCreator<LocationDataOption>(types.SETLOCATIONDATAOPTION);
-export const setAnimatePause = actionCreator<boolean>(types.SETANIMATEPAUSE);
-export const setAnimateReverse = actionCreator<boolean>(types.SETANIMATEREVERSE);
-export const setSecPerHour = actionCreator<number>(types.SETSECPERHOUR);
-export const setMultiplySpeed = actionCreator<number>(types.SETMULTIPLYSPEED);
-export const setClicked = actionCreator<null | ClickedObject[]>(types.SETCLICKED);
-export const setRoutePaths = actionCreator<RoutePaths[]>(types.SETROUTEPATHS);
-export const setDefaultPitch = actionCreator<number>(types.SETDEFAULTPITCH);
-export const setMovesOptionFunc = actionCreator<GetMovesOptionFunc>(types.SETMOVESOPTIONFUNC);
-export const setDepotsOptionFunc = actionCreator<GetDepotsOptionFunc>(types.SETDEPOTSOPTIONFUNC);
-export const setExtractedDataFunc = actionCreator<GetExtractedDataFunc>(types.SETEXTRACTEDDATAFUNC);
-export const setLinemapData = actionCreator<LineMapData[]>(types.SETLINEMAPDATA);
-export const setLoading = actionCreator<boolean>(types.SETLOADING);
-export const setInputFilename = actionCreator<Object>(types.SETINPUTFILENAME);
-export const updateMovesBase = actionCreator<(Movesbase[] | MovesbaseFile)>(types.UPDATEMOVESBASE);
-export const setNoLoop = actionCreator<boolean>(types.SETNOLOOP);
-export const setInitialViewChange = actionCreator<boolean>(types.SETINITIALVIEWCHANGE);
-export const setIconGradationChange = actionCreator<boolean>(types.SETICONGRADATIONCHANGE);
-export const setTimeBegin = actionCreator<number>(types.SETTIMEBEGIN);
-export const setTimeLength = actionCreator<number>(types.SETTIMELENGTH);
-export const addMovesBaseData = actionCreator<Movesbase[]>(types.ADDMOVESBASEDATA);
+import { baseSlice } from '../reducers';
+export const {
+  addMinutes,
+  setViewport,
+  setDefaultViewport,
+  setTimeStamp,
+  setTime,
+  increaseTime,
+  decreaseTime,
+  setLeading,
+  setTrailing,
+  setFrameTimestamp,
+  setMovesBase,
+  setDepotsBase,
+  setLocationData,
+  setLocationDataOption,
+  setAnimatePause,
+  setAnimateReverse,
+  setSecPerHour,
+  setMultiplySpeed,
+  setClicked,
+  setRoutePaths,
+  setDefaultPitch,
+  setMovesOptionFunc,
+  setDepotsOptionFunc,
+  setExtractedDataFunc,
+  setLinemapData,
+  setLoading,
+  setInputFilename,
+  updateMovesBase,
+  setNoLoop,
+  setInitialViewChange,
+  setIconGradationChange,
+  setTimeBegin,
+  setTimeLength,
+  addMovesBaseData,
+} = baseSlice.actions

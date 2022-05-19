@@ -20,9 +20,7 @@
     "react-icons-kit": "2.0.0",
     "react-map-gl": "6.1.19",
     "react-redux": "7.2.8",
-    "react-spinners": "0.11.0",
-    "typescript-fsa": "3.0.0",
-    "typescript-fsa-reducers": "1.2.2"
+    "react-spinners": "0.11.0"
   },
   "devDependencies": {
     "@babel/core": "7.17.9",

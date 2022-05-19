@@ -17,7 +17,6 @@ const mapStyle:string[] = [
   'mapbox://styles/mapbox/satellite-v8', //3
   'mapbox://styles/mapbox/outdoors-v10', //4
 ];
-const transitionInterpolator = new LinearInterpolator()
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -76,9 +75,6 @@ class App extends Container<BasedProps, State> {
     if(viewportArray && viewportArray.length > 0){
       const viewportArrayBase = [...viewportArray]
       const viewport = viewportArrayBase.shift();
-      if(viewport.transitionDuration && !viewport.transitionInterpolator){
-        viewport.transitionInterpolator = transitionInterpolator;
-      }
       this.props.actions.setViewport(viewport);
       const {transitionDuration = defaultInterval} = viewport;
       const timeoutValue = (transitionDuration === 'auto' ?
@@ -113,7 +109,6 @@ class App extends Container<BasedProps, State> {
           actions.setViewport({
             longitude:next.position[0], latitude:next.position[1], bearing:direction,
             transitionDuration,
-            transitionInterpolator:transitionInterpolator
           });
           this.follwTimerId = setTimeout(this.iconFollwNext,transitionDuration,movesbaseidx);
           this.followingiconId = movesbaseidx

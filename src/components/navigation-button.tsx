@@ -20,7 +20,7 @@ const NavigationButton = (props:Props)=>{
   }
 
   const setDefaultViewport = ()=>{
-    props.actions.setDefaultViewport();
+    props.actions.setDefaultViewport(undefined);
   }
 
   switch (buttonType) {

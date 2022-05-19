@@ -1,12 +1,8 @@
+import { createSlice } from '@reduxjs/toolkit'
 import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
-import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { BasedState, AnalyzedBaseData, LocationData } from '../types';
-import { addMinutes, setViewport, setDefaultViewport, setTimeStamp, 
-  setTime, increaseTime, decreaseTime, setLeading, setTrailing, setFrameTimestamp, setMovesBase, setDepotsBase, 
-  setLocationData, setLocationDataOption, setAnimatePause, setAnimateReverse, setSecPerHour, setMultiplySpeed, setClicked, 
-  setRoutePaths, setDefaultPitch, setMovesOptionFunc, setDepotsOptionFunc, setExtractedDataFunc,
-  setLinemapData, setLoading, setInputFilename, updateMovesBase, setNoLoop,
-  setInitialViewChange, setIconGradationChange, setTimeBegin, setTimeLength, addMovesBaseData} from '../actions';
+import { BasedState, BasedProps, AnalyzedBaseData, LocationData, LocationDataOption,
+  Movesbase, MovesbaseFile, Depotsbase, Viewport, ClickedObject, RoutePaths,
+  GetMovesOptionFunc, GetDepotsOptionFunc, GetExtractedDataFunc, LineMapData } from '../types';
 
 const {PI:pi,sin,cos,tan,atan2} = Math;
 const radians = (degree: number) => degree * pi / 180;
@@ -28,7 +24,6 @@ const initialState: BasedState = {
     width: window.innerWidth, // 共通
     height: window.innerHeight, // 共通
     transitionDuration: 0,
-    transitionInterpolator: undefined,
     transitionInterruption: undefined,
   },
   settime: 0,
@@ -81,56 +76,98 @@ const parameter = {
 
 const calcLoopTime = // LoopTime とは１ループにかける時間（ミリ秒）
   (timeLength : number, secperhour: number) : number => (timeLength / 3.6) * secperhour;
-const reducer = reducerWithInitialState<BasedState>(initialState);
 const assign = Object.assign;
 
-reducer.case(addMinutes, (state, min) => {
-  const assignData:InnerState = {};
-  assignData.loopEndPause = false;
-  assignData.settime = safeAdd(state.settime, (min * 60));
+interface Action {type:string, payload:any}
+export const baseSlice = createSlice({
+  name: 'base',
+  initialState,
+  reducers:{
+		addMinutes:(state:BasedState, action:Action)=>addMinutes(state,action.payload),
+		setViewport:(state:BasedState, action:Action)=>setViewport(state,action.payload),
+		setDefaultViewport:(state:BasedState, action:Action)=>setDefaultViewport(state,action.payload),
+		setTimeStamp:(state:BasedState, action:Action)=>setTimeStamp(state,action.payload),
+		setTime:(state:BasedState, action:Action)=>setTime(state,action.payload),
+		increaseTime:(state:BasedState, action:Action)=>increaseTime(state,action.payload),
+		decreaseTime:(state:BasedState, action:Action)=>decreaseTime(state,action.payload),
+		setLeading:(state:BasedState, action:Action)=>setLeading(state,action.payload),
+		setTrailing:(state:BasedState, action:Action)=>setTrailing(state,action.payload),
+		setFrameTimestamp:(state:BasedState, action:Action)=>setFrameTimestamp(state,action.payload),
+		setMovesBase:(state:BasedState, action:Action)=>setMovesBase(state,action.payload),
+		setDepotsBase:(state:BasedState, action:Action)=>setDepotsBase(state,action.payload),
+		setLocationData:(state:BasedState, action:Action)=>setLocationData(state,action.payload),
+		setLocationDataOption:(state:BasedState, action:Action)=>setLocationDataOption(state,action.payload),
+		setAnimatePause:(state:BasedState, action:Action)=>setAnimatePause(state,action.payload),
+		setAnimateReverse:(state:BasedState, action:Action)=>setAnimateReverse(state,action.payload),
+		setSecPerHour:(state:BasedState, action:Action)=>setSecPerHour(state,action.payload),
+		setMultiplySpeed:(state:BasedState, action:Action)=>setMultiplySpeed(state,action.payload),
+		setClicked:(state:BasedState, action:Action)=>setClicked(state,action.payload),
+		setRoutePaths:(state:BasedState, action:Action)=>setRoutePaths(state,action.payload),
+		setDefaultPitch:(state:BasedState, action:Action)=>setDefaultPitch(state,action.payload),
+		setMovesOptionFunc:(state:BasedState, action:Action)=>setMovesOptionFunc(state,action.payload),
+		setDepotsOptionFunc:(state:BasedState, action:Action)=>setDepotsOptionFunc(state,action.payload),
+		setExtractedDataFunc:(state:BasedState, action:Action)=>setExtractedDataFunc(state,action.payload),
+		setLinemapData:(state:BasedState, action:Action)=>setLinemapData(state,action.payload),
+		setLoading:(state:BasedState, action:Action)=>setLoading(state,action.payload),
+		setInputFilename:(state:BasedState, action:Action)=>setInputFilename(state,action.payload),
+		updateMovesBase:(state:BasedState, action:Action)=>updateMovesBase(state,action.payload),
+		setNoLoop:(state:BasedState, action:Action)=>setNoLoop(state,action.payload),
+		setInitialViewChange:(state:BasedState, action:Action)=>setInitialViewChange(state,action.payload),
+		setIconGradationChange:(state:BasedState, action:Action)=>setIconGradationChange(state,action.payload),
+		setTimeBegin:(state:BasedState, action:Action)=>setTimeBegin(state,action.payload),
+		setTimeLength:(state:BasedState, action:Action)=>setTimeLength(state,action.payload),
+		addMovesBaseData:(state:BasedState, action:Action)=>addMovesBaseData(state,action.payload),
+  }
+})
+export default baseSlice.reducer
+
+const addMinutes = (state:BasedState, min:number):BasedState => {
+  const assignData:InnerState = {}
+  assignData.loopEndPause = false
+  assignData.settime = safeAdd(state.settime, (min * 60))
   if (assignData.settime < safeSubtract(state.timeBegin, state.leading)) {
-    assignData.settime = safeSubtract(state.timeBegin, state.leading);
+    assignData.settime = safeSubtract(state.timeBegin, state.leading)
   }
   if (assignData.settime > (state.timeBegin + state.timeLength)) {
-    assignData.settime = (state.timeBegin + state.timeLength);
+    assignData.settime = (state.timeBegin + state.timeLength)
   }
   assignData.starttimestamp = Date.now() -
-    (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime);
-  return assign({}, state, assignData);
-});
+    (((assignData.settime - state.timeBegin) / state.timeLength) * state.loopTime)
+  return assign({}, state, assignData)
+}
 
-reducer.case(setViewport, (state, view) => {
-  const viewport = assign({}, state.viewport, view);
+const setViewport = (state:BasedState, view:Viewport):BasedState => {
+  const viewport = assign({}, state.viewport, view)
   return assign({}, state, {
     viewport
-  });
-});
+  })
+}
 
-reducer.case(setDefaultViewport, (state, defViewport:{defaultZoom?:number,defaultPitch?:number}={}) => {
-  const {defaultZoom,defaultPitch} = defViewport;
-  const zoom = defaultZoom === undefined ? state.defaultZoom : defaultZoom;
-  const pitch = defaultPitch === undefined ? state.defaultPitch : defaultPitch;
-  const viewport = assign({}, state.viewport, { bearing:0, zoom, pitch });
+const setDefaultViewport = (state:BasedState, defViewport:{defaultZoom?:number,defaultPitch?:number}={}):BasedState => {
+  const {defaultZoom,defaultPitch} = defViewport
+  const zoom = defaultZoom === undefined ? state.defaultZoom : defaultZoom
+  const pitch = defaultPitch === undefined ? state.defaultPitch : defaultPitch
+  const viewport = assign({}, state.viewport, { bearing:0, zoom, pitch })
   return assign({}, state, {
     viewport, defaultZoom:zoom, defaultPitch:pitch
-  });
-});
+  })
+}
 
-reducer.case(setTimeStamp, (state, props) => {
+const setTimeStamp = (state:BasedState, props:BasedProps):BasedState => {
   const starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour));
   return assign({}, state, {
     starttimestamp, loopEndPause:false
-  });
-});
+  })
+}
 
-reducer.case(setTime, (state, settime) => {
-  const starttimestamp = Date.now() - ((safeSubtract(settime, state.timeBegin) / state.timeLength) * state.loopTime);
+const setTime = (state:BasedState, settime:number):BasedState => {
+  const starttimestamp = Date.now() - ((safeSubtract(settime, state.timeBegin) / state.timeLength) * state.loopTime)
   return assign({}, state, {
     settime, starttimestamp, loopEndPause:false
-  });
-});
+  })
+}
 
-reducer.case(increaseTime, (state, props) => {
+const increaseTime = (state:BasedState, props:BasedProps):BasedState => {
   const assignData:InnerState = {};
   const now = Date.now();
   const difference = now - state.starttimestamp;
@@ -192,9 +229,9 @@ reducer.case(increaseTime, (state, props) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(decreaseTime, (state, props) => {
+const decreaseTime = (state:BasedState, props:BasedProps):BasedState => {
   const now = Date.now();
   const beforeFrameElapsed = now - state.beforeFrameTimestamp;
   const assignData:InnerState = {};
@@ -228,23 +265,23 @@ reducer.case(decreaseTime, (state, props) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setLeading, (state, leading) => {
+const setLeading = (state:BasedState, leading:number):BasedState => {
   safeCheck(leading);
   return assign({}, state, {
     leading
   });
-});
+}
 
-reducer.case(setTrailing, (state, trailing) => {
+const setTrailing = (state:BasedState, trailing:number):BasedState => {
   safeCheck(trailing);
   return assign({}, state, {
     trailing
   });
-});
+}
 
-reducer.case(setFrameTimestamp, (state, props) => {
+const setFrameTimestamp = (state:BasedState, props:BasedProps):BasedState => {
   const assignData:InnerState = {};
   const now = Date.now();
   assignData.beforeFrameTimestamp = now;
@@ -269,7 +306,7 @@ reducer.case(setFrameTimestamp, (state, props) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
 const setMovesBaseFunc = (state:BasedState, analyzeData:AnalyzedBaseData):BasedState => {
   const assignData:InnerState = {};
@@ -303,12 +340,12 @@ const setMovesBaseFunc = (state:BasedState, analyzeData:AnalyzedBaseData):BasedS
   return assign({}, state, assignData);
 };
 
-reducer.case(setMovesBase, (state, base) => {
+const setMovesBase = (state:BasedState, base:(Movesbase[] | MovesbaseFile)):BasedState => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, false);
   return setMovesBaseFunc(state, analyzeData);
-});
+}
 
-reducer.case(setDepotsBase, (state, depotsBase) => {
+const setDepotsBase = (state:BasedState, depotsBase:Depotsbase[]):BasedState => {
   const assignData:InnerState = {};
   assignData.depotsBase = depotsBase;
   assignData.depotsData = [];
@@ -319,9 +356,9 @@ reducer.case(setDepotsBase, (state, depotsBase) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setLocationData, (state:Readonly<BasedState>, data:Readonly<LocationData>) => {
+const setLocationData = (state:Readonly<BasedState>, data:Readonly<LocationData>):BasedState => {
   const assignData:InnerState = {}
   if('id' in data){
     const locationBase = state.locationBase
@@ -408,9 +445,9 @@ reducer.case(setLocationData, (state:Readonly<BasedState>, data:Readonly<Locatio
     console.log('setLocationData id undefined')
   }
   return assign({}, state, assignData)
-});
+}
 
-reducer.case(setLocationDataOption, (state, parameter) => {
+const setLocationDataOption = (state:BasedState, parameter:LocationDataOption):BasedState => {
   const assignData:InnerState = {};
   const { locationMoveDuration, defaultAddTimeLength, remainingTime } = parameter
   if(locationMoveDuration !== undefined){
@@ -423,23 +460,23 @@ reducer.case(setLocationDataOption, (state, parameter) => {
     assignData.remainingTime = remainingTime
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setAnimatePause, (state, animatePause) => {
+const setAnimatePause = (state:BasedState, animatePause:boolean):BasedState => {
   const assignData:InnerState = {};
   assignData.animatePause = animatePause;
   assignData.loopEndPause = false;
   assignData.starttimestamp = (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * state.loopTime));
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setAnimateReverse, (state, animateReverse) => {
+const setAnimateReverse = (state:BasedState, animateReverse:boolean):BasedState => {
   return assign({}, state, {
     animateReverse, loopEndPause:false
   });
-});
+}
 
-reducer.case(setSecPerHour, (state, secperhour) => {
+const setSecPerHour = (state:BasedState, secperhour:number):BasedState => {
   if(secperhour === 0){
     console.log('secperhour set zero!');
     return state;
@@ -455,9 +492,9 @@ reducer.case(setSecPerHour, (state, secperhour) => {
       (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * assignData.loopTime));
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setMultiplySpeed, (state, multiplySpeed) => {
+const setMultiplySpeed = (state:BasedState, multiplySpeed:number):BasedState => {
   if(multiplySpeed === 0){
     console.log('secperhour set zero!');
     return state;
@@ -473,64 +510,64 @@ reducer.case(setMultiplySpeed, (state, multiplySpeed) => {
       (Date.now() - ((safeSubtract(state.settime, state.timeBegin) / state.timeLength) * assignData.loopTime));
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setClicked, (state, clickedObject) => {
+const setClicked = (state:BasedState, clickedObject:(null | ClickedObject[])):BasedState => {
   return assign({}, state, {
     clickedObject
   });
-});
+}
 
-reducer.case(setRoutePaths, (state, routePaths) => {
+const setRoutePaths = (state:BasedState, routePaths:RoutePaths[]):BasedState => {
   return assign({}, state, {
     routePaths
   });
-});
+}
 
-reducer.case(setDefaultPitch, (state, defaultPitch) => {
+const setDefaultPitch = (state:BasedState, defaultPitch:number):BasedState => {
   return assign({}, state, {
     defaultPitch
   });
-});
+}
 
-reducer.case(setMovesOptionFunc, (state, getMovesOptionFunc) => {
+const setMovesOptionFunc = (state:BasedState, getMovesOptionFunc:GetMovesOptionFunc):BasedState => {
   return assign({}, state, {
     getMovesOptionFunc
   });
-});
+}
 
-reducer.case(setDepotsOptionFunc, (state, getDepotsOptionFunc) => {
+const setDepotsOptionFunc = (state:BasedState, getDepotsOptionFunc:GetDepotsOptionFunc):BasedState => {
   return assign({}, state, {
     getDepotsOptionFunc
   });
-});
+}
 
-reducer.case(setExtractedDataFunc, (state, getExtractedDataFunc) => {
+const setExtractedDataFunc = (state:BasedState, getExtractedDataFunc:GetExtractedDataFunc):BasedState => {
   return assign({}, state, {
     getExtractedDataFunc
   });
-});
+}
 
-reducer.case(setLinemapData, (state, linemapData) => {
+const setLinemapData = (state:BasedState, linemapData:LineMapData[]):BasedState => {
   return assign({}, state, {
     linemapData
   });
-});
+}
 
-reducer.case(setLoading, (state, loading) => {
+const setLoading = (state:BasedState, loading:boolean):BasedState => {
   return assign({}, state, {
     loading
   });
-});
+}
 
-reducer.case(setInputFilename, (state, fileName) => {
+const setInputFilename = (state:BasedState, fileName:Object):BasedState => {
   const inputFileName = assign({}, state.inputFileName, fileName);
   return assign({}, state, {
     inputFileName
   });
-});
+}
 
-reducer.case(updateMovesBase, (state, base) => {
+const updateMovesBase = (state:BasedState, base:Movesbase[] | MovesbaseFile):BasedState => {
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, base, true);
   if(state.movesbase.length === 0){ //初回？
     return setMovesBaseFunc(state, analyzeData);
@@ -553,27 +590,27 @@ reducer.case(updateMovesBase, (state, base) => {
     return assign({}, state, startState, assignData);
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setNoLoop, (state, noLoop) => {
+const setNoLoop = (state:BasedState, noLoop:boolean):BasedState => {
   return assign({}, state, {
     noLoop, loopEndPause:false
   });
-});
+}
 
-reducer.case(setInitialViewChange, (state, initialViewChange) => {
+const setInitialViewChange = (state:BasedState, initialViewChange:boolean):BasedState => {
   return assign({}, state, {
     initialViewChange
   });
-});
+}
 
-reducer.case(setIconGradationChange, (state, iconGradation) => {
+const setIconGradationChange = (state:BasedState, iconGradation:boolean):BasedState => {
   return assign({}, state, {
     iconGradation
   });
-});
+}
 
-reducer.case(setTimeBegin, (state, timeBegin) => {
+const setTimeBegin = (state:BasedState, timeBegin:number):BasedState => {
   safeCheck(timeBegin);
   const assignData:InnerState = {};
   const movesbaselength = state.movesbase.length;
@@ -613,9 +650,9 @@ reducer.case(setTimeBegin, (state, timeBegin) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(setTimeLength, (state, timeLength) => {
+const setTimeLength = (state:BasedState, timeLength:number):BasedState => {
   safeCheck(timeLength);
   const assignData:InnerState = {};
   const movesbaselength = state.movesbase.length;
@@ -650,9 +687,9 @@ reducer.case(setTimeLength, (state, timeLength) => {
     }
   }
   return assign({}, state, assignData);
-});
+}
 
-reducer.case(addMovesBaseData, (state, movesbase) => {
+const addMovesBaseData = (state:BasedState, movesbase:Movesbase[]):BasedState => {
   const movesbaseidxArray = movesbase.map(x=>x.movesbaseidx);
   const analyzeData:Readonly<AnalyzedBaseData> = analyzeMovesBase(state, movesbase, true);
   if(state.movesbase.length === 0){ //初回？
@@ -694,8 +731,4 @@ reducer.case(addMovesBaseData, (state, movesbase) => {
     return assign({}, state, startState, assignData);
   }
   return assign({}, state, assignData);
-});
-
-reducer.default((state) => state);
-
-export default reducer.build();
+}
