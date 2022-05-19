@@ -1,8 +1,7 @@
 /// <reference types="react" />
 import { ViewportProps } from 'react-map-gl';
 import * as BaseActions from '../actions';
-export interface Viewport extends Omit<Partial<ViewportProps>, "transitionDuration"> {
-    transitionDuration?: number | 'auto';
+export interface Viewport extends Partial<ViewportProps> {
 }
 export interface Bounds {
     westlongitiude: number;
@@ -88,6 +87,8 @@ export interface LocationData extends Partial<MovedData> {
     id: any;
     elapsedtime?: number;
     [key: string]: any;
+}
+export interface LocationDataOption extends Pick<Partial<BasedState>, 'locationMoveDuration' | 'defaultAddTimeLength' | 'remainingTime'> {
 }
 export interface DepotsData {
     type?: string;

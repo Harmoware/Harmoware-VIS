@@ -1,5 +1,43 @@
 import { BasedState } from '../types';
-declare const _default: (state: BasedState, action: {
-    type: any;
-}) => BasedState;
+interface Action {
+    type: string;
+    payload: any;
+}
+export declare const baseSlice: import("@reduxjs/toolkit").Slice<BasedState, {
+    addMinutes: (state: BasedState, action: Action) => BasedState;
+    setViewport: (state: BasedState, action: Action) => BasedState;
+    setDefaultViewport: (state: BasedState, action: Action) => BasedState;
+    setTimeStamp: (state: BasedState, action: Action) => BasedState;
+    setTime: (state: BasedState, action: Action) => BasedState;
+    increaseTime: (state: BasedState, action: Action) => BasedState;
+    decreaseTime: (state: BasedState, action: Action) => BasedState;
+    setLeading: (state: BasedState, action: Action) => BasedState;
+    setTrailing: (state: BasedState, action: Action) => BasedState;
+    setFrameTimestamp: (state: BasedState, action: Action) => BasedState;
+    setMovesBase: (state: BasedState, action: Action) => BasedState;
+    setDepotsBase: (state: BasedState, action: Action) => BasedState;
+    setLocationData: (state: BasedState, action: Action) => BasedState;
+    setLocationDataOption: (state: BasedState, action: Action) => BasedState;
+    setAnimatePause: (state: BasedState, action: Action) => BasedState;
+    setAnimateReverse: (state: BasedState, action: Action) => BasedState;
+    setSecPerHour: (state: BasedState, action: Action) => BasedState;
+    setMultiplySpeed: (state: BasedState, action: Action) => BasedState;
+    setClicked: (state: BasedState, action: Action) => BasedState;
+    setRoutePaths: (state: BasedState, action: Action) => BasedState;
+    setDefaultPitch: (state: BasedState, action: Action) => BasedState;
+    setMovesOptionFunc: (state: BasedState, action: Action) => BasedState;
+    setDepotsOptionFunc: (state: BasedState, action: Action) => BasedState;
+    setExtractedDataFunc: (state: BasedState, action: Action) => BasedState;
+    setLinemapData: (state: BasedState, action: Action) => BasedState;
+    setLoading: (state: BasedState, action: Action) => BasedState;
+    setInputFilename: (state: BasedState, action: Action) => BasedState;
+    updateMovesBase: (state: BasedState, action: Action) => BasedState;
+    setNoLoop: (state: BasedState, action: Action) => BasedState;
+    setInitialViewChange: (state: BasedState, action: Action) => BasedState;
+    setIconGradationChange: (state: BasedState, action: Action) => BasedState;
+    setTimeBegin: (state: BasedState, action: Action) => BasedState;
+    setTimeLength: (state: BasedState, action: Action) => BasedState;
+    addMovesBaseData: (state: BasedState, action: Action) => BasedState;
+}, "base">;
+declare const _default: import("redux").Reducer<BasedState, import("redux").AnyAction>;
 export default _default;

@@ -1,3 +1,4 @@
+import { Reducer } from '@reduxjs/toolkit';
 import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, MovesbaseFile, Movesbase, MovedData, DepotsData, ClickedObject, EventInfo } from '../types';
 export declare const getContainerProp: <P>(state: P) => P;
 export declare const safeCheck: (value: number) => number;
@@ -12,7 +13,7 @@ export declare const onDefaultClick: (event: EventInfo) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: null | ClickedObject[], routePaths: RoutePaths[], actions: ActionTypes) => void;
 export declare const defaultMapStateToProps: <P>(state: P) => P;
 export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => import("react-redux").ConnectedComponent<any, import("react-redux").Omit<unknown, never>>;
-export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<import("redux").CombinedState<{
+export declare const getCombinedReducer: (combined?: object) => Reducer<import("redux").CombinedState<{
     base: BasedState;
 }>, import("redux").AnyAction>;
 export {};
