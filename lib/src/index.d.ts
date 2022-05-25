@@ -22,6 +22,6 @@ import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
 import Container from './containers';
 import reducer from './reducers';
-import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
+import { connectToHarmowareVis, getContainerProp, getCombinedReducer, getConfigureStore } from './library';
 declare const Actions: ActionsInterface;
-export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, NavigationButton, FpsDisplay, settings, Container, MovesLayer, DepotsLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, IconDesignation, MovedData, LocationData, MovesbaseOperation, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, EventInfo };
+export { Actions, MovesInput, DepotsInput, LinemapInput, LoadingIcon, AddMinutesButton, PlayButton, PauseButton, ForwardButton, ReverseButton, ElapsedTimeRange, ElapsedTimeValue, SpeedRange, SpeedValue, SimulationDateTime, HarmoVisLayers, NavigationButton, FpsDisplay, settings, Container, MovesLayer, DepotsLayer, LineMapLayer, getContainerProp, connectToHarmowareVis, getCombinedReducer, getConfigureStore, reducer, BasedState, BasedProps, Bounds, ClickedObject, Depotsbase, DepotsData, IconDesignation, MovedData, LocationData, MovesbaseOperation, Movesbase, RoutePaths, Viewport, LineMapData, ActionsInterface, EventInfo };
