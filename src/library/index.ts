@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, combineReducers, Reducer } from '@reduxjs/toolkit';
-import { legacy_createStore as createStore } from 'redux'
+import { bindActionCreators, combineReducers, configureStore } from '@reduxjs/toolkit';
 import * as Actions from '../actions';
 import reducers from '../reducers';
 import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
@@ -415,3 +414,13 @@ export const connectToHarmowareVis = (App, moreActions = null,
 
 export const getCombinedReducer = (combined?: object) =>
   combineReducers({ base: reducers, ...combined });
+
+export const getConfigureStore = (combined?: object) =>{
+  const reducer = getCombinedReducer(combined)
+  return configureStore({
+    reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+  })
+}

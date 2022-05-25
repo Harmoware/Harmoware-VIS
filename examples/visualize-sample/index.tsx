@@ -1,6 +1,5 @@
 import { render } from 'react-dom';
-import { getCombinedReducer } from 'harmoware-vis';
-import { legacy_createStore as createStore } from 'redux'
+import { getConfigureStore } from 'harmoware-vis';
 import { Provider } from 'react-redux';
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +8,7 @@ import App from './containers';
 import '../../scss/harmoware.scss';
 import './scss/visualize-sample.scss';
 
-const store = createStore(getCombinedReducer());
+const store = getConfigureStore();
 
 render(
   <Provider store={store}>

@@ -77,7 +77,7 @@ import LineMapLayer from './layers/line-map-layer';
 import * as settings from './constants/settings';
 import Container from './containers';
 import reducer from './reducers';
-import { connectToHarmowareVis, getContainerProp, getCombinedReducer } from './library';
+import { connectToHarmowareVis, getContainerProp, getCombinedReducer, getConfigureStore } from './library';
 
 const Actions: ActionsInterface = {
   addMinutes,
@@ -149,6 +149,7 @@ export {
   getContainerProp,
   connectToHarmowareVis,
   getCombinedReducer,
+  getConfigureStore,
   // reducer
   reducer,
   // types
