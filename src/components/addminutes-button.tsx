@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_fast_forward as icFastForward, ic_fast_rewind as icFastRewind } from 'react-icons-kit/md';
-import { ActionTypes } from '../types';
+import { ActionsInterface } from '../types';
 
 interface Props {
   addMinutes?: number,
   children?: React.ReactNode,
-  actions: ActionTypes,
+  actions: ActionsInterface,
   i18n?: { minutesCaption: string },
   className?: string,
   title?: string,

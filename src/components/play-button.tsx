@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_play_circle_outline as icPlayArrow } from 'react-icons-kit/md';
-import { ActionTypes } from '../types';
+import { ActionsInterface } from '../types';
 
 interface Props {
-  actions: ActionTypes,
+  actions: ActionsInterface,
   children?: React.ReactNode,
   i18n?: { playButtonCaption: string },
   className?: string,
