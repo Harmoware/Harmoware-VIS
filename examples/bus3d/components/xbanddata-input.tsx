@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Bus3dActions } from '../types';
+import { Bus3dActionsInterface } from '../types';
 
 interface Props {
-  actions: typeof Bus3dActions,
+  actions: Bus3dActionsInterface,
   t: (key: string) => string,
 }
 

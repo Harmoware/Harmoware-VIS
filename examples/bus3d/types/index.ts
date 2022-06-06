@@ -1,76 +1,42 @@
-import { Actions as BaseActions, ActionsInterface, BasedState,
+import { ActionsInterface, BasedState,
     DepotsData, Movesbase, MovesbaseOperation, MovedData, Depotsbase,
     ClickedObject, EventInfo } from 'harmoware-vis';
-import * as Actions from '../actions';
+import * as Bus3dActions from '../actions';
 
 export interface ComObj<T> {
     [propName: string]: T,
 }
-export interface Bus3dState extends BasedState {
-    bustripscsv?: BusTripsCsvData[],
-    busstopscsv?: BusStopsCsvData[],
-    busroutes?: Busroutes,
-    delayheight?: number,
-    delayrange?: number,
-    elevationScale?: number,
-    xbandCellSize?: number,
-    bsoptFname?: string,
-    xbandFname?: string,
-    selectedBusstop?: string,
-    selectedBus?: string,
-    answer?: string,
-    hovered?: Bus3dEventInfo,
-    answers?: string[],
-    busoption?: BusOptionData,
-    busmovesbasedic?: ComObj<number>,
-    routesdata?: ComObj<string>,
-    bustripindex?: ComObj<{ elapsedtime: number, position: number[] }>,
-    archbase?: ArchBaseData[],
-    rainfall?: RainfallData[],
-    depotsBase: Bus3dDepotsbase[],
-    depotsData: Bus3dDepotsData[],
-    movesbase: Bus3dMovesbase[],
-    movedData: Bus3dMovedData[],
-    clickedObject: Bus3dClickedObject[],
+export interface Bus3dState extends Partial<BasedState> {
+    bustripscsv: BusTripsCsvData[],
+    busstopscsv: BusStopsCsvData[],
+    busroutes: Busroutes,
+    delayheight: number,
+    delayrange: number,
+    elevationScale: number,
+    xbandCellSize: number,
+    bsoptFname: string,
+    xbandFname: string,
+    selectedBusstop: string,
+    selectedBus: string,
+    file: string,
+    hovered: Bus3dEventInfo,
+    filelist: string[],
+    busoption: BusOptionData,
+    busmovesbasedic: ComObj<number>,
+    routesdata: ComObj<string>,
+    bustripindex: ComObj<{ elapsedtime: number, position: number[] }>,
+    archbase: ArchBaseData[],
+    rainfall: RainfallData[],
+    depotsBase?: Bus3dDepotsbase[],
+    depotsData?: Bus3dDepotsData[],
+    movesbase?: Bus3dMovesbase[],
+    movedData?: Bus3dMovedData[],
+    clickedObject?: Bus3dClickedObject[],
 };
+type Bus3dActionsType = typeof Bus3dActions
+export interface Bus3dActionsInterface extends ActionsInterface,Bus3dActionsType { }
 export interface Bus3dProps extends Bus3dState {
-    actions: typeof Bus3dActions,
-};
-interface Bus3dActionsInterface extends ActionsInterface {
-    fetchDataList: typeof Actions.fetchDataList,
-    fetchDataByAnswer: typeof Actions.fetchDataByAnswer,
-    fetchBusstopCSV: typeof Actions.fetchBusstopCSV,
-    fetchBusstopRoutesJSON: typeof Actions.fetchBusstopRoutesJSON,
-    fetchRoutesJSON: typeof Actions.fetchRoutesJSON,
-    fetchBusstopsOption: typeof Actions.fetchBusstopsOption,
-    initializeFetch: typeof Actions.initializeFetch,
-    setupFetch: typeof Actions.setupFetch,
-    updateRoute: typeof Actions.updateRoute,
-    updateRainfall: typeof Actions.updateRainfall,
-    setDelayHeight: typeof Actions.setDelayHeight,
-    setScaleElevation: typeof Actions.setScaleElevation,
-    setCellSize: typeof Actions.setCellSize,
-    setXbandFname: typeof Actions.setXbandFname,
-    setDelayRange: typeof Actions.setDelayRange,
-    setBsoptFname: typeof Actions.setBsoptFname,
-    setSelectedBusstop: typeof Actions.setSelectedBusstop,
-    setSelectedBus: typeof Actions.setSelectedBus,
-    setAnswers: typeof Actions.setAnswers,
-    setAnswer: typeof Actions.setAnswer,
-    setHovered: typeof Actions.setHovered,
-    setBusOption: typeof Actions.setBusOption,
-    setBusMovesBaseDic: typeof Actions.setBusMovesBaseDic,
-    setRoutesData: typeof Actions.setRoutesData,
-    setBusTripsCsv: typeof Actions.setBusTripsCsv,
-    setBusstopsCsv: typeof Actions.setBusstopsCsv,
-    setBusRoutes: typeof Actions.setBusRoutes,
-    setBusTripIndex: typeof Actions.setBusTripIndex,
-    setArchBase: typeof Actions.setArchBase,
-    setRainfall: typeof Actions.setRainfall,
-}
-export const Bus3dActions: Bus3dActionsInterface = {
-    ...Actions,
-    ...BaseActions,
+    actions: Bus3dActionsInterface,
 };
 
 export interface BusTripsCsvData {
@@ -166,7 +132,8 @@ export interface Bus3dMovedData extends MovedData {
     memo?: string,
 };
 export interface Bus3dClickedObject extends ClickedObject {
-    object: {movesbaseidx: number, name?: string},
+    object: Partial<Bus3dMovedData>,
+    layer: {id: string, props?:Partial<Bus3dProps>}
 };
 export interface Bus3dEventInfo extends EventInfo {
     object: {

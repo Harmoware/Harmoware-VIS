@@ -3,6 +3,7 @@ import { SimulationDateTime } from 'harmoware-vis';
 import CanvasComponent from './canvas-component';
 import { hsvToRgb } from '../library';
 import { Bus3dProps } from '../types';
+import { updateRoute } from '../sagas'
 
 const CANVAS_WIDTH = 240;
 const CANVAS_HEIGHT = 20;
@@ -37,7 +38,7 @@ export default class Header extends React.Component<Props> {
   setDelayHeight(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, clickedObject } = this.props;
     actions.setDelayHeight(e.target.value);
-    actions.updateRoute(clickedObject, false);
+    updateRoute(clickedObject, false, this.props);
   }
 
   setScaleElevation(e: React.ChangeEvent<HTMLInputElement>) {

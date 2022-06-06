@@ -1,6 +1,5 @@
 import { getCombinedReducer } from 'harmoware-vis';
-import controller from './controller';
-import data from './data';
 import bus3d from './bus3d';
 
-export default getCombinedReducer({ controller, data, bus3d });
+export const bus3dReducers:object = { bus3d }
+export default getCombinedReducer(bus3dReducers);

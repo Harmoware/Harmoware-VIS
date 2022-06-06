@@ -10,6 +10,7 @@ import Controller from '../components/controller';
 import InteractionLayer from '../components/interaction-layer';
 import * as moreActions from '../actions';
 import { getBusOptionValue, getBusstopOptionValue, updateArcLayerData } from '../library';
+import { initializeFetch, updateRoute, updateRainfall } from '../sagas'
 
 import {registerLoaders} from '@loaders.gl/core';
 import {OBJLoader} from '@loaders.gl/obj';
@@ -19,7 +20,7 @@ const busstopmesh = '../icon/busstop.obj';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
-interface Bus3dAppProps extends Bus3dProps {
+interface Bus3dAppProps extends Required<Bus3dProps> {
   t: (key: string) => string,
 }
 
@@ -35,9 +36,6 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
   constructor(props: Bus3dAppProps & WithTranslation) {
     super(props);
     const { actions } = props;
-    actions.initializeFetch('datalist.json');
-    actions.setMovesOptionFunc(getBusOptionValue);
-    actions.setDepotsOptionFunc(getBusstopOptionValue);
     this.state = {
       iconChange: false,
       optionChange: false,
@@ -66,9 +64,15 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
   }
 
   static getDerivedStateFromProps(nextProps: Bus3dAppProps, prevState: State) {
-    const { actions, settime, xbandCellSize, answer, xbandFname } = nextProps;
-    actions.updateRainfall(settime, xbandCellSize, answer, xbandFname);
+    updateRainfall(nextProps);
     return { arcdata: updateArcLayerData(nextProps) };
+  }
+  onLoad(){
+    console.log('onLoad')
+    const {actions} = this.props
+    actions.setMovesOptionFunc(getBusOptionValue);
+    actions.setDepotsOptionFunc(getBusstopOptionValue);
+    initializeFetch(actions,'datalist.json');
   }
 
   render() {
@@ -85,7 +89,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
         actions.setClicked(null);
         actions.setRoutePaths([]);
       } else {
-        actions.updateRoute([el], true);
+        updateRoute([el] as any[], true, props);
         actions.setSelectedBus(code);
       }
     };
@@ -119,6 +123,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
         </div>
         <div className="harmovis_area">
           <HarmoVisLayers
+            deckGLProps={{onLoad:this.onLoad.bind(this)}}
             viewport={viewport}
             actions={actions}
             mapboxApiAccessToken={MAPBOX_TOKEN}

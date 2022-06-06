@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Bus3dProps } from '../types';
 import { AddMinutesButton, PlayButton, PauseButton, ReverseButton, ForwardButton, ElapsedTimeRange,
   ElapsedTimeValue, SpeedRange, SpeedValue, NavigationButton } from 'harmoware-vis';
+import { setupFetch, updateRoute } from '../sagas'
 import i18n from '../locales/I18n';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
@@ -54,10 +55,10 @@ export default class Controller extends React.Component<Props, State> {
   }
 
   onTripSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const answer = e.target.value;
+    const file = e.target.value;
     const { actions } = this.props;
-    actions.setAnswer(answer);
-    actions.setupFetch(answer);
+    actions.setFile(file);
+    setupFetch(actions,file).catch((error)=>console.log({error}))
     actions.setRoutePaths([]);
     actions.setSelectedBusstop('');
     actions.setHovered(null);
@@ -78,7 +79,7 @@ export default class Controller extends React.Component<Props, State> {
       object: { code, name, memo, movesbaseidx },
       layer: { id: 'MovesLayer' }
     };
-    actions.updateRoute([el], true);
+    updateRoute([el], true, this.props);
     actions.setSelectedBus(code);
   }
 
@@ -110,7 +111,7 @@ export default class Controller extends React.Component<Props, State> {
     const range: number = +e.target.value;
     const { actions, clickedObject } = this.props;
     actions.setDelayRange(range);
-    actions.updateRoute(clickedObject, false);
+    updateRoute(clickedObject, false, this.props);
   }
 
   setCellSize() {
@@ -143,7 +144,7 @@ export default class Controller extends React.Component<Props, State> {
         window.alert('運行データ形式不正');
         return;
       }
-      actions.setAnswer(file.name);
+      actions.setFile(file.name);
       actions.setBusTripsCsv([]);
       actions.setBusTripIndex({});
       actions.setMovesBase({ timeBegin, timeLength, bounds, movesbase: busmovesbase });
@@ -164,8 +165,8 @@ export default class Controller extends React.Component<Props, State> {
 
   render() {
     const {
-      answer, settime, timeBegin, timeLength, secperhour, xbandCellSize,
-      selectedBusstop, selectedBus, answers, date, actions, t,
+      file, settime, timeBegin, timeLength, secperhour, xbandCellSize,
+      selectedBusstop, selectedBus, filelist, date, actions, t,
       animatePause, animateReverse, xbandFname, getOptionChangeChecked,
       getIconChangeChecked, getArchLayerChangeChecked, viewport,
       delayrange, depotsData, movedData, busmovesbasedic
@@ -173,7 +174,7 @@ export default class Controller extends React.Component<Props, State> {
 
     const xBandViewLabel = getXbandLabelBySize(xbandCellSize, t('XbandLabel'));
 
-    const optionsTrip = answers.map(
+    const optionsTrip = filelist.map(
       ans => <option value={ans} key={ans}>{ans}</option>);
 
     return (
@@ -195,7 +196,7 @@ export default class Controller extends React.Component<Props, State> {
             <div className="container" title={`${t('trip_select')}`}>
               <label htmlFor="trip_select">{t('trip_select')}</label>
               <select className="bus3d_select"
-                id="trip_select" value={answer}
+                id="trip_select" value={file}
                 onChange={this.onTripSelect.bind(this)}
               >{optionsTrip}</select>
             </div>
