@@ -37,12 +37,12 @@ export default class Header extends React.Component<Props> {
 
   setDelayHeight(e: React.ChangeEvent<HTMLInputElement>) {
     const { actions, clickedObject } = this.props;
-    actions.setDelayHeight(e.target.value);
+    actions.setDelayHeight(+e.target.value);
     updateRoute(clickedObject, false, this.props);
   }
 
   setScaleElevation(e: React.ChangeEvent<HTMLInputElement>) {
-    this.props.actions.setScaleElevation(e.target.value);
+    this.props.actions.setScaleElevation(+e.target.value);
   }
 
   render() {

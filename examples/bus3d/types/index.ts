@@ -3,10 +3,10 @@ import { ActionsInterface, BasedState,
     ClickedObject, EventInfo } from 'harmoware-vis';
 import * as Bus3dActions from '../actions';
 
-export interface ComObj<T> {
+export interface ComObj<T=number> {
     [propName: string]: T,
 }
-export interface Bus3dState extends Partial<BasedState> {
+export interface OnryBus3dState {
     bustripscsv: BusTripsCsvData[],
     busstopscsv: BusStopsCsvData[],
     busroutes: Busroutes,
@@ -27,6 +27,8 @@ export interface Bus3dState extends Partial<BasedState> {
     bustripindex: ComObj<{ elapsedtime: number, position: number[] }>,
     archbase: ArchBaseData[],
     rainfall: RainfallData[],
+};
+export interface Bus3dState extends OnryBus3dState,Partial<BasedState> {
     depotsBase?: Bus3dDepotsbase[],
     depotsData?: Bus3dDepotsData[],
     movesbase?: Bus3dMovesbase[],

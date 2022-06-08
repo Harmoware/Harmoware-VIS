@@ -151,7 +151,12 @@ export const updateArcLayerData = (props: Bus3dProps) => {
     return []; // データがない
   }
 
-  if (keys(bustripindex).length === 0) {
+  let setbustripindex:typeof bustripindex = {}
+  if (keys(bustripindex).length > 0) {
+    setbustripindex = bustripindex
+  }
+
+  if (keys(setbustripindex).length === 0) {
     const d = new Date(timeBegin * 1000);
     const date: number[] = [d.getFullYear(), d.getMonth(), d.getDate()];
 
@@ -166,26 +171,31 @@ export const updateArcLayerData = (props: Bus3dProps) => {
         const hms = actualdep.split(':').map(current => +current);
         const timeDeparture = new Date(date[0], date[1], date[2], hms[0], hms[1], hms[2], 0).getTime() / 1000;
         const busstopinfo = busstopscsv[bssidx[busstopcode]];
-        bustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {
+        setbustripindex[`${diagramid}-${busstopcode}-${busstoporder}`] = {
           elapsedtime: (timeDeparture - timeBegin),
           position: [busstopinfo.longitude, busstopinfo.latitude]
         };
       }
     });
-    actions.setBusTripIndex(bustripindex);
+    actions.setBusTripIndex(setbustripindex);
   }
 
-  if (keys(bustripindex).length > 0 && archbase.length === 0) {
+  let setarchbase:typeof archbase = []
+  if(archbase.length !== 0){
+    setarchbase = archbase
+  }
+
+  if (keys(setbustripindex).length > 0 && setarchbase.length === 0) {
     const { archoption } = busoption;
     archoption.forEach((optiondata) => {
       const { diagramId, sourceDepotsCode, sourceDepotsOrder,
         targetDepotsCode, targetDepotsOrder } = optiondata;
       if (diagramId && sourceDepotsCode && sourceDepotsOrder &&
         targetDepotsCode && targetDepotsOrder) {
-        const sourceInfo = bustripindex[`${diagramId}-${sourceDepotsCode}-${sourceDepotsOrder}`];
-        const targetInfo = bustripindex[`${diagramId}-${targetDepotsCode}-${targetDepotsOrder}`];
+        const sourceInfo = setbustripindex[`${diagramId}-${sourceDepotsCode}-${sourceDepotsOrder}`];
+        const targetInfo = setbustripindex[`${diagramId}-${targetDepotsCode}-${targetDepotsOrder}`];
         if (sourceInfo && targetInfo) {
-          archbase.push({
+          setarchbase.push({
             departuretime: sourceInfo.elapsedtime,
             arrivaltime: targetInfo.elapsedtime,
             arcdata: {
@@ -197,11 +207,11 @@ export const updateArcLayerData = (props: Bus3dProps) => {
         }
       }
     });
-    actions.setArchBase(archbase);
+    actions.setArchBase(setarchbase);
   }
 
   const arcdata: Arcdata[] = [];
-  const selectarchbase = archbase.filter((data)=>{
+  const selectarchbase = setarchbase.filter((data)=>{
     return (data.departuretime <= currentTime && currentTime <= data.arrivaltime);
   });
   for (const selectarchbaseElement of selectarchbase) {

@@ -1,8 +1,8 @@
-import * as types from '../constants/action-types';
-import { Bus3dState } from '../types'
+import { createSlice, CaseReducer } from '@reduxjs/toolkit'
+import { OnryBus3dState, BusOptionData, ComObj, BusTripsCsvData,
+  BusStopsCsvData, Busroutes, ArchBaseData, RainfallData } from '../types'
 
-const assign = Object.assign;
-const initialState: Bus3dState = {
+const initialState: OnryBus3dState = {
   delayheight: 0,
   delayrange: 10,
   elevationScale: 2,
@@ -25,51 +25,34 @@ const initialState: Bus3dState = {
   busroutes: {},
 };
 
-interface Action extends Bus3dState { type: string }
-
-export default (state = initialState, action: Action) => {
-  switch (action.type) {
-    case types.SETDELAYHEIGHT:
-      return (() => assign({}, state, { delayheight:action.delayheight }))();
-    case types.SETDELAYRANGE:
-      return (() => assign({}, state, { delayrange:action.delayrange }))();
-    case types.SETSCALEELEVATION:
-      return (() => assign({}, state, { elevationScale:action.elevationScale  }))();
-    case types.SETCELLSIZE:
-      return (() => assign({}, state, { xbandCellSize:action.xbandCellSize }))();
-    case types.SETBSOPTFNAME:
-      return (() => assign({}, state, { bsoptFname:action.bsoptFname }))();
-    case types.SETXBANDFNAME:
-      return (() => assign({}, state, { xbandFname:action.xbandFname }))();
-    case types.SETSELECTEDBUSSTOP:
-      return (() => assign({}, state, { selectedBusstop:action.selectedBusstop }))();
-    case types.SETSELECTEDBUS:
-      return (() => assign({}, state, { selectedBus:action.selectedBus }))();
-    case types.SETFILE:
-      return (() => assign({}, state, { file:action.file }))();
-    case types.SETHOVERED:
-      return (() => assign({}, state, { hovered:action.hovered }))();
-    case types.SETFILELIST:
-      return (() => assign({}, state, { filelist:action.filelist }))();
-    case types.SETBUSOPTION:
-      return (() => assign({}, state, { busoption:action.busoption }))();
-    case types.SETBUSMOVESBASEDIC:
-      return (() => assign({}, state, { busmovesbasedic:action.busmovesbasedic }))();
-    case types.SETROUTESDATA:
-      return (() => assign({}, state, { routesdata:action.routesdata }))();
-    case types.SETBUSTRIPINDEX:
-      return (() => assign({}, state, { bustripindex:action.bustripindex }))();
-    case types.SETARCHBASE:
-      return (() => assign({}, state, { archbase:action.archbase }))();
-    case types.SETRAINFALL:
-      return (() => assign({}, state, { rainfall:action.rainfall }))();
-    case types.SETBUSTRIPSCSV:
-      return (() => assign({}, state, { bustripscsv:action.bustripscsv }))();
-    case types.SETBUSSTOPSCSV:
-      return (() => assign({}, state, { busstopscsv:action.busstopscsv }))();
-    case types.SETBUSROUTES:
-      return (() => assign({}, state, { busroutes:action.busroutes }))();
-    default:
-      return state;
+interface Action<T=number> {type:string, payload:T}
+interface ReducerType<T> extends CaseReducer<OnryBus3dState,Action<T>> {}
+export interface BusTripIndexType { elapsedtime: number, position: number[] }
+export const bus3dSlice = createSlice({
+  name: 'bus3d',
+  initialState,
+  reducers:{
+    setDelayHeight:((state, action)=>{ state.delayheight = action.payload })as ReducerType<number>,
+    setScaleElevation:((state, action)=>{ state.elevationScale = action.payload })as ReducerType<number>,
+    setCellSize:((state, action)=>{ state.xbandCellSize = action.payload })as ReducerType<number>,
+    setXbandFname:((state, action)=>{ state.xbandFname = action.payload })as ReducerType<string>,
+    setDelayRange:((state, action)=>{ state.delayrange = action.payload })as ReducerType<number>,
+    setBsoptFname:((state, action)=>{ state.bsoptFname = action.payload })as ReducerType<string>,
+    setSelectedBusstop:((state, action)=>{ state.selectedBusstop = action.payload })as ReducerType<string>,
+    setSelectedBus:((state, action)=>{ state.selectedBus = action.payload })as ReducerType<string>,
+    setFilelist:((state, action)=>{ state.filelist = action.payload })as ReducerType<string[]>,
+    setFile:((state, action)=>{state.file = action.payload})as ReducerType<string>,
+    setHovered:((state, action)=>{ state.hovered = action.payload })as ReducerType<any>,
+    setBusOption:((state, action)=>{ state.busoption = action.payload })as ReducerType<BusOptionData>,
+    setBusMovesBaseDic:((state, action)=>{ state.busmovesbasedic = action.payload })as ReducerType<ComObj>,
+    setRoutesData:((state, action)=>{ state.routesdata = action.payload })as ReducerType<ComObj<string>>,
+    setBusTripsCsv:((state, action)=>{ state.bustripscsv = action.payload })as ReducerType<BusTripsCsvData[]>,
+    setBusstopsCsv:((state, action)=>{ state.busstopscsv = action.payload })as ReducerType<BusStopsCsvData[]>,
+    setBusRoutes:((state, action)=>{ state.busroutes = action.payload })as ReducerType<Busroutes>,
+    setBusTripIndex:((state, action)=>{ state.bustripindex = action.payload })as ReducerType<ComObj<BusTripIndexType>>,
+    setArchBase:((state, action)=>{ state.archbase = action.payload })as ReducerType<ArchBaseData[]>,
+    setRainfall:((state, action)=>{ state.rainfall = action.payload })as ReducerType<RainfallData[]>,
   }
-};
+})
+export default bus3dSlice.reducer
+
