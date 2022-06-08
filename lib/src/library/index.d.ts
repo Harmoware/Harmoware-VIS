@@ -11,7 +11,7 @@ export declare const getMoveObjects: (props: Readonly<BasedState>) => RetrunStat
 export declare const onDefaultClick: (event: EventInfo) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: null | ClickedObject[], routePaths: RoutePaths[], actions: ActionsInterface) => void;
 export declare const defaultMapStateToProps: <P>(state: P) => P;
-export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => import("react-redux").ConnectedComponent<any, import("react-redux").Omit<unknown, never>>;
+export declare const connectToHarmowareVis: (App: any, moreActions?: any, mapStateToProps?: <P>(state: P) => P) => import("react-redux").ConnectedComponent<any, Omit<unknown, never> & import("react-redux").ConnectProps>;
 export declare const getCombinedReducer: (combined?: object) => import("redux").Reducer<import("redux").CombinedState<{
     base: BasedState;
 }>, import("redux").AnyAction>;
