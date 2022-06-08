@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PolygonLayer, PointCloudLayer } from '@deck.gl/layers';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
-import { Marker, Popup, LinearInterpolator } from 'react-map-gl';
+import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay, Viewport } from 'harmoware-vis';
 import Controller from '../components/controller';

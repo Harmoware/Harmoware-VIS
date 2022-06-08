@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { LinearInterpolator } from 'react-map-gl';
 import { analyzeMovesBase, getMoveObjects, getDepots, safeCheck, safeAdd, safeSubtract } from '../library';
 import { BasedState, BasedProps, AnalyzedBaseData, LocationData, LocationDataOption,
   Movesbase, MovesbaseFile, Depotsbase, Viewport, ClickedObject, RoutePaths,
@@ -138,6 +139,12 @@ const addMinutes = (state:BasedState, min:number):BasedState => {
 
 const setViewport = (state:BasedState, view:Viewport):BasedState => {
   const viewport = assign({}, state.viewport, view)
+  if(view.transitionDuration === undefined || view.transitionDuration === 0){
+    viewport.transitionInterpolator = null
+  }else
+  if(view.transitionInterpolator === undefined){
+    viewport.transitionInterpolator = new LinearInterpolator()
+  }
   return assign({}, state, {
     viewport
   })
