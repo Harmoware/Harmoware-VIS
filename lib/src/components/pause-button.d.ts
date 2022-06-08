@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ActionTypes } from '../types';
+import { ActionsInterface } from '../types';
 interface Props {
-    actions: ActionTypes;
+    actions: ActionsInterface;
     children?: React.ReactNode;
     i18n?: {
         pauseButtonCaption: string;

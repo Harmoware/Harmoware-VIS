@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ActionTypes } from '../types';
+import { ActionsInterface } from '../types';
 interface Props {
     addMinutes?: number;
     children?: React.ReactNode;
-    actions: ActionTypes;
+    actions: ActionsInterface;
     i18n?: {
         minutesCaption: string;
     };

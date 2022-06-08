@@ -155,11 +155,11 @@ export interface BasedState {
     initialViewChange: boolean;
     iconGradation: boolean;
 }
-export declare type ActionTypes = typeof BaseActions;
+declare type ActionTypes = typeof BaseActions;
 export interface ActionsInterface extends ActionTypes {
 }
 export interface BasedProps extends BasedState {
-    actions: ActionTypes;
+    actions: ActionsInterface;
 }
 export interface GetDepotsOptionFunc {
     (props: object, i: number): object;
@@ -177,7 +177,7 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
         props: {
             movesbase: Movesbase[];
             routePaths: RoutePaths[];
-            actions: ActionTypes;
+            actions: ActionsInterface;
             clickedObject: ClickedObject[];
             getRouteColor?: Function;
             getRouteWidth?: Function;
@@ -187,3 +187,4 @@ export interface EventInfo extends React.MouseEvent<HTMLButtonElement> {
     x: number;
     y: number;
 }
+export {};
