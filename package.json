@@ -13,7 +13,7 @@
     "major": "npm run build:lib && npm version major && git push -u origin HEAD && node ./tools/tag.js"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "1.8.2",
+    "@luma.gl/core": "8.5.13",
     "deck.gl": "8.2.10",
     "gl-matrix": "3.4.3",
     "mapbox-gl": "2.8.2",
@@ -33,6 +33,7 @@
     "@loaders.gl/core": "2.3.13",
     "@loaders.gl/gltf": "2.3.13",
     "@loaders.gl/obj": "2.3.13",
+    "@reduxjs/toolkit": "1.8.2",
     "@types/bootstrap": "5.1.12",
     "@types/csvtojson": "1.1.5",
     "@types/offscreencanvas": "2019.6.4",
@@ -50,6 +51,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-i18next": "11.16.7",
+    "redux": "4.2.0",
     "sass": "1.51.0",
     "sass-loader": "10.2.1",
     "style-loader": "2.0.0",
