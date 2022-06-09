@@ -1,8 +1,8 @@
 /// <reference types="react" />
-import { ActionsInterface, Viewport } from '../types';
+import { ActionTypes, Viewport } from '../types';
 interface Props {
     buttonType: string;
-    actions: ActionsInterface;
+    actions: ActionTypes;
     viewport: Viewport;
     className?: string;
     title?: string;

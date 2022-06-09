@@ -1,12 +1,12 @@
 /// <reference types="react" />
-import { ActionsInterface } from '../types';
+import { ActionTypes } from '../types';
 interface Props {
     settime: number;
     timeBegin: number;
     timeLength: number;
     min?: number;
     step?: number;
-    actions: ActionsInterface;
+    actions: ActionTypes;
     id?: string;
     className?: string;
     title?: string;

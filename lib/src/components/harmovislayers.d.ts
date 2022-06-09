@@ -2,10 +2,10 @@
 /// <reference types="mapbox-gl" />
 import { InteractiveMapProps } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
-import { ActionsInterface, Viewport } from '../types';
+import { ActionTypes, Viewport } from '../types';
 interface Props extends InteractiveMapProps {
     viewport: Viewport;
-    actions: ActionsInterface;
+    actions: ActionTypes;
     layers: Layer[];
     mapGlComponents?: any;
     mapboxAddLayerValue?: mapboxgl.AnyLayer[];
