@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { ActionsInterface } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
   secperhour?: number,
   multiplySpeed?: number,
-  actions: ActionsInterface,
+  actions: ActionTypes,
   maxsecperhour?: number,
   maxmultiplySpeed?: number,
   min?: number,

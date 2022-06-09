@@ -2,11 +2,11 @@ import * as React from 'react';
 import InteractiveMap, { InteractiveMapProps, MapLoadEvent } from 'react-map-gl';
 import { Layer, MapController } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
-import { ActionsInterface, Viewport } from '../types';
+import { ActionTypes, Viewport } from '../types';
 
 interface Props extends InteractiveMapProps{
   viewport : Viewport,
-  actions: ActionsInterface,
+  actions: ActionTypes,
   layers: Layer[],
   mapGlComponents?: any
   mapboxAddLayerValue?: mapboxgl.AnyLayer[],

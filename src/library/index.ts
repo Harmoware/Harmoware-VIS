@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, combineReducers, configureStore } from '@reduxjs/toolkit';
 import * as Actions from '../actions';
 import reducers from '../reducers';
-import { ActionsInterface, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
+import { ActionTypes, AnalyzedBaseData, BasedState, RoutePaths, IconDesignation,
   MovesbaseFile, Movesbase, MovedData, LocationData, DepotsData, MovesbaseOperation,
   GetDepotsOptionFunc, GetMovesOptionFunc, ClickedObject, EventInfo } from '../types';
 import * as settings from '../constants/settings';
@@ -314,7 +314,7 @@ export const getMoveObjects = (props : Readonly<BasedState>): RetrunState => {
 
 const routeDelete = (movesbaseidx: number, props: {
   routePaths: RoutePaths[], clickedObject: ClickedObject[],
-  actions: ActionsInterface }): void => {
+  actions: ActionTypes }): void => {
   const { actions, clickedObject, routePaths } = props;
   if (clickedObject.length > 0 && routePaths.length > 0) {
     if (clickedObject.length === 1) {
@@ -382,7 +382,7 @@ export const onDefaultClick = (event: EventInfo): void => {
 
 export const checkClickedObjectToBeRemoved = (
   movedData: MovedData[], clickedObject: null | ClickedObject[],
-  routePaths: RoutePaths[], actions: ActionsInterface): void => {
+  routePaths: RoutePaths[], actions: ActionTypes): void => {
   if (clickedObject && clickedObject.length > 0 && routePaths.length > 0) {
     for (const clickedObjectElement of clickedObject) {
       let deleted = true;

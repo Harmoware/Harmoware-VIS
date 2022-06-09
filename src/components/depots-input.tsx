@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ActionsInterface } from '../types';
+import { ActionTypes } from '../types';
 
 interface Props {
-  actions: ActionsInterface,
+  actions: ActionTypes,
   i18n?: { formatError: string },
   id?: string,
   className?: string,

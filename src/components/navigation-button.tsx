@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Icon } from 'react-icons-kit';
 import { ic_navigation as icNavigation } from 'react-icons-kit/md';
-import { ActionsInterface, Viewport } from '../types';
+import { ActionTypes, Viewport } from '../types';
 const {max,min} = Math;
 
 interface Props {
   buttonType: string,
-  actions: ActionsInterface,
+  actions: ActionTypes,
   viewport: Viewport,
   className?: string,
   title?: string,

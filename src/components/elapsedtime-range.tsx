@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionsInterface } from '../types';
+import { ActionTypes } from '../types';
 import { safeCheck,safeAdd, safeSubtract } from '../library';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   timeLength: number,
   min?: number,
   step?: number,
-  actions: ActionsInterface,
+  actions: ActionTypes,
   id?: string,
   className?: string,
   title?: string,

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { ActionsInterface, Movesbase, MovesbaseFile } from '../types';
+import { ActionTypes, Movesbase, MovesbaseFile } from '../types';
 const {isArray} = Array;
 
 interface Props {
-  actions: ActionsInterface,
+  actions: ActionTypes,
   i18n?: { formatError: string },
   id?: string,
   className?: string,
