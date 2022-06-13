@@ -30,7 +30,7 @@ const FpsDisplay = (props:Props)=>{
   }
 
   React.useEffect(()=>{
-    if(canvas !== undefined){
+    if(canvas.current !== undefined){
       const context = canvas.current.getContext('2d');
       setContext(context)
     }

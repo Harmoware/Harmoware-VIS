@@ -44,4 +44,8 @@ export default class Container<P extends Props, S = {}> extends React.Component<
       height: window.innerHeight
     });
   }
+
+  render() {
+    return (<>{this.props.children}</>)
+  }
 }

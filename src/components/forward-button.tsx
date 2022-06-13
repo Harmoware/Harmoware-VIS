@@ -15,7 +15,9 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const ForwardButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
-  const title = propTitle || (children && children.toString()) || i18n.forwardButtonCaption;
+  const title = React.useMemo(
+    ()=>propTitle || (children && children.toString()) || i18n.forwardButtonCaption,
+    [propTitle,children,i18n.forwardButtonCaption]);
 
   const setAnimateReverse = ()=>{
     props.actions.setAnimateReverse(false);

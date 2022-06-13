@@ -17,7 +17,9 @@ interface Props {
 const ElapsedTimeRange = (props:Props)=>{
   const { actions, settime, timeBegin, timeLength,
     min, step, id, className, title: propTitle } = props;
-  const title = propTitle || `${safeSubtract(settime, timeBegin)|0}`;
+  const title = React.useMemo(
+    ()=>propTitle || `${safeSubtract(settime, timeBegin)|0}`,
+    [propTitle,settime,timeBegin]);
 
   const setTime = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
     const value = safeCheck(+e.target.value);

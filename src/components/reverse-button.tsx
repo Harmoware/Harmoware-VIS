@@ -15,7 +15,9 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const ReverseButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
-  const title = propTitle || (children && children.toString()) || i18n.reverseButtonCaption;
+  const title = React.useMemo(
+    ()=>propTitle || (children && children.toString()) || i18n.reverseButtonCaption,
+    [propTitle,children,i18n.reverseButtonCaption]);
 
   const setAnimateReverse = ()=>{
     props.actions.setAnimateReverse(true);

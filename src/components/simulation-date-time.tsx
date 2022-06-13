@@ -11,7 +11,7 @@ interface Props {
 const SimulationDateTime = (props:Props)=>{
   const { settime, caption, locales, options, className } = props;
   const date = new Date(settime * 1000);
-  const nbsp = caption.length > 0 ? ' ' : '';
+  const nbsp = React.useMemo(()=>caption.length > 0 ? ' ' : '',[caption]);
 
   return (
     <span className={className}

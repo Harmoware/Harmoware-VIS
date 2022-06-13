@@ -16,7 +16,9 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const AddMinutesButton = (props:Props)=>{
   const { addMinutes:prop_addMinutes, children, i18n, className, title: propTitle } = props;
-  const title = propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`;
+  const title = React.useMemo(
+    ()=>propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`,
+    [propTitle,children,prop_addMinutes,i18n.minutesCaption]);
 
   const func_addMinutes = (minutes: number)=>{
     props.actions.addMinutes(minutes);

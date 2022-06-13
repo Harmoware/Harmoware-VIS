@@ -15,7 +15,9 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const PauseButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
-  const title = propTitle || (children && children.toString()) || i18n.pauseButtonCaption;
+  const title = React.useMemo(
+    ()=>propTitle || (children && children.toString()) || i18n.pauseButtonCaption,
+    [propTitle,children,i18n.pauseButtonCaption]);
 
   const setAnimatePause = ()=>{
     props.actions.setAnimatePause(true);

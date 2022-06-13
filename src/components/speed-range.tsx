@@ -17,7 +17,7 @@ interface Props {
 const SpeedRange = (props:Props)=>{
   const { actions, secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
     min:prop_min, step, id, className, title: propTitle } = props;
-  const title = propTitle || `${secperhour}`;
+  const title = React.useMemo(()=>propTitle || `${secperhour}`,[propTitle,secperhour]);
 
   const setSecPerHour = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
