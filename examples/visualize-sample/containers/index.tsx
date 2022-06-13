@@ -38,7 +38,15 @@ interface State {
   terrain: boolean
 }
 
-class App extends Container<BasedProps, State> {
+const App =(props:BasedProps)=>{
+  return (
+    <Container<BasedProps, State> {...props}>
+    <_App {...props} />
+    </Container>
+  )
+}
+
+class _App extends React.Component<BasedProps, State> {
 
   constructor(props: BasedProps) {
     super(props);
@@ -71,8 +79,9 @@ class App extends Container<BasedProps, State> {
   follwTimerId: NodeJS.Timeout
   followingiconId: number
 
-  viewportPlayback(viewportArray: Viewport[]){
+  async viewportPlayback(viewportArray: Viewport[]){
     if(viewportArray && viewportArray.length > 0){
+      await Promise.resolve()
       const viewportArrayBase = [...viewportArray]
       const viewport = viewportArrayBase.shift();
       this.props.actions.setViewport(viewport);
@@ -85,7 +94,8 @@ class App extends Container<BasedProps, State> {
     }
   }
 
-  iconFollwNext(movesbaseidx:number){
+  async iconFollwNext(movesbaseidx:number){
+    await Promise.resolve()
     const {animateReverse,animatePause,loopEndPause,movesbase,settime,secperhour,actions} = this.props;
     const base = movesbase[movesbaseidx];
     if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
