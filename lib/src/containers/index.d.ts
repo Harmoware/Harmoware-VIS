@@ -7,4 +7,5 @@ export default class Container<P extends Props, S = {}> extends React.Component<
     animationFrame: number;
     animate(): void;
     resize(): void;
+    render(): JSX.Element;
 }
