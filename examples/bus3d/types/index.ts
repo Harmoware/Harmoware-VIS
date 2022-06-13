@@ -1,3 +1,4 @@
+import { WithTranslation } from 'react-i18next';
 import { ActionsInterface, BasedState,
     DepotsData, Movesbase, MovesbaseOperation, MovedData, Depotsbase,
     ClickedObject, EventInfo } from 'harmoware-vis';
@@ -28,12 +29,12 @@ export interface OnryBus3dState {
     archbase: ArchBaseData[],
     rainfall: RainfallData[],
 };
-export interface Bus3dState extends OnryBus3dState,Partial<BasedState> {
-    depotsBase?: Bus3dDepotsbase[],
-    depotsData?: Bus3dDepotsData[],
-    movesbase?: Bus3dMovesbase[],
-    movedData?: Bus3dMovedData[],
-    clickedObject?: Bus3dClickedObject[],
+export interface Bus3dState extends OnryBus3dState,BasedState,WithTranslation {
+    depotsBase: Bus3dDepotsbase[],
+    depotsData: Bus3dDepotsData[],
+    movesbase: Bus3dMovesbase[],
+    movedData: Bus3dMovedData[],
+    clickedObject: Bus3dClickedObject[],
 };
 type Bus3dActionsType = typeof Bus3dActions
 export interface Bus3dActionsInterface extends ActionsInterface,Bus3dActionsType { }
@@ -135,7 +136,7 @@ export interface Bus3dMovedData extends MovedData {
 };
 export interface Bus3dClickedObject extends ClickedObject {
     object: Partial<Bus3dMovedData>,
-    layer: {id: string, props?:Partial<Bus3dProps>}
+    layer: {id: string, props?:Bus3dProps}
 };
 export interface Bus3dEventInfo extends EventInfo {
     object: {

@@ -34,7 +34,6 @@ interface Props extends Bus3dProps {
   getIconChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getArchLayerChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  t: (key: string) => string,
 }
 
 interface State {

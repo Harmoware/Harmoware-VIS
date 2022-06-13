@@ -10,7 +10,7 @@ const CanvasComponent = (props:Props)=>{
   const canvas = React.useRef(undefined);
 
   React.useEffect(()=>{
-    if(canvas !== undefined){
+    if(canvas.current !== undefined){
       const context = canvas.current.getContext('2d');
       props.updateCanvas(context);
     }

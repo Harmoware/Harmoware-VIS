@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SimulationDateTime } from 'harmoware-vis';
 import CanvasComponent from './canvas-component';
 import { hsvToRgb } from '../library';
-import { Bus3dProps } from '../types';
+import { Bus3dProps as Props } from '../types';
 import { updateRoute } from '../sagas'
 
 const CANVAS_WIDTH = 240;
@@ -22,10 +22,6 @@ const canvasProps = {
     }
   },
 };
-
-interface Props extends Bus3dProps{
-  t: (key: string) => string,
-}
 
 export default class Header extends React.Component<Props> {
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Bus3dProps, Arcdata, Bus3dEventInfo } from '../types';
+import { Bus3dProps as Props, Arcdata, Bus3dEventInfo } from '../types';
 import { Container, MovesLayer, DepotsLayer, HarmoVisLayers,
   connectToHarmowareVis, LoadingIcon, FpsDisplay } from 'harmoware-vis';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import XbandmeshLayer from '../layers/xbandmesh-layer';
 import Bus3dArcLayer from '../layers/bus3d-arc-layer';
 import Header from '../components/header';
@@ -20,10 +20,6 @@ const busstopmesh = '../icon/busstop.obj';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
-interface Bus3dAppProps extends Required<Bus3dProps> {
-  t: (key: string) => string,
-}
-
 interface State {
   iconChange: boolean,
   optionChange: boolean,
@@ -31,9 +27,9 @@ interface State {
   arcdata: Arcdata[]
 }
 
-class App extends Container<Bus3dAppProps & WithTranslation, State> {
+class App extends Container<Props, State> {
 
-  constructor(props: Bus3dAppProps & WithTranslation) {
+  constructor(props: Props) {
     super(props);
     const { actions } = props;
     this.state = {
@@ -63,7 +59,7 @@ class App extends Container<Bus3dAppProps & WithTranslation, State> {
     this.setState({ archLayerChange: e.target.checked });
   }
 
-  static getDerivedStateFromProps(nextProps: Bus3dAppProps, prevState: State) {
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     updateRainfall(nextProps);
     return { arcdata: updateArcLayerData(nextProps) };
   }
