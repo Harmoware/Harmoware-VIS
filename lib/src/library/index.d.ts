@@ -5,8 +5,7 @@ export declare const safeAdd: (left: number, right: number) => number;
 export declare const safeSubtract: (left: number, right: number) => number;
 export declare const analyzeMovesBase: (state: BasedState, inputData: (Movesbase[] | MovesbaseFile), update: boolean) => AnalyzedBaseData;
 export declare const getDepots: (props: BasedState) => DepotsData[];
-interface RetrunState extends Pick<Partial<BasedState>, 'movedData' | 'locationData' | 'ExtractedData'> {
-}
+declare type RetrunState = Pick<Partial<BasedState>, 'movedData' | 'locationData' | 'ExtractedData'>;
 export declare const getMoveObjects: (props: Readonly<BasedState>) => RetrunState;
 export declare const onDefaultClick: (event: EventInfo) => void;
 export declare const checkClickedObjectToBeRemoved: (movedData: MovedData[], clickedObject: null | ClickedObject[], routePaths: RoutePaths[], actions: ActionTypes) => void;

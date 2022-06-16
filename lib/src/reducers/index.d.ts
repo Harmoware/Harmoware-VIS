@@ -1,8 +1,8 @@
 import { BasedState, BasedProps, LocationData, LocationDataOption, Movesbase, MovesbaseFile, Depotsbase, Viewport, ClickedObject, RoutePaths, GetMovesOptionFunc, GetDepotsOptionFunc, GetExtractedDataFunc, LineMapData } from '../types';
-interface Action<T> {
+declare type Action<T> = {
     type: string;
     payload: T;
-}
+};
 export declare const baseSlice: import("@reduxjs/toolkit").Slice<BasedState, {
     addMinutes: (state: BasedState, action: Action<number>) => BasedState;
     setViewport: (state: BasedState, action: Action<Viewport>) => BasedState;
