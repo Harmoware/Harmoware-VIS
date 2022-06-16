@@ -3,7 +3,6 @@ import { ActionTypes } from '../types';
 
 interface Props {
   actions: ActionTypes,
-  i18n?: { formatError: string },
   id?: string,
   className?: string,
   style?: React.CSSProperties
@@ -56,10 +55,5 @@ const LinemapInput = (props:Props)=>{
     onChange={onSelect}
     />
   );
-}
-LinemapInput.defaultProps = {
-  i18n: {
-    formatError: 'データ形式不正'
-  }
 }
 export default LinemapInput

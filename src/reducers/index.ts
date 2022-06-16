@@ -9,7 +9,7 @@ const {PI:pi,sin,cos,tan,atan2} = Math;
 const radians = (degree: number) => degree * pi / 180;
 const degrees = (radian: number) => radian * 180 / pi;
 
-interface InnerState extends Partial<BasedState>{};
+type InnerState = Partial<BasedState>;
 
 const initialState: BasedState = {
   viewport: {
@@ -79,7 +79,7 @@ const calcLoopTime = // LoopTime とは１ループにかける時間（ミリ�
   (timeLength : number, secperhour: number) : number => (timeLength / 3.6) * secperhour;
 const assign = Object.assign;
 
-interface Action<T> {type:string, payload:T}
+type Action<T> = {type:string, payload:T}
 export const baseSlice = createSlice({
   name: 'base',
   initialState,
@@ -161,10 +161,14 @@ const setDefaultViewport = (state:BasedState, defViewport:{defaultZoom?:number,d
 }
 
 const setTimeStamp = (state:BasedState, props:BasedProps):BasedState => {
-  const starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour));
-  return assign({}, state, {
-    starttimestamp, loopEndPause:false
-  })
+  const assignData:InnerState = {}
+  assignData.starttimestamp = (Date.now() + calcLoopTime(state.leading, state.secperhour))
+  assignData.loopEndPause = false
+  const depotsData = getDepots({ ...props })
+  if(depotsData){
+    assignData.depotsData = depotsData;
+  }
+  return assign({}, state, assignData)
 }
 
 const setTime = (state:BasedState, settime:number):BasedState => {
@@ -356,13 +360,7 @@ const setDepotsBase = (state:BasedState, depotsBase:Depotsbase[]):BasedState => 
   const assignData:InnerState = {};
   assignData.depotsBase = depotsBase;
   assignData.depotsData = [];
-  if(state.depotsBase.length <= 0 || state.depotsData.length <= 0 || state.getDepotsOptionFunc){
-    const depotsData = getDepots({ ...state, depotsBase })
-    if(depotsData){
-      assignData.depotsData = depotsData;
-    }
-  }
-  return assign({}, state, assignData);
+  return {...state, ...assignData};
 }
 
 const setLocationData = (state:Readonly<BasedState>, data:Readonly<LocationData>):BasedState => {

@@ -38,6 +38,13 @@ interface State {
   }[]
 }
 
+const Checkbox = ({id,onChange,title,className1='harmovis_input_checkbox',defaultChecked=false,className2='form-check-label'}:
+  {id:string,onChange:React.ChangeEventHandler,title:string,className1?:string,defaultChecked?:boolean,className2?:string})=>
+<div>
+  <input type="checkbox" id={id} onChange={onChange} className={className1} defaultChecked={defaultChecked} />
+  <label htmlFor={id} className={className2} title={title}>{title}</label>
+</div>
+
 export default class Controller extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -177,10 +184,7 @@ export default class Controller extends React.Component<Props, State> {
               <ul className="list-group">
                 <span id="expand1" style={{'display': 'none','clear': 'both'}}>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MapboxChecked" onChange={getMapboxChecked} className="harmovis_input_checkbox" defaultChecked={true} />
-                      <label htmlFor="MapboxChecked" className="form-check-label" title='Mapboxマップ表示'>Mapboxマップ表示</label>
-                    </div>
+                    <Checkbox id="MapboxChecked" onChange={getMapboxChecked} title='Mapboxマップ表示' defaultChecked={true} />
                   </li>
                   <li>
                     <div className="form-select" title='マップスタイル切替'>
@@ -195,28 +199,16 @@ export default class Controller extends React.Component<Props, State> {
                     </div>
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="TerrainChecked" onChange={getTerrainChecked} className="harmovis_input_checkbox" defaultChecked={false} />
-                      <label htmlFor="TerrainChecked" className="form-check-label" title='３Ｄ地形表示'>３Ｄ地形表示</label>
-                    </div>
+                    <Checkbox id="TerrainChecked" onChange={getTerrainChecked} title='３Ｄ地形表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MoveDataChecked" onChange={getMoveDataChecked} className="harmovis_input_checkbox" defaultChecked={true} />
-                      <label htmlFor="MoveDataChecked" className="form-check-label" title='運行データ表示'>運行データ表示</label>
-                    </div>
+                    <Checkbox id="MoveDataChecked" onChange={getMoveDataChecked} title='運行データ表示' defaultChecked={true} />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="IconGradationChecked" onChange={this.seticonGradation.bind(this)} className="harmovis_input_checkbox" />
-                      <label htmlFor="IconGradationChecked" className="form-check-label" title='アイコン色グラデーション'>アイコン色グラデーション</label>
-                    </div>
+                    <Checkbox id="IconGradationChecked" onChange={this.seticonGradation.bind(this)} title='アイコン色グラデーション' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="IconChangeChecked" onChange={getIconChangeChecked} className="harmovis_input_checkbox" defaultChecked={true} />
-                      <label htmlFor="IconChangeChecked" className="form-check-label" title='アイコン表示パターン切替'>アイコン表示パターン切替</label>
-                    </div>
+                    <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title='アイコン表示パターン切替' defaultChecked={true} />
                   </li>
                   <li>
                     <div className="form-select" title='３Ｄアイコン表示タイプ切替'>
@@ -228,46 +220,25 @@ export default class Controller extends React.Component<Props, State> {
                     </div>
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MoveSvgChecked" onChange={getMoveSvgChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="MoveSvgChecked" className="form-check-label" title='運行データSVG表示'>運行データSVG表示</label>
-                    </div>
+                    <Checkbox id="MoveSvgChecked" onChange={getMoveSvgChecked} title='運行データSVG表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MoveOptionChecked" onChange={getMoveOptionChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="MoveOptionChecked" className="form-check-label" title='運行データグラフ表示'>運行データグラフ表示</label>
-                    </div>
+                    <Checkbox id="MoveOptionChecked" onChange={getMoveOptionChecked} title='運行データグラフ表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="MoveOptionArcChecked" className="form-check-label" title='運行データアーチ表示'>運行データアーチ表示</label>
-                    </div>
+                    <Checkbox id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} title='運行データアーチ表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="MoveOptionLineChecked" onChange={getMoveOptionLineChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="MoveOptionLineChecked" className="form-check-label" title='運行データライン表示'>運行データライン表示</label>
-                    </div>
+                    <Checkbox id="MoveOptionLineChecked" onChange={getMoveOptionLineChecked} title='運行データライン表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="DepotOptionChecked" onChange={getDepotOptionChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="DepotOptionChecked" className="form-check-label" title='停留所データオプション表示'>停留所データオプション表示</label>
-                    </div>
+                    <Checkbox id="DepotOptionChecked" onChange={getDepotOptionChecked} title='停留所データオプション表示' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="OptionChangeChecked" onChange={getOptionChangeChecked} className="harmovis_input_checkbox" />
-                      <label htmlFor="OptionChangeChecked" className="form-check-label" title='オプション表示パターン切替'>オプション表示パターン切替</label>
-                    </div>
+                    <Checkbox id="OptionChangeChecked" onChange={getOptionChangeChecked} title='オプション表示パターン切替' />
                   </li>
                   <li>
-                    <div>
-                      <input type="checkbox" id="HeatmapVisible" onChange={getHeatmapVisible} className="harmovis_input_checkbox" />
-                      <label htmlFor="HeatmapVisible" className="form-check-label" title='ヒートマップ表示'>ヒートマップ表示</label>
-                    </div>
+                    <Checkbox id="HeatmapVisible" onChange={getHeatmapVisible} title='ヒートマップ表示' />
                   </li>
                 </span>
               </ul>

@@ -41,12 +41,12 @@ interface State {
 const App =(props:BasedProps)=>{
   return (
     <Container<BasedProps, State> {...props}>
-    <_App {...props} />
+    <UserApp {...props} />
     </Container>
   )
 }
 
-class _App extends React.Component<BasedProps, State> {
+class UserApp extends React.Component<BasedProps, State> {
 
   constructor(props: BasedProps) {
     super(props);

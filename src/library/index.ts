@@ -12,8 +12,10 @@ const {PI:pi,min,max,abs,sin,cos,tan,atan2} = Math;
 const {isArray} = Array;
 const getAverage = (array: number[]) => array.length &&
   array.reduce((previous, current) => previous + current) / array.length;
-const radians = (degree: number) => degree * pi / 180;
-const degrees = (radian: number) => radian * 180 / pi;
+const RADIANS = pi / 180;
+const radians = (degree: number) => degree * RADIANS;
+const DEGREES = 180 / pi;
+const degrees = (radian: number) => radian * DEGREES;
 
 const MIN_VALUE = -2147483648;
 const MAX_VALUE = 2147483647;
@@ -217,7 +219,7 @@ export const getDepots = (props: BasedState): DepotsData[] => {
   return [];
 };
 
-interface RetrunState extends Pick<Partial<BasedState>,'movedData'|'locationData'|'ExtractedData'>{};
+type RetrunState = Pick<Partial<BasedState>,'movedData'|'locationData'|'ExtractedData'>;
 
 export const getMoveObjects = (props : Readonly<BasedState>): RetrunState => {
   const { movesbase, locationBase, locationMoveDuration, getExtractedDataFunc } = props;

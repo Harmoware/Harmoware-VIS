@@ -51,9 +51,9 @@ declare module "@deck.gl/layers" {
 
 declare module "@deck.gl/aggregation-layers" {
 
-  import { Layer, LayerProps } from '@deck.gl/core';
+  import { CompositeLayer, LayerProps } from '@deck.gl/core';
 
-  class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
+  class HexagonLayer<P extends LayerProps = LayerProps, S = {}> extends CompositeLayer<P, S> {}
 }
 
 declare module "@deck.gl/mesh-layers" {

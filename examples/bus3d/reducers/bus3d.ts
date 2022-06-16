@@ -25,9 +25,9 @@ const initialState: OnryBus3dState = {
   busroutes: {},
 };
 
-interface Action<T=number> {type:string, payload:T}
-interface ReducerType<T> extends CaseReducer<OnryBus3dState,Action<T>> {}
-export interface BusTripIndexType { elapsedtime: number, position: number[] }
+type Action<T=number> = {type:string, payload:T}
+type ReducerType<T> = CaseReducer<OnryBus3dState,Action<T>>
+export type BusTripIndexType = { elapsedtime: number, position: number[] }
 export const bus3dSlice = createSlice({
   name: 'bus3d',
   initialState,

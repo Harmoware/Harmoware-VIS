@@ -26,12 +26,7 @@ i18n.init({
     interpolation: {
       escapeValue: false, // not needed for react
       formatSeparator: ',',
-    },
-
-    // react-i18next special options (optional)
-    react: {
-      wait: true, // true: wait for loaded in every translated hoc
     }
-  });
+  },()=>{});
 
 export default i18n;
