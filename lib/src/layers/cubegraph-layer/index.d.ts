@@ -14,7 +14,7 @@ interface Props extends LayerProps {
     stacking2?: boolean;
     optionCentering?: boolean;
 }
-export default class CubeGraphLayer extends CompositeLayer<Props> {
+declare class CubeGraphLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static defaultProps: {
         id: string;
@@ -43,4 +43,4 @@ export default class CubeGraphLayer extends CompositeLayer<Props> {
         offset: number[];
     }, {}>;
 }
-export {};
+export default CubeGraphLayer;

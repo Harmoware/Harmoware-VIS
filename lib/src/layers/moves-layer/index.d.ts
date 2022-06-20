@@ -37,7 +37,7 @@ interface Props extends LayerProps {
     getScale?: (x: MovedData) => number[];
     getTranslation?: (x: MovedData) => number[];
 }
-export default class MovesLayer extends CompositeLayer<Props> {
+declare class MovesLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static defaultProps: {
         id: string;
@@ -74,4 +74,4 @@ export default class MovesLayer extends CompositeLayer<Props> {
     getIconLayer(movedData: MovedData[]): any[];
     renderLayers(): any[];
 }
-export {};
+export default MovesLayer;

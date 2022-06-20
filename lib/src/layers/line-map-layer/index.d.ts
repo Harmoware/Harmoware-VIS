@@ -18,7 +18,7 @@ interface Props extends LayerProps {
     polygonOpacity?: number;
     lineOpacity?: number;
 }
-export default class LineMapLayer extends CompositeLayer<Props> {
+declare class LineMapLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static defaultProps: {
         id: string;
@@ -78,4 +78,4 @@ export default class LineMapLayer extends CompositeLayer<Props> {
         widthMinPixels: number;
     }, {}>)[];
 }
-export {};
+export default LineMapLayer;

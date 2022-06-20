@@ -25,7 +25,7 @@ interface Props extends LayerProps {
     getScale?: (x: DepotsData) => number[];
     getTranslation?: (x: DepotsData) => number[];
 }
-export default class DepotsLayer extends CompositeLayer<Props> {
+declare class DepotsLayer extends CompositeLayer<Props> {
     constructor(props: Props);
     static layerName: string;
     static defaultProps: {
@@ -54,4 +54,4 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     getIconLayer(): any[];
     renderLayers(): any[];
 }
-export {};
+export default DepotsLayer;

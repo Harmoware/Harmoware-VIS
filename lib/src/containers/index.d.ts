@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { BasedProps as Props } from '../types';
-export default class Container<P extends Props, S = {}> extends React.Component<P, S> {
+import { BasedProps } from '../types';
+declare class Container<P extends BasedProps, S = {}> extends React.Component<P, S> {
     constructor(props: P);
     componentDidMount(): void;
     componentWillUnmount(): void;
@@ -9,3 +9,4 @@ export default class Container<P extends Props, S = {}> extends React.Component<
     resize(): void;
     render(): JSX.Element;
 }
+export default Container;
