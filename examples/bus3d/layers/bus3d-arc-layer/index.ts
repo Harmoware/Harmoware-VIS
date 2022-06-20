@@ -18,7 +18,7 @@ interface Props extends LayerProps {
     getWidth?: (x: Arcdata) => number,
 }
 
-export default class Bus3dArcLayer extends ArcLayer<Props> {
+class Bus3dArcLayer extends ArcLayer<Props> {
 
   constructor(props: Props) {
     const setProps = assign({}, Bus3dArcLayer.defaultProps, props);
@@ -40,3 +40,4 @@ export default class Bus3dArcLayer extends ArcLayer<Props> {
 
   static layerName = 'Bus3dArcLayer';
 }
+export default Bus3dArcLayer

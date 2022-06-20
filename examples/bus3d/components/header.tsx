@@ -23,73 +23,71 @@ const canvasProps = {
   },
 };
 
-export default class Header extends React.Component<Props> {
+const Header = (props:Props)=>{
+  const { actions, movedData, busoption, bsoptFname, elevationScale, t,
+    clickedObject, delayrange, delayheight, settime } = props
 
-  onBusReleaseClick() {
-    const { actions } = this.props;
-    actions.setClicked(null);
-    actions.setRoutePaths([]);
+  const onBusReleaseClick = ()=>{
+    actions.setClicked(null)
+    actions.setRoutePaths([])
   }
 
-  setDelayHeight(e: React.ChangeEvent<HTMLInputElement>) {
-    const { actions, clickedObject } = this.props;
-    actions.setDelayHeight(+e.target.value);
-    updateRoute(clickedObject, false, this.props);
+  const setDelayHeight = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    actions.setDelayHeight(+e.target.value)
+    updateRoute(clickedObject, false, props)
   }
 
-  setScaleElevation(e: React.ChangeEvent<HTMLInputElement>) {
-    this.props.actions.setScaleElevation(+e.target.value);
+  const setScaleElevation = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    actions.setScaleElevation(+e.target.value)
   }
 
-  render() {
-    const {
-      movedData, busoption, bsoptFname, elevationScale, t,
-      clickedObject, delayrange, delayheight, settime } = this.props;
-    const flg = clickedObject ? clickedObject[0].object.name.match(/^\d+-[12]/) : null;
-    const getClickedInfo = movedData.find((element) => {
-      if (clickedObject && clickedObject[0].object &&
-        clickedObject[0].object.movesbaseidx === element.movesbaseidx) {
-        return true;
+  const flg = React.useMemo(()=>clickedObject ? clickedObject[0].object.name.match(/^\d+-[12]/) : null,[clickedObject])
+
+  const getClickedInfo = movedData.find((element) => {
+    if (clickedObject && clickedObject[0].object &&
+      clickedObject[0].object.movesbaseidx === element.movesbaseidx) {
+      return true
+    }
+    return false
+  })
+
+  return (
+    <div className="bus3d_header">
+      <SimulationDateTime settime={settime} locales={t('locales')} />
+      <span id="bus_count">{movedData.length}&nbsp;{t('Operating')}</span>
+      {Object.keys(busoption).length <= 0 ?
+        <span>{t('busoption')}{t('non')}</span> :
+        <span>{t('busoption')}{`：${bsoptFname}`}</span>
       }
-      return false;
-    });
-    return (
-      <div className="bus3d_header">
-        <SimulationDateTime settime={settime} locales={t('locales')} />
-        <span id="bus_count">{movedData.length}&nbsp;{t('Operating')}</span>
-        {Object.keys(busoption).length <= 0 ?
-          <span>{t('busoption')}{t('non')}</span> :
-          <span>{t('busoption')}{`：${bsoptFname}`}</span>
-        }
-        {Object.keys(busoption).length > 0 &&
-          (busoption.busmovesoption || busoption.busstopsoption) &&
+      {Object.keys(busoption).length > 0 &&
+        (busoption.busmovesoption || busoption.busstopsoption) &&
+        <input
+          type="range" value={elevationScale} min="1" max="20" step="1"
+          onChange={setScaleElevation} title={`${elevationScale}`}
+        />}
+      <br />
+      <span>{t('delayrange')} 0{t('minute')}</span>
+      <CanvasComponent {...canvasProps} />
+      <span>～{delayrange}{t('minute')}</span>
+      {flg && clickedObject && <span>{t('TD_display')}</span>}
+      {flg && clickedObject &&
+        <span>
           <input
-            type="range" value={elevationScale} min="1" max="20" step="1"
-            onChange={this.setScaleElevation.bind(this)} title={`${elevationScale}`}
-          />}
-        <br />
-        <span>{t('delayrange')} 0{t('minute')}</span>
-        <CanvasComponent {...canvasProps} />
-        <span>～{delayrange}{t('minute')}</span>
-        {flg && clickedObject && <span>{t('TD_display')}</span>}
-        {flg && clickedObject &&
+            type="range" value={delayheight} min="0" max="10" step="1"
+            onChange={setDelayHeight} title={`${delayheight}`}
+          />
+        </span>
+      }
+      {getClickedInfo &&
+        <div>
           <span>
-            <input
-              type="range" value={delayheight} min="0" max="10" step="1"
-              onChange={this.setDelayHeight.bind(this)} title={`${delayheight}`}
-            />
+          {t('busInformation')}&nbsp;
+            <button onClick={onBusReleaseClick} title={`${t('release')}`}>{t('release')}</button>
           </span>
-        }
-        {getClickedInfo &&
-          <div>
-            <span>
-            {t('busInformation')}&nbsp;
-              <button onClick={this.onBusReleaseClick.bind(this)} title={`${t('release')}`}>{t('release')}</button>
-            </span>
-            <span>{getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}</span>
-          </div>
-        }
-      </div>
-    );
-  }
+          <span>{getClickedInfo.code} {getClickedInfo.name} {getClickedInfo.memo}</span>
+        </div>
+      }
+    </div>
+  )
 }
+export default Header

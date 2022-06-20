@@ -7,12 +7,17 @@ interface Props {
   depotsData: Bus3dDepotsData[]
 }
 
-const BusStopInfo = (props:Props)=>{
-  const { selectedBusstop, date, depotsData } = props
+const BusStopInfo = ({ selectedBusstop, date, depotsData }:Props)=>{
   const d = new Date(date)
-  const width = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%'
-  const height = selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%'
-  const busstop = depotsData.find((busstopElement) => busstopElement.code === selectedBusstop)
+  const width = React.useMemo(
+    ()=>selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%',
+    [selectedBusstop])
+  const height = React.useMemo(
+    ()=>selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%',
+    [selectedBusstop])
+  const busstop = React.useMemo(
+    ()=>depotsData.find((busstopElement) => busstopElement.code === selectedBusstop),
+    [selectedBusstop,depotsData])
   return (<svg width={width} height={height}>
     {selectedBusstop.length > 0 && selectedBusstop !== '0000' ?
       <rect width={width} height={height} stroke="none" fill="none" /> : null}

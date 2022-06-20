@@ -12,7 +12,7 @@ interface ElementInfo {
   name: string,
   memo: string,
 };
-export default ({ viewport, hovered }: Props) => {
+const InteractionLayer = ({ viewport, hovered }: Props) => {
   // set flags used below to determine if SVG highlight elements should be rendered.
   // if truthy, each flag is replaced with the corresponding element to render.
   const elementInfo: { hovered: { movesbaseidx?: number, code?: string, } | JSX.Element } = {
@@ -49,3 +49,4 @@ export default ({ viewport, hovered }: Props) => {
     </svg>
   );
 };
+export default InteractionLayer

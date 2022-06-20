@@ -6,62 +6,50 @@ interface Props {
   t: (key: string) => string,
 }
 
-interface State {
-  filename: string,
-}
+const XbandDataInput = ({ actions, t }:Props)=>{
+  const [filename,setFilename] = React.useState<string>('')
 
-export default class XbandDataInput extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      filename: '',
-    };
-  }
-
-  onSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const reader = new FileReader();
-    const file = e.target.files[0];
+  const onSelect = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    const reader = new FileReader()
+    const file = e.target.files[0]
     if (!file) {
-      return;
+      return
     }
-    const { actions } = this.props;
-    actions.setLoading(true);
-    reader.readAsText(file);
+    actions.setLoading(true)
+    reader.readAsText(file)
     reader.onload = () => {
-      let readdata = null;
+      let readdata = null
       try {
-        readdata = JSON.parse(reader.result.toString());
+        readdata = JSON.parse(reader.result.toString())
       } catch (exception) {
-        actions.setLoading(false);
-        window.alert(exception);
-        return;
+        actions.setLoading(false)
+        window.alert(exception)
+        return
       }
       if (readdata.length > 0) {
-        const { position, elevation, color } = readdata[0];
+        const { position, elevation, color } = readdata[0]
         if (position && (elevation || color)) {
-          actions.setRainfall(readdata);
-          this.setState({ filename: file.name });
-          actions.setLoading(false);
-          return;
+          actions.setRainfall(readdata)
+          setFilename(file.name)
+          actions.setLoading(false)
+          return
         }
-        actions.setLoading(false);
-        window.alert('雨量データ形式不正');
+        actions.setLoading(false)
+        window.alert('雨量データ形式不正')
       }
-      actions.setRainfall([]);
-      this.setState({ filename: '選択されていません' });
-      actions.setLoading(false);
-    };
+      actions.setRainfall([])
+      setFilename('選択されていません')
+      actions.setLoading(false)
+    }
   }
 
-  render() {
-    const { t } = this.props;
-    return (
-      <div className="harmovis_input_button_column">
-        <label htmlFor="XbandDataInput" title={`${t('XbandDataInput')}`}>{t('XbandDataInput')}
-          <input type="file" accept=".json" onChange={this.onSelect.bind(this)} id="XbandDataInput" />
-        </label>
-        <div>{this.state.filename}</div>
-      </div>
-    );
-  }
+  return (
+    <div className="harmovis_input_button_column">
+      <label htmlFor="XbandDataInput" title={`${t('XbandDataInput')}`}>{t('XbandDataInput')}
+        <input type="file" accept=".json" onChange={onSelect} id="XbandDataInput" />
+      </label>
+      <div>{filename}</div>
+    </div>
+  )
 }
+export default XbandDataInput

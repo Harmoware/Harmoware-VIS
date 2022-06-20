@@ -26,151 +26,138 @@ interface State {
   archLayerChange: boolean,
   arcdata: Arcdata[]
 }
-
-class App extends Container<Props, State> {
-
-  constructor(props: Props) {
-    super(props);
-    const { actions } = props;
-    this.state = {
-      iconChange: false,
-      optionChange: false,
-      archLayerChange: false,
-      arcdata: []
-    };
-  }
-
-  componentDidMount(){
-    super.componentDidMount();
-    this.props.actions.setViewport({
-      longitude:136.2028714130227,latitude:35.9574951366151,zoom:11.1
-    });
-  }
-
-  getIconChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ iconChange: e.target.checked });
-  }
-
-  getOptionChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ optionChange: e.target.checked });
-  }
-
-  getArchLayerChangeChecked(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ archLayerChange: e.target.checked });
-  }
-
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    updateRainfall(nextProps);
-    return { arcdata: updateArcLayerData(nextProps) };
-  }
-  onLoad(){
-    console.log('onLoad')
-    const {actions} = this.props
-    actions.setMovesOptionFunc(getBusOptionValue);
-    actions.setDepotsOptionFunc(getBusstopOptionValue);
-    initializeFetch(actions,'datalist.json');
-  }
-
-  render() {
-    const props = this.props;
-    const {
-      actions, settime, elevationScale, selectedBusstop, rainfall, t,
-      routePaths, xbandCellSize, viewport, hovered, clickedObject,
-      busoption, movedData, movesbase, depotsData, loading } = props;
-
-    const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
-    const onClickBus = (el: Bus3dEventInfo) => {
-      const { movesbaseidx, code } = el.object;
-      if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {
-        actions.setClicked(null);
-        actions.setRoutePaths([]);
-      } else {
-        updateRoute([el] as any[], true, props);
-        actions.setSelectedBus(code);
-      }
-    };
-    const onClickBusstop = (el: Bus3dEventInfo) => {
-      const { code } = el.object;
-      if (selectedBusstop.length > 0 && selectedBusstop === code) {
-        actions.setSelectedBusstop('');
-      } else {
-        actions.setSelectedBusstop(code);
-      }
-    };
-    const date = settime * 1000;
-
-    return (
-      <div>
-        <Header {...props} />
-        <Controller
-          {...props} date={date}
-          getIconChangeChecked={this.getIconChangeChecked.bind(this)}
-          getOptionChangeChecked={this.getOptionChangeChecked.bind(this)}
-          getArchLayerChangeChecked={this.getArchLayerChangeChecked.bind(this)}
-        />
-        <div className="harmovis_footer">
-          <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
-            {t('permission')}</a>&nbsp;
-          longitude:{viewport.longitude}&nbsp;
-          latitude:{viewport.latitude}&nbsp;
-          zoom:{viewport.zoom}&nbsp;
-          bearing:{viewport.bearing}&nbsp;
-          pitch:{viewport.pitch}
-        </div>
-        <div className="harmovis_area">
-          <HarmoVisLayers
-            deckGLProps={{onLoad:this.onLoad.bind(this)}}
-            viewport={viewport}
-            actions={actions}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            layers={[].concat(
-              rainfall.length > 0 ?
-              new XbandmeshLayer({
-                rainfall,
-                layerCellSize: xbandCellSize
-              }):null,
-              depotsData.length > 0 ?
-              new DepotsLayer({
-                depotsData,
-                optionElevationScale: elevationScale,
-                optionCentering: false,
-                optionVisible: 'busstopsoption' in busoption,
-                optionChange: this.state.optionChange,
-                iconChange: this.state.iconChange,
-                onHover,
-                onClick: onClickBusstop,
-                mesh:busstopmesh
-              }):null,
-              movedData.length > 0 ? 
-              new MovesLayer({
-                routePaths,
-                movedData,
-                movesbase,
-                clickedObject,
-                actions,
-                optionElevationScale: elevationScale,
-                optionCentering: !this.state.iconChange,
-                optionVisible: 'busmovesoption' in busoption,
-                optionChange: this.state.optionChange,
-                iconChange: this.state.iconChange,
-                onHover,
-                onClick: onClickBus,
-                mesh:busmesh
-              }):null,
-              !this.state.archLayerChange && this.state.arcdata.length > 0 ?
-              new Bus3dArcLayer({
-                data: this.state.arcdata,
-                visible: !this.state.archLayerChange,
-              }):null
-            )}
-          />
-          <InteractionLayer viewport={viewport} hovered={hovered} />
-          <LoadingIcon loading={loading} />
-          <FpsDisplay />
-        </div>
-      </div>
-    );
-  }
+const initState:State = {
+  iconChange: false,
+  optionChange: false,
+  archLayerChange: false,
+  arcdata: []
 }
 
+const App = (props:Props)=>{
+  const {
+    actions, settime, elevationScale, selectedBusstop, rainfall, t,
+    routePaths, xbandCellSize, viewport, hovered, clickedObject,
+    busoption, movedData, movesbase, depotsData, loading } = props
+
+  const [state,setState] = React.useState<State>(initState)
+  const { iconChange, optionChange, archLayerChange, arcdata } = state
+
+  React.useEffect(()=>{
+    actions.setDefaultViewport({defaultZoom:12.6})
+    actions.setViewport({
+      longitude:136.2028714130227,latitude:35.9574951366151,zoom:12.6
+    })
+    actions.setMovesOptionFunc(getBusOptionValue)
+    actions.setDepotsOptionFunc(getBusstopOptionValue)
+    initializeFetch(actions,'datalist.json')
+  },[])
+
+  React.useEffect(()=>{
+    updateRainfall(props)
+    setState({...state, arcdata:updateArcLayerData(props)})
+  },[props])
+
+  const getIconChangeChecked = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setState({...state, iconChange:e.target.checked})
+  }
+
+  const getOptionChangeChecked = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setState({...state, optionChange:e.target.checked})
+  }
+
+  const getArchLayerChangeChecked = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setState({...state, archLayerChange:e.target.checked});
+  }
+
+  const onHover = (event: Bus3dEventInfo) => actions.setHovered(event);
+
+  const onClickBus = (el: Bus3dEventInfo) => {
+    const { movesbaseidx, code } = el.object
+    if (clickedObject && clickedObject[0].object.movesbaseidx === movesbaseidx) {
+      actions.setClicked(null)
+      actions.setRoutePaths([])
+    } else {
+      updateRoute([el] as any[], true, props)
+      actions.setSelectedBus(code)
+    }
+  }
+
+  const onClickBusstop = (el: Bus3dEventInfo) => {
+    const { code } = el.object
+    if (selectedBusstop.length > 0 && selectedBusstop === code) {
+      actions.setSelectedBusstop('')
+    } else {
+      actions.setSelectedBusstop(code)
+    }
+  }
+
+  const date = settime * 1000
+
+  return (
+    <Container<Props> {...props}>
+      <Header {...props} />
+      <Controller
+        {...props} date={date}
+        getIconChangeChecked={getIconChangeChecked}
+        getOptionChangeChecked={getOptionChangeChecked}
+        getArchLayerChangeChecked={getArchLayerChangeChecked}
+      />
+      <div className="harmovis_footer">
+        <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">
+          {t('permission')}</a>
+        {` longitude:${viewport.longitude} latitude:${viewport.latitude} zoom:${viewport.zoom} bearing:${viewport.bearing} pitch:${viewport.pitch}`}
+      </div>
+      <div className="harmovis_area">
+        <HarmoVisLayers
+          viewport={viewport}
+          actions={actions}
+          mapboxApiAccessToken={MAPBOX_TOKEN}
+          layers={[].concat(
+            rainfall.length > 0 ?
+            new XbandmeshLayer({
+              rainfall,
+              layerCellSize: xbandCellSize
+            }):null,
+            depotsData.length > 0 ?
+            new DepotsLayer({
+              depotsData,
+              optionElevationScale: elevationScale,
+              optionCentering: false,
+              optionVisible: 'busstopsoption' in busoption,
+              optionChange,
+              iconChange,
+              onHover,
+              onClick: onClickBusstop,
+              mesh:busstopmesh
+            }):null,
+            movedData.length > 0 ?
+            new MovesLayer({
+              routePaths,
+              movedData,
+              movesbase,
+              clickedObject,
+              actions,
+              optionElevationScale: elevationScale,
+              optionCentering: !iconChange,
+              optionVisible: 'busmovesoption' in busoption,
+              optionChange,
+              iconChange,
+              onHover,
+              onClick: onClickBus,
+              mesh:busmesh
+            }):null,
+            !archLayerChange && arcdata.length > 0 ?
+            new Bus3dArcLayer({
+              data: arcdata,
+              visible: !archLayerChange,
+            }):null
+          )}
+        />
+        <InteractionLayer viewport={viewport} hovered={hovered} />
+        <LoadingIcon loading={loading} />
+        <FpsDisplay />
+      </div>
+    </Container>
+  )
+}
 export default connectToHarmowareVis(withTranslation()(App), moreActions);

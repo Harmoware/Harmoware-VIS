@@ -13,7 +13,7 @@ interface Props extends LayerProps {
   defaultColor?: number[]
 }
 
-export default class XbandmeshLayer extends CompositeLayer<Props> {
+class XbandmeshLayer extends CompositeLayer<Props> {
 
   constructor(props: Props) {
     super(props);
@@ -72,3 +72,4 @@ export default class XbandmeshLayer extends CompositeLayer<Props> {
       });
   }
 }
+export default XbandmeshLayer
