@@ -23,7 +23,7 @@ interface Props extends LayerProps {
 
 const extensions = [new PathStyleExtension({dash:true})];
 
-export default class LineMapLayer extends CompositeLayer<Props> {
+class LineMapLayer extends CompositeLayer<Props> {
   constructor(props: Props) {
     super(props);
   };
@@ -120,3 +120,4 @@ export default class LineMapLayer extends CompositeLayer<Props> {
     ];
   }
 }
+export default LineMapLayer

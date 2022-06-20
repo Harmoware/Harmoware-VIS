@@ -66,7 +66,7 @@ interface Props extends LayerProps {
   getTranslation?: (x: MovedData) => number[],
 }
 
-export default class MovesLayer extends CompositeLayer<Props> {
+class MovesLayer extends CompositeLayer<Props> {
   constructor(props: Props) {
     super(props);
   };
@@ -264,3 +264,4 @@ export default class MovesLayer extends CompositeLayer<Props> {
     ];
   }
 }
+export default MovesLayer

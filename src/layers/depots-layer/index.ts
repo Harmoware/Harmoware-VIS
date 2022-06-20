@@ -33,7 +33,7 @@ interface Props extends LayerProps {
 
 const defaultmesh = new IcoSphereGeometry();
 
-export default class DepotsLayer extends CompositeLayer<Props> {
+class DepotsLayer extends CompositeLayer<Props> {
   constructor(props: Props) {
     super(props);
   };
@@ -153,3 +153,4 @@ export default class DepotsLayer extends CompositeLayer<Props> {
     ];
   }
 }
+export default DepotsLayer

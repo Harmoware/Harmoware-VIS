@@ -353,7 +353,7 @@ export const onDefaultClick = (event: EventInfo): void => {
     if (deleted) {
       routeDelete(movesbaseidx, props);
     } else {
-      const newClickedObject = clickedObject || [];
+      const newClickedObject = clickedObject ? [...clickedObject] : [];
       newClickedObject.push({ object, layer });
       const setRoutePaths = [];
       const { type, operation:baseoperation } = movesbase[movesbaseidx];

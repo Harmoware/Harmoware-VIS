@@ -20,7 +20,7 @@ interface Props extends InteractiveMapProps{
 let gMapGlprops:Partial<Props>;
 const MapGl = (props:Partial<Props>) => {
   gMapGlprops = props;
-  const [map, setMap] = React.useState(undefined);
+  const [map, setMap] = React.useState<mapboxgl.Map>(undefined);
 
   const stateUpdate = React.useCallback((map:mapboxgl.Map)=>{
     if(gMapGlprops.mapboxAddLayerValue){
@@ -72,7 +72,7 @@ const MapGl = (props:Partial<Props>) => {
 };
 
 const HarmoVisLayers = (props:Partial<Props>)=>{
-  const [transition,setTransition] = React.useState(false as boolean)
+  const [transition,setTransition] = React.useState<boolean>(false)
   const { actions, visible, viewport, mapStyle, mapboxApiAccessToken,
     layers, mapGlComponents, mapboxAddLayerValue, mapboxAddSourceValue,
     terrain, terrainSource, setTerrain, deckGLProps } = props;

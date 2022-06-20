@@ -7,23 +7,32 @@ interface Props {
   className?: string,
   UnitCaption?: string,
 }
+interface State {
+  context: any,
+  saveTime: number,
+  frameCounterArray: number[],
+  fpsRate: number,
+}
+const initState:State = {
+  context: undefined,
+  saveTime: Date.now(),
+  frameCounterArray: [],
+  fpsRate: 0,
+}
 
 const FpsDisplay = (props:Props)=>{
   const { width, height, className, UnitCaption, colorCode } = props;
   const canvas = React.useRef(undefined);
-  const [context,setContext] = React.useState(undefined)
-  const [saveTime,setSaveTime] = React.useState(Date.now() as number)
-  const [frameCounterArray,setFrameCounterArray] = React.useState([] as number[])
-  const [fpsRate,setFpsRate] = React.useState(0 as number)
+  const [state,setState] = React.useState<State>(initState)
+  const { context, saveTime, frameCounterArray, fpsRate } = state
 
   if((Date.now() - saveTime) >= 1000){
     frameCounterArray.push(FpsDisplay.frameCounter);
     if(frameCounterArray.length > (width / 2)){
       frameCounterArray.shift();
     }
-    setSaveTime(Date.now())
-    setFrameCounterArray(frameCounterArray)
-    setFpsRate(FpsDisplay.frameCounter)
+    setState({...state,
+      saveTime:Date.now(), frameCounterArray, fpsRate:FpsDisplay.frameCounter})
     FpsDisplay.frameCounter = 1;
   }else{
     FpsDisplay.frameCounter = FpsDisplay.frameCounter + 1;
@@ -32,7 +41,7 @@ const FpsDisplay = (props:Props)=>{
   React.useEffect(()=>{
     if(canvas.current !== undefined){
       const context = canvas.current.getContext('2d');
-      setContext(context)
+      setState({...state, context})
     }
   },[canvas])
 

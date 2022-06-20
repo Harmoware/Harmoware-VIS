@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { BasedProps as Props } from '../types';
+import { BasedProps } from '../types';
 
-export default class Container<P extends Props, S = {}> extends React.Component<P, S> {
+class Container<P extends BasedProps, S = {}> extends React.Component<P, S> {
 
   constructor(props: P) {
     super(props);
-    this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
+    this.animate = this.animate.bind(this)
+    this.resize = this.resize.bind(this)
+    this.animationFrame = window.requestAnimationFrame(this.animate);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resize.bind(this));
+    window.addEventListener('resize', this.resize);
     this.resize();
   }
 
@@ -35,7 +37,7 @@ export default class Container<P extends Props, S = {}> extends React.Component<
     } else {
       this.props.actions.setTimeStamp(this.props);
     }
-    this.animationFrame = window.requestAnimationFrame(this.animate.bind(this));
+    this.animationFrame = window.requestAnimationFrame(this.animate);
   }
 
   resize() {
@@ -49,3 +51,4 @@ export default class Container<P extends Props, S = {}> extends React.Component<
     return (<>{this.props.children}</>)
   }
 }
+export default Container
