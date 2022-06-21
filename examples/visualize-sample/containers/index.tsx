@@ -77,34 +77,44 @@ const App = (props:BasedProps)=>{
     }
   }
 
-  const iconFollwNext = async (movesbaseidx:number)=>{
+  const iconFollwNext = async (movesbaseidx:number,settime:number,index:number=-1)=>{
     await Promise.resolve()
     const base = movesbase[movesbaseidx];
-    if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
-      if (!animatePause && !loopEndPause) {
-        let next = undefined;
-        let direction = 0;
-        const nextIdx = base.operation.findIndex(x=>x.elapsedtime > settime);
-        if (!animateReverse) {
-          next = base.operation[nextIdx];
-          if(nextIdx === base.operation.length - 1){
-            direction = base.operation[nextIdx-1].direction;
-          }else{
-            direction = base.operation[nextIdx].direction;
-          }
+    if(base && base.operation){
+      let nextOperation = undefined;
+      let prevOperation = undefined;
+      let direction = 0;
+      let nextIdx = index
+      if(settime > 0){
+        nextIdx = base.operation.findIndex(x=>x.elapsedtime > settime);
+      }
+      const prevIdx = nextIdx-1
+      if (!animateReverse) {
+        nextOperation = base.operation[nextIdx];
+        prevOperation = base.operation[prevIdx];
+        if(nextIdx === base.operation.length - 1){
+          direction = base.operation[prevIdx].direction;
         }else{
-          next = base.operation[nextIdx-1];
-          direction = base.operation[nextIdx-1].direction;
+          direction = base.operation[nextIdx].direction;
         }
-        if(next && next.position){
-          const transitionDuration = (Math.abs(next.elapsedtime - settime)/3.6) * secperhour;
-          actions.setViewport({
-            longitude:next.position[0], latitude:next.position[1], bearing:direction,
-            transitionDuration,
-          });
-          App.follwTimerId = setTimeout(iconFollwNext,transitionDuration,movesbaseidx);
-          App.followingiconId = movesbaseidx
+      }else{
+        nextOperation = base.operation[prevIdx];
+        prevOperation = base.operation[nextIdx];
+        direction = base.operation[prevIdx].direction;
+      }
+      if(nextOperation && nextOperation.position){
+        let transitionDuration = 0;
+        if(settime > 0){
+          transitionDuration = (Math.abs(nextOperation.elapsedtime - settime)/3.6) * secperhour;
+        }else{
+          transitionDuration = (Math.abs(nextOperation.elapsedtime - prevOperation.elapsedtime)/3.6) * secperhour;
         }
+        actions.setViewport({
+          longitude:nextOperation.position[0], latitude:nextOperation.position[1], bearing:direction,
+          transitionDuration,
+        });
+        App.follwTimerId = setTimeout(iconFollwNext,transitionDuration,movesbaseidx,-1,animateReverse?prevIdx:nextIdx+1);
+        App.followingiconId = movesbaseidx
       }
     }
   }
@@ -167,7 +177,7 @@ const App = (props:BasedProps)=>{
       actions.setViewport({
         longitude:data.position[0], latitude:data.position[1], bearing:data.direction
       });
-      setTimeout(iconFollwNext,0,movesbaseidx);
+      setTimeout(iconFollwNext,0,movesbaseidx,settime);
       App.followingiconId = movesbaseidx
       return;
     }
