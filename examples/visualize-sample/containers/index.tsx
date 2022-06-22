@@ -55,12 +55,89 @@ const initState:State = {
   terrain: false
 }
 
+class IconFollow extends React.Component<BasedProps>{
+  constructor(props:BasedProps){
+    super(props)
+    this.follwTimerId = null
+    this.followingiconId = -1
+    this.iconFollwNext = this.iconFollwNext.bind(this)
+    this.getFollowingiconIdSelected = this.getFollowingiconIdSelected.bind(this)
+    this.onTransitionInterrupt = this.onTransitionInterrupt.bind(this)
+  }
+  follwTimerId: NodeJS.Timeout
+  followingiconId: number
+
+  async iconFollwNext(movesbaseidx:number){
+    await Promise.resolve()
+    const {animateReverse,animatePause,loopEndPause,movesbase,settime,secperhour,actions} = this.props;
+    const base = movesbase[movesbaseidx];
+    if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
+      if (!animatePause && !loopEndPause) {
+        let next = undefined;
+        let direction = 0;
+        const nextIdx = base.operation.findIndex(x=>x.elapsedtime > settime);
+        if (!animateReverse) {
+          next = base.operation[nextIdx];
+          if(nextIdx === base.operation.length - 1){
+            direction = base.operation[nextIdx-1].direction;
+          }else{
+            direction = base.operation[nextIdx].direction;
+          }
+        }else{
+          next = base.operation[nextIdx-1];
+          direction = base.operation[nextIdx-1].direction;
+        }
+        if(next && next.position){
+          const transitionDuration = (Math.abs(next.elapsedtime - settime)/3.6) * secperhour;
+          actions.setViewport({
+            longitude:next.position[0], latitude:next.position[1], bearing:direction,
+            transitionDuration,
+          });
+          this.follwTimerId = setTimeout(this.iconFollwNext,transitionDuration,movesbaseidx);
+          this.followingiconId = movesbaseidx
+        }
+      }
+    }
+  }
+
+  getFollowingiconIdSelected(e: React.ChangeEvent<HTMLSelectElement>){
+    clearTimeout(this.follwTimerId);
+    this.follwTimerId = null
+    const movesbaseidx:number = +e.target.value;
+    if(movesbaseidx < 0) return;
+    const data = this.props.movedData.find(x=>x.movesbaseidx === movesbaseidx);
+    if(data && data.position){
+      this.props.actions.setViewport({
+        longitude:data.position[0], latitude:data.position[1], bearing:data.direction
+      });
+      setTimeout(this.iconFollwNext,0,movesbaseidx);
+      this.followingiconId = movesbaseidx
+      return;
+    }
+    this.followingiconId = -1
+  }
+
+  onTransitionInterrupt(){
+    const {follwTimerId} = this
+    if(follwTimerId){
+      console.log('follwTimerId')
+      clearTimeout(follwTimerId);
+      this.follwTimerId = null
+      this.followingiconId = -1
+    }
+  }
+
+  render(){
+    return (<>{this.props.children}</>)
+  }
+}
+
 const App = (props:BasedProps)=>{
   const { actions, routePaths, viewport, loading,
-    animateReverse,animatePause,loopEndPause,settime,secperhour,
     clickedObject, movedData, movesbase, depotsData, linemapData } = props;
 
   const [state,setState] = React.useState<State>(initState)
+  const iconFollowRef = React.useRef(undefined)
 
   const viewportPlayback = async (viewportArray: Viewport[])=>{
     if(viewportArray && viewportArray.length > 0){
@@ -74,48 +151,6 @@ const App = (props:BasedProps)=>{
         App.playbackTimerId = setTimeout(viewportPlayback,timeoutValue,viewportArrayBase);
     }else{
       App.playbackTimerId = null
-    }
-  }
-
-  const iconFollwNext = async (movesbaseidx:number,settime:number,index:number=-1)=>{
-    await Promise.resolve()
-    const base = movesbase[movesbaseidx];
-    if(base && base.operation){
-      let nextOperation = undefined;
-      let prevOperation = undefined;
-      let direction = 0;
-      let nextIdx = index
-      if(settime > 0){
-        nextIdx = base.operation.findIndex(x=>x.elapsedtime > settime);
-      }
-      const prevIdx = nextIdx-1
-      if (!animateReverse) {
-        nextOperation = base.operation[nextIdx];
-        prevOperation = base.operation[prevIdx];
-        if(nextIdx === base.operation.length - 1){
-          direction = base.operation[prevIdx].direction;
-        }else{
-          direction = base.operation[nextIdx].direction;
-        }
-      }else{
-        nextOperation = base.operation[prevIdx];
-        prevOperation = base.operation[nextIdx];
-        direction = base.operation[prevIdx].direction;
-      }
-      if(nextOperation && nextOperation.position){
-        let transitionDuration = 0;
-        if(settime > 0){
-          transitionDuration = (Math.abs(nextOperation.elapsedtime - settime)/3.6) * secperhour;
-        }else{
-          transitionDuration = (Math.abs(nextOperation.elapsedtime - prevOperation.elapsedtime)/3.6) * secperhour;
-        }
-        actions.setViewport({
-          longitude:nextOperation.position[0], latitude:nextOperation.position[1], bearing:direction,
-          transitionDuration,
-        });
-        App.follwTimerId = setTimeout(iconFollwNext,transitionDuration,movesbaseidx,-1,animateReverse?prevIdx:nextIdx+1);
-        App.followingiconId = movesbaseidx
-      }
     }
   }
 
@@ -168,20 +203,7 @@ const App = (props:BasedProps)=>{
   }
 
   const getFollowingiconIdSelected = (e: React.ChangeEvent<HTMLSelectElement>)=>{
-    clearTimeout(App.follwTimerId);
-    App.follwTimerId = null
-    const movesbaseidx:number = +e.target.value;
-    if(movesbaseidx < 0) return;
-    const data = movedData.find(x=>x.movesbaseidx === movesbaseidx);
-    if(data && data.position){
-      actions.setViewport({
-        longitude:data.position[0], latitude:data.position[1], bearing:data.direction
-      });
-      setTimeout(iconFollwNext,0,movesbaseidx,settime);
-      App.followingiconId = movesbaseidx
-      return;
-    }
-    App.followingiconId = -1
+    iconFollowRef.current.getFollowingiconIdSelected(e)
   }
 
   const getHeatmapVisible = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -272,13 +294,8 @@ const App = (props:BasedProps)=>{
 
   const onTransitionInterrupt = ()=>{
     console.log('onTransitionInterrupt')
-    const {follwTimerId, playbackTimerId} = App
-    if(follwTimerId){
-      console.log('follwTimerId')
-      clearTimeout(follwTimerId);
-      App.follwTimerId = null
-      App.followingiconId = -1
-    }
+    iconFollowRef.current.onTransitionInterrupt()
+    const {playbackTimerId} = App
     if(playbackTimerId){
       console.log('playbackTimerId')
       clearTimeout(playbackTimerId);
@@ -290,14 +307,16 @@ const App = (props:BasedProps)=>{
   const hexagonData = state.heatmapVisible ? movedData.filter(x=>x.position):[]
   const PointCloudData = movedData.filter((x:any)=>x.pointCloud)
   const sizeScale = React.useMemo(()=>(Math.max(17 - viewport.zoom,2)**2)*2,[viewport.zoom]);
+  const followingiconId = iconFollowRef.current === undefined ? -1 : iconFollowRef.current.followingiconId
 
   return (
     <Container<BasedProps> {...props}>
+      <IconFollow ref={iconFollowRef} {...props}>
       <Controller
         {...props}
         mapStyleNo={state.mapStyleNo}
         iconCubeType={state.iconCubeType}
-        followingiconId={App.followingiconId}
+        followingiconId={followingiconId}
         getMapboxChecked={getMapboxChecked}
         getMapStyleSelected={getMapStyleSelected}
         getTerrainChecked={getTerrainChecked}
@@ -416,11 +435,10 @@ const App = (props:BasedProps)=>{
       </svg>
       <LoadingIcon loading={loading} />
       <FpsDisplay />
+      </IconFollow>
     </Container>
   );
 }
 App.playbackTimerId = null as NodeJS.Timeout
-App.follwTimerId = null as NodeJS.Timeout
-App.followingiconId = -1 as number
 
 export default connectToHarmowareVis(App);
