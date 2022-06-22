@@ -127,6 +127,30 @@ class IconFollow extends React.Component<BasedProps>{
     }
   }
 
+  componentDidUpdate(prevProps:BasedProps) {
+    if(this.follwTimerId){
+      const {animateReverse,animatePause,loopEndPause,secperhour,actions,movedData} = this.props;
+      if(animateReverse !== prevProps.animateReverse || animatePause !== prevProps.animatePause ||
+        loopEndPause !== prevProps.loopEndPause || secperhour !== prevProps.secperhour){
+        clearTimeout(this.follwTimerId);
+        this.follwTimerId = null
+        if(this.followingiconId >= 0){
+          const findData = movedData.find(x=>x.movesbaseidx===this.followingiconId)
+          if(findData !== undefined){
+            actions.setViewport({
+              longitude:findData.position[0], latitude:findData.position[1]
+            });
+            if(!animatePause){
+              setTimeout(this.iconFollwNext,0,this.followingiconId);
+              return
+            }
+          }
+        }
+        this.followingiconId = -1
+      }
+    }
+  }
+
   render(){
     return (<>{this.props.children}</>)
   }
