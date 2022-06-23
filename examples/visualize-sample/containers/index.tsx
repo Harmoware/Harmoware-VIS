@@ -55,7 +55,7 @@ const initState:State = {
   terrain: false
 }
 
-class IconFollow extends React.Component<BasedProps>{
+class IconFollow extends Container<BasedProps>{
   constructor(props:BasedProps){
     super(props)
     this.follwTimerId = null
@@ -334,8 +334,7 @@ const App = (props:BasedProps)=>{
   const followingiconId = iconFollowRef.current === undefined ? -1 : iconFollowRef.current.followingiconId
 
   return (
-    <Container<BasedProps> {...props}>
-      <IconFollow ref={iconFollowRef} {...props}>
+    <IconFollow ref={iconFollowRef} {...props}>
       <Controller
         {...props}
         mapStyleNo={state.mapStyleNo}
@@ -459,8 +458,7 @@ const App = (props:BasedProps)=>{
       </svg>
       <LoadingIcon loading={loading} />
       <FpsDisplay />
-      </IconFollow>
-    </Container>
+    </IconFollow>
   );
 }
 App.playbackTimerId = null as NodeJS.Timeout
