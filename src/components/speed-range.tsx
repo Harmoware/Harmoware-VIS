@@ -17,13 +17,14 @@ interface Props {
 const SpeedRange = (props:Props)=>{
   const { actions, secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
     min:prop_min, step, id, className, title: propTitle } = props;
-  const title = React.useMemo(()=>propTitle || `${secperhour}`,[propTitle,secperhour]);
+  const title = React.useMemo(()=>propTitle ||
+    secperhour ? `${secperhour}` : `${multiplySpeed}` ,[secperhour,multiplySpeed]);
 
   const setSecPerHour = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
     const secperhour = (maxsecperhour + prop_min) - (value|0);
     actions.setSecPerHour(secperhour);
-  },[maxsecperhour,prop_min])
+  },[])
 
   const setMultiplySpeed = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
@@ -31,7 +32,7 @@ const SpeedRange = (props:Props)=>{
     actions.setMultiplySpeed(multiplySpeed);
   },[])
 
-  return (
+  const Result = React.useMemo(()=>
     secperhour ?
     <input
       type="range"
@@ -48,8 +49,9 @@ const SpeedRange = (props:Props)=>{
       onChange={setMultiplySpeed}
       id={id} className={className} title={title}
     />
-    :<p>SpeedRange props error!</p>
-  )
+    :<p>SpeedRange props error!</p>,[title,secperhour,multiplySpeed])
+
+  return Result
 }
 SpeedRange.defaultProps = {
   maxsecperhour: 3600,

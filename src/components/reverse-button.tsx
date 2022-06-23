@@ -17,21 +17,21 @@ const ReverseButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
   const title = React.useMemo(
     ()=>propTitle || (children && children.toString()) || i18n.reverseButtonCaption,
-    [propTitle,children,i18n.reverseButtonCaption]);
+    [children,i18n.reverseButtonCaption]);
 
   const setAnimateReverse = ()=>{
     props.actions.setAnimateReverse(true);
   }
 
-  return (
+  const Result = React.useMemo(()=>
     <button onClick={setAnimateReverse} className={className} title={title}>
       {children === undefined ?
         <span style={default_style}>
         <Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
         <span>{children}</span>
-      }
-    </button>
-  );
+      }</button>,[title,children,i18n.reverseButtonCaption])
+
+  return Result
 }
 ReverseButton.defaultProps = {
   i18n: {

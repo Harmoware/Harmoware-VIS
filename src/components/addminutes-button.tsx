@@ -18,22 +18,27 @@ const AddMinutesButton = (props:Props)=>{
   const { addMinutes:prop_addMinutes, children, i18n, className, title: propTitle } = props;
   const title = React.useMemo(
     ()=>propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`,
-    [propTitle,children,prop_addMinutes,i18n.minutesCaption]);
+    [children,i18n.minutesCaption]);
+
+  const defaultCaption = React.useMemo(()=>
+    <span style={default_style}>
+      {prop_addMinutes > 0 ? <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />}
+      {` ${prop_addMinutes} ${i18n.minutesCaption}`}
+    </span>,[i18n.minutesCaption])
+
+  const caption = React.useMemo(()=>
+    children === undefined ? <>{defaultCaption}</> : <span>{children}</span>,
+    [children,i18n.minutesCaption])
 
   const func_addMinutes = (minutes: number)=>{
     props.actions.addMinutes(minutes);
   }
 
-  return (
+  const Result = React.useMemo(()=>
     <button onClick={()=>func_addMinutes(prop_addMinutes)} className={className} title={title}>
-      {children === undefined ?
-        <span style={default_style}>{prop_addMinutes > 0 ?
-          <Icon icon={icFastForward} /> : <Icon icon={icFastRewind} />
-        }&nbsp;{prop_addMinutes}&nbsp;{i18n.minutesCaption}</span> :
-        <span>{children}</span>
-      }
-    </button>
-  );
+      {caption}</button>,[children,i18n.minutesCaption])
+
+  return Result;
 
 }
 AddMinutesButton.defaultProps = {

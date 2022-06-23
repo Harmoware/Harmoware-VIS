@@ -23,42 +23,45 @@ const NavigationButton = (props:Props)=>{
     props.actions.setDefaultViewport(undefined);
   }
 
-  switch (buttonType) {
-    case 'zoom-in': {
-      const title = propTitle || buttonType;
-      const zoom = min(viewport.zoom + 0.5, viewport.maxZoom);
-      return (
-        <button
-          onClick={()=>setViewport({ zoom })}
-          className={className} title={title}
-        >＋</button>
-      );
+  const Result = React.useCallback(()=>{
+    switch (buttonType) {
+      case 'zoom-in': {
+        const title = propTitle || buttonType;
+        const zoom = min(viewport.zoom + 0.5, viewport.maxZoom);
+        return (
+          <button
+            onClick={()=>setViewport({ zoom })}
+            className={className} title={title}
+          >＋</button>
+        );
+      }
+      case 'zoom-out': {
+        const title = propTitle || buttonType;
+        const zoom = max(viewport.zoom - 0.5, viewport.minZoom);
+        return (
+          <button
+            onClick={()=>setViewport({ zoom })}
+            className={className} title={title}
+          >－</button>
+        );
+      }
+      case 'compass': {
+        const title = propTitle || 'Viewpoint reset';
+        const iconStyle = { transform: `rotate(${-viewport.bearing}deg)` };
+        return (
+          <button
+            onClick={setDefaultViewport}
+            className={className} title={title}
+          >
+            <div style={iconStyle}><Icon icon={icNavigation} /></div>
+          </button>
+        );
+      }
+      default:
+        return null;
     }
-    case 'zoom-out': {
-      const title = propTitle || buttonType;
-      const zoom = max(viewport.zoom - 0.5, viewport.minZoom);
-      return (
-        <button
-          onClick={()=>setViewport({ zoom })}
-          className={className} title={title}
-        >－</button>
-      );
-    }
-    case 'compass': {
-      const title = propTitle || 'Viewpoint reset';
-      const iconStyle = { transform: `rotate(${-viewport.bearing}deg)` };
-      return (
-        <button
-          onClick={setDefaultViewport}
-          className={className} title={title}
-        >
-          <div style={iconStyle}><Icon icon={icNavigation} /></div>
-        </button>
-      );
-    }
-    default:
-      return null;
-  }
+  },[viewport.zoom,viewport.bearing])
+  return Result()
 }
 NavigationButton.defaultProps = {
   className: 'harmovis_button'

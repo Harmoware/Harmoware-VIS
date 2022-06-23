@@ -17,14 +17,12 @@ interface Props {
 const ElapsedTimeRange = (props:Props)=>{
   const { actions, settime, timeBegin, timeLength,
     min, step, id, className, title: propTitle } = props;
-  const title = React.useMemo(
-    ()=>propTitle || `${safeSubtract(settime, timeBegin)|0}`,
-    [propTitle,settime,timeBegin]);
+  const title = propTitle || `${safeSubtract(settime, timeBegin)|0}`
 
-  const setTime = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
+  const setTime = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const value = safeCheck(+e.target.value);
     actions.setTime(safeAdd(value, timeBegin)|0);
-  },[timeBegin])
+  }
 
   return (
     <input
@@ -34,7 +32,7 @@ const ElapsedTimeRange = (props:Props)=>{
       onChange={setTime}
       id={id} className={className} title={title}
     />
-  );
+  )
 }
 ElapsedTimeRange.defaultProps = {
   min: -100,

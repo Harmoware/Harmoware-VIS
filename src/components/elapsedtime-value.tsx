@@ -15,11 +15,11 @@ interface Props {
 const ElapsedTimeValue = (props:Props)=>{
   const { actions, settime, timeBegin, timeLength, min:prop_min, id, className } = props;
 
-  const setTime = React.useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
+  const setTime = (e: React.ChangeEvent<HTMLInputElement>)=>{
     const value = safeCheck(+e.target.value);
     const settime = Math.min(timeLength, Math.max(prop_min, value));
     actions.setTime(safeAdd(settime, timeBegin)|0);
-  },[timeLength,prop_min,timeBegin])
+  }
 
   return (
     <input

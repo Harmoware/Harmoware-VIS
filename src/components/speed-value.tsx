@@ -28,7 +28,7 @@ const SpeedValue = (props:Props)=>{
     actions.setMultiplySpeed(multiplySpeed);
   },[maxmultiplySpeed,prop_min])
 
-  return (
+  const Result = React.useMemo(()=>
     secperhour ?
     <input
       type="number"
@@ -45,8 +45,9 @@ const SpeedValue = (props:Props)=>{
       onChange={setMultiplySpeed}
       id={id} className={className}
     />
-    :<p>SpeedValue props error!</p>
-  )
+    :<p>SpeedValue props error!</p>,[secperhour,multiplySpeed])
+
+  return Result
 }
 SpeedValue.defaultProps = {
   maxsecperhour: 3600,
