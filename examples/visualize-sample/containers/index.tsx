@@ -140,7 +140,7 @@ class IconFollow extends React.Component<BasedProps>{
             actions.setViewport({
               longitude:findData.position[0], latitude:findData.position[1]
             });
-            if(!animatePause){
+            if(!animatePause && !loopEndPause){
               setTimeout(this.iconFollwNext,0,this.followingiconId);
               return
             }
