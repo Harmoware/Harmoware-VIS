@@ -132,62 +132,75 @@ const Controller = (props:Props)=>{
     <div className="vis_sample_controller">
       <div className="container">
         <ul className="list-group">
+          {React.useMemo(()=>
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100" title='運行データ選択'>
+                  運行データ選択<MovesInput actions={actions} id="MovesInput" />
+                </label>
+                <div>{movesFileName || '選択されていません'}</div>
+              </div>
+            </li>
+          ,[movesFileName])}
+          {React.useMemo(()=>
+            <li>
+              <div className="form-select" title='移動アイコン追従'>
+                <label htmlFor="IconFollowSelect" className="form-select-label">移動アイコン追従</label>
+                <select id="IconFollowSelect" value={followingiconId} onChange={getFollowingiconIdSelected} >
+                <option value="-1">追従なし</option>
+                {movedData.map(x=><option value={x.movesbaseidx} key={x.movesbaseidx}>{x.movesbaseidx}</option>)}
+                </select>
+              </div>
+            </li>
+          ,[followingiconId,movedData])}
+          {React.useMemo(()=>
+            <><li></li>
+              <li>
+                <div className="vis_sample_input_button_column">
+                  <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100" title='停留所データ選択'>
+                    停留所データ選択<DepotsInput actions={actions} id="DepotsInput" />
+                  </label>
+                  <div>{depotsFileName || '選択されていません'}</div>
+                </div>
+              </li>
+            </>
+          ,[depotsFileName])}
+          {React.useMemo(()=>
+          <><li></li>
+            <li>
+              <div className="vis_sample_input_button_column">
+                <label htmlFor="LinemapInput" className="btn btn-outline-light btn-sm w-100" title='ラインマップデータ選択'>
+                  ラインマップデータ選択<LinemapInput actions={actions} id="LinemapInput" />
+                </label>
+                <div>{linemapFileName || '選択されていません'}</div>
+              </div>
+            </li><li></li>
+          </>
+          ,[linemapFileName])}
           <li>
-            <div className="vis_sample_input_button_column">
-              <label htmlFor="MovesInput" className="btn btn-outline-light btn-sm w-100" title='運行データ選択'>
-                運行データ選択<MovesInput actions={actions} id="MovesInput" />
-              </label>
-              <div>{movesFileName || '選択されていません'}</div>
-            </div>
-          </li>
-          <li>
-            <div className="form-select" title='移動アイコン追従'>
-              <label htmlFor="IconFollowSelect" className="form-select-label">移動アイコン追従</label>
-              <select id="IconFollowSelect" value={followingiconId} onChange={getFollowingiconIdSelected} >
-              <option value="-1">追従なし</option>
-              {movedData.map(x=><option value={x.movesbaseidx} key={x.movesbaseidx}>{x.movesbaseidx}</option>)}
-              </select>
-            </div>
-          </li>
-          <li></li>
-          <li>
-            <div className="vis_sample_input_button_column">
-              <label htmlFor="DepotsInput" className="btn btn-outline-light btn-sm w-100" title='停留所データ選択'>
-                停留所データ選択<DepotsInput actions={actions} id="DepotsInput" />
-              </label>
-              <div>{depotsFileName || '選択されていません'}</div>
-            </div>
-          </li>
-          <li></li>
-          <li>
-            <div className="vis_sample_input_button_column">
-              <label htmlFor="LinemapInput" className="btn btn-outline-light btn-sm w-100" title='ラインマップデータ選択'>
-                ラインマップデータ選択<LinemapInput actions={actions} id="LinemapInput" />
-              </label>
-              <div>{linemapFileName || '選択されていません'}</div>
-            </div>
-          </li>
-          <li></li>
-          <li>
-            <span onClick={listExpansion.bind(Controller,'expand1')} >
-              <a style={{'cursor':'pointer'}} >▼ 表示切替スイッチパネル</a>
-            </span>
+            {React.useMemo(()=>
+              <span onClick={listExpansion.bind(Controller,'expand1')} >
+                <a style={{'cursor':'pointer'}} >▼ 表示切替スイッチパネル</a>
+              </span>
+            ,[])}
             <ul className="list-group">
               <span id="expand1" style={{'display': 'none','clear': 'both'}}>
                 <li>
                   <Checkbox id="MapboxChecked" onChange={getMapboxChecked} title='Mapboxマップ表示' defaultChecked={true} />
                 </li>
                 <li>
-                  <div className="form-select" title='マップスタイル切替'>
-                    <label htmlFor="MapStyleSelected" className="form-select-label">マップスタイル切替</label>
-                    <select id="MapStyleSelected" value={mapStyleNo} onChange={getMapStyleSelected} >
-                    <option value="0">dark</option>
-                    <option value="1">light</option>
-                    <option value="2">streets</option>
-                    <option value="3">satellite</option>
-                    <option value="4">outdoors</option>
-                    </select>
-                  </div>
+                  {React.useMemo(()=>
+                    <div className="form-select" title='マップスタイル切替'>
+                      <label htmlFor="MapStyleSelected" className="form-select-label">マップスタイル切替</label>
+                      <select id="MapStyleSelected" value={mapStyleNo} onChange={getMapStyleSelected} >
+                      <option value="0">dark</option>
+                      <option value="1">light</option>
+                      <option value="2">streets</option>
+                      <option value="3">satellite</option>
+                      <option value="4">outdoors</option>
+                      </select>
+                    </div>
+                  ,[mapStyleNo])}
                 </li>
                 <li>
                   <Checkbox id="TerrainChecked" onChange={getTerrainChecked} title='３Ｄ地形表示' />
@@ -201,15 +214,17 @@ const Controller = (props:Props)=>{
                 <li>
                   <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title='アイコン表示パターン切替' defaultChecked={true} />
                 </li>
-                <li>
-                  <div className="form-select" title='３Ｄアイコン表示タイプ切替'>
-                    <label htmlFor="IconCubeTypeSelect" className="form-select-label">３Ｄアイコン表示タイプ切替</label>
-                    <select id="IconCubeTypeSelect" value={iconCubeType} onChange={getIconCubeTypeSelected} >
-                    <option value="0">SimpleMeshLayer</option>
-                    <option value="1">ScenegraphLayer</option>
-                    </select>
-                  </div>
-                </li>
+                {React.useMemo(()=>
+                  <li>
+                    <div className="form-select" title='３Ｄアイコン表示タイプ切替'>
+                      <label htmlFor="IconCubeTypeSelect" className="form-select-label">３Ｄアイコン表示タイプ切替</label>
+                      <select id="IconCubeTypeSelect" value={iconCubeType} onChange={getIconCubeTypeSelected} >
+                      <option value="0">SimpleMeshLayer</option>
+                      <option value="1">ScenegraphLayer</option>
+                      </select>
+                    </div>
+                  </li>
+                ,[iconCubeType])}
                 <li>
                   <Checkbox id="MoveSvgChecked" onChange={getMoveSvgChecked} title='運行データSVG表示' />
                 </li>
@@ -234,43 +249,51 @@ const Controller = (props:Props)=>{
               </span>
             </ul>
           </li>
-          <li></li>
-          <li><span>ナビゲーションパネル</span>
-            <div className="btn-group d-flex" role="group">
-              <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
-              <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
-              <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
-            </div>
-          </li>
-          <li>
-            <div className="vis_sample_input_button_column">
-              <label htmlFor="ViewportInput" className="btn btn-outline-light btn-sm w-100" title='視点移動データ選択'>
-                視点移動データ選択<ViewportInput getViewport={getViewport} id="ViewportInput" />
-              </label>
-            </div>
-          </li>
-          <li></li>
-          <li><span>コントロールパネル</span>
-            <div className="btn-group d-flex" role="group">
-              {animatePause ?
-                <PlayButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
-                <PauseButton actions={actions} className="btn btn-outline-light btn-sm w-100" />
-              }
-              {animateReverse ?
-                <ForwardButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
-                <ReverseButton actions={actions} className="btn btn-outline-light btn-sm w-100" />
-              }
-            </div>
-            <div className="btn-group d-flex" role="group">
-              <AddMinutesButton addMinutes={-10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-              <AddMinutesButton addMinutes={-5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-            </div>
-            <div className="btn-group d-flex" role="group">
-              <AddMinutesButton addMinutes={5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-              <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
-            </div>
-          </li>
-          <li></li>
+          {React.useMemo(()=>
+            <><li></li>
+              <li><span>ナビゲーションパネル</span>
+                <div className="btn-group d-flex" role="group">
+                  <NavigationButton buttonType="zoom-in" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+                  <NavigationButton buttonType="zoom-out" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+                  <NavigationButton buttonType="compass" actions={actions} viewport={viewport} className="btn btn-outline-light btn-sm w-100" />
+                </div>
+              </li>
+            </>
+          ,[viewport])}
+          {React.useMemo(()=>
+            <><li>
+                <div className="vis_sample_input_button_column">
+                  <label htmlFor="ViewportInput" className="btn btn-outline-light btn-sm w-100" title='視点移動データ選択'>
+                    視点移動データ選択<ViewportInput getViewport={getViewport} id="ViewportInput" />
+                  </label>
+                </div>
+              </li>
+              <li></li>
+            </>
+          ,[])}
+          {React.useMemo(()=>
+            <><li><span>コントロールパネル</span>
+                <div className="btn-group d-flex" role="group">
+                  {animatePause ?
+                    <PlayButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
+                    <PauseButton actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                  }
+                  {animateReverse ?
+                    <ForwardButton actions={actions} className="btn btn-outline-light btn-sm w-100" /> :
+                    <ReverseButton actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                  }
+                </div>
+                <div className="btn-group d-flex" role="group">
+                  <AddMinutesButton addMinutes={-10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                  <AddMinutesButton addMinutes={-5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                </div>
+                <div className="btn-group d-flex" role="group">
+                  <AddMinutesButton addMinutes={5} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                  <AddMinutesButton addMinutes={10} actions={actions} className="btn btn-outline-light btn-sm w-100" />
+                </div>
+              </li><li></li>
+            </>
+          ,[animatePause,animateReverse])}
           <li>
             再現中日時&nbsp;<SimulationDateTime settime={settime} />
           </li>
@@ -286,43 +309,55 @@ const Controller = (props:Props)=>{
             </label>
             <ElapsedTimeRange settime={settime} timeLength={timeLength} timeBegin={timeBegin} actions={actions} id="ElapsedTimeRange" />
           </li>
+          {React.useMemo(()=>
+            <li>
+              <label htmlFor="SpeedRange">スピード<SpeedValue multiplySpeed={multiplySpeed} actions={actions} />倍速</label>
+              <SpeedRange multiplySpeed={multiplySpeed} actions={actions} id="SpeedRange" />
+            </li>
+          ,[multiplySpeed])}
+          {React.useMemo(()=>
+            <><li></li>
+              <li>
+                開始 UNIX TIME 設定&nbsp;<input type="number" value={timeBegin} onChange={e=>actions.setTimeBegin(+e.target.value)} className="harmovis_input_number" />
+              </li>
+              <li>
+                開始 日付&nbsp;{(new Date(timeBegin * 1000)).toLocaleString('ja-JP',
+                  {year: 'numeric',month: '2-digit',day: '2-digit',hour: '2-digit',minute: '2-digit',second: '2-digit',weekday: 'short' })}
+              </li><li></li>
+            </>
+          ,[timeBegin])}
           <li>
-            <label htmlFor="SpeedRange">スピード<SpeedValue multiplySpeed={multiplySpeed} actions={actions} />倍速</label>
-            <SpeedRange multiplySpeed={multiplySpeed} actions={actions} id="SpeedRange" />
-          </li>
-          <li></li>
-          <li>
-            開始 UNIX TIME 設定&nbsp;<input type="number" value={timeBegin} onChange={e=>actions.setTimeBegin(+e.target.value)} className="harmovis_input_number" />
-          </li>
-          <li>
-            開始 日付&nbsp;{(new Date(timeBegin * 1000)).toLocaleString('ja-JP',
-              {year: 'numeric',month: '2-digit',day: '2-digit',hour: '2-digit',minute: '2-digit',second: '2-digit',weekday: 'short' })}
-          </li>
-          <li></li>
-          <li>
-            <span onClick={listExpansion.bind(Controller,'expand2')} >
-              <a style={{'cursor':'pointer'}} >▼ 経路線操作パネル</a>
-            </span>
+            {React.useMemo(()=>
+              <span onClick={listExpansion.bind(Controller,'expand2')} >
+                <a style={{'cursor':'pointer'}} >▼ 経路線操作パネル</a>
+              </span>
+            ,[])}
             <span id="expand2" style={{'display': 'none','clear': 'both'}}>
+              {React.useMemo(()=>
+                <div className="btn-group d-flex" role="group">
+                  <button onClick={setRouteGroup} className="btn btn-outline-light btn-sm w-100" title='SAVE'>
+                    <span className="button_span"><Icon icon={icSave} />&nbsp;SAVE&nbsp;
+                      <span className="badge badge-light">{saveRouteGroup.length}</span>
+                    </span>
+                  </button>
+                  <button onClick={displayRouteGroup} className="btn btn-outline-light btn-sm w-100" title='DISPLAY'>
+                    <span className="button_span"><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
+                      <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
+                    </span>
+                  </button>
+                </div>
+              ,[saveRouteGroup,clickedObject,routePaths,routeGroupDisplay,displayIndex,currentGroupindex])}
               <div className="btn-group d-flex" role="group">
-                <button onClick={setRouteGroup} className="btn btn-outline-light btn-sm w-100" title='SAVE'>
-                  <span className="button_span"><Icon icon={icSave} />&nbsp;SAVE&nbsp;
-                    <span className="badge badge-light">{saveRouteGroup.length}</span>
-                  </span>
-                </button>
-                <button onClick={displayRouteGroup} className="btn btn-outline-light btn-sm w-100" title='DISPLAY'>
-                  <span className="button_span"><Icon icon={icLayers} />&nbsp;DISPLAY&nbsp;
-                    <span className="badge badge-light">{routeGroupDisplay ? displayIndex : 0}</span>
-                  </span>
-                </button>
-              </div>
-              <div className="btn-group d-flex" role="group">
-                <button onClick={clearAllRoute} className="btn btn-outline-light btn-sm w-100" title='All Clear'>
-                  <span className="button_span"><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
-                </button>
-                <button onClick={deleteRouteGroup} className="btn btn-outline-light btn-sm w-100" title='DELETE'>
-                  <span className="button_span"><Icon icon={icDelete} />&nbsp;DELETE</span>
-                </button>
+                {React.useMemo(()=>
+                  <button onClick={clearAllRoute} className="btn btn-outline-light btn-sm w-100" title='All Clear'>
+                    <span className="button_span"><Icon icon={icDeleteForever} />&nbsp;All Clear</span>
+                  </button>
+                ,[])}
+                {React.useMemo(()=>
+                  <button onClick={deleteRouteGroup} className="btn btn-outline-light btn-sm w-100" title='DELETE'>
+                    <span className="button_span"><Icon icon={icDelete} />&nbsp;DELETE</span>
+                  </button>
+                ,[saveRouteGroup,clickedObject,routePaths,routeGroupDisplay,currentGroupindex])}
               </div>
             </span>
           </li>
