@@ -34,12 +34,14 @@ const ViewportInput = (props:Props)=>{
     e.target.value = '';
   }
 
-  return (
+  const Result = React.useMemo(()=>
     <input type="file" accept=".json"
     id={id} className={className} style={style}
     onClick={onClick}
     onChange={onChange}
     />
-  );
+  ,[props])
+
+  return Result
 }
 export default ViewportInput

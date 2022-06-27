@@ -8,7 +8,7 @@ interface Props {
 }
 
 const BusStopInfo = ({ selectedBusstop, date, depotsData }:Props)=>{
-  const d = new Date(date)
+  const d = React.useMemo(()=>new Date(date),[date])
   const width = React.useMemo(
     ()=>selectedBusstop.length > 0 && selectedBusstop !== '0000' ? '100%' : '0%',
     [selectedBusstop])

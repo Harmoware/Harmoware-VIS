@@ -16,8 +16,12 @@ const CanvasComponent = (props:Props)=>{
     }
   },[canvas])
 
-  return (<canvas
-    ref={canvas} width={props.width} height={props.height}
-  />);
+  const Result = React.useMemo(()=>
+    <canvas
+      ref={canvas} width={props.width} height={props.height}
+    />
+  ,[props])
+
+  return Result
 }
 export default CanvasComponent
