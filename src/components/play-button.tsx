@@ -15,22 +15,20 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const PlayButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
-  const title = React.useMemo(
-    ()=>propTitle || (children && children.toString()) || i18n.playButtonCaption,
-    [children,i18n.playButtonCaption]);
 
   const setAnimatePause = ()=>{
     props.actions.setAnimatePause(false);
   }
 
   const Result = React.useMemo(()=>
-    <button onClick={setAnimatePause} className={className} title={title}>
+    <button onClick={setAnimatePause} className={className}
+      title={propTitle || (children && children.toString()) || i18n.playButtonCaption}>
       {children === undefined ?
         <span style={default_style}>
         <Icon icon={icPlayArrow} />{` ${i18n.playButtonCaption}`}</span> :
         <span>{children}</span>
       }
-    </button>,[title,children,i18n.playButtonCaption])
+    </button>,[props])
 
   return Result
 }

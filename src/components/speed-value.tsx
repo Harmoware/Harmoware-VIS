@@ -45,7 +45,7 @@ const SpeedValue = (props:Props)=>{
       onChange={setMultiplySpeed}
       id={id} className={className}
     />
-    :<p>SpeedValue props error!</p>,[secperhour,multiplySpeed])
+    :<p>SpeedValue props error!</p>,[props])
 
   return Result
 }

@@ -60,7 +60,7 @@ const NavigationButton = (props:Props)=>{
       default:
         return null;
     }
-  },[viewport.zoom,viewport.bearing])
+  },[props])
   return Result()
 }
 NavigationButton.defaultProps = {

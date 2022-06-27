@@ -18,7 +18,7 @@ const SpeedRange = (props:Props)=>{
   const { actions, secperhour, multiplySpeed, maxsecperhour, maxmultiplySpeed,
     min:prop_min, step, id, className, title: propTitle } = props;
   const title = React.useMemo(()=>propTitle ||
-    secperhour ? `${secperhour}` : `${multiplySpeed}` ,[secperhour,multiplySpeed]);
+    secperhour ? `${secperhour}` : `${multiplySpeed}` ,[props]);
 
   const setSecPerHour = React.useCallback((e : React.ChangeEvent<HTMLInputElement>)=>{
     const value = +e.target.value;
@@ -49,7 +49,7 @@ const SpeedRange = (props:Props)=>{
       onChange={setMultiplySpeed}
       id={id} className={className} title={title}
     />
-    :<p>SpeedRange props error!</p>,[title,secperhour,multiplySpeed])
+    :<p>SpeedRange props error!</p>,[props])
 
   return Result
 }

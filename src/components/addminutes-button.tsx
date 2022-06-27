@@ -16,9 +16,6 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const AddMinutesButton = (props:Props)=>{
   const { addMinutes:prop_addMinutes, children, i18n, className, title: propTitle } = props;
-  const title = React.useMemo(
-    ()=>propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`,
-    [children,i18n.minutesCaption]);
 
   const defaultCaption = React.useMemo(()=>
     <span style={default_style}>
@@ -26,17 +23,15 @@ const AddMinutesButton = (props:Props)=>{
       {` ${prop_addMinutes} ${i18n.minutesCaption}`}
     </span>,[i18n.minutesCaption])
 
-  const caption = React.useMemo(()=>
-    children === undefined ? <>{defaultCaption}</> : <span>{children}</span>,
-    [children,i18n.minutesCaption])
-
   const func_addMinutes = (minutes: number)=>{
     props.actions.addMinutes(minutes);
   }
 
   const Result = React.useMemo(()=>
-    <button onClick={()=>func_addMinutes(prop_addMinutes)} className={className} title={title}>
-      {caption}</button>,[children,i18n.minutesCaption])
+    <button onClick={()=>func_addMinutes(prop_addMinutes)} className={className}
+      title={propTitle || (children && children.toString()) || `${prop_addMinutes} ${i18n.minutesCaption}`}>
+      {children === undefined ? <>{defaultCaption}</> : <span>{children}</span>}
+    </button>,[props])
 
   return Result;
 

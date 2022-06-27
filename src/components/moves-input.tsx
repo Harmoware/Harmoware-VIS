@@ -56,12 +56,14 @@ const MovesInput = (props:Props)=>{
     };
   },[i18n])
 
-  return (
+  const Result = React.useMemo(()=>
     <input type="file" accept=".json"
     id={id} className={className} style={style}
     onClick={onClick} onChange={onSelect}
     />
-  );
+  ,[props])
+
+  return Result
 }
 MovesInput.defaultProps = {
   i18n: {

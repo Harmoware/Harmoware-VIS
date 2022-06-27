@@ -15,21 +15,19 @@ const default_style = { 'display': 'flex', 'justifyContent': 'center' };
 
 const ReverseButton = (props:Props)=>{
   const { children, i18n, className, title: propTitle } = props;
-  const title = React.useMemo(
-    ()=>propTitle || (children && children.toString()) || i18n.reverseButtonCaption,
-    [children,i18n.reverseButtonCaption]);
 
   const setAnimateReverse = ()=>{
     props.actions.setAnimateReverse(true);
   }
 
   const Result = React.useMemo(()=>
-    <button onClick={setAnimateReverse} className={className} title={title}>
+    <button onClick={setAnimateReverse} className={className}
+      title={propTitle || (children && children.toString()) || i18n.reverseButtonCaption}>
       {children === undefined ?
         <span style={default_style}>
         <Icon icon={icReplay} />&nbsp;{i18n.reverseButtonCaption}</span> :
         <span>{children}</span>
-      }</button>,[title,children,i18n.reverseButtonCaption])
+      }</button>,[props])
 
   return Result
 }

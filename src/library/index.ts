@@ -99,13 +99,12 @@ export const analyzeMovesBase =
   let firstDeparture: number = MAX_VALUE;
   let lastArrival: number = MIN_VALUE;
   for (let i = 0, lengthi = movesbase.length; i < lengthi; i=(i+1)|0) {
-    const { operation } = movesbase[i];
-    if(!operation || operation.length === 0){
+    if(!movesbase[i].operation || movesbase[i].operation.length === 0){
       console.log('movesbase['+i+'] operation undefined');
       continue;
     }
     let sortFlg = false;
-    movesbase[i].operation = operation.reduce((operation: MovesbaseOperation[], operationElement)=>{
+    const operation = movesbase[i].operation.reduce((operation: MovesbaseOperation[], operationElement)=>{
       const { longitude, latitude, position=[longitude, latitude, 3], elapsedtime } = operationElement;
       if(typeof elapsedtime === 'number'){
         safeCheck(elapsedtime);
@@ -127,6 +126,7 @@ export const analyzeMovesBase =
       }
       return operation;
     },[]);
+    movesbase[i].operation = operation
     if(sortFlg){
       operation.sort((a,b)=>a.elapsedtime > b.elapsedtime?1:-1);
     }

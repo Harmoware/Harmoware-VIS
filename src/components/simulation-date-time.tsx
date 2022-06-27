@@ -12,12 +12,12 @@ const SimulationDateTime = (props:Props)=>{
   const { settime, caption, locales, options, className } = props;
   const date = new Date(settime * 1000);
   const nbsp = React.useMemo(()=>caption.length > 0 ? ' ' : '',[caption]);
+  const dateString = date.toLocaleString(locales, options)
 
   return (
     <span className={className}
-      title={`${caption}${nbsp}${date.toLocaleString(locales, options)}`}>
-      {caption}{nbsp}
-      {date.toLocaleString(locales, options)}
+      title={`${caption}${nbsp}${dateString}`}>
+      {caption}{nbsp}{dateString}
     </span>
   )
 }

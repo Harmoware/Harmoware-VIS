@@ -58,10 +58,12 @@ const FpsDisplay = (props:Props)=>{
   },[saveTime])
 
   return (
-    <div className={className} title={`${fpsRate} ${UnitCaption}`}>
-      <div><span>{fpsRate}</span><span>{UnitCaption}</span></div>
-      <canvas ref={canvas} width={width} height={height} />
-    </div>
+    <>{React.useMemo(()=>
+        <div className={className} title={`${fpsRate} ${UnitCaption}`}>
+          <div><span>{fpsRate}</span><span>{UnitCaption}</span></div>
+          <canvas ref={canvas} width={width} height={height} />
+        </div>
+      ,[props,state])}</>
   );
 }
 FpsDisplay.defaultProps = {
