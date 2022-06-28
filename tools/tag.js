@@ -9,7 +9,7 @@ const pkg = require('../package.json');
  */
 const systemCmd = cmdString =>
 new Promise((resolve) => {
-  cmd.get(
+  cmd.run(
     cmdString,
     (data, err, stderr) => {
       console.log(cmdString);
