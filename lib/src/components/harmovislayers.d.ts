@@ -4,6 +4,7 @@ import { InteractiveMapProps } from 'react-map-gl';
 import { Layer } from '@deck.gl/core';
 import { ActionTypes, Viewport } from '../types';
 interface Props extends InteractiveMapProps {
+    mapboxApiAccessToken: string;
     viewport: Viewport;
     actions: ActionTypes;
     layers: Layer[];
