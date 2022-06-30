@@ -19,8 +19,6 @@ declare module "@deck.gl/core" {
   }
 
   class CompositeLayer<P extends LayerProps = LayerProps, S = {}> extends Layer<P, S> {}
-
-  class MapController {}
 }
 
 declare module "@deck.gl/react" {

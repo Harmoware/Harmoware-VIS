@@ -369,7 +369,7 @@ const App = (props:BasedProps)=>{
           deckGLProps={{onLoad:onLoad}}
           viewport={viewport}
           actions={actions}
-          mapboxApiAccessToken={state.mapboxVisible ? MAPBOX_TOKEN : ''}
+          mapboxApiAccessToken={MAPBOX_TOKEN}
           mapStyle={state.mapboxVisible ? mapStyle[state.mapStyleNo] : ''}
           mapboxAddSourceValue={undefined}
           visible={state.mapboxVisible}

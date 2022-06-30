@@ -1,10 +1,11 @@
 import * as React from 'react';
 import InteractiveMap, { InteractiveMapProps, MapLoadEvent } from 'react-map-gl';
-import { Layer, MapController } from '@deck.gl/core';
+import { Layer } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import { ActionTypes, Viewport } from '../types';
 
 interface Props extends InteractiveMapProps{
+  mapboxApiAccessToken: string,
   viewport : Viewport,
   actions: ActionTypes,
   layers: Layer[],
@@ -121,15 +122,18 @@ const HarmoVisLayers = (props:Partial<Props>)=>{
       </MapGl>
     );
   }else{
-    const viewState = {...viewport, transitionDuration, transitionInterruption};
     return (
-      <DeckGL
-        {...deckGLProps}
-        controller={{type: MapController}}
-        onViewStateChange={(v:any)=>onViewportChange(v.viewState)}
-        viewState={viewState}
-        layers={layers}
-        onWebGLInitialized={initialize} />
+      <InteractiveMap
+        {...viewport}
+        onViewportChange={onViewportChange}
+        mapboxApiAccessToken={mapboxApiAccessToken}
+        visible={visible}
+        transitionDuration={transitionDuration}
+        transitionInterruption={transitionInterruption}
+      >
+        { mapGlComponents }
+        <DeckGL {...deckGLProps} viewState={viewport} layers={layers} onWebGLInitialized={initialize} />
+      </InteractiveMap>
     );
   }
 }
