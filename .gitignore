@@ -8,3 +8,6 @@ lib/examples/*
 .devcontainer
 Dockerfile
 docker-compose.yml
+
+bundle.js
+bundle.js.map
