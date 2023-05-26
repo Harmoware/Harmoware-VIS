@@ -19,6 +19,7 @@ interface Props extends BasedProps{
   getMoveSvgChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getDepotOptionChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getHeatmapVisible: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  getHeatmapArea: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getIconChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getIconCubeTypeSelected: (e: React.ChangeEvent<HTMLSelectElement>) => void,
@@ -27,6 +28,7 @@ interface Props extends BasedProps{
   mapStyleNo: number,
   iconCubeType: number,
   followingiconId: number,
+  heatmapArea: number,
 }
 
 interface State {
@@ -54,7 +56,7 @@ const Controller = (props:Props)=>{
     getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
     getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
     iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport, getMapStyleSelected,
-    getTerrainChecked, inputFileName, viewport } = props;
+    heatmapArea, getHeatmapArea, getTerrainChecked, inputFileName, viewport } = props;
 
   const [state,setState] = React.useState<State>(initState)
   const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = state
@@ -245,6 +247,12 @@ const Controller = (props:Props)=>{
                 </li>
                 <li>
                   <Checkbox id="HeatmapVisible" onChange={getHeatmapVisible} title='ヒートマップ表示' />
+                </li>
+                <li>
+                  <label htmlFor="elevationScale">ヒートマップエリア
+                    <input type="number" value={heatmapArea} min={0.1} max={10} onChange={getHeatmapArea} id="elevationScale" className="harmovis_input_number" />
+                  </label>
+                  <input type="range" value={heatmapArea} min={0.1} max={10} step={0.1} onChange={getHeatmapArea} id="elevationScale" className="harmovis_input_range" />
                 </li>
               </span>
             </ul>

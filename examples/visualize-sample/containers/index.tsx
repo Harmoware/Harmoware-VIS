@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { PolygonLayer, PointCloudLayer } from '@deck.gl/layers';
-import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import { Marker, Popup } from 'react-map-gl';
 import { Container, MovesLayer, DepotsLayer, LineMapLayer, HarmoVisLayers, MovedData,
   connectToHarmowareVis, LoadingIcon, BasedProps, EventInfo, FpsDisplay, Viewport } from 'harmoware-vis';
@@ -35,7 +34,8 @@ interface State {
   iconCubeType: number,
   popup: any[],
   popupInfo: MovedData,
-  terrain: boolean
+  terrain: boolean,
+  heatmapArea: number
 }
 const initState:State = {
   mapboxVisible: true,
@@ -52,8 +52,13 @@ const initState:State = {
   iconCubeType: 0,
   popup: [0, 0, ''],
   popupInfo: null,
-  terrain: false
+  terrain: false,
+  heatmapArea: 1
 }
+
+const heatmapColor = [
+  [255,237,209,255],[248,203,98,255],[246,163,52,255],[232,93,38,255],[207,62,55,255]
+]
 
 class IconFollow extends Container<BasedProps>{
   constructor(props:BasedProps){
@@ -234,6 +239,10 @@ const App = (props:BasedProps)=>{
     setState({ ...state, heatmapVisible: e.target.checked });
   }
 
+  const getHeatmapArea = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setState({ ...state, heatmapArea: +e.target.value });
+  }
+
   const getViewport = (viewport: Viewport|Viewport[])=>{
     clearTimeout(App.playbackTimerId);
     App.playbackTimerId = null
@@ -328,7 +337,30 @@ const App = (props:BasedProps)=>{
   }
 
   const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon))
-  const hexagonData = state.heatmapVisible ? movedData.filter(x=>x.position):[]
+  const heatmapData = state.heatmapVisible ? movedData.reduce((heatmapData:any,x:MovedData)=>{
+    const heatmapArea = state.heatmapArea / 100
+    if(x.position){
+      const Grid_x = Math.floor(x.position[0]/heatmapArea)*heatmapArea
+      const Grid_y = Math.floor(x.position[1]/heatmapArea)*heatmapArea
+      const findIdx = heatmapData.findIndex((x:any)=>(x.Grid_x === Grid_x && x.Grid_y === Grid_y))
+      if(findIdx < 0){
+        heatmapData.push({
+          Grid_x, Grid_y, elevation:1, color:heatmapColor[0],
+          coordinates:[
+            [Grid_x, Grid_y],[Grid_x+heatmapArea, Grid_y],
+            [Grid_x+heatmapArea, Grid_y+heatmapArea],
+            [Grid_x, Grid_y+heatmapArea],[Grid_x, Grid_y]
+          ]
+        })
+      }else{
+        heatmapData[findIdx].elevation = heatmapData[findIdx].elevation + 1
+      }
+    }
+    return heatmapData
+  },[]):[]
+  const heatmapMaxValue = state.heatmapVisible ? heatmapData.reduce((heatmapMaxValue:any,x:any)=>{
+    return Math.max(heatmapMaxValue,x.elevation)
+  },0):0
   const PointCloudData = movedData.filter((x:any)=>x.pointCloud)
   const sizeScale = React.useMemo(()=>(Math.max(17 - viewport.zoom,2)**2)*2,[viewport.zoom]);
   const followingiconId = iconFollowRef.current === undefined ? -1 : iconFollowRef.current.followingiconId
@@ -350,6 +382,8 @@ const App = (props:BasedProps)=>{
         getMoveSvgChecked={getMoveSvgChecked}
         getDepotOptionChecked={getDepotOptionChecked}
         getHeatmapVisible={getHeatmapVisible}
+        heatmapArea={state.heatmapArea}
+        getHeatmapArea={getHeatmapArea}
         getOptionChangeChecked={getOptionChangeChecked}
         getIconChangeChecked={getIconChangeChecked}
         getIconCubeTypeSelected={getIconCubeTypeSelected}
@@ -431,16 +465,22 @@ const App = (props:BasedProps)=>{
               onHover 
             }):null,
             PointCloudData.length > 0 ? getPointCloudLayer(PointCloudData):null,
-            state.heatmapVisible && hexagonData.length > 0 ?
-            new HexagonLayer({
-              id: '3d-heatmap',
-              data: hexagonData,
-              getPosition: (x: any) => x.position,
-              radius: 100,
+            state.heatmapVisible && heatmapData.length > 0 ?
+            new PolygonLayer({
+              id: 'PolygonLayer',
+              data: heatmapData,
+              visible: true,
               opacity: 0.5,
+              pickable: true,
               extruded: true,
-              visible: state.heatmapVisible
-            }):null
+              wireframe: false,
+              getPolygon: (x: any) => x.coordinates,
+              getFillColor: (x: any) => heatmapColor[Math.min(4,Math.floor(x.elevation/(heatmapMaxValue/Math.min(heatmapMaxValue,heatmapColor.length))))],
+              getLineColor: null,
+              getElevation: (x: any) => x.elevation || 0,
+              elevationScale: 100,
+              onHover 
+            }):null,
           )}
           mapGlComponents={ getMapGlComponents(movedData) }
         />
