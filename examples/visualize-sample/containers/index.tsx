@@ -467,7 +467,7 @@ const App = (props:BasedProps)=>{
             PointCloudData.length > 0 ? getPointCloudLayer(PointCloudData):null,
             state.heatmapVisible && heatmapData.length > 0 ?
             new PolygonLayer({
-              id: 'PolygonLayer',
+              id: 'HeatmapPolygonLayer',
               data: heatmapData,
               visible: true,
               opacity: 0.5,
