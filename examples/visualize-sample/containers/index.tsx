@@ -338,18 +338,19 @@ const App = (props:BasedProps)=>{
 
   const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon))
   const heatmapData = state.heatmapVisible ? movedData.reduce((heatmapData:any,x:MovedData)=>{
-    const heatmapArea = state.heatmapArea / 100
+    const heatmapArea_long = (state.heatmapArea * 1000) * 0.0000110910  //北緯37度での係数
+    const heatmapArea_lati = (state.heatmapArea * 1000) * 0.0000090123
     if(x.position){
-      const Grid_x = Math.floor(x.position[0]/heatmapArea)*heatmapArea
-      const Grid_y = Math.floor(x.position[1]/heatmapArea)*heatmapArea
-      const findIdx = heatmapData.findIndex((x:any)=>(x.Grid_x === Grid_x && x.Grid_y === Grid_y))
+      const Grid_longitude = Math.floor(x.position[0]/heatmapArea_long)*heatmapArea_long
+      const Grid_latitude = Math.floor(x.position[1]/heatmapArea_lati)*heatmapArea_lati
+      const findIdx = heatmapData.findIndex((x:any)=>(x.Grid_longitude === Grid_longitude && x.Grid_latitude === Grid_latitude))
       if(findIdx < 0){
         heatmapData.push({
-          Grid_x, Grid_y, elevation:1, color:heatmapColor[0],
+          Grid_longitude, Grid_latitude, elevation:1,
           coordinates:[
-            [Grid_x, Grid_y],[Grid_x+heatmapArea, Grid_y],
-            [Grid_x+heatmapArea, Grid_y+heatmapArea],
-            [Grid_x, Grid_y+heatmapArea],[Grid_x, Grid_y]
+            [Grid_longitude, Grid_latitude],[Grid_longitude+heatmapArea_long, Grid_latitude],
+            [Grid_longitude+heatmapArea_long, Grid_latitude+heatmapArea_lati],
+            [Grid_longitude, Grid_latitude+heatmapArea_lati]
           ]
         })
       }else{
