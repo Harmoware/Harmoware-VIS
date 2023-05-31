@@ -338,9 +338,9 @@ const App = (props:BasedProps)=>{
 
   const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon))
   const heatmapData = state.heatmapVisible ? movedData.reduce((heatmapData:any,x:MovedData)=>{
-    const heatmapArea_long = (state.heatmapArea * 1000) * 0.0000110910  //北緯37度での係数
-    const heatmapArea_lati = (state.heatmapArea * 1000) * 0.0000090123
     if(x.position){
+      const heatmapArea_long = state.heatmapArea * 0.0110910  //北緯37度での係数
+      const heatmapArea_lati = state.heatmapArea * 0.0090123
       const Grid_longitude = Math.floor(x.position[0]/heatmapArea_long)*heatmapArea_long
       const Grid_latitude = Math.floor(x.position[1]/heatmapArea_lati)*heatmapArea_lati
       const findIdx = heatmapData.findIndex((x:any)=>(x.Grid_longitude === Grid_longitude && x.Grid_latitude === Grid_latitude))
