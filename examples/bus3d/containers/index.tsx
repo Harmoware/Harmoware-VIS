@@ -20,7 +20,7 @@ const busstopmesh = '../icon/busstop.obj';
 
 const MAPBOX_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
 
-interface State {
+export interface State {
   iconChange: boolean,
   optionChange: boolean,
   archLayerChange: boolean,
@@ -101,6 +101,7 @@ const App = (props:Props)=>{
         getIconChangeChecked={getIconChangeChecked}
         getOptionChangeChecked={getOptionChangeChecked}
         getArchLayerChangeChecked={getArchLayerChangeChecked}
+        state={state}
       />
       <div className="harmovis_footer">
         <a href="http://www.city.sabae.fukui.jp/users/tutujibus/web-api/web-api.html" rel="noopener noreferrer" target="_blank">

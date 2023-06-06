@@ -19,7 +19,7 @@ const mapStyle:string[] = [
 
 const MAPBOX_TOKEN: string = process.env.MAPBOX_ACCESS_TOKEN;
 
-interface State {
+export interface State {
   mapboxVisible: boolean,
   mapStyleNo: number,
   moveDataVisible: boolean,
@@ -369,7 +369,7 @@ const App = (props:BasedProps)=>{
   return (
     <IconFollow ref={iconFollowRef} {...props}>
       <Controller
-        {...props}
+        {...props} status={state}
         mapStyleNo={state.mapStyleNo}
         iconCubeType={state.iconCubeType}
         followingiconId={followingiconId}

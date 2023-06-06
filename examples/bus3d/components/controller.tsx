@@ -6,6 +6,7 @@ import { setupFetch, updateRoute } from '../sagas'
 import i18n from '../locales/I18n';
 import BusStopInfo from './busstop-info';
 import XbandDataInput from './xbanddata-input';
+import { State } from '../containers';
 
 const getXbandLabelBySize = (xbandCellSize: number, label: string): string => {
   if (xbandCellSize === 0) {
@@ -27,11 +28,12 @@ interface Props extends Bus3dProps {
   getIconChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getOptionChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
   getArchLayerChangeChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  state: State
 }
 
-const Checkbox = React.memo(({id,onChange,title,className='harmovis_input_checkbox',defaultChecked=false}:
-  {id:string,onChange:React.ChangeEventHandler,title:string,className?:string,defaultChecked?:boolean})=>
-  <><input type="checkbox" id={id} onChange={onChange} className={className} defaultChecked={defaultChecked} />
+const Checkbox = React.memo(({id,onChange,title,className='harmovis_input_checkbox',checked}:
+  {id:string,onChange:React.ChangeEventHandler,title:string,className?:string,checked?:boolean})=>
+  <><input type="checkbox" id={id} onChange={onChange} className={className} checked={checked} />
   <label htmlFor={id} title={title}>{title}</label></>)
 
 const Controller = (props:Props)=>{
@@ -39,7 +41,7 @@ const Controller = (props:Props)=>{
     selectedBusstop, selectedBus, filelist, date, actions, t, clickedObject,
     animatePause, animateReverse, xbandFname, getOptionChangeChecked,
     getIconChangeChecked, getArchLayerChangeChecked, viewport,
-    delayrange, depotsData, movesbase, movedData, busmovesbasedic } = props
+    delayrange, depotsData, movesbase, movedData, busmovesbasedic, state } = props
 
   const [filename,setFilename] = React.useState<string>('')
 
@@ -182,13 +184,13 @@ const Controller = (props:Props)=>{
           </div>
         </li>
         <li className="flex_row">
-          <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title={`${t('IconChangeChecked')}`}/>
+          <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title={`${t('IconChangeChecked')}`} checked={state.iconChange}/>
         </li>
         <li className="flex_row">
-          <Checkbox id="OptionChangeChecked" onChange={getOptionChangeChecked} title={`${t('OptionChangeChecked')}`}/>
+          <Checkbox id="OptionChangeChecked" onChange={getOptionChangeChecked} title={`${t('OptionChangeChecked')}`} checked={state.optionChange}/>
         </li>
         <li className="flex_row">
-          <Checkbox id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} title={`${t('ArchLayerChangeChecked')}`}/>
+          <Checkbox id="ArchLayerChangeChecked" onChange={getArchLayerChangeChecked} title={`${t('ArchLayerChangeChecked')}`} checked={state.archLayerChange}/>
         </li>
         <li className="flex_row">
           <div className="harmovis_input_button_column" title={`${t('trip_select')}`}>

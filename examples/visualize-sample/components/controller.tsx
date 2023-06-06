@@ -7,6 +7,7 @@ import { Icon } from 'react-icons-kit';
 import { ic_delete_forever as icDeleteForever, ic_save as icSave,
   ic_layers as icLayers, ic_delete as icDelete } from 'react-icons-kit/md';
 import ViewportInput from './viewport-input';
+import {State as Status} from '../containers'
 
 interface Props extends BasedProps{
   getMapboxChecked: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -29,6 +30,7 @@ interface Props extends BasedProps{
   iconCubeType: number,
   followingiconId: number,
   heatmapArea: number,
+  status: Status
 }
 
 interface State {
@@ -45,9 +47,9 @@ const initState:State = {
   saveRouteGroup: [],
 }
 
-const Checkbox = React.memo(({id,onChange,title,className1='harmovis_input_checkbox',defaultChecked=false,className2='form-check-label'}:
-  {id:string,onChange:React.ChangeEventHandler,title:string,className1?:string,defaultChecked?:boolean,className2?:string})=>
-  <><input type="checkbox" id={id} onChange={onChange} className={className1} defaultChecked={defaultChecked} />
+const Checkbox = React.memo(({id,onChange,title,className1='harmovis_input_checkbox',checked,className2='form-check-label'}:
+  {id:string,onChange:React.ChangeEventHandler,title:string,className1?:string,checked?:boolean,className2?:string})=>
+  <><input type="checkbox" id={id} onChange={onChange} className={className1} checked={checked} />
   <label htmlFor={id} className={className2} title={title}>{title}</label></>)
 
 const Controller = (props:Props)=>{
@@ -56,7 +58,7 @@ const Controller = (props:Props)=>{
     getMoveDataChecked, getMoveOptionChecked, getMoveOptionArcChecked, getDepotOptionChecked, getHeatmapVisible,
     getOptionChangeChecked, getIconChangeChecked, getIconCubeTypeSelected, getFollowingiconIdSelected,
     iconCubeType, followingiconId, getMoveSvgChecked, getMoveOptionLineChecked, getViewport, getMapStyleSelected,
-    heatmapArea, getHeatmapArea, getTerrainChecked, inputFileName, viewport } = props;
+    heatmapArea, getHeatmapArea, getTerrainChecked, inputFileName, viewport, status } = props;
 
   const [state,setState] = React.useState<State>(initState)
   const { currentGroupindex, routeGroupDisplay, saveRouteGroup } = state
@@ -188,7 +190,7 @@ const Controller = (props:Props)=>{
             <ul className="list-group">
               <span id="expand1" style={{'display': 'none','clear': 'both'}}>
                 <li>
-                  <Checkbox id="MapboxChecked" onChange={getMapboxChecked} title='Mapboxマップ表示' defaultChecked={true} />
+                  <Checkbox id="MapboxChecked" onChange={getMapboxChecked} title='Mapboxマップ表示' checked={status.mapboxVisible} />
                 </li>
                 <li>
                   {React.useMemo(()=>
@@ -205,16 +207,16 @@ const Controller = (props:Props)=>{
                   ,[mapStyleNo])}
                 </li>
                 <li>
-                  <Checkbox id="TerrainChecked" onChange={getTerrainChecked} title='３Ｄ地形表示' />
+                  <Checkbox id="TerrainChecked" onChange={getTerrainChecked} title='３Ｄ地形表示' checked={status.terrain} />
                 </li>
                 <li>
-                  <Checkbox id="MoveDataChecked" onChange={getMoveDataChecked} title='運行データ表示' defaultChecked={true} />
+                  <Checkbox id="MoveDataChecked" onChange={getMoveDataChecked} title='運行データ表示' checked={status.moveDataVisible} />
                 </li>
                 <li>
-                  <Checkbox id="IconGradationChecked" onChange={seticonGradation} title='アイコン色グラデーション' />
+                  <Checkbox id="IconGradationChecked" onChange={seticonGradation} title='アイコン色グラデーション' checked={props.iconGradation} />
                 </li>
                 <li>
-                  <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title='アイコン表示パターン切替' defaultChecked={true} />
+                  <Checkbox id="IconChangeChecked" onChange={getIconChangeChecked} title='アイコン表示パターン切替' checked={status.iconChange} />
                 </li>
                 {React.useMemo(()=>
                   <li>
@@ -228,25 +230,25 @@ const Controller = (props:Props)=>{
                   </li>
                 ,[iconCubeType])}
                 <li>
-                  <Checkbox id="MoveSvgChecked" onChange={getMoveSvgChecked} title='運行データSVG表示' />
+                  <Checkbox id="MoveSvgChecked" onChange={getMoveSvgChecked} title='運行データSVG表示' checked={status.moveSvgVisible} />
                 </li>
                 <li>
-                  <Checkbox id="MoveOptionChecked" onChange={getMoveOptionChecked} title='運行データグラフ表示' />
+                  <Checkbox id="MoveOptionChecked" onChange={getMoveOptionChecked} title='運行データグラフ表示' checked={status.moveOptionVisible} />
                 </li>
                 <li>
-                  <Checkbox id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} title='運行データアーチ表示' />
+                  <Checkbox id="MoveOptionArcChecked" onChange={getMoveOptionArcChecked} title='運行データアーチ表示' checked={status.moveOptionArcVisible} />
                 </li>
                 <li>
-                  <Checkbox id="MoveOptionLineChecked" onChange={getMoveOptionLineChecked} title='運行データライン表示' />
+                  <Checkbox id="MoveOptionLineChecked" onChange={getMoveOptionLineChecked} title='運行データライン表示' checked={status.moveOptionLineVisible} />
                 </li>
                 <li>
-                  <Checkbox id="DepotOptionChecked" onChange={getDepotOptionChecked} title='停留所データオプション表示' />
+                  <Checkbox id="DepotOptionChecked" onChange={getDepotOptionChecked} title='停留所データオプション表示' checked={status.depotOptionVisible} />
                 </li>
                 <li>
-                  <Checkbox id="OptionChangeChecked" onChange={getOptionChangeChecked} title='オプション表示パターン切替' />
+                  <Checkbox id="OptionChangeChecked" onChange={getOptionChangeChecked} title='オプション表示パターン切替' checked={status.optionChange} />
                 </li>
                 <li>
-                  <Checkbox id="HeatmapVisible" onChange={getHeatmapVisible} title='ヒートマップ表示' />
+                  <Checkbox id="HeatmapVisible" onChange={getHeatmapVisible} title='ヒートマップ表示' checked={status.heatmapVisible} />
                 </li>
                 <li>
                   <label htmlFor="elevationScale">ヒートマップエリア
