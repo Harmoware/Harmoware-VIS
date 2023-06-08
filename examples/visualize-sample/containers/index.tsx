@@ -336,11 +336,22 @@ const App = (props:BasedProps)=>{
     }
   }
 
+  const distance_rate = [0.0110910, 0.0090123]  //初期値は北緯37度での係数（度/km）
+  React.useEffect(()=>{
+    const R = Math.PI / 180;
+    const long1 = viewport.longitude*R
+    const long2 = (viewport.longitude+1)*R
+    const lati1 = viewport.latitude*R
+    const lati2 = (viewport.latitude+1)*R
+    distance_rate[0] = 1/(6371 * Math.acos(Math.cos(lati1) * Math.cos(lati1) * Math.cos(long2 - long1) + Math.sin(lati1) * Math.sin(lati1)))
+    distance_rate[1] = 1/(6371 * Math.acos(Math.cos(lati1) * Math.cos(lati2) * Math.cos(long1 - long1) + Math.sin(lati1) * Math.sin(lati2)))
+  },[movesbase])
+
   const polygonData = movedData.filter((x:any)=>(x.coordinates || x.polygon))
   const heatmapData = state.heatmapVisible ? movedData.reduce((heatmapData:any,x:MovedData)=>{
     if(x.position){
-      const heatmapArea_long = state.heatmapArea * 0.0110910  //北緯37度での係数
-      const heatmapArea_lati = state.heatmapArea * 0.0090123
+      const heatmapArea_long = state.heatmapArea * distance_rate[0]
+      const heatmapArea_lati = state.heatmapArea * distance_rate[1]
       const Grid_longitude = Math.floor(x.position[0]/heatmapArea_long)*heatmapArea_long
       const Grid_latitude = Math.floor(x.position[1]/heatmapArea_lati)*heatmapArea_lati
       const findIdx = heatmapData.findIndex((x:any)=>(x.Grid_longitude === Grid_longitude && x.Grid_latitude === Grid_latitude))
