@@ -367,12 +367,14 @@ const App = (props:BasedProps)=>{
     });
   }
 
+  const arrStrConv = (value:any)=>Array.isArray(value)?`[${value.map(el=>arrStrConv(el))}]`:value.toString()
+
   const onHover = (el: EventInfo)=>{
     if (el && el.object) {
       let disptext = '';
       const objctlist = Object.entries(el.object);
       for (let i = 0, lengthi = objctlist.length; i < lengthi; i=(i+1)|0) {
-        const strvalue = objctlist[i][1].toString();
+        const strvalue = arrStrConv(objctlist[i][1]);
         disptext = disptext + (i > 0 ? '\n' : '');
         disptext = disptext + (`${objctlist[i][0]}: ${strvalue}`);
       }
