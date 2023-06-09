@@ -185,6 +185,8 @@ const App = (props:BasedProps)=>{
 
   React.useEffect(()=>{
     setTimeout(()=>{document.getElementById('deckgl-wrapper').focus()},1000)
+    InitialFileRead1(props)
+    setTimeout(()=>{InitialFileRead2(props)},1000)
   },[])
 
   document.onkeydown = (event:any)=>{
@@ -579,3 +581,49 @@ const App = (props:BasedProps)=>{
 App.playbackTimerId = null as NodeJS.Timeout
 
 export default connectToHarmowareVis(App);
+
+const InitialFileRead1 = (props:BasedProps)=>{
+  const { actions } = props;
+  const request = new XMLHttpRequest();
+  request.open('GET', 'sampledata/Depots-tutuji.json');
+  request.responseType = 'text';
+  request.send();
+  actions.setDepotsBase([]);
+  request.onload = function() {
+    let readdata = null;
+    try {
+      readdata = JSON.parse(request.response);
+    } catch (exception) {
+      return;
+    }
+    console.log({readdata})
+    actions.setInputFilename({ depotsFileName: 'sample data' });
+    actions.setDepotsBase(readdata);
+  }
+}
+const InitialFileRead2 = (props:BasedProps)=>{
+  const { actions } = props;
+  const request = new XMLHttpRequest();
+  request.open('GET', 'sampledata/Moves-tutuji-20180114.json');
+  request.responseType = 'text';
+  request.send();
+  actions.setLoading(true);
+  actions.setMovesBase([]);
+  request.onload = function() {
+    let readdata = null;
+    try {
+      readdata = JSON.parse(request.response);
+    } catch (exception) {
+      actions.setLoading(false);
+      return;
+    }
+    console.log({readdata})
+    actions.setInputFilename({ movesFileName: 'sample data' });
+    actions.setMovesBase(readdata);
+    actions.setRoutePaths([]);
+    actions.setClicked(null);
+    actions.setAnimatePause(false);
+    actions.setAnimateReverse(false);
+    actions.setLoading(false);
+  }
+}
