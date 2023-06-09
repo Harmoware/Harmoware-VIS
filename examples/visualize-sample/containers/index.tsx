@@ -183,6 +183,69 @@ const App = (props:BasedProps)=>{
     }
   }
 
+  React.useEffect(()=>{
+    setTimeout(()=>{document.getElementById('deckgl-wrapper').focus()},1000)
+  },[])
+
+  document.onkeydown = (event:any)=>{
+    const tagName = event.target.tagName
+    console.log(`tagName:${tagName}`)
+    if(tagName !== "INPUT" && tagName !== "SELECT"){
+      const keyName = event.key
+      console.log(`keypress:${keyName}`)
+      if(keyName === "8"){
+        document.getElementById('deckgl-wrapper').focus()
+      }
+      if(keyName === "7"){
+        actions.addMinutes(-10)
+      }
+      if(keyName === "9"){
+        actions.addMinutes(10)
+      }
+      if(keyName === "5"){
+        actions.setAnimateReverse(!props.animateReverse)
+      }
+      if(keyName === "4"){
+        actions.addMinutes(-5)
+      }
+      if(keyName === "6"){
+        actions.addMinutes(5)
+      }
+      if(keyName === "2"){
+        actions.setAnimatePause(!props.animatePause)
+      }
+      if(keyName === "1" && props.animatePause === true){
+        actions.setTime(props.settime-1)
+      }
+      if(keyName === "3" && props.animatePause === true){
+        actions.setTime(props.settime+1)
+      }
+      if(keyName === "+"){
+        const value = event.shiftKey?0.25:0.5
+        const zoom = Math.min(viewport.zoom + value, viewport.maxZoom);
+        actions.setViewport({zoom, transitionDuration:100});
+      }
+      if(keyName === "-"){
+        const value = event.shiftKey?0.25:0.5
+        const zoom = Math.min(viewport.zoom - value, viewport.maxZoom);
+        actions.setViewport({zoom, transitionDuration:100});
+      }
+      if(keyName === "*"){
+        actions.setDefaultViewport(undefined);
+      }
+      if(keyName === "("){
+        const value = props.multiplySpeed - (event.ctrlKey?1:10)
+        const multiplySpeed = Math.min(3600, Math.max(1, value));
+        actions.setMultiplySpeed(multiplySpeed);
+      }
+      if(keyName === ")"){
+        const value = props.multiplySpeed + (event.ctrlKey?1:10)
+        const multiplySpeed = Math.min(3600, Math.max(1, value));
+        actions.setMultiplySpeed(multiplySpeed);
+      }
+    }
+  }
+
   const getMapboxChecked = (e: React.ChangeEvent<HTMLInputElement>)=>{
     setState({ ...state, mapboxVisible: e.target.checked });
   }
