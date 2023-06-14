@@ -100,9 +100,11 @@ class IconFollow extends Container<BasedProps>{
           });
           this.follwTimerId = setTimeout(this.iconFollwNext,transitionDuration,movesbaseidx);
           this.followingiconId = movesbaseidx
+          return
         }
       }
     }
+    this.follwTimerId = null      
   }
 
   getFollowingiconIdSelected(e: React.ChangeEvent<HTMLSelectElement>){
@@ -152,6 +154,13 @@ class IconFollow extends Container<BasedProps>{
           }
         }
         this.followingiconId = -1
+      }
+    }else{
+      if(this.followingiconId >= 0){
+        const findData = this.props.movedData.find(x=>x.movesbaseidx===this.followingiconId)
+        if(findData !== undefined){
+          setTimeout(this.iconFollwNext,0,this.followingiconId);
+        }
       }
     }
   }
