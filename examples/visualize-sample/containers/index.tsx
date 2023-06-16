@@ -72,8 +72,7 @@ class IconFollow extends Container<BasedProps>{
   follwTimerId: NodeJS.Timeout
   followingiconId: number
 
-  async iconFollwNext(movesbaseidx:number){
-    await Promise.resolve()
+  iconFollwNext(movesbaseidx:number){
     const {animateReverse,animatePause,loopEndPause,movesbase,settime,secperhour,actions} = this.props;
     const base = movesbase[movesbaseidx];
     if(base && base.operation && base.departuretime <= settime && settime < base.arrivaltime){
@@ -177,9 +176,8 @@ const App = (props:BasedProps)=>{
   const [state,setState] = React.useState<State>(initState)
   const iconFollowRef = React.useRef(undefined)
 
-  const viewportPlayback = async (viewportArray: Viewport[])=>{
+  const viewportPlayback = (viewportArray: Viewport[])=>{
     if(viewportArray && viewportArray.length > 0){
-      await Promise.resolve()
       const viewportArrayBase = [...viewportArray]
       const viewport = viewportArrayBase.shift();
       actions.setViewport(viewport);
