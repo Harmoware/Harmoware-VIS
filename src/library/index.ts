@@ -256,16 +256,9 @@ export const getMoveObjects = (props : Readonly<BasedState>): RetrunState => {
             const { elapsedtime:nextelapsedtime, position:targetPosition,
               color:targetColor=settings.COLOR1 } = operation[nextidx];
             const rate = (settime - elapsedtime) / (nextelapsedtime - elapsedtime);
-            const position = [
-              sourcePosition[0] - (sourcePosition[0] - targetPosition[0]) * rate,
-              sourcePosition[1] - (sourcePosition[1] - targetPosition[1]) * rate,
-              sourcePosition[2] - (sourcePosition[2] - targetPosition[2]) * rate
-            ];
-            const color = iconGradation ? [
-              (sourceColor[0] + rate * (targetColor[0] - sourceColor[0]))|0,
-              (sourceColor[1] + rate * (targetColor[1] - sourceColor[1]))|0,
-              (sourceColor[2] + rate * (targetColor[2] - sourceColor[2]))|0
-            ] : sourceColor;
+            const position = sourcePosition.map((sourcePos,idx)=>sourcePos-(sourcePos-targetPosition[idx])*rate)
+            const color = iconGradation ? 
+              sourceColor.map((sourceCol,idx)=>(sourceCol+rate*(targetColor[idx]-sourceCol))|0) : sourceColor;
             movedData.push(assign({}, otherProps1, otherProps2,
               { settime,
                 position, sourcePosition, targetPosition,
