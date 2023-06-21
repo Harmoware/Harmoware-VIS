@@ -27,7 +27,7 @@ new Promise((resolve) => {
 
 co(function* () {
   try {
-    yield systemCmd(`git push origin v${pkg.version}`);
+    yield systemCmd(`git push upstream v${pkg.version}`);
   } catch (err) {
     console.log(err);
   }
