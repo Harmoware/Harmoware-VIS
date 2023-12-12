@@ -442,9 +442,8 @@ const App = (props:BasedProps)=>{
     }
     return heatmapData
   },[]):[]
-  const heatmapMaxValue = state.heatmapVisible ? heatmapData.reduce((heatmapMaxValue:any,x:any)=>{
-    return Math.max(heatmapMaxValue,x.elevation)
-  },0):0
+  const heatmapMaxValue = state.heatmapVisible ? Math.max(heatmapColor.length,
+    heatmapData.reduce((heatmapMaxValue:number,x:{elevation:number})=>Math.max(heatmapMaxValue,x.elevation),0)):0
   const PointCloudData = movedData.filter((x:any)=>x.pointCloud)
   const sizeScale = React.useMemo(()=>(Math.max(17 - viewport.zoom,2)**2)*2,[viewport.zoom]);
   const followingiconId = iconFollowRef.current === undefined ? -1 : iconFollowRef.current.followingiconId
@@ -559,7 +558,7 @@ const App = (props:BasedProps)=>{
               extruded: true,
               wireframe: false,
               getPolygon: (x: any) => x.coordinates,
-              getFillColor: (x: any) => heatmapColor[Math.min(4,Math.floor(x.elevation/(heatmapMaxValue/Math.min(heatmapMaxValue,heatmapColor.length))))],
+              getFillColor: (x: any) => heatmapColor[Math.min(4,Math.floor((x.elevation-1)/(heatmapMaxValue/heatmapColor.length)))],
               getLineColor: null,
               getElevation: (x: any) => x.elevation || 0,
               elevationScale: 100,
